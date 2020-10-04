@@ -1,32 +1,212 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <navbar-home v-if="checkIndex && !loadData"/>
+    <sidebar-dashboard v-if="checkLogin && !loadData" />
+    <router-view v-if="!loadData" />
+    <footer-dasahboard v-if="checkLogin && !loadData" />
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import navbar from '@/components/Navbar.vue';
+import footerDasahboard from '@/components/FooterDasahboard.vue';
+import sidebar from '@/components/Sidebar.vue';
+import axios from 'axios';
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  data: () => ({
+    currentURL: '',
+    checkIndex: '',
+    checkLogin: '',
+    loadData: true,
+  }),
+  components: {
+    'navbar-home': navbar,
+    'footer-dasahboard': footerDasahboard,
+    'sidebar-dashboard': sidebar,
+  },
+  beforeCreate() {
+    if (this.$cookies.isKey('token')) {
+      axios({
+        baseURL: `${this.$store.state.domain}admin/token`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data !== undefined) {
+            this.$store.commit('changeNameUser', response.data.data.admin[0].name);
+            this.$store.commit('changeRole', response.data.data.admin[0].role);
+            this.loadData = false;
+          } else {
+            axios({
+              baseURL: `${this.$store.state.domain}job-seeker/token`,
+              method: 'get',
+              headers: {
+                'x-api-key': this.$store.state.apiKey,
+                authorization: `Bearer ${this.$cookies.get('token')}`,
+              },
+            })
+              .then((response1) => {
+                if (response1.data.data !== undefined) {
+                  if (response1.data.data.jobSeeker[0].fullname === null) {
+                    this.$store.commit('changeNameUser', '');
+                  } else {
+                    this.$store.commit('changeNameUser', response1.data.data.jobSeeker[0].fullname);
+                  }
+                  this.$store.commit('changeRole', response1.data.data.jobSeeker[0].role.name);
+                  this.loadData = false;
+                } else {
+                  axios({
+                    baseURL: `${this.$store.state.domain}umkm/token`,
+                    method: 'get',
+                    headers: {
+                      'x-api-key': this.$store.state.apiKey,
+                      authorization: `Bearer ${this.$cookies.get('token')}`,
+                    },
+                  })
+                    .then((response2) => {
+                      if (response2.data.data !== undefined) {
+                        if (response2.data.data.umkm[0].name === null) {
+                          this.$store.commit('changeNameUser', '');
+                        } else {
+                          this.$store.commit('changeNameUser', response2.data.data.umkm[0].name);
+                        }
+                        this.$store.commit('changeRole', 'UMKM');
+                        this.loadData = false;
+                      }
+                    })
+                    .catch((error) => {
+                      // eslint-disable-next-line no-console
+                      console.log(error);
+                    });
+                }
+              })
+              .catch((error) => {
+                // eslint-disable-next-line no-console
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
     }
-  }
+  },
+  created() {
+    if (this.$cookies.isKey('token')) {
+      this.$store.commit('changeToken', this.$cookies.get('token'));
+      this.$store.commit('changeCheckToken', true);
+    } else {
+      this.loadData = false;
+    }
+    const url = window.location.pathname;
+    // eslint-disable-next-line no-console
+    if (
+      url.includes('/activate-account')
+      || url.includes('/register-account')
+      || url.includes('/login-job-seeker')
+      || url.includes('/login-company')
+      || url.includes('/login-admin')
+    ) {
+      this.checkIndex = false;
+      this.checkLogin = false;
+    } else if (
+      url.includes('/home')
+      || url.includes('/faq-panel')
+      || url.includes('/contact')
+      || url.includes('/change-password')
+      || url.includes('/about-us-panel')
+      || url.includes('/article-panel')
+      || url.includes('/school-panel')
+      || url.includes('/job-seeker-panel')
+      || url.includes('/UMKM-panel')
+      || url.includes('/mitra-panel')
+      || url.includes('/announcement-panel')
+      || url.includes('/job-vacancy-panel')
+      || url.includes('/admin-panel')
+      || url.includes('/blacklist-panel')
+      || url.includes('/resume-job-seeker')
+      || url.includes('/data-umkm')
+      || url.includes('/professional-panel')
+      || url.includes('/internship-panel')
+      || url.includes('/informal-panel')
+      || url.includes('/report')
+      || url.includes('/upload-job-vacancy')
+    ) {
+      this.checkIndex = false;
+      this.checkLogin = true;
+    } else {
+      this.checkIndex = true;
+      this.checkLogin = false;
+    }
+  },
+  updated() {
+    const url = window.location.pathname;
+    // eslint-disable-next-line no-console
+    console.log(this.$store.state.token);
+    if (this.currentURL !== url) {
+      if (
+        url.includes('/activate-account')
+      || url.includes('/register-account')
+      || url.includes('/login-job-seeker')
+      || url.includes('/login-company')
+      || url.includes('/login-admin')
+      ) {
+        this.checkIndex = false;
+        this.checkLogin = false;
+      } else if (
+        url.includes('/home')
+        || url.includes('/faq-panel')
+        || url.includes('/contact')
+        || url.includes('/change-password')
+        || url.includes('/about-us-panel')
+        || url.includes('/article-panel')
+        || url.includes('/school-panel')
+        || url.includes('/job-seeker-panel')
+        || url.includes('/UMKM-panel')
+        || url.includes('/mitra-panel')
+        || url.includes('/announcement-panel')
+        || url.includes('/job-vacancy-panel')
+        || url.includes('/admin-panel')
+        || url.includes('/blacklist-panel')
+        || url.includes('/resume-job-seeker')
+        || url.includes('/data-umkm')
+        || url.includes('/professional-panel')
+        || url.includes('/internship-panel')
+        || url.includes('/informal-panel')
+        || url.includes('/report')
+        || url.includes('/upload-job-vacancy')
+      ) {
+        this.checkIndex = false;
+        this.checkLogin = true;
+      } else {
+        this.checkIndex = true;
+        this.checkLogin = false;
+      }
+    }
+  },
+  beforeDestroy() {
+    this.currentURL = null;
+    this.checkIndex = null;
+    this.checkLogin = null;
+    this.checktoken = null;
+    this.loadData = null;
+
+    delete this.currentURL;
+    delete this.checkIndex;
+    delete this.checkLogin;
+    delete this.checktoken;
+    delete this.loadData;
+  },
+};
+</script>
+
+<style>
+img{
+  pointer-events: none;
 }
 </style>
