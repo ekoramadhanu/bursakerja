@@ -1,21 +1,27 @@
 <template>
-  <div class="fullscreen d-flex justify-center align-center backgorund-repeat"
-  :style="{backgroundImage: `url(${backgroundUrl})` }">
+  <div
+    class="fullscreen d-flex justify-center align-center backgorund-repeat"
+    :style="{ backgroundImage: `url(${backgroundUrl})` }"
+  >
     <div class="pa-2 card-login">
-      <p class="text-capitalize text-center text-h4">aktivasi akun bursa kerja</p>
+      <p class="text-capitalize text-center text-h4">
+        aktivasi akun bursa kerja
+      </p>
       <v-card max-width="450" outlined class="pa-4 mt-2" elevation="3">
-        <p class="text-capitalize text-center text-h6">Aktivasi Akun Bursa Kerja</p>
+        <p class="text-capitalize text-center text-h6">
+          Aktivasi Akun Bursa Kerja
+        </p>
         <v-alert
-          :type="status === true? 'success' : 'error'"
+          :type="status === true ? 'success' : 'error'"
           v-if="status !== null"
-          class=" text-capitalize"
+          class="text-capitalize"
         >
-          {{message}}
+          {{ message }}
         </v-alert>
         <p class="text-justify text-body-2">
-            Silahkan isi alamat email dan kata sandi anda untuk melengkapi
-            aktivasi akun bursa kerja. Alamat email dan kata sandi ini akan
-            digunakan untuk segala kegiatan di bursa kerja.
+          Silahkan isi alamat email dan kata sandi anda untuk melengkapi
+          aktivasi akun bursa kerja. Alamat email dan kata sandi ini akan
+          digunakan untuk segala kegiatan di bursa kerja.
         </p>
         <v-form ref="form" lazy-validation>
           <v-text-field
@@ -28,9 +34,9 @@
           <v-text-field
             v-model="password"
             :rules="passwordRules"
-            :type="showPassword ? 'text': 'password'"
+            :type="showPassword ? 'text' : 'password'"
             prepend-icon="$padlock"
-            :append-icon="showPassword ? '$eye':'$eyeSlash'"
+            :append-icon="showPassword ? '$eye' : '$eyeSlash'"
             label="Kata Sandi"
             @click:append="changeShowPassword()"
             required
@@ -38,9 +44,9 @@
           <v-text-field
             v-model="repassword"
             :rules="repasswordRules"
-            :type="showRePassword ? 'text': 'password'"
+            :type="showRePassword ? 'text' : 'password'"
             prepend-icon="$padlock"
-            :append-icon="showRePassword ? '$eye':'$eyeSlash'"
+            :append-icon="showRePassword ? '$eye' : '$eyeSlash'"
             label="Kata Sandi"
             @click:append="changeShowRePassword()"
             required
@@ -48,20 +54,48 @@
           <div class="hidden-xs-only">
             <div class="d-flex justify-end">
               <v-btn min-width="100" color="primary" @click="registered()">
-                <v-progress-circular indeterminate color="white" v-if="loadingActivated" />
-                <p v-if="!loadingActivated" class="text-capitalize my-auto">daftar</p>
+                <v-progress-circular
+                  indeterminate
+                  color="white"
+                  v-if="loadingActivated"
+                />
+                <p v-if="!loadingActivated" class="text-capitalize my-auto">
+                  daftar
+                </p>
               </v-btn>
             </div>
           </div>
           <div class="hidden-sm-and-up">
             <div class="d-flex flex-column hidden-md-and-up">
-              <v-btn color="primary" class="text-capitalize" @click="registered()">
-                <v-progress-circular indeterminate color="white" v-if="loadingActivated" />
-                <p v-if="!loadingActivated" class="text-capitalize my-auto">daftar</p>
+              <v-btn
+                color="primary"
+                class="text-capitalize"
+                @click="registered()"
+              >
+                <v-progress-circular
+                  indeterminate
+                  color="white"
+                  v-if="loadingActivated"
+                />
+                <p v-if="!loadingActivated" class="text-capitalize my-auto">
+                  daftar
+                </p>
               </v-btn>
             </div>
           </div>
         </v-form>
+      </v-card>
+      <v-card max-height="450" outlined class="mt-2" elevation="3">
+        <v-btn
+          width="100%"
+          height="40"
+          color="primary"
+          class="text-capitalize"
+          to="/login-job-seeker"
+        >
+          <v-icon class="mr-2">$login</v-icon>
+          <p class="text-capitalize my-auto">masuk</p>
+        </v-btn>
       </v-card>
     </div>
   </div>
@@ -119,7 +153,9 @@ export default {
               if (response.data.data.message === 'PIN Not Match') {
                 this.status = false;
                 this.message = 'PIN kartu salah';
-              } else if (response.data.data.message === 'Data Has Been Activate') {
+              } else if (
+                response.data.data.message === 'Data Has Been Activate'
+              ) {
                 this.status = false;
                 this.message = 'kartu bursa sudah diaktifkan';
               } else if (response.data.data.message === 'Data Not Found') {
@@ -159,7 +195,7 @@ export default {
   max-width: 450px;
   width: 450px;
 }
-.backgorund-repeat{
+.backgorund-repeat {
   background-position: initial;
   background-repeat: space;
   background-size: 90px 90px;

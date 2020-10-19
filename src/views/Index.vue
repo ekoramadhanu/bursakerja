@@ -12,6 +12,7 @@ import jumbotron from '@/components/Jumbotron.vue';
 import partner from '@/components/Partner.vue';
 import footer from '@/components/Footer.vue';
 import floatingButton from '@/components/FloatingButton.vue';
+import goTo from 'vuetify/es5/services/goto';
 
 export default {
   components: {
@@ -19,6 +20,9 @@ export default {
     'partner-home': partner,
     'footer-home': footer,
     'floating-button': floatingButton,
+  },
+  created() {
+    goTo(0);
   },
 };
 </script>

@@ -136,6 +136,7 @@ export default {
       || url.includes('/informal-panel')
       || url.includes('/report')
       || url.includes('/upload-job-vacancy')
+      || url.includes('/detail-blacklist/')
     ) {
       this.checkIndex = false;
       this.checkLogin = true;
@@ -180,6 +181,7 @@ export default {
         || url.includes('/informal-panel')
         || url.includes('/report')
         || url.includes('/upload-job-vacancy')
+        || url.includes('/detail-blacklist/')
       ) {
         this.checkIndex = false;
         this.checkLogin = true;

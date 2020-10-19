@@ -129,8 +129,6 @@ export default {
           },
         })
           .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             if (response.data.data.jobSeeker.length > 0) {
               const modulo = response.data.data.total % 12;
               if (modulo === 0) {
@@ -170,8 +168,6 @@ export default {
           },
         })
           .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             if (response.data.data.jobSeeker.length > 0) {
               const modulo = response.data.data.total % 12;
               if (modulo === 0) {
@@ -241,8 +237,6 @@ export default {
         console.log(error);
       })
       .finally(() => {
-        // eslint-disable-next-line no-console
-        console.log(this.jobSeeker);
         this.skeleton = false;
       });
   },

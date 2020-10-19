@@ -583,59 +583,68 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}job-seeker/card-general/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.jobSeeker.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-          }
-          let counter = 0;
-          let nameStatus = '';
-          let nameCard = '';
-          response.data.data.jobSeeker.forEach((i) => {
-            counter += 1;
-            if (i.status === '0') {
-              nameStatus = 'Tidak Aktif';
+    if (this.$store.state.role === 'Admin 1'
+    || this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}job-seeker/card-general/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.jobSeeker.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
             } else {
-              nameStatus = 'Aktif';
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            if (i.name === null) {
-              nameCard = '-';
-            } else {
-              nameCard = i.name;
-            }
-            this.jobSeeker.push({
-              id: i.id,
-              number: counter,
-              name: nameCard,
-              bursaCard: i.bursa_card,
-              status: nameStatus,
-              pin: i.pin,
+            let counter = 0;
+            let nameStatus = '';
+            let nameCard = '';
+            response.data.data.jobSeeker.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Aktif';
+              } else {
+                nameStatus = 'Aktif';
+              }
+              if (i.name === null) {
+                nameCard = '-';
+              } else {
+                nameCard = i.name;
+              }
+              this.jobSeeker.push({
+                id: i.id,
+                number: counter,
+                name: nameCard,
+                bursaCard: i.bursa_card,
+                status: nameStatus,
+                pin: i.pin,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch(() => {
-        this.hasSaved = true;
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;

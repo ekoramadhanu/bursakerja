@@ -239,8 +239,14 @@ export default {
       (v) => /[0-9]/.test(v) || 'Nomor Telepon Harus Angka (0-9)',
       (v) => /^08/.test(v) || 'Nomor Telepon Harus Dimulai Dengan 08...',
     ],
-    imageKTPRules: [(v) => !!v || 'Gambar KTP Tidak Boleh Kosong'],
-    imageBrandRules: [(v) => !!v || 'Gambar Logo Tidak Boleh Kosong'],
+    imageKTPRules: [
+      (v) => !!v || 'Gambar KTP Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'Gambar KTP Harus Kurang Dari 1MB',
+    ],
+    imageBrandRules: [
+      (v) => !!v || 'Gambar Logo Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'Gambar Logo Harus Kurang Dari 1MB',
+    ],
     loadingSave: false,
     hasSaved: false,
     status: null,
@@ -325,39 +331,43 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}umkm/token`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.umkm.length > 0) {
-          this.nameCompany = response.data.data.umkm[0].name;
-          this.owner = response.data.data.umkm[0].owner;
-          this.legality = response.data.data.umkm[0].legality;
-          this.typeCompany = response.data.data.umkm[0].type;
-          this.oldCompany = response.data.data.umkm[0].old;
-          this.branch = response.data.data.umkm[0].branches;
-          this.employee = response.data.data.umkm[0].employee;
-          this.address = response.data.data.umkm[0].address;
-          this.link = response.data.data.umkm[0].linkWebsite;
-          this.phone = response.data.data.umkm[0].phone;
-          this.priviewImageKTP = response.data.data.umkm[0].imageCard;
-          this.priviewImageBrand = response.data.data.umkm[0].imageLogo;
-        }
+    if (this.$store.state.role === 'UMKM') {
+      axios({
+        baseURL: `${this.$store.state.domain}umkm/token`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
       })
-      .catch(() => {
-        this.hasSaved = true;
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+        .then((response) => {
+          if (response.data.data.umkm.length > 0) {
+            this.nameCompany = response.data.data.umkm[0].name;
+            this.owner = response.data.data.umkm[0].owner;
+            this.legality = response.data.data.umkm[0].legality;
+            this.typeCompany = response.data.data.umkm[0].type;
+            this.oldCompany = response.data.data.umkm[0].old;
+            this.branch = response.data.data.umkm[0].branches;
+            this.employee = response.data.data.umkm[0].employee;
+            this.address = response.data.data.umkm[0].address;
+            this.link = response.data.data.umkm[0].linkWebsite;
+            this.phone = response.data.data.umkm[0].phone;
+            this.priviewImageKTP = response.data.data.umkm[0].imageCard;
+            this.priviewImageBrand = response.data.data.umkm[0].imageLogo;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    } else {
+      this.$router.push('/access-block');
+    }
   },
 };
 </script>

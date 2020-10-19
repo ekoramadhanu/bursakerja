@@ -112,7 +112,7 @@
                       <tip-tap-vuetify
                         v-model="editedItemSchool.description"
                         :extensions="extensions"
-                        class="tip-tap-size"
+                        :card-props="{ height: '300', style: 'overflow: auto;' }"
                       />
                     </v-form>
                   </v-card-text>
@@ -265,7 +265,7 @@
               <tip-tap-vuetify
                 v-model="editedItemSchool.description"
                 :extensions="extensions"
-                class="tip-tap-size"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
             </v-form>
           </v-card-text>
@@ -417,7 +417,7 @@ export default {
     nameRules: [(v) => !!v || 'Nama Sekolah Tidak Boleh Kosong'],
     locationRules: [(v) => !!v || 'Lokasi Sekolah Tidak Boleh Kosong'],
     imageRules: [
-      (v) => !!v || 'Gambar Sekolah 3x4 Tidak Boleh Kosong',
+      (v) => !!v || 'Gambar Sekolah Tidak Boleh Kosong',
       (v) => !v || v.size < 1000000 || 'Gambar Sekolah Harus Kurang Dari 1MB',
     ],
     // tip tap
@@ -801,54 +801,63 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}school/pagination-all/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.school.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-          }
-          let counter = 0;
-          let nameStatus = '';
-          response.data.data.school.forEach((i) => {
-            counter += 1;
-            if (i.status === '0') {
-              nameStatus = 'Tidak Ditampilkan';
+    if (this.$store.state.role === 'Admin 1'
+    || this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}school/pagination-all/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.school.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
             } else {
-              nameStatus = 'Ditampilkan';
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            this.school.push({
-              id: i.id,
-              number: counter,
-              name: i.name,
-              image: i.image,
-              status: nameStatus,
-              location: i.location,
-              description: i.description,
+            let counter = 0;
+            let nameStatus = '';
+            response.data.data.school.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Ditampilkan';
+              } else {
+                nameStatus = 'Ditampilkan';
+              }
+              this.school.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                image: i.image,
+                status: nameStatus,
+                location: i.location,
+                description: i.description,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch(() => {
-        this.hasSaved = true;
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;

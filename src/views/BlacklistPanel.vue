@@ -43,7 +43,9 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon size="15" class="white--text mr-2">mdi-delete</v-icon>
+                    <v-icon size="15" class="white--text mr-2"
+                      >mdi-delete</v-icon
+                    >
                     <p class="ma-0 white--text text-capitalize">hapus semua</p>
                   </v-btn>
                 </template>
@@ -56,10 +58,12 @@
 
                   <v-card-text>
                     <div class="d-flex justify-start align-center pa-2">
-                      <v-icon size="80" class="error--text mr-4">$warning</v-icon>
+                      <v-icon size="80" class="error--text mr-4"
+                        >$warning</v-icon
+                      >
                       <p class="ma-0 black--text">
-                        Apakah anda yakin menghapus semua pencari kerja dari daftar hitam ?
-                        Jika "iya" silahkan pilih tombol iya
+                        Apakah anda yakin menghapus semua pencari kerja dari
+                        daftar hitam ? Jika "iya" silahkan pilih tombol iya
                       </p>
                     </div>
                   </v-card-text>
@@ -107,6 +111,13 @@
             />
           </template>
           <template v-slot:item.actions="{ item }">
+            <v-btn
+              icon
+              :to="`/detail-blacklist/${item.idCard}/${item.idCompany}`"
+              class="success--text"
+            >
+              <v-icon> $detail</v-icon>
+            </v-btn>
             <v-btn @click="deleteItem(item)" class="error--text" icon>
               <v-icon> mdi-delete </v-icon>
             </v-btn>
@@ -163,15 +174,19 @@
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin menghapus pencari kerja ini dari daftar hitam ? Jika "iya"
-                silahkan pilih tombol iya
+                Apakah anda yakin menghapus pencari kerja ini dari daftar hitam
+                ? Jika "iya" silahkan pilih tombol iya
               </p>
             </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogDelete = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogDelete = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveDeleteItem()">
@@ -253,7 +268,9 @@ export default {
       this.loadingDelete = true;
       this.loadingDeleteAll = true;
       axios({
-        baseURL: `${this.$store.state.domain}blacklist/${this.blacklist[this.editedIndex].id}`,
+        baseURL: `${this.$store.state.domain}blacklist/${
+          this.blacklist[this.editedIndex].id
+        }`,
         method: 'delete',
         headers: {
           'x-api-key': this.$store.state.apiKey,
@@ -361,6 +378,7 @@ export default {
                   idCard: i.id_card,
                   phone: i.telephone,
                   company: i.umkmName,
+                  idCompany: i.umkmId,
                 });
               });
             } else {
@@ -405,6 +423,7 @@ export default {
                   idCard: i.id_card,
                   phone: i.telephone,
                   company: i.umkmName,
+                  idCompany: i.umkmId,
                 });
               });
             } else {
@@ -424,47 +443,52 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}blacklist/pagination/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.blacklist.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-          }
-          let counter = 0;
-          response.data.data.blacklist.forEach((i) => {
-            counter += 1;
-            this.blacklist.push({
-              id: i.id,
-              number: counter,
-              name: i.name,
-              idCard: i.id_card,
-              phone: i.telephone,
-              company: i.umkmName,
+    if (this.$store.state.role === 'Admin 3') {
+      axios({
+        baseURL: `${this.$store.state.domain}blacklist/pagination/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.blacklist.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = 0;
+            response.data.data.blacklist.forEach((i) => {
+              counter += 1;
+              this.blacklist.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                idCard: i.id_card,
+                phone: i.telephone,
+                company: i.umkmName,
+                idCompany: i.umkmId,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch(() => {
-        this.hasSaved = true;
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    } else {
+      this.$router.push('/access-block');
+    }
   },
   beforeDestroy() {
     this.items = null;
@@ -505,8 +529,8 @@ export default {
   overflow: auto;
   max-height: 300px;
 }
-.preview-img{
-    max-width: 800px;
-    max-height: 600px;
+.preview-img {
+  max-width: 800px;
+  max-height: 600px;
 }
 </style>

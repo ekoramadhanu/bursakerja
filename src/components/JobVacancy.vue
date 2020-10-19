@@ -24,26 +24,41 @@
       <div v-if="!skeleton">
         <div v-for="item in jobVacancy" :key="item.id">
           <v-card elevation="3" class="my-2 mx-9 pa-2" :to="`/detail-job-vacancy/${item.id}`">
-            <p class="text-capitalize text-body-1 primary--text ma-0">
-              {{ item.name }}
-            </p>
-            <p class="text-capitalize text-body-2 mb-2">
-              {{ item.companyName }}
-            </p>
-            <p class="text-capitalize text-body-2 my-0 ml-3">
-              <v-icon class="mr-3" size="15">$location</v-icon>
-              {{ item.address }}
-            </p>
-            <p class="text-capitalize text-body-2 ml-3" v-if="isLogin">
-              <v-icon class="mr-2" size="15">$money</v-icon>
-              {{ item.salary }}
-            </p>
-            <p class="text-capitalize text-body-2 ml-3" v-if="!isLogin">
-              <v-icon class="mr-2" size="15">$money</v-icon>
-              <router-link
-                to="/login-job-seeker"
-              >silahkan masuk / login terlebih dahulu</router-link>
-            </p>
+            <v-row>
+              <v-col cols="12" xl="2" lg="2" md="2" sm="0" xs="0"  class="hidden-sm-and-down">
+                <v-img
+                  :src="item.image"
+                  width="100vw"
+                  max-width="130"
+                  height="100vh"
+                  max-height="100"
+                  class="mx-auto"
+                  contain
+                ></v-img>
+              </v-col>
+              <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12" >
+                <p class="text-capitalize text-body-1 primary--text ma-0">
+                  {{ item.name }}
+                </p>
+                <p class="text-capitalize text-body-2 mb-2">
+                  {{ item.companyName }}
+                </p>
+                <p class="text-capitalize text-body-2 my-0 ml-3">
+                  <v-icon class="mr-3" size="15">$location</v-icon>
+                  {{ item.address }}
+                </p>
+                <p class="text-capitalize text-body-2 ml-3" v-if="isLogin">
+                  <v-icon class="mr-2" size="15">$money</v-icon>
+                  {{ item.salary }}
+                </p>
+                <p class="text-capitalize text-body-2 ml-3" v-if="!isLogin">
+                  <v-icon class="mr-2" size="15">$money</v-icon>
+                  <router-link
+                    to="/login-job-seeker"
+                  >silahkan masuk / login terlebih dahulu</router-link>
+                </p>
+              </v-col>
+            </v-row>
             <p class="text-capitalize text-body-2">{{ item.description }}</p>
             <p class="text-capitalize text-caption ma-0">
               diposting: {{ item.date }}
@@ -230,6 +245,7 @@ export default {
               description: shortDesc,
               salary: i.salary,
               address: i.company.address,
+              image: i.company.image,
               date: i.date,
             });
           });
@@ -258,6 +274,21 @@ export default {
     } else {
       this.isLogin = true;
     }
+  },
+  beforeDestroy() {
+    this.search = null;
+    this.jobVacancy = null;
+    this.skeleton = null;
+    this.page = null;
+    this.pageCount = null;
+    this.isLogin = null;
+
+    delete this.search;
+    delete this.jobVacancy;
+    delete this.skeleton;
+    delete this.page;
+    delete this.pageCount;
+    delete this.isLogin;
   },
 };
 </script>

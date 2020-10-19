@@ -116,6 +116,19 @@ export default {
         console.log(error);
       });
   },
+  beforeDestroy() {
+    this.search = null;
+    this.page = null;
+    this.article = null;
+    this.pageCount = null;
+    this.skeleton = null;
+
+    delete this.search;
+    delete this.page;
+    delete this.article;
+    delete this.pageCount;
+    delete this.skeleton;
+  },
 };
 </script>
 

@@ -31,7 +31,7 @@
               v-model="content"
               :extensions="extensions"
               :disabled="!isEditing"
-              class="tip-tap-size"
+              :card-props="{ height: '300', style: 'overflow: auto;' }"
             />
           </v-card-text>
           <v-divider></v-divider>
@@ -69,7 +69,7 @@
       >
         <div class="d-flex">
           <v-icon
-            :class="status === true ? 'mr-2 error--text' : 'mr-2 success--text'"
+            :class="status === false ? 'mr-2 error--text' : 'mr-2 success--text'"
             >{{ icon }}</v-icon
           >
           <p class="text-capitalize black--text ma-0 text-subtitle-1">
@@ -187,25 +187,33 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}faq`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-      },
-    })
-      .then((response) => {
-        this.content = response.data.data.FAQ[0].description;
-        this.idFAQ = response.data.data.FAQ[0].id;
+    if (this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}faq`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
       })
-      .catch(() => {
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+        .then((response) => {
+          this.content = response.data.data.FAQ[0].description;
+          this.idFAQ = response.data.data.FAQ[0].id;
+        })
+        .catch(() => {
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;
@@ -242,5 +250,14 @@ export default {
 .tip-tap-size {
   overflow: auto;
   max-height: 300px;
+}
+div >>> ul{
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

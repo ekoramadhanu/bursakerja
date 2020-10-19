@@ -711,76 +711,78 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}admin/pagination-all/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        if (response.data.data.admin.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-          }
-          let counter = 0;
-          let nameStatus = '';
-          response.data.data.admin.forEach((i) => {
-            counter += 1;
-            if (i.status === '0') {
-              nameStatus = 'Tidak Aktif';
+    if (this.$store.state.role === 'Admin 3') {
+      axios({
+        baseURL: `${this.$store.state.domain}admin/pagination-all/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.admin.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
             } else {
-              nameStatus = 'Aktif';
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            this.admin.push({
-              id: i.id,
-              number: counter,
-              name: i.name,
-              email: i.email,
-              role: i.role.name,
-              idRole: i.role.id,
-              status: nameStatus,
+            let counter = 0;
+            let nameStatus = '';
+            response.data.data.admin.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Aktif';
+              } else {
+                nameStatus = 'Aktif';
+              }
+              this.admin.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                email: i.email,
+                role: i.role.name,
+                idRole: i.role.id,
+                status: nameStatus,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+      axios({
+        baseURL: `${this.$store.state.domain}role-admin`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
       })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
-    axios({
-      baseURL: `${this.$store.state.domain}role-admin`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.role.length > 0) {
-          response.data.data.role.forEach((i) => {
-            this.role.push({
-              id: i.id,
-              name: i.name,
+        .then((response) => {
+          if (response.data.data.role.length > 0) {
+            response.data.data.role.forEach((i) => {
+              this.role.push({
+                id: i.id,
+                name: i.name,
+              });
             });
-          });
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    } else {
+      this.$router.push('/access-block');
+    }
   },
   beforeDestroy() {
     this.items = null;

@@ -3,7 +3,7 @@
     <div class="d-flex justify-center mb-2">
       <div class="max-width">
         <h3 class="text-center my-2 text-capitalize primary--text">
-          daftar profesional
+          daftar magang
           <hr class="line mx-auto" />
         </h3>
         <v-card elevation="1" class="mx-9 px-3">
@@ -129,8 +129,6 @@ export default {
           },
         })
           .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             if (response.data.data.jobSeeker.length > 0) {
               const modulo = response.data.data.total % 12;
               if (modulo === 0) {
@@ -170,8 +168,6 @@ export default {
           },
         })
           .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             if (response.data.data.jobSeeker.length > 0) {
               const modulo = response.data.data.total % 12;
               if (modulo === 0) {
@@ -241,8 +237,6 @@ export default {
         console.log(error);
       })
       .finally(() => {
-        // eslint-disable-next-line no-console
-        console.log(this.jobSeeker);
         this.skeleton = false;
       });
   },

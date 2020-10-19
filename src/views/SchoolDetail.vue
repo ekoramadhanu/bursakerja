@@ -126,4 +126,13 @@ export default {
 .max-width-about-us {
   max-width: 600px;
 }
+div >>> ul{
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
+}
 </style>

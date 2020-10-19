@@ -432,53 +432,62 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}job-vacancy/pagination/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.jobVacancy.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-          }
-          let counter = 0;
-          let nameStatus = '';
-          response.data.data.jobVacancy.forEach((i) => {
-            counter += 1;
-            if (i.status === '0') {
-              nameStatus = 'Menunggu Verifikasi';
+    if (this.$store.state.role === 'Admin 1'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal'
+    ) {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}job-vacancy/pagination/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.jobVacancy.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
             } else {
-              nameStatus = 'Sudah Disetujui';
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            this.jobVacancy.push({
-              id: i.id,
-              number: counter,
-              name: i.name,
-              salary: i.salary,
-              company: i.nameCompany,
-              description: i.description,
-              status: nameStatus,
-              experience: i.experience,
+            let counter = 0;
+            let nameStatus = '';
+            response.data.data.jobVacancy.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Menunggu Verifikasi';
+              } else {
+                nameStatus = 'Sudah Disetujui';
+              }
+              this.jobVacancy.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                salary: i.salary,
+                company: i.nameCompany,
+                description: i.description,
+                status: nameStatus,
+                experience: i.experience,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;

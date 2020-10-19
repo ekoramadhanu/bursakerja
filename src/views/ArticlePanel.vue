@@ -113,7 +113,7 @@
                       <tip-tap-vuetify
                         v-model="editedItemArticle.description"
                         :extensions="extensions"
-                        class="tip-tap-size"
+                        :card-props="{ height: '300', style: 'overflow: auto;' }"
                       />
                     </v-form>
                   </v-card-text>
@@ -252,7 +252,7 @@
               <tip-tap-vuetify
                 v-model="editedItemArticle.description"
                 :extensions="extensions"
-                class="tip-tap-size"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
             </v-form>
           </v-card-text>
@@ -604,68 +604,76 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}article/pagination-all/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.article.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
+    if (this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}article/pagination-all/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.article.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = 0;
+            response.data.data.article.forEach((i) => {
+              counter += 1;
+              this.article.push({
+                id: i.id,
+                number: counter,
+                title: i.title,
+                image: i.image,
+                user: i.userRead.name,
+                userId: i.userRead.id,
+                description: i.description,
+              });
+            });
           } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            this.pageCount = 0;
           }
-          let counter = 0;
-          response.data.data.article.forEach((i) => {
-            counter += 1;
-            this.article.push({
-              id: i.id,
-              number: counter,
-              title: i.title,
-              image: i.image,
-              user: i.userRead.name,
-              userId: i.userRead.id,
-              description: i.description,
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+      axios({
+        baseURL: `${this.$store.state.domain}user-read`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.read.length > 0) {
+            response.data.data.read.forEach((i) => {
+              this.userRead.push({
+                id: i.id,
+                name: i.name,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
-    axios({
-      baseURL: `${this.$store.state.domain}user-read`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.read.length > 0) {
-          response.data.data.read.forEach((i) => {
-            this.userRead.push({
-              id: i.id,
-              name: i.name,
-            });
-          });
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;

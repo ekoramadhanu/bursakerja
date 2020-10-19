@@ -296,14 +296,14 @@
                 v-model="skillLanguange"
                 :extensions="extensions"
                 :disabled="!isEditing"
-                class="tip-tap-size"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
               <p class="text-capitalize font-weight-bold">4. keterampilan</p>
               <tip-tap-vuetify
                 v-model="skill"
                 :extensions="extensions"
                 :disabled="!isEditing"
-                class="tip-tap-size"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
               <p class="text-capitalize font-weight-bold">
                 5. pengalaman kerja
@@ -312,7 +312,7 @@
                 v-model="experience"
                 :extensions="extensions"
                 :disabled="!isEditing"
-                class="tip-tap-size"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
               <p class="text-capitalize font-weight-bold">6. foto diri</p>
               <v-file-input
@@ -370,13 +370,13 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              :disabled="!isEditing"
-              color="primary"
-              @click="save"
-            >
-              <v-progress-circular indeterminate color="white" v-if="loadingSave" />
-              <p v-if="!loadingSave" class="text-capitalize my-auto">masuk</p>
+            <v-btn :disabled="!isEditing" color="primary" @click="save">
+              <v-progress-circular
+                indeterminate
+                color="white"
+                v-if="loadingSave"
+              />
+              <p v-if="!loadingSave" class="text-capitalize my-auto">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -387,7 +387,7 @@
           class="mt-3"
         ></v-skeleton-loader>
       </v-container>
-       <v-snackbar
+      <v-snackbar
         v-model="hasSaved"
         :timeout="4000"
         top
@@ -502,7 +502,9 @@ export default {
     education: '',
     educationRules: [(v) => !!v || 'Tingkat Pendidikan Tidak Boleh Kosong'],
     instantion: '',
-    instantionRules: [(v) => !!v || 'Nama Instansi Pendidikan Tidak Boleh Kosong'],
+    instantionRules: [
+      (v) => !!v || 'Nama Instansi Pendidikan Tidak Boleh Kosong',
+    ],
     typeEducation: '',
     typeEducationRules: [(v) => !!v || 'Jenis Pendidikan Tidak Boleh Kosong'],
     mayor: '',
@@ -515,15 +517,19 @@ export default {
     score: '',
     scoreRules: [(v) => !!v || 'Nilai Ijazah /IPK Tidak Boleh Kosong'],
     imageRules: [
-      (v) => !!v || 'Gambar Foto Diri 3x4 Tidak Boleh Kosong',
-      (v) => !v || v.size < 1000000 || 'Gambar Artikel Harus Kurang Dari 1MB',
+      (v) => !!v || 'Gambar Foto Diri Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'Gambar Foto Diri Harus Kurang Dari 1MB',
     ],
     location: '',
     locationRules: [(v) => !!v || 'Penempatan Tidak Boleh Kosong'],
     deiredRegion: '',
-    deiredRegionRules: [(v) => !!v || 'Wilayah Yang Diinginkan Tidak Boleh Kosong'],
+    deiredRegionRules: [
+      (v) => !!v || 'Wilayah Yang Diinginkan Tidak Boleh Kosong',
+    ],
     desiredPosition: '',
-    desiredPositionRules: [(v) => !!v || 'Jabatan Yang Diinginkan Tidak Boleh Kosong'],
+    desiredPositionRules: [
+      (v) => !!v || 'Jabatan Yang Diinginkan Tidak Boleh Kosong',
+    ],
     // tip tap
     extensions: [
       History,
@@ -647,11 +653,22 @@ export default {
             },
           })
             .then((response) => {
-              if (response.data.data.message === 'Data Job Seeker Is Successfully Update') {
+              if (
+                response.data.data.message
+                === 'Data Job Seeker Is Successfully Update'
+              ) {
                 this.hasSaved = true;
                 this.status = true;
                 this.message = 'data berhasil disimpan';
                 this.icon = '$success';
+                this.isEditing = false;
+              } else if (
+                response.data.data.message === 'Id Card Has Been Used'
+              ) {
+                this.hasSaved = true;
+                this.status = false;
+                this.message = 'NIK sudah digunakan';
+                this.icon = '$warning';
               } else {
                 this.hasSaved = true;
                 this.status = false;
@@ -673,57 +690,70 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}job-seeker/token`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.jobSeeker.length > 0) {
-          this.idCard = response.data.data.jobSeeker[0].idCard;
-          this.fullname = response.data.data.jobSeeker[0].fullname;
-          this.frontDegree = response.data.data.jobSeeker[0].frontDegree;
-          this.backwardDegree = response.data.data.jobSeeker[0].backwardDegree;
-          this.date = response.data.data.jobSeeker[0].dateOfBirth;
-          this.sex = response.data.data.jobSeeker[0].sex;
-          this.religion = response.data.data.jobSeeker[0].religion;
-          this.married = response.data.data.jobSeeker[0].married;
-          this.nationality = response.data.data.jobSeeker[0].nasionality;
-          this.weight = response.data.data.jobSeeker[0].weight;
-          this.height = response.data.data.jobSeeker[0].height;
-          this.phone = response.data.data.jobSeeker[0].phone;
-          this.address = response.data.data.jobSeeker[0].address;
-          this.district = response.data.data.jobSeeker[0].district;
-          this.city = response.data.data.jobSeeker[0].city;
-          this.province = response.data.data.jobSeeker[0].province;
-          this.postalCode = response.data.data.jobSeeker[0].postalCode;
-          this.education = response.data.data.jobSeeker[0].degreeSchool;
-          this.instantion = response.data.data.jobSeeker[0].nameSchool;
-          this.typeEducation = response.data.data.jobSeeker[0].typeSchool;
-          this.mayor = response.data.data.jobSeeker[0].majors;
-          this.dateGraduate = response.data.data.jobSeeker[0].yearsGraduate;
-          this.score = response.data.data.jobSeeker[0].score;
-          this.skillLanguange = response.data.data.jobSeeker[0].language;
-          this.skill = response.data.data.jobSeeker[0].skill;
-          this.experience = response.data.data.jobSeeker[0].experience;
-          this.priviewImage = response.data.data.jobSeeker[0].image;
-          this.deiredRegion = response.data.data.jobSeeker[0].desiredRegion;
-          this.desiredPosition = response.data.data.jobSeeker[0].desiredPosition;
-          this.location = response.data.data.jobSeeker[0].placement;
-        }
+    if (
+      this.$store.state.role === 'Informal'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Magang'
+    ) {
+      axios({
+        baseURL: `${this.$store.state.domain}job-seeker/token`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
       })
-      .catch(() => {
-        this.hasSaved = true;
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+        .then((response) => {
+          if (response.data.data.jobSeeker.length > 0) {
+            this.idCard = response.data.data.jobSeeker[0].idCard;
+            this.fullname = response.data.data.jobSeeker[0].fullname;
+            this.frontDegree = response.data.data.jobSeeker[0].frontDegree;
+            this.backwardDegree = response.data.data.jobSeeker[0].backwardDegree;
+            if (response.data.data.jobSeeker[0].dateOfBirth === null) {
+              this.date = '';
+            } else {
+              this.date = response.data.data.jobSeeker[0].dateOfBirth;
+            }
+            this.sex = response.data.data.jobSeeker[0].sex;
+            this.religion = response.data.data.jobSeeker[0].religion;
+            this.married = response.data.data.jobSeeker[0].married;
+            this.nationality = response.data.data.jobSeeker[0].nasionality;
+            this.weight = response.data.data.jobSeeker[0].weight;
+            this.height = response.data.data.jobSeeker[0].height;
+            this.phone = response.data.data.jobSeeker[0].phone;
+            this.address = response.data.data.jobSeeker[0].address;
+            this.district = response.data.data.jobSeeker[0].district;
+            this.city = response.data.data.jobSeeker[0].city;
+            this.province = response.data.data.jobSeeker[0].province;
+            this.postalCode = response.data.data.jobSeeker[0].postalCode;
+            this.education = response.data.data.jobSeeker[0].degreeSchool;
+            this.instantion = response.data.data.jobSeeker[0].nameSchool;
+            this.typeEducation = response.data.data.jobSeeker[0].typeSchool;
+            this.mayor = response.data.data.jobSeeker[0].majors;
+            this.dateGraduate = response.data.data.jobSeeker[0].yearsGraduate;
+            this.score = response.data.data.jobSeeker[0].score;
+            this.skillLanguange = response.data.data.jobSeeker[0].language;
+            this.skill = response.data.data.jobSeeker[0].skill;
+            this.experience = response.data.data.jobSeeker[0].experience;
+            this.priviewImage = response.data.data.jobSeeker[0].image;
+            this.deiredRegion = response.data.data.jobSeeker[0].desiredRegion;
+            this.desiredPosition = response.data.data.jobSeeker[0].desiredPosition;
+            this.location = response.data.data.jobSeeker[0].placement;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    } else {
+      this.$router.push('/access-block');
+    }
   },
 };
 </script>

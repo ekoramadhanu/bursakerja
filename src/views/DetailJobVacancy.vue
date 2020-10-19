@@ -192,8 +192,6 @@ export default {
       },
     })
       .then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
         if (response.data.data.jobVacancy.length === 1) {
           this.image = response.data.data.jobVacancy[0].company.brand;
           this.description = response.data.data.jobVacancy[0].description;
@@ -236,5 +234,14 @@ export default {
     max-width: 600px;
     width: 100vw;
   }
+}
+div >>> ul{
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

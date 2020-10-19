@@ -11,7 +11,7 @@
       </v-card>
       <v-card elevation="3" class="mt-3 mx-9">
         <v-row>
-          <v-col cols="12" xl="3" lg="3" md="12" sm="12" xs="12">
+          <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
             <v-img
               :src="photo"
               height="472"
@@ -20,9 +20,10 @@
               max-width="204"
               class="mx-auto"
               v-if="photo !== null"
+              contain
             ></v-img>
           </v-col>
-          <v-col cols="12" xl="9" lg="9" md="12" sm="12" xs="12">
+          <v-col cols="12" xl="9" lg="9" md="9" sm="12" xs="12">
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">nama</p>
               <p class="ma-1 mr-2">:</p>
@@ -46,32 +47,32 @@
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">kebangsaan</p>
               <p class="ma-1 mr-2">:</p>
-              <p class="ma-1">{{ nasionality  }}</p>
+              <p class="ma-1">{{ nasionality }}</p>
             </div>
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">berat / tinggi</p>
               <p class="ma-1 mr-2">:</p>
-              <p class="ma-1">{{ weight }} / {{height}}</p>
+              <p class="ma-1">{{ weight }} / {{ height }}</p>
             </div>
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">pendidikan terakhir</p>
               <p class="ma-1 mr-2">:</p>
-              <p class="ma-1">{{nameSchool }}</p>
+              <p class="ma-1">{{ nameSchool }}</p>
             </div>
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">jurusan</p>
               <p class="ma-1 mr-2">:</p>
-              <p class="ma-1">{{majors }}</p>
+              <p class="ma-1">{{ majors }}</p>
             </div>
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">IPK / nilai ijazah</p>
               <p class="ma-1 mr-2">:</p>
-              <p class="ma-1">{{score }}</p>
+              <p class="ma-1">{{ score }}</p>
             </div>
             <div class="d-flex">
               <p class="ma-1 table1 text-capitalize">tahun lulus</p>
               <p class="ma-1 mr-2">:</p>
-              <p class="ma-1">{{yearsGraduate }}</p>
+              <p class="ma-1">{{ yearsGraduate }}</p>
             </div>
           </v-col>
         </v-row>
@@ -115,13 +116,20 @@ import footer from '@/components/Footer.vue';
 export default {
   data: () => ({
     photo: '',
-    experience: '',
-    skill: '',
-    language: '',
     fullname: '',
     date: '',
     religi: '',
     married: '',
+    nasionality: '',
+    weight: '',
+    height: '',
+    nameSchool: '',
+    majors: '',
+    score: '',
+    yearsGraduate: '',
+    language: '',
+    experience: '',
+    skill: '',
   }),
   components: {
     'footer-home': footer,
@@ -132,12 +140,17 @@ export default {
       method: 'get',
       headers: {
         'x-api-key': this.$store.state.apiKey,
+        authorization: `Bearer ${this.$cookies.get('token')}`,
       },
     })
       .then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        if (response.data.data.jobSeeker.length > 0) {
+        if (
+          (response.data.data.jobSeeker[0].role.name === 'Magang'
+            || response.data.data.jobSeeker[0].role.name === 'Umum')
+          && this.$store.state.token === ''
+        ) {
+          this.$router.push('/login-job-seeker');
+        } else if (response.data.data.jobSeeker.length > 0) {
           this.photo = response.data.data.jobSeeker[0].image;
           this.experience = response.data.data.jobSeeker[0].experience;
           this.skill = response.data.data.jobSeeker[0].skill;
@@ -191,5 +204,14 @@ export default {
 }
 .table1 {
   width: 200px;
+}
+div >>> ul {
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

@@ -90,14 +90,14 @@
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <div class="width-topbar d-flex justify-end">
-        <v-badge
+        <!-- <v-badge
           :content="messages"
           :value="messages"
           overlap
           class="hidden-xs-only"
         >
           <v-icon class="text-right">$bell</v-icon>
-        </v-badge>
+        </v-badge> -->
       </div>
     </v-app-bar>
   </div>
@@ -137,6 +137,7 @@ export default {
     logout() {
       this.$cookies.remove('token');
       this.$store.commit('changeCheckToken', false);
+      this.$store.commit('changeToken', '');
       this.$router.push('/');
     },
   },

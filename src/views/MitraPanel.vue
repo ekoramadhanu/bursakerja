@@ -722,50 +722,58 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}partner/pagination-all/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.partner.length > 0) {
-          const modulo = response.data.data.total % 10;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-          }
-          let counter = 0;
-          let nameStatus = '';
-          response.data.data.partner.forEach((i) => {
-            counter += 1;
-            if (i.status === '0') {
-              nameStatus = 'Tidak Ditampilkan';
+    if (this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}partner/pagination-all/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.partner.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
             } else {
-              nameStatus = 'Ditampilkan';
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            this.mitra.push({
-              id: i.id,
-              number: counter,
-              name: i.name,
-              image: i.image,
-              status: nameStatus,
+            let counter = 0;
+            let nameStatus = '';
+            response.data.data.partner.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Ditampilkan';
+              } else {
+                nameStatus = 'Ditampilkan';
+              }
+              this.mitra.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                image: i.image,
+                status: nameStatus,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;

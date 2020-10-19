@@ -105,7 +105,6 @@ export default {
               this.$store.commit('changeToken', response.data.data.token);
               this.$store.commit('changeCheckToken', true);
               this.$cookies.set('token', response.data.data.token, '1d');
-              this.$router.push('/home');
             } else {
               this.status = false;
               this.message = 'ada kesalahan di sistem';
@@ -116,6 +115,7 @@ export default {
             this.message = 'ada kesalahan di sistem';
           })
           .finally(() => {
+            this.loadingLogin = false;
             axios({
               baseURL: `${this.$store.state.domain}admin/token`,
               method: 'get',
@@ -127,13 +127,11 @@ export default {
               .then((response) => {
                 this.$store.commit('changeNameUser', response.data.data.admin[0].name);
                 this.$store.commit('changeRole', response.data.data.admin[0].role);
+                this.$router.push('/home');
               })
               .catch((error) => {
                 // eslint-disable-next-line no-console
                 console.log(error);
-              })
-              .finally(() => {
-                this.loadingLogin = false;
               });
           });
       }

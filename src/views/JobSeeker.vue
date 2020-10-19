@@ -3,16 +3,16 @@
     <div class="d-flex justify-center mb-2">
       <div class="max-width">
         <h3 class="text-center my-2 text-capitalize primary--text">
-          daftar pencari kerja
+          daftar magang
           <hr class="line mx-auto" />
         </h3>
         <v-card elevation="1" class="mx-9 px-3">
           <v-form>
             <v-text-field
               v-model="search"
-              label="Pencarian Nama Pekerjaan"
+              label="Pencarian Jabatan"
               append-icon="$search"
-              @click:append="serachjobVacancy()"
+              @click:append="serachJobSeeker()"
             />
           </v-form>
         </v-card>
@@ -35,13 +35,17 @@
                   max-width="150"
                   height="120"
                   max-height="120"
-                  :src="j.image"
+                  :src="j.photo"
                   contain
                 ></v-img>
                 <v-card-title
                   class="text-capitalize d-flex justify-center pa-2"
-                  >{{ j.name }}</v-card-title
                 >
+                  {{ j.fullname }}
+                </v-card-title>
+                <v-card-text class="text-capitalize d-flex justify-center pa-2">
+                  {{j.desiredPosition}}
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -102,6 +106,17 @@ export default {
       const counterEnd = payload * 4;
       return this.jobSeeker.slice(counterStart, counterEnd);
     },
+    serachJobSeeker() {
+      this.skeleton = true;
+      this.page = 1;
+      this.jobSeeker.splice(0, this.jobSeeker.length);
+      this.methodGetJobSeeker(this.page);
+    },
+    pagination() {
+      this.skeleton = true;
+      this.jobSeeker.splice(0, this.jobSeeker.length);
+      this.methodGetJobSeeker(this.page);
+    },
     // method universal
     methodGetJobSeeker(page) {
       if (this.search === '') {
@@ -114,8 +129,6 @@ export default {
           },
         })
           .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             if (response.data.data.jobSeeker.length > 0) {
               const modulo = response.data.data.total % 12;
               if (modulo === 0) {
@@ -129,9 +142,9 @@ export default {
                 this.jobSeeker.push({
                   id: i.id,
                   number: counter,
-                  fullname: i.nafullnameme,
+                  fullname: i.fullname,
                   photo: i.photo,
-                  desiredPosition: i.esiredPosition,
+                  desiredPosition: i.desiredPosition,
                 });
               });
             } else {
@@ -147,7 +160,7 @@ export default {
           });
       } else {
         axios({
-          baseURL: `${this.$store.state.domain}job-seeker/show-role/${page}`,
+          baseURL: `${this.$store.state.domain}job-seeker/search-role/${this.search}/${page}`,
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -155,8 +168,6 @@ export default {
           },
         })
           .then((response) => {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             if (response.data.data.jobSeeker.length > 0) {
               const modulo = response.data.data.total % 12;
               if (modulo === 0) {
@@ -170,9 +181,9 @@ export default {
                 this.jobSeeker.push({
                   id: i.id,
                   number: counter,
-                  fullname: i.nafullnameme,
+                  fullname: i.fullname,
                   photo: i.photo,
-                  desiredPosition: i.esiredPosition,
+                  desiredPosition: i.desiredPosition,
                 });
               });
             } else {
@@ -199,8 +210,6 @@ export default {
       },
     })
       .then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
         if (response.data.data.jobSeeker.length > 0) {
           const modulo = response.data.data.total % 12;
           if (modulo === 0) {
@@ -214,9 +223,9 @@ export default {
             this.jobSeeker.push({
               id: i.id,
               number: counter,
-              fullname: i.nafullnameme,
+              fullname: i.fullname,
               photo: i.photo,
-              desiredPosition: i.esiredPosition,
+              desiredPosition: i.desiredPosition,
             });
           });
         } else {

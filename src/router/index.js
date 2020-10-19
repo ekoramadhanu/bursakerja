@@ -40,6 +40,8 @@ import uploadJobVacancy from '../views/UploadJobVacancy.vue';
 import resumeJobSeeker from '../views/ResumeJobSeeker.vue';
 import report from '../views/Report.vue';
 import dataUMKM from '../views/DataUMKM.vue';
+import detailBlacklist from '../views/DetailBlacklist.vue';
+import accessBlock from '../views/403.vue';
 import notFound from '../views/404.vue';
 
 Vue.use(VueRouter);
@@ -109,6 +111,18 @@ const routes = [
     path: '/job-seeker-detail/:id',
     name: 'detailJobSeeker',
     component: detailJobSeeker,
+    // beforeEnter: (to, from, next) => {
+    //   if (window.$cookies.isKey('token')) {
+    //     next();
+    //   } else {
+    //     next('/login-company');
+    //   }
+    // },
+  },
+  {
+    path: '/detail-blacklist/:jobSeeker/:company',
+    name: 'detailBlacklist',
+    component: detailBlacklist,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
         next();
@@ -440,6 +454,11 @@ const routes = [
         next('/');
       }
     },
+  },
+  {
+    path: '/access-block',
+    name: 'accessBlock',
+    component: accessBlock,
   },
   {
     path: '/*',

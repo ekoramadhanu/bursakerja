@@ -58,12 +58,13 @@ export default new Vuetify({
       money: 'fas fa-money-bill-wave-alt',
       experience: 'fas fa-suitcase',
       language: 'fas fa-globe',
+      detail: 'fas fa-angle-double-right',
     },
     theme: {
       themes: {
         light: {
           primary: '#205faf', // blue
-          primaryLight: '#4b8cb6', // blue light
+          primaryDark: '#175da3', // blue light
           fourth: '#F6F6F6', // grey
           error: '#F72E0F', // red
           success: '#01DB17', // green

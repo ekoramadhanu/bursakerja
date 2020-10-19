@@ -11,7 +11,7 @@
             <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
             <p class="text-capitalize ma-0 text-subtitle-1">
               kami sarankan untuk mengganti kata sandi minimal 3 bulan sekali
-              untuk eningkatkan keamanan
+              untuk meningkatkan keamanan
             </p>
           </div>
         </v-card>
@@ -74,16 +74,45 @@
               @click="save"
               class="text-capitalize"
             >
-              simpan
+              <v-progress-circular
+                indeterminate
+                color="white"
+                v-if="loading"
+              />
+              <p class="my-auto white--text text-capitalize" v-if="!loading">
+                simpan
+              </p>
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-container>
+       <v-snackbar
+        v-model="hasSaved"
+        :timeout="4000"
+        top
+        right
+        color="white"
+        max-width="250px"
+      >
+        <div class="d-flex">
+          <v-icon
+            :class="
+              status === false ? 'mr-2 error--text' : 'mr-2 success--text'
+            "
+            >{{ icon }}</v-icon
+          >
+          <p class="text-capitalize black--text ma-0 text-subtitle-1">
+            {{ message }}
+          </p>
+        </div>
+      </v-snackbar>
     </v-main>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data: () => ({
     items: [
@@ -93,6 +122,9 @@ export default {
       },
     ],
     hasSaved: false,
+    status: null,
+    icon: '',
+    message: '',
     isEditing: null,
     password: '',
     passwordRules: [
@@ -112,12 +144,64 @@ export default {
     showPassword: false,
     showNewPassword: false,
     showRePassword: false,
+    role: '',
+    loading: false,
   }),
   methods: {
     save() {
       if (this.$refs.form.validate()) {
-        this.isEditing = !this.isEditing;
-        this.hasSaved = true;
+        if (this.rePassword !== this.password) {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'kata sandi baru dan ulangi kata sandi tidak sama';
+          this.icon = '$warning';
+        } else {
+          this.loading = true;
+          let endpoint = '';
+          if (this.role === 'Admin 1' || this.role === 'Admin 2' || this.role === 'Admin 3') {
+            endpoint = `${this.$store.state.domain}admin/change-password`;
+          } else if (this.role === 'UMKM') {
+            endpoint = `${this.$store.state.domain}umkm/change-password`;
+          } else {
+            endpoint = `${this.$store.state.domain}job-seeker/change-password`;
+          }
+          axios({
+            baseURL: endpoint,
+            method: 'patch',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          })
+            .then((response) => {
+              if (response.data.data.message.includes('Is Successfully Update')) {
+                this.hasSaved = true;
+                this.status = true;
+                this.message = 'data berhasil disimpan';
+                this.icon = '$success';
+              } else if (response.data.data.message === 'Password Not Match') {
+                this.hasSaved = true;
+                this.status = false;
+                this.message = 'kata sandi lama anda salah';
+                this.icon = '$warning';
+              } else {
+                this.hasSaved = true;
+                this.status = false;
+                this.message = 'data tidak bisa disimpan ';
+                this.icon = '$warning';
+              }
+            })
+            .catch(() => {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'server mengalami error';
+              this.icon = '$warning';
+            })
+            .finally(() => {
+              this.loading = false;
+              this.isEditing = !this.isEditing;
+            });
+        }
       }
     },
     changeShowPassword() {
@@ -129,6 +213,9 @@ export default {
     changeShowRePassword() {
       this.showRePassword = !this.showRePassword;
     },
+  },
+  created() {
+    this.role = this.$store.state.role;
   },
   beforeDestroy() {
     this.items = null;

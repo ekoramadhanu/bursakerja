@@ -15,7 +15,7 @@
               <v-img
                 src="@/assets/logo_company.jpeg"
                 width="100"
-                height="60"
+                height="50"
                 to="/"
               ></v-img>
             </v-toolbar-title>
@@ -50,6 +50,7 @@
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on" class="hidden-xs-only">
                 <v-icon class="primary--text">$account</v-icon>
+                <p class="ma-0 text-capitalize">akun</p>
               </v-btn>
             </template>
             <v-list>
@@ -140,6 +141,7 @@ export default {
     logout() {
       this.$cookies.remove('token');
       this.$store.commit('changeCheckToken', false);
+      this.$store.commit('changeToken', '');
     },
   },
   beforeDestroy() {

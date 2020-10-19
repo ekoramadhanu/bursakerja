@@ -196,29 +196,37 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}contact`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-      },
-    })
-      .then((response) => {
-        this.whatssapp = response.data.data.contact[0].whatsapp;
-        this.email = response.data.data.contact[0].email;
-        this.instagram = response.data.data.contact[0].instagram;
-        this.facebook = response.data.data.contact[0].facebook;
-        this.twitter = response.data.data.contact[0].twitter;
-        this.idContact = response.data.data.contact[0].id;
+    if (this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}contact`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
       })
-      .catch(() => {
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+        .then((response) => {
+          this.whatssapp = response.data.data.contact[0].whatsapp;
+          this.email = response.data.data.contact[0].email;
+          this.instagram = response.data.data.contact[0].instagram;
+          this.facebook = response.data.data.contact[0].facebook;
+          this.twitter = response.data.data.contact[0].twitter;
+          this.idContact = response.data.data.contact[0].id;
+        })
+        .catch(() => {
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;

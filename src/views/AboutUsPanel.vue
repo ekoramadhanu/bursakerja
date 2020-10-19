@@ -48,9 +48,9 @@
               />
               <tip-tap-vuetify
                 v-model="content"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
                 :extensions="extensions"
                 :disabled="!isEditing"
-                class="tip-tap-size"
               />
             </v-form>
           </v-card-text>
@@ -133,7 +133,7 @@ export default {
     isEditing: null,
     previewImage: null,
     imageRules: [
-      (v) => !!v || 'Gambar Bursa Kerja 3x4 Tidak Boleh Kosong',
+      (v) => !!v || 'Gambar Bursa Kerja Tidak Boleh Kosong',
       (v) => !v || v.size < 1000000 || 'Gambar Bursa Kerja Harus Kurang Dari 1MB',
     ],
     // tip tap
@@ -225,26 +225,34 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}about-us`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-      },
-    })
-      .then((response) => {
-        this.content = response.data.data.aboutUs[0].description;
-        this.idAboutUs = response.data.data.aboutUs[0].id;
-        this.previewImage = response.data.data.aboutUs[0].image;
+    if (this.$store.state.role === 'UMKM'
+    || this.$store.state.role === 'Magang'
+    || this.$store.state.role === 'Umum'
+    || this.$store.state.role === 'Profesional'
+    || this.$store.state.role === 'Informal') {
+      this.$router.push('/access-block');
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}about-us`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
       })
-      .catch(() => {
-        this.status = false;
-        this.message = 'server mengalami error';
-        this.icon = '$warning';
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+        .then((response) => {
+          this.content = response.data.data.aboutUs[0].description;
+          this.idAboutUs = response.data.data.aboutUs[0].id;
+          this.previewImage = response.data.data.aboutUs[0].image;
+        })
+        .catch(() => {
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.items = null;
@@ -286,5 +294,14 @@ export default {
 .preview-img{
     max-width: 800px;
     max-height: 600px;
+}
+div >>> ul{
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

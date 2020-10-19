@@ -110,7 +110,6 @@ export default {
               this.$store.commit('changeToken', response.data.data.token);
               this.$store.commit('changeCheckToken', true);
               this.$cookies.set('token', response.data.data.token, '1d');
-              this.$router.push('/home');
             } else {
               this.status = false;
               this.message = 'ada kesalahan di sistem';
@@ -140,6 +139,7 @@ export default {
                     this.$store.commit('changeNameUser', response.data.data.jobSeeker[0].fullname);
                   }
                   this.$store.commit('changeRole', response.data.data.jobSeeker[0].role.name);
+                  this.$router.push('/home');
                 })
                 .catch((error) => {
                   // eslint-disable-next-line no-console

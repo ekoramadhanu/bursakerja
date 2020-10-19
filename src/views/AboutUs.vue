@@ -65,6 +65,16 @@ export default {
 </script>
 
 <style scoped>
+div >>> ul {
+  line-height:18px !important;
+}
+
+div >>> ol {
+  line-height:18px !important;
+}
+div >>> li > p{
+  margin: 3px;
+}
 .line {
   width: 50px;
   border: 1px solid #205faf;

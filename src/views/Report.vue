@@ -28,28 +28,29 @@
           </v-toolbar>
           <v-card-text>
             <v-form lazy-validation ref="form">
-              <v-autocomplete
-                v-model="model"
-                :items="lists"
-                :loading="isLoading"
-                :search-input.sync="search"
-                hide-no-data
-                hide-selected
-                item-text="fullname"
-                item-value="id"
-                label="Silahakn Cari Nama Pencari Kerja"
-                prepend-icon="mdi-database-search"
-                return-object
-                :rules="rulesModel"
+              <v-text-field
+                prepend-icon="$idCard"
+                label="NIK"
+                required
+                v-model="idCard"
+                :rules="idCardRules"
                 :disabled="!isEditing"
-                @change="changeValue()"
-              ></v-autocomplete>
-              <img
-                :src="priviewPhoto"
-                v-if="priviewPhoto != null"
-                class="preview-img"
-                contain
-                aspect-ratio="1.7"
+              />
+              <v-text-field
+                prepend-icon="$jobSeeker"
+                label="Nama Yang Akan Dilapor"
+                required
+                v-model="name"
+                :rules="nameRules"
+                :disabled="!isEditing"
+              />
+              <v-text-field
+                prepend-icon="$phone"
+                label="Nomor Telepon Orang Yang Dilaporkan"
+                required
+                v-model="phone"
+                :rules="phoneRules"
+                :disabled="!isEditing"
               />
             </v-form>
           </v-card-text>
@@ -113,60 +114,26 @@ export default {
       },
     ],
     isEditing: null,
-    descriptionLimit: 60,
-    entries: [],
     isLoading: false,
-    model: null,
-    rulesModel: [(v) => !!v || 'Nama Pencari Kerja Tidak Boleh Kosong'],
-    search: null,
-    priviewPhoto: null,
+    idCard: '',
+    idCardRules: [
+      (v) => !!v || 'Nomor KTP/NIK Tidak Boleh Kosong',
+      (v) => /[0-9]/.test(v) || 'Nomor KTP/NIK Harus Angka (0-9)',
+    ],
+    name: '',
+    nameRules: [
+      (v) => !!v || 'Nama Yang dilaporkan Tidak Boleh Kosong',
+    ],
+    phone: '',
+    phoneRules: [
+      (v) => !!v || 'Nomor telepon Yang dilaporkan Tidak Boleh Kosong',
+    ],
     loadingSave: false,
     hasSaved: false,
     status: null,
     icon: '',
     message: '',
   }),
-  computed: {
-    lists() {
-      return this.entries.map((entry) => {
-        const { fullname } = entry;
-        return { ...entry, fullname };
-      });
-    },
-  },
-  watch: {
-    // eslint-disable-next-line no-unused-vars
-    search(val) {
-      // lists have already been loaded
-      if (this.lists.length > 0) return;
-
-      // Items have already been requested
-      if (this.isLoading) return;
-
-      this.isLoading = true;
-
-      // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/account-activate`, {
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          // eslint-disable-next-line no-console
-          console.log(res);
-          const entries = res.data.jobSeeker;
-          this.entries = entries;
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        })
-        // eslint-disable-next-line no-return-assign
-        .finally(() => (this.isLoading = false));
-    },
-  },
   methods: {
     save() {
       if (this.$refs.form.validate()) {
@@ -179,7 +146,9 @@ export default {
             authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
-            jobSeeker: this.model.id,
+            jobSeeker: this.name,
+            phone: this.phone,
+            idCard: this.idCard,
           },
         })
           .then((response) => {
@@ -206,9 +175,11 @@ export default {
           });
       }
     },
-    changeValue() {
-      this.priviewPhoto = this.model.image;
-    },
+  },
+  beforeCreate() {
+    if (this.$store.state.role !== 'UMKM') {
+      this.$router.push('/access-block');
+    }
   },
 };
 </script>
