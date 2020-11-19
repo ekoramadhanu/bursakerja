@@ -8,10 +8,26 @@
           width="100vw"
           max-width="970"
           max-height="220"
-          class="mb-6"
+          class="mb-6 mt-3"
           contain
+          v-if="!skeleton"
         ></v-img>
-        <div class="max-width-about-us mx-auto text-justify" v-html="content"></div>
+        <v-skeleton-loader
+          ref="skeleton"
+          type="image"
+          class="mb-6 mt-3"
+          v-if="skeleton"
+        ></v-skeleton-loader>
+        <div
+          class="max-width-about-us mx-auto text-justify"
+          v-html="content"
+          v-if="!skeleton"
+        ></div>
+        <v-skeleton-loader
+          ref="skeleton"
+          type="paragraph"
+          v-if="skeleton"
+        ></v-skeleton-loader>
       </div>
     </div>
     <footer-home />
@@ -27,6 +43,7 @@ export default {
   data: () => ({
     content: '',
     image: '',
+    skeleton: true,
   }),
   components: {
     'footer-home': footer,
@@ -46,6 +63,9 @@ export default {
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.log(error);
+      })
+      .finally(() => {
+        this.skeleton = false;
       });
   },
   created() {
@@ -57,22 +77,24 @@ export default {
   beforeDestroy() {
     this.content = null;
     this.image = null;
+    this.skeleton = null;
 
     delete this.content;
     delete this.image;
+    delete this.skeleton;
   },
 };
 </script>
 
 <style scoped>
 div >>> ul {
-  line-height:18px !important;
+  line-height: 18px !important;
 }
 
 div >>> ol {
-  line-height:18px !important;
+  line-height: 18px !important;
 }
-div >>> li > p{
+div >>> li > p {
   margin: 3px;
 }
 .line {
@@ -80,14 +102,15 @@ div >>> li > p{
   border: 1px solid #205faf;
 }
 .max-width {
-  max-width: 1366px;
+  width: 90vw;
 }
-@media screen and (max-width: 1000px){
-  .max-width{
-    max-width: 100vw;
+@media screen and (min-width: 1366px) {
+  .max-width {
+    max-width: 1100px;
+    width: 100vw;
   }
 }
 .max-width-about-us {
-  max-width: 600px;
+  max-width: 650px;
 }
 </style>

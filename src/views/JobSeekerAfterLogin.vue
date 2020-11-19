@@ -1,9 +1,13 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
-      <div class="max-width">
+  <div>
+    <v-main>
+      <v-container class="d-flex flex-column justify-center size-max mb-8">
+        <v-breadcrumbs
+          :items="items"
+          class="text-capitalize pa-2"
+        ></v-breadcrumbs>
         <v-row>
-          <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
+          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
             <v-card elevation="3">
               <v-card-title
                 class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
@@ -80,7 +84,7 @@
               </v-card-actions>
             </v-card>
           </v-col>
-          <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">
+          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
             <v-card elevation="3">
               <v-card-title class="pa-3 d-flex justify-space-between">
                 <p
@@ -118,12 +122,12 @@
                           <p class="text-capitalize text-subtitle-2 ma-0">
                             {{ item.position }}
                           </p>
-                          <!-- <p
+                          <p
                             class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
                           >
                             <v-icon class="mr-3" size="12">$phone</v-icon>
                             {{ item.phone }}
-                          </p> -->
+                          </p>
                           <p
                             class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
                           >
@@ -185,19 +189,23 @@
             </div>
           </v-col>
         </v-row>
-      </div>
-    </div>
-    <footer-home />
+      </v-container>
+    </v-main>
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 import typical from 'vue-typical';
 
 export default {
   data: () => ({
+    items: [
+      {
+        text: 'karyawan',
+        disabled: true,
+      },
+    ],
     search: '',
     page: 1,
     jobSeeker: [],
@@ -247,7 +255,6 @@ export default {
     },
   },
   components: {
-    'footer-home': footer,
     typical,
   },
   watch: {
@@ -522,17 +529,7 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
-.max-width {
-  width: 90vw;
-}
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 90vw;
-  }
+.size-max{
+  max-width: 1100px;
 }
 </style>

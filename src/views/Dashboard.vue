@@ -92,7 +92,7 @@
       <div
         v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
       >
-        <p class="text-capitalize ma-0 pa-2 grey--text">pencari kerja</p>
+        <p class="text-capitalize ma-0 pa-2 grey--text">karyawan</p>
         <v-row v-if="!sekeletonJobSeeker">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
             <v-card elevation="4" color="primary" class="rounded-lg">
@@ -107,7 +107,7 @@
                 <p
                   class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
                 >
-                  jumlah kartu bursa pencari kerja
+                  jumlah kartu bursa karyawan
                 </p>
               </v-card-subtitle>
             </v-card>
@@ -125,7 +125,7 @@
                 <p
                   class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
                 >
-                  jumlah pencari kerja yang bergabung
+                  jumlah karyawan yang bergabung
                 </p>
               </v-card-subtitle>
             </v-card>
@@ -143,7 +143,7 @@
                 <p
                   class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
                 >
-                  jumlah kartu pencari kerja tidak aktif
+                  jumlah kartu karyawan tidak aktif
                 </p>
               </v-card-subtitle>
             </v-card>
@@ -176,7 +176,7 @@
       <div
         v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
       >
-        <p class="text-capitalize ma-0 pa-2 grey--text">tipe pencari kerja</p>
+        <p class="text-capitalize ma-0 pa-2 grey--text">tipe karyawan</p>
         <v-row v-if="!sekeletonJobSeeker">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
             <v-card elevation="4" color="primary" class="rounded-lg">
@@ -373,11 +373,8 @@
       </div>
       <div
         v-if="
-          role === 'UMKM' ||
-          role === 'Informal' ||
-          role === 'Umum' ||
-          role === 'Profesional' ||
-          role === 'Magang'
+          role === 'Perusahaan' ||
+          role === 'Pencaker'
         "
       >
         <p class="text-capitalize ma-0 pa-2 grey--text">catatan</p>
@@ -385,7 +382,7 @@
           <div class="d-flex">
             <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
             <p class="text-capitalize ma-0 text-subtitle-1">
-              website atau portal ini hanya mendata pencari kerja dan UMKM untuk
+              website atau portal ini hanya mendata karyawan dan UMKM untuk
               lebih lanjut akan dilakukan secara offline
             </p>
           </div>

@@ -52,7 +52,7 @@
                 <v-card>
                   <v-card-title class="primary">
                     <span class="headline white--text text-capitalize"
-                      >menghapus semua daftar hitam pencari kerja</span
+                      >menghapus semua daftar hitam karyawan</span
                     >
                   </v-card-title>
 
@@ -62,7 +62,7 @@
                         >$warning</v-icon
                       >
                       <p class="ma-0 black--text">
-                        Apakah anda yakin menghapus semua pencari kerja dari
+                        Apakah anda yakin menghapus semua karyawan dari
                         daftar hitam ? Jika "iya" silahkan pilih tombol iya
                       </p>
                     </div>
@@ -103,7 +103,7 @@
             <v-text-field
               v-model="search"
               append-icon="$search"
-              label="Pencarian Nama pencari kerja"
+              label="Pencarian Nama karyawan"
               class="px-5"
               single-line
               hide-details
@@ -168,13 +168,13 @@
       <v-dialog v-model="dialogDelete" persistent max-width="550">
         <v-card>
           <v-card-title class="headline primary white--text text-capitalize">
-            menghapus data daftar hitam pencari kerja
+            menghapus data daftar hitam karyawan
           </v-card-title>
           <v-card-text>
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin menghapus pencari kerja ini dari daftar hitam
+                Apakah anda yakin menghapus karyawan ini dari daftar hitam
                 ? Jika "iya" silahkan pilih tombol iya
               </p>
             </div>

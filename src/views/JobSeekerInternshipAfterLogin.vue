@@ -1,9 +1,13 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
-      <div class="max-width">
+  <div>
+    <v-main>
+      <v-container class="d-flex flex-column justify-center size-max mb-8">
+        <v-breadcrumbs
+          :items="items"
+          class="text-capitalize pa-2"
+        ></v-breadcrumbs>
         <v-row>
-          <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
+          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
             <v-card elevation="3">
               <v-card-title
                 class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
@@ -21,7 +25,7 @@
                     hide-selected
                     item-text="name"
                     item-value="name"
-                    label="Lokasi Pekerja"
+                    label="Lokasi Magang"
                     prepend-icon="$location"
                     append-outer-icon="$close"
                     @click:append-outer="resetLocation()"
@@ -39,7 +43,7 @@
                     hide-selected
                     item-text="name"
                     item-value="name"
-                    label="Jabatan Pekerja"
+                    label="Jabatan Magang"
                     prepend-icon="$job"
                     append-outer-icon="$close"
                     @click:append-outer="resetJob()"
@@ -57,7 +61,7 @@
                     hide-selected
                     item-text="name"
                     item-value="name"
-                    label="Sekolah Terakhir Pekerja"
+                    label="Sekolah Terakhir Pekerja Magang"
                     prepend-icon="$school"
                     append-outer-icon="$close"
                     @click:append-outer="resetSchool()"
@@ -80,13 +84,13 @@
               </v-card-actions>
             </v-card>
           </v-col>
-          <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">
+          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
             <v-card elevation="3">
               <v-card-title class="pa-3 d-flex justify-space-between">
                 <p
                   class="text-capitalize ma-0 text-subtitle-1 font-weight-bold"
                 >
-                  daftar pekerja
+                  daftar pekerja magang
                 </p>
                 <p
                   class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
@@ -100,58 +104,46 @@
               <div v-for="item in jobSeeker" :key="item.id">
                 <transition name="fade" appear>
                   <v-card elevation="3" class="mt-4 pa-3">
-                    <v-card-text class="pa-2">
-                      <div class="d-flex">
-                        <v-img
-                          width="150"
-                          max-width="150"
-                          height="120"
-                          max-height="120"
-                          :src="item.image"
-                          contain
-                          class="mr-2"
-                        ></v-img>
-                        <div>
-                          <p class="text-capitalize ma-0 text-h6">
-                            {{ item.name }}
-                          </p>
-                          <p class="text-capitalize text-subtitle-2 ma-0">
-                            {{ item.position }}
-                          </p>
-                          <!-- <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon class="mr-3" size="12">$phone</v-icon>
-                            {{ item.phone }}
-                          </p> -->
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon class="mr-2" size="12">$school</v-icon>
-                            {{ item.school }}
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon class="mr-3" size="12">$location</v-icon>
-                            {{ item.location }}
-                          </p>
-                        </div>
+                    <div class="d-flex">
+                      <v-img
+                        width="150"
+                        max-width="150"
+                        height="120"
+                        max-height="120"
+                        :src="item.image"
+                        contain
+                        class="mr-2"
+                      ></v-img>
+                      <div>
+                        <p class="text-capitalize ma-0 text-h6">
+                          {{ item.name }}
+                        </p>
+                        <p class="text-capitalize text-subtitle-2 ma-0">
+                          {{ item.position }}
+                        </p>
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                        >
+                          <v-icon class="mr-3" size="12">$phone</v-icon>
+                          {{ item.phone }}
+                        </p>
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                        >
+                          <v-icon class="mr-2" size="12">$school</v-icon>
+                          {{ item.school }}
+                        </p>
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                        >
+                          <v-icon class="mr-3" size="12">$location</v-icon>
+                          {{ item.location }}
+                        </p>
                       </div>
-                      <div class="mt-2 text-subtitle-2 font-weight-regular">
-                        {{ item.desc }}
-                      </div>
-                    </v-card-text>
-                    <v-card-actions class="d-flex justify-end pa-1">
-                      <v-btn
-                        text
-                        color="primary"
-                        class="text-capitalize"
-                        :to="`/job-seeker-detail/${item.id}`"
-                      >
-                        selengkapnya
-                      </v-btn>
-                    </v-card-actions>
+                    </div>
+                    <div class="mt-2 text-subtitle-2 font-weight-regular">
+                      {{ item.desc }}
+                    </div>
                   </v-card>
                 </transition>
               </div>
@@ -185,19 +177,23 @@
             </div>
           </v-col>
         </v-row>
-      </div>
-    </div>
-    <footer-home />
+      </v-container>
+    </v-main>
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 import typical from 'vue-typical';
 
 export default {
   data: () => ({
+    items: [
+      {
+        text: 'magang',
+        disabled: true,
+      },
+    ],
     search: '',
     page: 1,
     jobSeeker: [],
@@ -247,7 +243,6 @@ export default {
     },
   },
   components: {
-    'footer-home': footer,
     typical,
   },
   watch: {
@@ -261,7 +256,7 @@ export default {
       this.isLoadingLocation = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/location`, {
+      fetch(`${this.$store.state.domain}internship/location`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
@@ -291,7 +286,7 @@ export default {
       this.isLoadingJob = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/position`, {
+      fetch(`${this.$store.state.domain}internship/position`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
@@ -321,7 +316,7 @@ export default {
       this.isLoadingSchool = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/school`, {
+      fetch(`${this.$store.state.domain}internship/school`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
@@ -392,12 +387,12 @@ export default {
         header.school = this.school;
       }
       axios({
-        baseURL: `${this.$store.state.domain}job-seeker/pagination-show/${page}`,
+        baseURL: `${this.$store.state.domain}internship/pagination-show/${page}`,
         method: 'get',
         headers: header,
       })
         .then((response) => {
-          if (response.data.data.jobSeeker.length > 0) {
+          if (response.data.data.internship.length > 0) {
             this.lengthData = response.data.data.total;
             const modulo = response.data.data.total % 10;
             if (modulo === 0) {
@@ -406,14 +401,18 @@ export default {
               this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
             let counter = 0;
-            response.data.data.jobSeeker.forEach((i) => {
+            response.data.data.internship.forEach((i) => {
               counter += 1;
+              let shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 100) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
               this.jobSeeker.push({
                 id: i.id,
                 number: counter,
-                name: i.fullname,
+                name: i.name,
                 position: i.position,
-                desc: i.description,
+                desc: shortDesc,
                 phone: i.phone,
                 school: i.school,
                 location: i.location,
@@ -436,14 +435,14 @@ export default {
   },
   beforeCreate() {
     axios({
-      baseURL: `${this.$store.state.domain}job-seeker/pagination-show/1`,
+      baseURL: `${this.$store.state.domain}internship/pagination-show/1`,
       method: 'get',
       headers: {
         'x-api-key': this.$store.state.apiKey,
       },
     })
       .then((response) => {
-        if (response.data.data.jobSeeker.length > 0) {
+        if (response.data.data.internship.length > 0) {
           this.lengthData = response.data.data.total;
           const modulo = response.data.data.total % 10;
           if (modulo === 0) {
@@ -452,14 +451,18 @@ export default {
             this.pageCount = (response.data.data.total - modulo) / 10 + 1;
           }
           let counter = 0;
-          response.data.data.jobSeeker.forEach((i) => {
+          response.data.data.internship.forEach((i) => {
             counter += 1;
+            let shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
+            if (shortDesc.length > 100) {
+              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+            }
             this.jobSeeker.push({
               id: i.id,
               number: counter,
-              name: i.fullname,
+              name: i.name,
               position: i.position,
-              desc: i.description,
+              desc: shortDesc,
               phone: i.phone,
               school: i.school,
               location: i.location,
@@ -522,17 +525,7 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
-.max-width {
-  width: 90vw;
-}
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 90vw;
-  }
+.size-max{
+  max-width: 1100px;
 }
 </style>

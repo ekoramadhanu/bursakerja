@@ -1,216 +1,360 @@
 <template>
   <div class="d-flex justify-center mb-2">
     <div class="max-width">
-      <h3 class="text-center my-2 text-capitalize primary--text">
-        lowongan kerja
-        <hr class="line mx-auto" />
-      </h3>
-      <v-card elevation="1" class="mx-9 px-3">
-        <v-form>
-          <v-text-field
-            v-model="search"
-            label="Pencarian Nama Pekerjaan"
-            append-icon="$search"
-            @click:append="serachjobVacancy()"
-          />
-        </v-form>
-      </v-card>
-      <div v-if="pageCount === 0">
-        <p class="text-capitalize text-center my-2 text-subtitle-1">
-          lowongan kerja belum ada, silahkan hubungi pihak bursa kerja jika
-          mengalami kendala
-        </p>
-      </div>
-      <div v-if="!skeleton">
-        <div v-for="item in jobVacancy" :key="item.id">
-          <v-card elevation="3" class="my-2 mx-9 pa-2" :to="`/detail-job-vacancy/${item.id}`">
-            <v-row>
-              <v-col cols="12" xl="2" lg="2" md="2" sm="0" xs="0"  class="hidden-sm-and-down">
-                <v-img
-                  :src="item.image"
-                  width="100vw"
-                  max-width="130"
-                  height="100vh"
-                  max-height="100"
-                  class="mx-auto"
-                  contain
-                ></v-img>
-              </v-col>
-              <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12" >
-                <p class="text-capitalize text-body-1 primary--text ma-0">
-                  {{ item.name }}
-                </p>
-                <p class="text-capitalize text-body-2 mb-2">
-                  {{ item.companyName }}
-                </p>
-                <p class="text-capitalize text-body-2 my-0 ml-3">
-                  <v-icon class="mr-3" size="15">$location</v-icon>
-                  {{ item.address }}
-                </p>
-                <p class="text-capitalize text-body-2 ml-3" v-if="isLogin">
-                  <v-icon class="mr-2" size="15">$money</v-icon>
-                  {{ item.salary }}
-                </p>
-                <p class="text-capitalize text-body-2 ml-3" v-if="!isLogin">
-                  <v-icon class="mr-2" size="15">$money</v-icon>
-                  <router-link
-                    to="/login-job-seeker"
-                  >silahkan masuk / login terlebih dahulu</router-link>
-                </p>
-              </v-col>
-            </v-row>
-            <p class="text-capitalize text-body-2">{{ item.description }}</p>
-            <p class="text-capitalize text-caption ma-0">
-              diposting: {{ item.date }}
-            </p>
+      <v-row>
+        <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
+          <v-card elevation="3">
+            <v-card-title
+              class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
+            >
+              pilih kriteria
+            </v-card-title>
+            <v-card-text class="pb-0">
+              <v-form lazy-validation>
+                <v-autocomplete
+                  v-model="location"
+                  :items="itemsLocation"
+                  :loading="isLoadingLocation"
+                  :search-input.sync="searchLocation"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="name"
+                  label="Lokasi Lowingan"
+                  prepend-icon="$location"
+                  append-outer-icon="$close"
+                  @click:append-outer="resetLocation()"
+                  outlined
+                  dense
+                  persistent-hint
+                  hint="jika tidak ada lokasi yang anda cari, silahkan hubungi pihak kami"
+                />
+                <v-autocomplete
+                  v-model="job"
+                  :items="itemsJob"
+                  :loading="isLoadingJob"
+                  :search-input.sync="searchJob"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="name"
+                  label="Posisi Lowongan"
+                  prepend-icon="$job"
+                  append-outer-icon="$close"
+                  @click:append-outer="resetJob()"
+                  outlined
+                  dense
+                  persistent-hint
+                  hint="jika tidak ada jabatan yang anda cari, silahkan hubungi pihak kami"
+                />
+              </v-form>
+            </v-card-text>
+            <v-card-actions class="pt-0 px-4 pb-4">
+              <v-btn
+                class="text-capitalize"
+                block
+                color="primary"
+                @click="searchJobSeeker()"
+              >
+                cari lowongan
+              </v-btn>
+            </v-card-actions>
           </v-card>
-        </div>
-      </div>
-      <div v-if="skeleton">
-        <v-skeleton-loader
-          ref="skeleton"
-          class="mx-9 px-3"
-          type="card"
-        ></v-skeleton-loader>
-        <v-skeleton-loader
-          ref="skeleton"
-          class="mx-9 px-3"
-          type="card"
-        ></v-skeleton-loader>
-        <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
-      </div>
-      <div class="text-canter">
-        <v-pagination
-          v-if="pageCount > 0"
-          v-model="page"
-          total-visible="10"
-          :length="pageCount"
-          @input="pagination()"
-        ></v-pagination>
-      </div>
+        </v-col>
+        <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">
+          <v-card elevation="3">
+            <v-card-title class="pa-3 d-flex justify-space-between">
+              <p class="text-capitalize ma-0 text-subtitle-1 font-weight-bold">
+                daftar lowongan pekerjaan
+              </p>
+              <p
+                class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
+                v-if="!skeleton"
+              >
+                {{ min }} - {{ max }} dari {{ lengthData }} lowongan
+              </p>
+            </v-card-title>
+          </v-card>
+          <div v-if="jobSeeker.length > 0 && !skeleton">
+            <div v-for="item in jobSeeker" :key="item.id">
+              <transition name="fade" appear>
+                <v-card elevation="3" class="mt-4 pa-3">
+                  <v-card-text class="pa-2">
+                    <div class="d-flex">
+                      <v-img
+                        width="150"
+                        max-width="150"
+                        height="120"
+                        max-height="120"
+                        :src="item.image"
+                        contain
+                        class="mr-2"
+                      ></v-img>
+                      <div>
+                        <p class="text-capitalize text-subtitle-1 primary--text ma-0">
+                          {{ item.position }}
+                        </p>
+                        <p class="text-capitalize text-subtitle-2 font-weight-regular mb-2">
+                          {{ item.company }}
+                        </p>
+                        <p class="text-capitalize text-subtitle-2 font-weight-regular my-0 ml-3">
+                          <v-icon class="mr-2" size="15">$location</v-icon>
+                          {{ item.location }}
+                        </p>
+                        <p class="text-capitalize text-subtitle-2 font-weight-regular my-0 ml-3">
+                          <v-icon class="mr-2" size="15">$calendar</v-icon>
+                          {{ item.date }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="mt-2 text-subtitle-2 font-weight-regular">
+                      {{ item.desc }}
+                    </div>
+                  </v-card-text>
+                  <v-card-actions class="d-flex justify-end pa-1">
+                    <v-btn
+                      text
+                      color="primary"
+                      class="text-capitalize"
+                      :to="`/detail-job-vacancy/${item.id}`"
+                    >
+                      selengkapnya
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </transition>
+            </div>
+          </div>
+          <div v-if="!skeleton && jobSeeker.length === 0">
+            <v-card elevation="3" class="mt-4 pa-3">
+              <typical
+                class="text-center text-capitalize"
+                :steps="[
+                  `data belum ada di dalam sistem kami. silahkan hubungi pihak kami
+                    untuk bertanya lebih lanjut`,
+                  6000,
+                ]"
+                :wrapper="'p'"
+              />
+            </v-card>
+          </div>
+          <div v-if="skeleton">
+            <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
+            <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
+            <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
+          </div>
+          <div class="text-canter mt-2">
+            <v-pagination
+              v-model="page"
+              total-visible="10"
+              :length="pageCount"
+              v-if="!skeleton"
+              @input="pagination()"
+            ></v-pagination>
+          </div>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import typical from 'vue-typical';
 
 export default {
   data: () => ({
     search: '',
-    jobVacancy: [],
-    skeleton: true,
     page: 1,
-    pageCount: null,
-    isLogin: null,
+    jobSeeker: [],
+    pageCount: 0,
+    lengthData: 0,
+    // autocomplete location
+    location: '',
+    entriesLocation: [],
+    isLoadingLocation: false,
+    searchLocation: null,
+    // autocomplete jabatan
+    job: '',
+    entriesJob: [],
+    isLoadingJob: false,
+    skeleton: true,
+    searchJob: null,
   }),
-  methods: {
-    pagination() {
-      this.skeleton = true;
-      this.jobVacancy.splice(0, this.jobVacancy.length);
-      this.methodGetJobVacancy(this.page);
+  computed: {
+    min() {
+      return (this.page - 1) * 20 + 1;
     },
-    serachjobVacancy() {
+    max() {
+      return (this.page - 1) * 20 + this.jobSeeker.length;
+    },
+    itemsLocation() {
+      return this.entriesLocation.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+    itemsJob() {
+      return this.entriesJob.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+  },
+  components: {
+    typical,
+  },
+  watch: {
+    searchLocation() {
+      // Items have already been loaded
+      if (this.itemsLocation.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingLocation) return;
+
+      this.isLoadingLocation = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}umkm/location`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.location.forEach((i) => {
+            this.entriesLocation.push({
+              name: i.name,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingLocation = false));
+    },
+    searchJob() {
+      // Items have already been loaded
+      if (this.itemsJob.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingJob) return;
+
+      this.isLoadingJob = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}job-vacancy/position`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.position.forEach((i) => {
+            this.entriesJob.push({
+              name: i.name,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingJob = false));
+    },
+  },
+  methods: {
+    returnModuleByFour() {
+      const payload = this.jobSeeker.length;
+      if (payload % 4 === 0) {
+        return payload / 4;
+      }
+      return Math.floor(payload / 4) + 1;
+    },
+    returnlist(payload) {
+      const counterStart = (payload - 1) * 4;
+      const counterEnd = payload * 4;
+      return this.jobSeeker.slice(counterStart, counterEnd);
+    },
+    resetLocation() {
+      this.location = '';
+    },
+    resetJob() {
+      this.job = '';
+    },
+    searchJobSeeker() {
       this.skeleton = true;
       this.page = 1;
-      this.jobVacancy.splice(0, this.jobVacancy.length);
-      this.methodGetJobVacancy(this.page);
+      this.jobSeeker.splice(0, this.jobSeeker.length);
+      this.methodGetJobSeeker(this.page);
+    },
+    pagination() {
+      this.skeleton = true;
+      this.jobSeeker.splice(0, this.jobSeeker.length);
+      this.methodGetJobSeeker(this.page);
     },
     // method universal
-    methodGetJobVacancy(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}job-vacancy/show-pagination/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobVacancy.length > 0) {
-              const modulo = response.data.data.total % 12;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 12;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 12 + 1;
-              }
-              let counter = (page - 1) * 12;
-              let shortDesc = '';
-              response.data.data.jobVacancy.forEach((i) => {
-                shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-                if (shortDesc.length > 100) {
-                  shortDesc = `${shortDesc.substr(0, 100)}...`;
-                }
-                counter += 1;
-                this.jobVacancy.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  companyName: i.company.name,
-                  description: shortDesc,
-                  salary: i.salary,
-                  address: i.company.address,
-                  date: i.date,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.skeleton = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}job-vacancy/show-search/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobVacancy.length > 0) {
-              const modulo = response.data.data.total % 12;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 12;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 12 + 1;
-              }
-              let counter = (page - 1) * 12;
-              let shortDesc = '';
-              response.data.data.jobVacancy.forEach((i) => {
-                shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-                if (shortDesc.length > 100) {
-                  shortDesc = `${shortDesc.substr(0, 100)}...`;
-                }
-                counter += 1;
-                this.jobVacancy.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  companyName: i.company.name,
-                  description: shortDesc,
-                  salary: i.salary,
-                  address: i.company.address,
-                  date: i.date,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.skeleton = false;
-          });
+    methodGetJobSeeker(page) {
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+      };
+      if (this.job !== '') {
+        header.position = this.job;
       }
+
+      if (this.location !== '') {
+        header.location = this.location;
+      }
+      axios({
+        baseURL: `${this.$store.state.domain}job-vacancy/show-pagination/${page}`,
+        method: 'get',
+        headers: header,
+      })
+        .then((response) => {
+          if (response.data.data.jobVacancy.length > 0) {
+            this.lengthData = response.data.data.total;
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = 0;
+            response.data.data.jobVacancy.forEach((i) => {
+              counter += 1;
+              const date = i.date.split('-');
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 100) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              this.jobSeeker.push({
+                id: i.id,
+                number: counter,
+                position: i.name,
+                desc: shortDesc,
+                company: i.company.name,
+                location: `${i.company.address}, ${i.company.city}, ${i.company.province}`,
+                image: i.company.image,
+                date: `${date[0]} ${
+                  this.$store.state.month[parseInt(date[1], 10) - 1]
+                } ${date[2]}`,
+              });
+            });
+          } else {
+            this.lengthData = 0;
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
     },
   },
   beforeCreate() {
@@ -223,33 +367,36 @@ export default {
     })
       .then((response) => {
         if (response.data.data.jobVacancy.length > 0) {
-          const modulo = response.data.data.total % 12;
+          this.lengthData = response.data.data.total;
+          const modulo = response.data.data.total % 10;
           if (modulo === 0) {
-            this.pageCount = response.data.data.total / 12;
+            this.pageCount = response.data.data.total / 10;
           } else {
-            this.pageCount = (response.data.data.total - modulo) / 12 + 1;
+            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
           }
           let counter = 0;
-          let shortDesc = '';
           response.data.data.jobVacancy.forEach((i) => {
-            shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-            if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 100)}...`;
-            }
             counter += 1;
-            this.jobVacancy.push({
+            const date = i.date.split('-');
+            let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+            if (shortDesc.length > 100) {
+              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+            }
+            this.jobSeeker.push({
               id: i.id,
               number: counter,
-              name: i.name,
-              companyName: i.company.name,
-              description: shortDesc,
-              salary: i.salary,
-              address: i.company.address,
+              position: i.name,
+              desc: shortDesc,
+              company: i.company.name,
+              location: `${i.company.address}, ${i.company.city}, ${i.company.province}`,
               image: i.company.image,
-              date: i.date,
+              date: `${date[0]} ${
+                this.$store.state.month[parseInt(date[1], 10) - 1]
+              } ${date[2]}`,
             });
           });
         } else {
+          this.lengthData = 0;
           this.pageCount = 0;
         }
       })
@@ -261,34 +408,36 @@ export default {
         this.skeleton = false;
       });
   },
-  created() {
-    if (this.$store.state.token === '') {
-      this.isLogin = false;
-    } else {
-      this.isLogin = true;
-    }
-  },
-  update() {
-    if (this.$store.state.token === '') {
-      this.isLogin = false;
-    } else {
-      this.isLogin = true;
-    }
-  },
   beforeDestroy() {
     this.search = null;
-    this.jobVacancy = null;
-    this.skeleton = null;
     this.page = null;
+    this.jobSeeker = null;
     this.pageCount = null;
-    this.isLogin = null;
+    this.lengthData = null;
+    this.location = null;
+    this.entriesLocation = null;
+    this.isLoadingLocation = null;
+    this.searchLocation = null;
+    this.job = null;
+    this.entriesJob = null;
+    this.isLoadingJob = null;
+    this.searchJob = null;
+    this.skeleton = null;
 
     delete this.search;
-    delete this.jobVacancy;
-    delete this.skeleton;
     delete this.page;
+    delete this.jobSeeker;
     delete this.pageCount;
-    delete this.isLogin;
+    delete this.lengthData;
+    delete this.location;
+    delete this.entriesLocation;
+    delete this.isLoadingLocation;
+    delete this.searchLocation;
+    delete this.job;
+    delete this.entriesJob;
+    delete this.isLoadingJob;
+    delete this.searchJob;
+    delete this.skeleton;
   },
 };
 </script>
@@ -299,13 +448,12 @@ export default {
   border: 1px solid #205faf;
 }
 .max-width {
-  max-width: 100vw;
-  width: 100vw;
+  width: 90vw;
 }
 @media screen and (min-width: 1366px) {
   .max-width {
-    max-width: 1366px;
-    width: 100vw;
+    max-width: 1100px;
+    width: 90vw;
   }
 }
 </style>

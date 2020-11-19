@@ -4,7 +4,7 @@
     <div class="pa-2 card-login">
       <p class="text-capitalize text-center text-h4">masuk bursa kerja</p>
       <v-card max-width="450" outlined class="pa-4 mt-2" elevation="3">
-        <p class="text-capitalize text-center text-h6">masuk sebagai UMKM</p>
+        <p class="text-capitalize text-center text-h6">masuk sebagai perusahaan</p>
         <v-alert
           :type="status === true? 'success' : 'error'"
           v-if="status !== null"
@@ -57,7 +57,7 @@
           to="login-job-seeker"
         >
           <v-icon class="mr-2">$login</v-icon>
-          <p class="text-capitalize my-auto">masuk sebagai pencari kerja</p>
+          <p class="text-capitalize my-auto">masuk sebagai pencaker</p>
         </v-btn>
       </v-card>
     </div>
@@ -145,7 +145,7 @@ export default {
                   } else {
                     this.$store.commit('changeNameUser', response.data.data.umkm[0].name);
                   }
-                  this.$store.commit('changeRole', 'UMKM');
+                  this.$store.commit('changeRole', 'Perusahaan');
                   this.$router.push('/home');
                 })
                 .catch((error) => {

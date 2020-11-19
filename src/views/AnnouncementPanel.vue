@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-main>
-      <v-container class="d-flex flex-column justify-center size-max">
+      <v-container class="d-flex flex-column justify-center size-max mb-8">
         <v-breadcrumbs
           :items="items"
           class="text-capitalize pa-2"
@@ -88,7 +88,10 @@
                         <tip-tap-vuetify
                           v-model="editedItemArticle.description"
                           :extensions="extensions"
-                          :card-props="{ height: '300', style: 'overflow: auto;' }"
+                          :card-props="{
+                            height: '300',
+                            style: 'overflow: auto;',
+                          }"
                         />
                       </v-form>
                     </v-card-text>
@@ -138,15 +141,20 @@
             <div v-for="item in article" :key="item.id">
               <v-card elevation="3" class="mt-3">
                 <v-card-title class="text-capitalize">
-                  {{item.title}}
+                  <router-link
+                    :to="`/detail-announcement/${item.id}`"
+                    class="text-decoration-none"
+                  >
+                    <p class="text-capitalize ma-0 text-h6 primary--text">
+                      {{ item.title }}
+                    </p>
+                  </router-link>
                 </v-card-title>
                 <v-card-text v-html="item.desc"></v-card-text>
               </v-card>
             </div>
           </div>
-          <div v-if="skeleton">
-
-          </div>
+          <div v-if="skeleton"></div>
         </div>
       </v-container>
       <v-snackbar
@@ -286,12 +294,8 @@ export default {
     pageCount: 3,
     search: '',
     userRead: [],
-    titleRules: [
-      (v) => !!v || 'Judul Artikel Tidak Boleh Kosong',
-    ],
-    userRules: [
-      (v) => !!v || 'Pembaca Artikel Tidak Boleh Kosong',
-    ],
+    titleRules: [(v) => !!v || 'Judul Artikel Tidak Boleh Kosong'],
+    userRules: [(v) => !!v || 'Pembaca Artikel Tidak Boleh Kosong'],
     imageRules: [
       (v) => !!v || 'Gambar Pengumuman Tidak Boleh Kosong',
       (v) => !v || v.size < 1000000 || 'Gambar Pengumuman Harus Kurang Dari 1MB',
@@ -377,7 +381,10 @@ export default {
           },
         })
           .then((response) => {
-            if (response.data.data.message === 'Data Announcement Is Successfully Create') {
+            if (
+              response.data.data.message
+              === 'Data Announcement Is Successfully Create'
+            ) {
               this.hasSaved = true;
               this.status = true;
               this.message = 'data berhasil disimpan';
@@ -401,7 +408,8 @@ export default {
             this.status = true;
             this.message = 'server mengalami error';
             this.icon = '$warning';
-          }).finally(() => {
+          })
+          .finally(() => {
             this.closeAdd();
             this.loadingAdd = false;
           });
@@ -418,7 +426,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}announcement/${this.article[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}announcement/${
+            this.article[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -432,7 +442,8 @@ export default {
         })
           .then((response) => {
             if (
-              response.data.data.message === 'Data Announcement Is Successfully Updated'
+              response.data.data.message
+              === 'Data Announcement Is Successfully Updated'
             ) {
               this.hasSaved = true;
               this.status = true;
@@ -562,7 +573,10 @@ export default {
   beforeCreate() {
     if (this.$store.state.role === 'Admin 1') {
       this.$router.push('/access-block');
-    } else if (this.$store.state.role === 'Admin 2' || this.$store.state.role === 'Admin 3') {
+    } else if (
+      this.$store.state.role === 'Admin 2'
+      || this.$store.state.role === 'Admin 3'
+    ) {
       axios({
         baseURL: `${this.$store.state.domain}announcement/pagination-all/1`,
         method: 'get',
@@ -613,10 +627,12 @@ export default {
         .then((response) => {
           if (response.data.data.read.length > 0) {
             response.data.data.read.forEach((i) => {
-              this.userRead.push({
-                id: i.id,
-                name: i.name,
-              });
+              if (i.name !== 'Umum') {
+                this.userRead.push({
+                  id: i.id,
+                  name: i.name,
+                });
+              }
             });
           }
         })
@@ -624,7 +640,7 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error);
         });
-    } else if (this.$store.state.role === 'UMKM') {
+    } else if (this.$store.state.role === 'Perusahaan') {
       axios({
         baseURL: `${this.$store.state.domain}announcement/umkm`,
         method: 'get',
@@ -669,6 +685,8 @@ export default {
                 desc: i.description,
               });
             });
+            // eslint-disable-next-line no-console
+            console.log(this.article);
           }
         })
         .catch((error) => {
@@ -722,11 +740,11 @@ export default {
   overflow: auto;
   max-height: 300px;
 }
-.preview-img{
-    max-width: 800px;
-    max-height: 600px;
+.preview-img {
+  max-width: 800px;
+  max-height: 600px;
 }
-div >>> ul{
+div >>> ul {
   line-height: 18px !important;
 }
 div >>> ol {

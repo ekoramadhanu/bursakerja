@@ -2,16 +2,36 @@
   <div class="fullscreen d-flex justify-center align-center">
     <div class="pa-2 card-login">
       <p class="text-h3 text-center">403</p>
-      <p class="text-center text-h6 text-capitalize">akses di blok oleh sistem</p>
-      <p class="text-center text-capitalize">
-          silahkan hubungi pihak bursa kerja untuk menyelesiakan masalah ini
-      </p>
+      <typical
+        class="text-h6 text-center text-capitalize"
+        :steps="['akses di blok oleh sistem', 6000]"
+        :wrapper="'p'"
+      />
+      <typical
+        v-if="desc"
+        class="text-center text-capitalize"
+        :steps="['silahkan hubungi pihak bursa kerja untuk menyelesaikan masalah ini', 6000]"
+        :wrapper="'p'"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import typical from 'vue-typical';
+
 export default {
+  data: () => ({
+    desc: false,
+  }),
+  components: {
+    typical,
+  },
+  created() {
+    setTimeout(() => {
+      this.desc = true;
+    }, 2000);
+  },
 };
 </script>
 
@@ -24,7 +44,7 @@ export default {
   max-width: 450px;
   width: 450px;
 }
-.backgorund-repeat{
+.backgorund-repeat {
   background-position: initial;
   background-repeat: space;
   background-size: 90px 90px;

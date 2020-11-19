@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer v-model="drawer" app color="primary" fixed>
       <v-list dense shaped>
-        <v-list-item to="/">
+        <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="text-capitalize white--text text-h6">
               bursa kerja
@@ -50,10 +50,21 @@
             link
             :to="item.link"
           >
-            <v-list-item-action>
+            <v-list-item-action v-if="item.icon !== '$announcement'">
               <v-icon class="white--text text-capitalize">{{
                 item.icon
               }}</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-action v-if="item.icon === '$announcement'">
+              <v-badge
+                :content="messages"
+                :value="messages"
+                dot
+                color="white"
+              >
+                <v-icon class="white--text">{{item.icon}}</v-icon>
+              </v-badge>
             </v-list-item-action>
 
             <v-list-item-content>
@@ -89,25 +100,27 @@
 
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <div class="width-topbar d-flex justify-end">
-        <!-- <v-badge
+      <!-- <div class="width-topbar d-flex justify-end">
+        <v-badge
           :content="messages"
           :value="messages"
           overlap
           class="hidden-xs-only"
         >
           <v-icon class="text-right">$bell</v-icon>
-        </v-badge> -->
-      </div>
+        </v-badge>
+      </div> -->
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data: () => ({
     drawer: null,
-    messages: 3,
+    messages: 0,
   }),
   computed: {
     navigations() {
@@ -140,6 +153,31 @@ export default {
       this.$store.commit('changeToken', '');
       this.$router.push('/');
     },
+  },
+  beforeCreate() {
+    let endpoint = '';
+    if (this.$store.state.role === 'Pencaker') {
+      endpoint = `${this.$store.state.domain}broadcast/job-seekers`;
+    } else if (this.$store.state.role === 'Perusahaan') {
+      endpoint = `${this.$store.state.domain}broadcast/umkm`;
+    }
+    if (this.$store.state.role === 'Perusahaan' || this.$store.state.role === 'Pencaker') {
+      axios({
+        baseURL: endpoint,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          this.messages = parseInt(response.data.data.total, 10);
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    }
   },
   beforeDestroy() {
     this.drawer = null;

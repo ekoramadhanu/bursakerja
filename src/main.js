@@ -5,6 +5,7 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import 'vuetify/dist/vuetify.min.css';
+
 // eslint-disable-next-line import/order
 import VueCookies from 'vue-cookies';
 // import plugin
@@ -15,6 +16,8 @@ import {
 } from 'tiptap-vuetify';
 // don't forget to import CSS styles
 import 'tiptap-vuetify/dist/main.css';
+
+require('vue2-animate/dist/vue2-animate.min.css');
 
 Vue.config.productionTip = false;
 Vue.use(VueCookies);

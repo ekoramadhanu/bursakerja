@@ -150,7 +150,7 @@ export default {
   methods: {
     save() {
       if (this.$refs.form.validate()) {
-        if (this.rePassword !== this.password) {
+        if (this.rePassword !== this.newPassword) {
           this.hasSaved = true;
           this.status = false;
           this.message = 'kata sandi baru dan ulangi kata sandi tidak sama';
@@ -160,7 +160,7 @@ export default {
           let endpoint = '';
           if (this.role === 'Admin 1' || this.role === 'Admin 2' || this.role === 'Admin 3') {
             endpoint = `${this.$store.state.domain}admin/change-password`;
-          } else if (this.role === 'UMKM') {
+          } else if (this.role === 'Perusahaan') {
             endpoint = `${this.$store.state.domain}umkm/change-password`;
           } else {
             endpoint = `${this.$store.state.domain}job-seeker/change-password`;
@@ -171,6 +171,10 @@ export default {
             headers: {
               'x-api-key': this.$store.state.apiKey,
               authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            data: {
+              oldPassword: this.password,
+              newPassword: this.newPassword,
             },
           })
             .then((response) => {

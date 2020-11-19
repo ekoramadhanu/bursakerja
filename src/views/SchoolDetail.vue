@@ -2,38 +2,57 @@
   <div class="mt-12 pt-1">
     <div class="d-flex justify-center mb-2">
       <div class="max-width px-4">
-        <v-img
-          :src="image"
-          aspect-ratio="1.7"
-          width="100vw"
-          max-width="230"
-          height="100vh"
-          max-height="200"
-          class="mx-auto"
-          v-if="!skeleton"
-          contain
-        ></v-img>
+        <transition name="fade" appear>
+          <v-img
+            :src="image"
+            aspect-ratio="1.7"
+            width="100vw"
+            max-width="230"
+            height="100vh"
+            max-height="200"
+            class="mx-auto"
+            v-if="!skeleton"
+            contain
+          ></v-img>
+        </transition>
         <v-skeleton-loader
           ref="skeleton"
           type="image"
           v-if="skeleton"
           class="mx-auto"
         ></v-skeleton-loader>
-        <p class="text-uppercase mb-0 mt-3 text-center text-h5" v-if="!skeleton">{{nameSchool}}</p>
+        <transition name="fade" appear>
+          <p
+            class="text-uppercase mb-0 mt-3 text-center text-h5"
+            v-if="!skeleton"
+          >
+            {{ nameSchool }}
+          </p>
+        </transition>
         <v-skeleton-loader
           ref="skeleton"
           type="sentences"
           v-if="skeleton"
           class="mx-auto"
         ></v-skeleton-loader>
-        <p class="text-capitalize mb-0 mt-3" v-if="!skeleton">lokasi : {{locationSchool}}</p>
+        <transition name="fade" appear>
+          <p class="text-capitalize mb-0 mt-3 max-width-about-us mx-auto" v-if="!skeleton">
+            lokasi : {{ locationSchool }}
+          </p>
+        </transition>
         <v-skeleton-loader
           ref="skeleton"
           type="sentences"
           v-if="skeleton"
           class="mx-auto"
         ></v-skeleton-loader>
-        <div class="text-justify mt-3" v-html="content" v-if="!skeleton"></div>
+        <transition name="fade" appear>
+          <div
+            class="text-justify max-width-about-us mt-3 mx-auto"
+            v-html="content"
+            v-if="!skeleton"
+          ></div>
+        </transition>
         <v-skeleton-loader
           ref="skeleton"
           type="paragraph"
@@ -114,19 +133,18 @@ export default {
   border: 1px solid #205faf;
 }
 .max-width {
-  max-width: 100vw;
-  width: 100vw;
+  width: 90vw;
 }
-@media screen and (min-width: 600px){
-  .max-width{
-    max-width: 600px;
+@media screen and (min-width: 1366px) {
+  .max-width {
+    max-width: 1100px;
     width: 100vw;
   }
 }
 .max-width-about-us {
-  max-width: 600px;
+  max-width: 650px;
 }
-div >>> ul{
+div >>> ul {
   line-height: 18px !important;
 }
 div >>> ol {

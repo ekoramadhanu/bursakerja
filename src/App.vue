@@ -12,6 +12,7 @@ import navbar from '@/components/Navbar.vue';
 import footerDasahboard from '@/components/FooterDasahboard.vue';
 import sidebar from '@/components/Sidebar.vue';
 import axios from 'axios';
+import goTo from 'vuetify/es5/services/goto';
 
 export default {
   data: () => ({
@@ -56,7 +57,7 @@ export default {
                   } else {
                     this.$store.commit('changeNameUser', response1.data.data.jobSeeker[0].fullname);
                   }
-                  this.$store.commit('changeRole', response1.data.data.jobSeeker[0].role.name);
+                  this.$store.commit('changeRole', 'Pencaker');
                   this.loadData = false;
                 } else {
                   axios({
@@ -74,7 +75,7 @@ export default {
                         } else {
                           this.$store.commit('changeNameUser', response2.data.data.umkm[0].name);
                         }
-                        this.$store.commit('changeRole', 'UMKM');
+                        this.$store.commit('changeRole', 'Perusahaan');
                         this.loadData = false;
                       }
                     })
@@ -97,6 +98,7 @@ export default {
     }
   },
   created() {
+    goTo(0);
     if (this.$cookies.isKey('token')) {
       this.$store.commit('changeToken', this.$cookies.get('token'));
       this.$store.commit('changeCheckToken', true);
@@ -111,6 +113,7 @@ export default {
       || url.includes('/login-job-seeker')
       || url.includes('/login-company')
       || url.includes('/login-admin')
+      || url.includes('/test')
     ) {
       this.checkIndex = false;
       this.checkLogin = false;
@@ -137,6 +140,16 @@ export default {
       || url.includes('/report')
       || url.includes('/upload-job-vacancy')
       || url.includes('/detail-blacklist/')
+      || url.includes('/check-blacklist')
+      || url.includes('/job-vacancy-job-seeker')
+      || url.includes('/detail-job-vacancy')
+      || url.includes('/job-seeker-detail/')
+      || url.includes('/job-seeker-company')
+      || url.includes('/article-user')
+      || url.includes('/detail-article-login/')
+      || url.includes('/detail-announcement/')
+      || url.includes('/internship-login')
+      || url.includes('/application-job/')
     ) {
       this.checkIndex = false;
       this.checkLogin = true;
@@ -150,12 +163,14 @@ export default {
     // eslint-disable-next-line no-console
     console.log(this.$store.state.token);
     if (this.currentURL !== url) {
+      goTo(0);
       if (
         url.includes('/activate-account')
       || url.includes('/register-account')
       || url.includes('/login-job-seeker')
       || url.includes('/login-company')
       || url.includes('/login-admin')
+      || url.includes('/test')
       ) {
         this.checkIndex = false;
         this.checkLogin = false;
@@ -182,6 +197,16 @@ export default {
         || url.includes('/report')
         || url.includes('/upload-job-vacancy')
         || url.includes('/detail-blacklist/')
+        || url.includes('/check-blacklist')
+        || url.includes('/job-vacancy-job-seeker')
+        || url.includes('/detail-job-vacancy')
+        || url.includes('/job-seeker-detail/')
+        || url.includes('/job-seeker-company')
+        || url.includes('/article-user')
+        || url.includes('/detail-article-login/')
+        || url.includes('/detail-announcement/')
+        || url.includes('/internship-login')
+        || url.includes('/application-job/')
       ) {
         this.checkIndex = false;
         this.checkLogin = true;

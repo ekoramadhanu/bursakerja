@@ -11,32 +11,32 @@
         class="pl-9 pr-1 d-flex align-center"
       >
         <div class="d-flex flex-column">
-          <h1>Bursa Kerja</h1>
-          <h3 class="text-justify">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque, doloribus obcaecati quisquam labore, nihil consequatur
-            aut sit molestiae consequuntur excepturi autem! Optio voluptatibus
-            odio dolorem ipsam enim adipisci molestiae incidunt.
-          </h3>
-          <div class="d-flex">
-            <v-btn
-              width="150"
-              class="mr-2 text-capitalize"
-              color="primary"
-              to="/job-seeker/adfab9c56b8b16d6c067f8d3cff8818e"
-              >Cari Karyawan</v-btn
-            >
-            <v-btn
-              width="150"
-              color="primary"
-              class="text-capitalize"
-              to="/job-vacancy"
-              :outlined="outlined"
-              @mouseover="changeOutlined()"
-              @mouseout="changeOutlined()"
-              >Cari Lowongan</v-btn
-            >
-          </div>
+          <transition name="slideLeft" appear>
+            <h2 class="text-capitalize">Bursakerja.biz</h2>
+          </transition>
+          <transition name="slideLeft" appear>
+            <p class="text-justify">
+              Bursakerja.biz adalah portal bursa kerja yang dikelola untuk
+              membantu para pengguna, baik perusahaan atau perorangan, menemukan
+              Sumber Daya Manusia yang mumpuni dan berintegritas sesuai
+              kualifikasi yang diperlukan. Data pencaker dikelompokkan
+              sedemikian rupa berdasarkan kota, posisi yang diinginkan, serta
+              pendidikan terakhir untuk memudahkan pengguna menemukan SDM yang
+              tepat
+            </p>
+          </transition>
+          <transition name="slideLeft" appear>
+            <div class="d-flex">
+              <v-btn
+                width="150"
+                height="40"
+                class="mr-2 text-capitalize"
+                color="primary"
+                @click="start()"
+                >mulai sekarang</v-btn
+              >
+            </div>
+          </transition>
         </div>
       </v-col>
       <v-col
@@ -48,42 +48,46 @@
         xs="12"
         class="d-flex align-center"
       >
-        <v-img
-          src="@/assets/jumbotron.svg"
-          max-height="547"
-          height="auto"
-          aspect-ratio="1.7"
-          contain
-        ></v-img>
+        <transition name="slideRight" appear>
+          <v-img
+            src="@/assets/jumbotron.svg"
+            max-height="547"
+            height="auto"
+            aspect-ratio="1.7"
+            contain
+          ></v-img>
+        </transition>
       </v-col>
     </v-row>
     <v-row class="hidden-sm-and-up max-width">
       <v-col cols="12" xs="12" class="pl-6 pr-6 d-flex align-center">
         <div class="d-flex flex-column">
-          <h1>Bursa Kerja</h1>
-          <h3 class="text-justify">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque, doloribus obcaecati quisquam labore, nihil consequatur
-            aut sit molestiae consequuntur excepturi autem! Optio voluptatibus
-            odio dolorem ipsam enim adipisci molestiae incidunt.
-          </h3>
-          <div class="d-flex flex-column mt-3">
-            <v-btn
-              class="text-capitalize"
-              color="primary"
-              to="/job-seeker/adfab9c56b8b16d6c067f8d3cff8818e"
-              >Cari Karyawan</v-btn
-            >
-            <v-btn
-              color="primary"
-              to="/job-vacancy"
-              class="text-capitalize mt-3"
-              :outlined="outlined"
-              @mouseover="changeOutlined()"
-              @mouseout="changeOutlined()"
-              >Cari Lowongan</v-btn
-            >
-          </div>
+          <transition name="slideLeft" appear>
+            <h2 class="text-capitalize">Bursakerja.biz</h2>
+          </transition>
+          <transition name="slideLeft" appear>
+            <p class="text-justify">
+              Bursakerja.biz adalah portal bursa kerja yang dikelola untuk
+              membantu para pengguna, baik perusahaan atau perorangan, menemukan
+              Sumber Daya Manusia yang mumpuni dan berintegritas sesuai
+              kualifikasi yang diperlukan. Data pencaker dikelompokkan
+              sedemikian rupa berdasarkan kota, posisi yang diinginkan, serta
+              pendidikan terakhir untuk memudahkan pengguna menemukan SDM yang
+              tepat
+            </p>
+          </transition>
+          <transition name="slideLeft" appear>
+            <div class="d-flex flex-column mt-3">
+              <v-btn
+                width="150"
+                height="40"
+                class="mr-2 text-capitalize"
+                color="primary"
+                @click="start()"
+                >mulai sekarang</v-btn
+              >
+            </div>
+          </transition>
         </div>
       </v-col>
     </v-row>
@@ -91,13 +95,24 @@
 </template>
 
 <script>
+import goTo from 'vuetify/es5/services/goto';
+
 export default {
   data: () => ({
     outlined: true,
   }),
+  components: {},
   methods: {
     changeOutlined() {
       this.outlined = !this.outlined;
+    },
+    start() {
+      const height = window.innerHeight;
+      if (height > 800) {
+        goTo(650);
+      } else {
+        goTo(height - 70);
+      }
     },
   },
   beforeDestroy() {
@@ -112,8 +127,16 @@ export default {
 .fullscreen {
   height: 100vh;
   width: 100vw;
-  max-width: 100vw;
-  max-height: 571px;
+  /* max-width: 100vw;
+  max-height: 571px; */
+}
+@media screen and (min-height: 800px) {
+  .fullscreen {
+    height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 650px;
+  }
 }
 .max-width {
   max-width: 1366px;
@@ -122,5 +145,16 @@ export default {
   .max-width {
     max-width: 100vw;
   }
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 1, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

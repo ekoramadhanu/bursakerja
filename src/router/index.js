@@ -41,88 +41,198 @@ import resumeJobSeeker from '../views/ResumeJobSeeker.vue';
 import report from '../views/Report.vue';
 import dataUMKM from '../views/DataUMKM.vue';
 import detailBlacklist from '../views/DetailBlacklist.vue';
+import checkBlaclist from '../views/CheckBlaclist.vue';
+import jobVacancyAfterLogin from '../views/JobVacancyAfterLogin.vue';
+import jobSeekerAfterLogin from '../views/JobSeekerAfterLogin.vue';
+import articleaAfterLogin from '../views/ArticleaAfterLogin.vue';
+import detailArticleAfterLogin from '../views/DetailArticleAfterLogin.vue';
+import jobSeekerInternshipAfterLogin from '../views/JobSeekerInternshipAfterLogin.vue';
+import applicationJob from '../views/ApplicationJob.vue';
+import detailAnnouncement from '../views/DetailAnnouncement.vue';
 import accessBlock from '../views/403.vue';
+import test from '../views/test.vue';
 import notFound from '../views/404.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/test',
+    name: 'test',
+    component: test,
+  },
+  {
     path: '/',
     name: 'home',
     component: index,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/school',
     name: 'school',
     component: school,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/faq',
     name: 'faq',
     component: faq,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/article',
     name: 'article',
     component: article,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/about-us',
     name: 'aboutUs',
     component: aboutUs,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/school-detail/:id',
     name: 'schoolDetail',
     component: schoolDetail,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/job-vacancy',
     name: 'jobVacancy',
     component: jobVacancy,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
-    path: '/job-seeker/:role',
+    path: '/job-seeker',
     name: 'jobSeeker',
     component: jobSeeker,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
-    path: '/job-seeker-internship/:role',
+    path: '/job-seeker-internship',
     name: 'jobSeekerInternship',
     component: jobSeekerInternship,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
-    path: '/job-seeker-informal/:role',
+    path: '/job-seeker-informal',
     name: 'jobSeekerInformal',
     component: jobSeekerInformal,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
-    path: '/job-seeker-professional/:role',
+    path: '/job-seeker-professional',
     name: 'jobSeekerProfesional',
     component: jobSeekerProfesional,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/article-detail/:id',
     name: 'detailArticle',
     component: detailArticle,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next('/home');
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/job-seeker-detail/:id',
     name: 'detailJobSeeker',
     component: detailJobSeeker,
-    // beforeEnter: (to, from, next) => {
-    //   if (window.$cookies.isKey('token')) {
-    //     next();
-    //   } else {
-    //     next('/login-company');
-    //   }
-    // },
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/login-company');
+      }
+    },
   },
   {
     path: '/detail-blacklist/:jobSeeker/:company',
     name: 'detailBlacklist',
     component: detailBlacklist,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/login-company');
+      }
+    },
+  },
+  {
+    path: '/check-blacklist',
+    name: 'checkBlaclist',
+    component: checkBlaclist,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
         next();
@@ -176,6 +286,42 @@ const routes = [
         next();
       } else {
         next('/login-job-seeker');
+      }
+    },
+  },
+  {
+    path: '/job-vacancy-job-seeker',
+    name: 'jobVacancyAfterLogin',
+    component: jobVacancyAfterLogin,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/login-job-seeker');
+      }
+    },
+  },
+  {
+    path: '/job-seeker-company',
+    name: 'jobSeekerAfterLogin',
+    component: jobSeekerAfterLogin,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/login-company');
+      }
+    },
+  },
+  {
+    path: '/article-user',
+    name: 'articleaAfterLogin',
+    component: articleaAfterLogin,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/login-company');
       }
     },
   },
@@ -447,6 +593,54 @@ const routes = [
     path: '/data-umkm',
     name: 'dataUMKM',
     component: dataUMKM,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/');
+      }
+    },
+  },
+  {
+    path: '/detail-article-login/:id',
+    name: 'detailArticleAfterLogin',
+    component: detailArticleAfterLogin,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/');
+      }
+    },
+  },
+  {
+    path: '/internship-login',
+    name: 'jobSeekerInternshipAfterLogin',
+    component: jobSeekerInternshipAfterLogin,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/');
+      }
+    },
+  },
+  {
+    path: '/detail-announcement/:id',
+    name: 'detailAnnouncement',
+    component: detailAnnouncement,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/');
+      }
+    },
+  },
+  {
+    path: '/application-job/:id',
+    name: 'applicationJob',
+    component: applicationJob,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
         next();

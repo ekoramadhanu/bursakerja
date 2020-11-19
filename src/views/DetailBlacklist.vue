@@ -6,7 +6,7 @@
           :items="items"
           class="text-capitalize pa-2"
         ></v-breadcrumbs>
-        <p class="ma-0 text-capitalize grey--text">Data Pencari Kerja</p>
+        <p class="ma-0 text-capitalize grey--text">Data karyawan</p>
         <v-card elevation="3" class="mt-3 pa-4">
           <v-row v-if="countData > 0">
             <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">

@@ -85,13 +85,34 @@
                         label="Nama lowongan"
                         required
                       />
-                      <v-text-field
-                        v-model="editedItemJobVacancy.salary"
-                        :rules="salaryRules"
-                        prepend-icon="$jobSeeker"
-                        label="Gaji"
-                        required
-                      />
+                      <v-row>
+                        <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                          <v-select
+                            v-model="editedItemJobVacancy.academic"
+                            :items="itemSchool"
+                            item-text="name"
+                            item-value="name"
+                            label="Tipe Pekerjaan"
+                            prepend-icon="$job"
+                            :rules="educationRules"
+                            single-line
+                            required
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                          <v-select
+                            v-model="editedItemJobVacancy.typeJob"
+                            :items="itemTypeJob"
+                            item-text="name"
+                            item-value="name"
+                            label="Tipe Pekerjaan"
+                            prepend-icon="$school"
+                            :rules="typeJobRules"
+                            single-line
+                            required
+                          ></v-select>
+                        </v-col>
+                      </v-row>
                       <tip-tap-vuetify
                         v-model="editedItemJobVacancy.description"
                         :extensions="extensions"
@@ -121,6 +142,9 @@
           <template v-slot:item.actions="{ item }">
             <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
               <v-icon> mdi-pencil </v-icon>
+            </v-btn>
+            <v-btn :to="`/application-job/${item.id}`" class="success--text" icon>
+              <v-icon> $detail </v-icon>
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -180,13 +204,6 @@
                 :rules="nameRules"
                 prepend-icon="$jobSeeker"
                 label="Nama lowongan"
-                required
-              />
-              <v-text-field
-                v-model="editedItemJobVacancy.salary"
-                :rules="salaryRules"
-                prepend-icon="$jobSeeker"
-                label="Gaji"
                 required
               />
               <tip-tap-vuetify
@@ -253,7 +270,7 @@ export default {
   data: () => ({
     items: [
       {
-        text: 'artikel',
+        text: 'lowongan kerja',
         disabled: true,
       },
     ],
@@ -269,7 +286,6 @@ export default {
         value: 'number',
       },
       { text: 'Nama Lowongan', value: 'name', sortable: false },
-      { text: 'Gaji', value: 'salary', sortable: false },
       { text: 'Perusahaan', value: 'company', sortable: false },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
@@ -277,15 +293,17 @@ export default {
     editedIndex: -1,
     editedItemJobVacancy: {
       name: '',
-      salary: '',
       description: '<p>Silahkan Isi Pejelasan</p>',
       experience: '<p>Silahkan Isi Pengalaman</p>',
+      academic: '',
+      typeJob: '',
     },
     defaultItem: {
       name: '',
-      salary: '',
       description: '<p>Silahkan Isi Pejelasan</p>',
       experience: '<p>Silahkan Isi Pengalaman</p>',
+      academic: '',
+      typeJob: '',
     },
     nameRules: [(v) => !!v || 'Nama Perkerjaan Tidak Boleh Kosong'],
     salaryRules: [(v) => !!v || 'Gaji  Tidak Boleh Kosong'],
@@ -322,6 +340,15 @@ export default {
     icon: '',
     message: '',
     skeleton: true,
+    educationRules: [(v) => !!v || 'Tingkat Pendidikan Tidak Boleh Kosong'],
+    itemSchool: '',
+    typeJobRules: [(v) => !!v || 'Tingkat Pendidikan Tidak Boleh Kosong'],
+    itemTypeJob: [
+      { name: 'Purna Waktu' },
+      { name: 'Paruh Waktu' },
+      { name: 'Pekerja Lepas' },
+      { name: 'Kontrak' },
+    ],
   }),
   components: {
     'tip-tap-vuetify': TiptapVuetify,
@@ -371,8 +398,9 @@ export default {
           data: {
             name: this.editedItemJobVacancy.name,
             description: this.editedItemJobVacancy.description,
-            salary: this.editedItemJobVacancy.salary,
             experience: this.editedItemJobVacancy.experience,
+            academic: this.editedItemJobVacancy.academic,
+            typeJob: this.editedItemJobVacancy.typeJob,
           },
         })
           .then((response) => {
@@ -414,7 +442,6 @@ export default {
     openDialogUpdate(item) {
       this.editedIndex = this.jobVacancy.indexOf(item);
       this.editedItemJobVacancy.name = item.name;
-      this.editedItemJobVacancy.salary = item.salary;
       this.editedItemJobVacancy.description = item.description;
       this.editedItemJobVacancy.experience = item.experience;
       this.dialogUpdate = true;
@@ -434,7 +461,6 @@ export default {
           data: {
             name: this.editedItemJobVacancy.name,
             description: this.editedItemJobVacancy.description,
-            salary: this.editedItemJobVacancy.salary,
             experience: this.editedItemJobVacancy.experience,
           },
         })
@@ -507,7 +533,6 @@ export default {
                   id: i.id,
                   number: counter,
                   name: i.name,
-                  salary: i.salary,
                   company: i.nameCompany,
                   description: i.description,
                   experience: i.experience,
@@ -548,7 +573,6 @@ export default {
                   id: i.id,
                   number: counter,
                   name: i.name,
-                  salary: i.salary,
                   company: i.nameCompany,
                   description: i.description,
                   experience: i.experience,
@@ -569,7 +593,7 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'UMKM') {
+    if (this.$store.state.role === 'Perusahaan') {
       axios({
         baseURL: `${this.$store.state.domain}job-vacancy/company-pagination/1`,
         method: 'get',
@@ -580,6 +604,8 @@ export default {
       })
         .then((response) => {
           if (response.data.data.jobVacancy.length > 0) {
+            // eslint-disable-next-line no-console
+            console.log(response.data);
             const modulo = response.data.data.total % 10;
             if (modulo === 0) {
               this.pageCount = response.data.data.total / 10;
@@ -593,7 +619,6 @@ export default {
                 id: i.id,
                 number: counter,
                 name: i.name,
-                salary: i.salary,
                 company: i.nameCompany,
                 description: i.description,
                 experience: i.experience,
@@ -613,6 +638,12 @@ export default {
     } else {
       this.$router.push('/access-block');
     }
+  },
+  created() {
+    this.itemSchool = [...this.$store.state.itemsSchool];
+    this.itemSchool.push({
+      name: 'Semua Jenjang',
+    });
   },
   beforeDestroy() {
     this.items = null;
@@ -656,5 +687,17 @@ export default {
 .preview-img {
   max-width: 800px;
   max-height: 600px;
+}
+.size-max{
+  max-width: 1100px;
+}
+div >>> ul {
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

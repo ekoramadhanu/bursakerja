@@ -22,6 +22,7 @@
           hide-default-footer
           :loading="loadingtable"
           :items-per-page="10"
+          mobile-breakpoint="0"
         >
           <template v-slot:top>
             <v-toolbar flat color="white">
@@ -77,7 +78,7 @@
                     </v-btn>
                   </v-toolbar>
 
-                  <v-card-text>
+                  <v-card-text class="size-max mx-auto">
                     <v-form ref="form" lazy-validation>
                       <v-text-field
                         v-model="editedItemSchool.name"
@@ -86,13 +87,38 @@
                         label="Nama Sekolah"
                         required
                       />
+                      <v-autocomplete
+                        v-model="editedItemSchool.location"
+                        :items="itemsLocation"
+                        :loading="isLoading"
+                        :search-input.sync="searchLocation"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="name"
+                        label="Lokasi Sekolah"
+                        prepend-icon="$location"
+                        v-if="!manually"
+                        persistent-hint
+                        hint="Jika Tidak Ada Silahkan Pilih Lain - Lain "
+                        :rules="locationRules"
+                      />
                       <v-text-field
                         v-model="editedItemSchool.location"
                         :rules="locationRules"
-                        prepend-icon="$article"
+                        prepend-icon="$location"
                         label="Lokasi Sekolah"
                         required
+                        v-if="manually"
                       />
+                      <v-btn
+                        text
+                        class="text-capitalize ml-4"
+                        color="primary"
+                        @click="changeManually()"
+                      >
+                        lain-lain
+                      </v-btn>
                       <v-file-input
                         label="Unggah Gambar Sekolah (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
@@ -112,7 +138,10 @@
                       <tip-tap-vuetify
                         v-model="editedItemSchool.description"
                         :extensions="extensions"
-                        :card-props="{ height: '300', style: 'overflow: auto;' }"
+                        :card-props="{
+                          height: '300',
+                          style: 'overflow: auto;',
+                        }"
                       />
                     </v-form>
                   </v-card-text>
@@ -239,20 +268,48 @@
                 label="Nama Sekolah"
                 required
               />
+              <v-autocomplete
+                v-model="editedItemSchool.location"
+                :items="itemsLocation"
+                :loading="isLoading"
+                :search-input.sync="searchLocation"
+                hide-no-data
+                hide-selected
+                item-text="name"
+                item-value="name"
+                label="Lokasi Sekolah"
+                prepend-icon="$location"
+                v-if="!manually"
+                persistent-hint
+                :hint="`Jika Tidak Ada Silahkan Pilih Lain - Lain
+                (data disimpan: ${editedItemSchool.location})`"
+                :rules="locationRules"
+              />
               <v-text-field
                 v-model="editedItemSchool.location"
                 :rules="locationRules"
-                prepend-icon="$article"
+                prepend-icon="$location"
                 label="Lokasi Sekolah"
                 required
+                persistent-hint
+                :hint="`(data disimpan: ${editedItemSchool.location})`"
+                v-if="manually"
               />
+              <v-btn
+                text
+                class="text-capitalize ml-4"
+                color="primary"
+                @click="changeManually()"
+              >
+                lain-lain
+              </v-btn>
               <v-file-input
                 label="Unggah Gambar Sekolah (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
-                :rules="editedItemSchool.image !==null? [] : imageRules"
+                :rules="editedItemSchool.image !== null ? [] : imageRules"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -288,7 +345,11 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogDeactive = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogDeactive = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveDeactivated()">
@@ -316,15 +377,19 @@
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin menampilkan data sekolah ? Jika "iya"
-                silahkan pilih tombol iya
+                Apakah anda yakin menampilkan data sekolah ? Jika "iya" silahkan
+                pilih tombol iya
               </p>
             </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogActivate = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogActivate = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveActivate()">
@@ -372,7 +437,7 @@ export default {
   data: () => ({
     items: [
       {
-        text: 'artikel',
+        text: 'sekolah unggulan',
         disabled: true,
       },
     ],
@@ -450,11 +515,59 @@ export default {
     status: null,
     icon: '',
     message: '',
+    // add atribut
+    entries: [],
+    isLoading: false,
+    searchLocation: null,
+    manually: false,
   }),
+  computed: {
+    itemsLocation() {
+      return this.entries.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+  },
+  watch: {
+    searchLocation() {
+      // Items have already been loaded
+      if (this.itemsLocation.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}city`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.city.forEach((i) => {
+            this.entries.push({
+              name: i.city_name,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoading = false));
+    },
+  },
   components: {
     'tip-tap-vuetify': TiptapVuetify,
   },
   methods: {
+    changeManually() {
+      this.manually = !this.manually;
+    },
     pagination() {
       this.loadingtable = true;
       this.school.splice(0, this.school.length);
@@ -483,7 +596,9 @@ export default {
       this.$nextTick(() => {
         this.editedItemSchool = { ...this.defaultItem };
         this.editedIndex = -1;
+        this.manually = false;
         this.$refs.form.reset();
+        this.$refs.form.resetValidation();
       });
     },
     saveAdd() {
@@ -547,7 +662,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}school/${this.school[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}school/${
+            this.school[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -562,7 +679,8 @@ export default {
         })
           .then((response) => {
             if (
-              response.data.data.message === 'Data School Is Successfully Updated'
+              response.data.data.message
+              === 'Data School Is Successfully Updated'
             ) {
               this.hasSaved = true;
               this.status = true;
@@ -600,6 +718,8 @@ export default {
         this.editedItemSchool = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+        this.manually = false;
       });
     },
     openDialogDeactivate(item) {
@@ -620,8 +740,7 @@ export default {
       })
         .then((response) => {
           if (
-            response.data.data.message
-              === 'Data School Is Successfully Hide'
+            response.data.data.message === 'Data School Is Successfully Hide'
           ) {
             this.hasSaved = true;
             this.status = true;
@@ -648,6 +767,7 @@ export default {
         .finally(() => {
           this.loadingDeactive = false;
           this.dialogDeactive = false;
+          this.manually = false;
         });
     },
     openDialogActivate(item) {
@@ -668,8 +788,7 @@ export default {
       })
         .then((response) => {
           if (
-            response.data.data.message
-              === 'Data School Is Successfully Show'
+            response.data.data.message === 'Data School Is Successfully Show'
           ) {
             this.hasSaved = true;
             this.status = true;
@@ -696,6 +815,7 @@ export default {
         .finally(() => {
           this.loadingActivate = false;
           this.dialogActivate = false;
+          this.manually = false;
         });
     },
 
@@ -801,12 +921,14 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'Admin 1'
-    || this.$store.state.role === 'UMKM'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'Admin 1'
+      || this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({
@@ -892,12 +1014,11 @@ export default {
 </script>
 
 <style scoped>
-.tip-tap-size {
-  overflow: auto;
-  max-height: 300px;
-}
 .preview-img {
   max-width: 300px;
   max-height: 200px;
+}
+.size-max {
+  max-width: 1200px;
 }
 </style>

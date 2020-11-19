@@ -27,12 +27,16 @@
             </v-btn>
           </v-toolbar>
           <v-card-text>
+            <p class="text-subtitle-1 text-capitalize mb-1">isi FAQ</p>
             <tip-tap-vuetify
               v-model="content"
               :extensions="extensions"
               :disabled="!isEditing"
-              :card-props="{ height: '300', style: 'overflow: auto;' }"
+              :card-props="{ height: '600', style: 'overflow: auto;' }"
             />
+            <p class="text-subtitle-1 text-capitalize mt-3 mb-1">pratinjau</p>
+            <v-divider></v-divider>
+            <div v-html="content" class="mt-2"></div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -90,7 +94,7 @@ import {
   Italic,
   Strike,
   Underline,
-  Code,
+  CodeBlock,
   Paragraph,
   BulletList,
   OrderedList,
@@ -136,7 +140,7 @@ export default {
         },
       ],
       Bold,
-      Code,
+      CodeBlock,
       HorizontalRule,
       Paragraph,
       HardBreak,
@@ -251,13 +255,22 @@ export default {
   overflow: auto;
   max-height: 300px;
 }
-div >>> ul{
-  line-height: 18px !important;
+div >>> ul > li {
+  line-height: 25px !important;
 }
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol{
+  margin: 0px;
+}
+div >>> li > ul{
+  margin: 0px;
 }
 </style>

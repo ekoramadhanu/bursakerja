@@ -204,7 +204,6 @@ export default {
         value: 'number',
       },
       { text: 'Nama Lowongan', value: 'name', sortable: false },
-      { text: 'Gaji', value: 'salary', sortable: false },
       { text: 'Perusahaan', value: 'company', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
       { text: 'Actions', value: 'actions', sortable: false },
@@ -469,7 +468,6 @@ export default {
                 id: i.id,
                 number: counter,
                 name: i.name,
-                salary: i.salary,
                 company: i.nameCompany,
                 description: i.description,
                 status: nameStatus,
@@ -531,5 +529,14 @@ export default {
 .preview-img{
     max-width: 800px;
     max-height: 600px;
+}
+div >>> ul {
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

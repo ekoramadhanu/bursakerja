@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-main>
-      <v-container class="d-flex flex-column justify-center size-max">
+      <v-container class="d-flex flex-column justify-center size-max mb-8">
         <v-breadcrumbs
           :items="items"
           class="text-capitalize pa-2"
@@ -20,7 +20,7 @@
             <v-toolbar-title
               class="font-weight-light text-capitalize white--text"
             >
-              data resume pencari kerja
+              data resume karyawan
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn color="white" fab small @click="isEditing = !isEditing">
@@ -42,7 +42,7 @@
                 required
               />
               <v-row>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
+                <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="frontDegree"
                     :rules="frontDegreeRules"
@@ -54,7 +54,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
+                <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="fullname"
                     :rules="fullnameRules"
@@ -64,7 +64,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
+                <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
                   <v-text-field
                     prepend-icon="$degree"
                     v-model="backwardDegree"
@@ -77,31 +77,82 @@
                   />
                 </v-col>
               </v-row>
-              <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="computedDateFormatted"
-                    label="Tanggal Lahir"
+              <v-row>
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="placeBirth"
+                    :items="itemsPlaceBirth"
+                    :loading="isLoadingPlaceBirth"
+                    :search-input.sync="searchPlaceBirth"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
+                    label="Tempat Tanggal Lahir"
                     prepend-icon="$calendar"
                     :disabled="!isEditing"
-                    :rules="dateRules"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="date"
-                  @input="menu = false"
-                ></v-date-picker>
-              </v-menu>
+                    persistent-hint
+                    :hint="
+                      placeBirth === ''
+                        ? ''
+                        : `data yang disimpan : ${placeBirth}`
+                    "
+                    v-if="!manuallyPlaceBirth"
+                    :rules="placeBirthRules"
+                  />
+                  <v-text-field
+                    v-model="placeBirth"
+                    :rules="placeBirthRules"
+                    prepend-icon="$calendar"
+                    label="Tempat Tanggal Lahir"
+                    required
+                    persistent-hint
+                    :hint="
+                      placeBirth === ''
+                        ? ''
+                        : `data yang disimpan : ${placeBirth}`
+                    "
+                    v-if="manuallyPlaceBirth"
+                    :disabled="!isEditing"
+                  />
+                  <v-btn
+                    text
+                    class="text-capitalize ml-4"
+                    color="primary"
+                    @click="changeManuallyPlaceOfBirth()"
+                    :disabled="!isEditing"
+                  >
+                    lain-lain
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="computedDateFormatted"
+                        label="Tanggal Lahir"
+                        prepend-icon="$calendar"
+                        :disabled="!isEditing"
+                        :rules="dateRules"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="date"
+                      @input="menu = false"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+              </v-row>
               <v-select
                 v-model="sex"
                 :rules="sexRules"
@@ -139,7 +190,7 @@
                 :disabled="!isEditing"
               />
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="height"
                     :rules="heightRules"
@@ -149,7 +200,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="weight"
                     :rules="weightRules"
@@ -169,7 +220,7 @@
                 :rules="phoneRules"
               />
               <v-row>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="address"
                     :rules="addressRules"
@@ -179,7 +230,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="district"
                     :rules="districtRules"
@@ -189,54 +240,137 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-                  <v-text-field
-                    prepend-icon="$address"
-                    label="Kota"
-                    required
-                    :disabled="!isEditing"
-                    v-model="city"
-                    :rules="cityRules"
-                  />
-                </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="city"
+                    :items="itemsCity"
+                    :loading="isLoadingCity"
+                    :search-input.sync="searchCity"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
+                    label="Kota Perusahaan"
+                    prepend-icon="$location"
+                    :disabled="!isEditing"
+                    persistent-hint
+                    :hint="city === '' ? '' : `data yang disimpan : ${city}`"
+                    v-if="!manuallyCity"
+                    :rules="cityRules"
+                  />
+                  <v-text-field
+                    v-model="city"
+                    :rules="cityRules"
+                    prepend-icon="$location"
+                    label="Kota Perusahaan"
+                    required
+                    persistent-hint
+                    :hint="city === '' ? '' : `data yang disimpan : ${city}`"
+                    v-if="manuallyCity"
+                    :disabled="!isEditing"
+                  />
+                  <v-btn
+                    text
+                    class="text-capitalize ml-4"
+                    color="primary"
+                    @click="changeManuallyCity()"
+                    :disabled="!isEditing"
+                  >
+                    lain-lain
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="province"
+                    :items="itemsProvince"
+                    :loading="isLoadingProvince"
+                    :search-input.sync="searchProvince"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
+                    label="Provinsi Perusahaan"
+                    prepend-icon="$location"
+                    :disabled="!isEditing"
+                    persistent-hint
+                    :hint="
+                      province === '' ? '' : `data yang disimpan : ${province}`
+                    "
+                    v-if="!manuallyProvince"
+                    :rules="provinceRules"
+                  />
                   <v-text-field
                     v-model="province"
                     :rules="provinceRules"
-                    prepend-icon="$address"
-                    label="Provinsi"
-                    :disabled="!isEditing"
+                    prepend-icon="$location"
+                    label="Provinsi Perusahaan"
                     required
-                  />
-                </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
-                  <v-text-field
-                    v-model="postalCode"
-                    :rules="postalCodeRules"
+                    persistent-hint
+                    :hint="
+                      province === '' ? '' : `data yang disimpan : ${province}`
+                    "
+                    v-if="manuallyProvince"
                     :disabled="!isEditing"
-                    prepend-icon="$address"
-                    label="Kode Pos"
-                    required
                   />
+                  <v-btn
+                    text
+                    class="text-capitalize ml-4"
+                    color="primary"
+                    @click="changeManuallyProvince()"
+                    :disabled="!isEditing"
+                  >
+                    lain-lain
+                  </v-btn>
                 </v-col>
               </v-row>
+              <v-text-field
+                v-model="postalCode"
+                :rules="postalCodeRules"
+                :disabled="!isEditing"
+                prepend-icon="$address"
+                label="Kode Pos"
+                required
+              />
               <p class="text-capitalize font-weight-bold">
-                2. data pendidikan terakhir
+                2. deskripsi tentang diri anda
+              </p>
+              <v-textarea
+                filled
+                label="Deskripsi Terkait Anda"
+                v-model="aboutMe"
+                :disabled="!isEditing"
+                :rules="aboutMeRules"
+                :counter="250"
+              ></v-textarea>
+              <p class="text-capitalize font-weight-bold mt-2">3. hobi</p>
+              <tip-tap-vuetify
+                v-model="hobby"
+                placeholder="Silahkan Isi Hobi Anda"
+                :extensions="extensions"
+                :disabled="!isEditing"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
+              />
+              <p class="text-capitalize font-weight-bold mt-2">
+                4. data pendidikan terakhir
               </p>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
-                  <v-text-field
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-select
                     v-model="education"
+                    :items="itemSchool"
+                    item-text="name"
+                    item-value="name"
+                    label="Tingkat Pendidikan Terakhir"
+                    prepend-icon="$school"
                     :rules="educationRules"
                     :disabled="!isEditing"
-                    prepend-icon="$education"
-                    label="Tingkat Pendidikan Terkahir"
+                    single-line
                     required
-                  />
+                  ></v-select>
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="instantion"
                     :rules="instantionRules"
@@ -248,7 +382,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="typeEducation"
                     :rules="typeEducationRules"
@@ -258,7 +392,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="mayor"
                     :rules="mayorRules"
@@ -270,7 +404,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="dateGraduate"
                     :rules="dategraduateRules"
@@ -280,7 +414,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="score"
                     :rules="scoreRules"
@@ -291,30 +425,67 @@
                   />
                 </v-col>
               </v-row>
-              <p class="text-capitalize font-weight-bold">3. keahlian bahasa</p>
+              <p class="text-capitalize font-weight-bold mt-2">
+                5. riwayat pendidikan
+              </p>
+              <tip-tap-vuetify
+                v-model="expSchool"
+                placeholder="Silahkan Isi Riwayat Pendidikan Anda"
+                :extensions="extensions"
+                :disabled="!isEditing"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
+              />
+              <p class="text-capitalize font-weight-bold mt-2">
+                6. penghargaan/sertifikat
+              </p>
+              <tip-tap-vuetify
+                v-model="sertification"
+                placeholder="Silahkan Isi Penghargaan/Sertifikat Anda"
+                :extensions="extensions"
+                :disabled="!isEditing"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
+              />
+              <p class="text-capitalize font-weight-bold mt-2">
+                7. keahlian bahasa
+              </p>
               <tip-tap-vuetify
                 v-model="skillLanguange"
+                placeholder="Silahkan Isi Keahlian Bahasa Anda"
                 :extensions="extensions"
                 :disabled="!isEditing"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
-              <p class="text-capitalize font-weight-bold">4. keterampilan</p>
+              <p class="text-capitalize font-weight-bold mt-2">
+                8. keterampilan
+              </p>
               <tip-tap-vuetify
                 v-model="skill"
+                placeholder="Silahkan Isi Keterampilan Anda"
                 :extensions="extensions"
                 :disabled="!isEditing"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
-              <p class="text-capitalize font-weight-bold">
-                5. pengalaman kerja
+              <p class="text-capitalize font-weight-bold mt-2">
+                9. pengalaman kerja
               </p>
               <tip-tap-vuetify
                 v-model="experience"
+                placeholder="Silahkan Isi Pengalaman Kerja Anda"
                 :extensions="extensions"
                 :disabled="!isEditing"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
-              <p class="text-capitalize font-weight-bold">6. foto diri</p>
+              <p class="text-capitalize font-weight-bold mt-2">
+                10. Artikel Ilmiah
+              </p>
+              <tip-tap-vuetify
+                v-model="article"
+                placeholder="Silahkan Isi Artikel Ilmiah Anda"
+                :extensions="extensions"
+                :disabled="!isEditing"
+                :card-props="{ height: '300', style: 'overflow: auto;' }"
+              />
+              <p class="text-capitalize font-weight-bold mt-2">11. foto diri</p>
               <v-file-input
                 label="Unggah Foto Pribadi 3x4 (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
@@ -333,10 +504,10 @@
                 aspect-ratio="1.7"
               />
               <p class="text-capitalize font-weight-bold">
-                7. data perkerjaan yang diinginkan
+                12. data perkerjaan yang diinginkan
               </p>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="deiredRegion"
                     :rules="deiredRegionRules"
@@ -346,7 +517,7 @@
                     required
                   />
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-text-field
                     v-model="location"
                     :rules="locationRules"
@@ -446,10 +617,11 @@ export default {
     idCard: '',
     idCardRules: [
       (v) => !!v || 'Nomor KTP/NIK Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v) || 'Nomor KTP/NIK Harus Angka (0-9)',
+      (v) => /^[0-9]*$/.test(v) || 'Nomor KTP/NIK Harus Angka (0-9)',
     ],
     frontDegree: '',
     frontDegreeRules: [(v) => !!v || 'Gelar Depan Tidak Boleh Kosong'],
+    placeBirthRules: [(v) => !!v || 'Tempat Tanggal Lahir Tidak Boleh Kosong'],
     fullname: '',
     fullnameRules: [(v) => !!v || 'Nama lengkap Tidak Boleh Kosong'],
     backwardDegree: '',
@@ -473,26 +645,24 @@ export default {
     height: '',
     heightRules: [
       (v) => !!v || 'Berat Badan Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v) || 'Berat Badan Harus Angka (0-9)',
+      (v) => /^[0-9]*$/.test(v) || 'Berat Badan Harus Angka (0-9)',
     ],
     weight: '',
     weightRules: [
       (v) => !!v || 'Tinggi Badan Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v) || 'Tinggi Badan Harus Angka (0-9)',
+      (v) => /^[0-9]*$/.test(v) || 'Tinggi Badan Harus Angka (0-9)',
     ],
     phone: '',
     phoneRules: [
       (v) => !!v || 'Nomor Telepon Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v) || 'Nomor Telepon Harus Angka (0-9)',
+      (v) => /^[0-9]*$/.test(v) || 'Nomor Telepon Harus Angka',
       (v) => /^08/.test(v) || 'Nomor Telepon Harus Dimulai Dengan 08...',
     ],
     address: '',
     addressRules: [(v) => !!v || 'Alamat Tidak Boleh Kosong'],
     district: '',
     districtRules: [(v) => !!v || 'Kecamatan Tidak Boleh Kosong'],
-    city: '',
     cityRules: [(v) => !!v || 'Kota Tidak Boleh Kosong'],
-    province: '',
     provinceRules: [(v) => !!v || 'Provinsi Tidak Boleh Kosong'],
     postalCode: '',
     postalCodeRules: [
@@ -501,6 +671,7 @@ export default {
     ],
     education: '',
     educationRules: [(v) => !!v || 'Tingkat Pendidikan Tidak Boleh Kosong'],
+    itemSchool: '',
     instantion: '',
     instantionRules: [
       (v) => !!v || 'Nama Instansi Pendidikan Tidak Boleh Kosong',
@@ -512,10 +683,13 @@ export default {
     dateGraduate: '',
     dategraduateRules: [
       (v) => !!v || 'Tahun Kelulusan Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v) || 'Tahun Kelulusan Harus Angka (0-9)',
+      (v) => /^[0-9]*$/.test(v) || 'Tahun Kelulusan Harus Angka (0-9)',
     ],
     score: '',
-    scoreRules: [(v) => !!v || 'Nilai Ijazah /IPK Tidak Boleh Kosong'],
+    scoreRules: [
+      (v) => !!v || 'Nilai Ijazah /IPK Tidak Boleh Kosong',
+      (v) => /^[0-9.]*$/.test(v) || 'Nilai Ijazah /IPK Hanya Bisa Angka Dan Titik',
+    ],
     imageRules: [
       (v) => !!v || 'Gambar Foto Diri Tidak Boleh Kosong',
       (v) => !v || v.size < 1000000 || 'Gambar Foto Diri Harus Kurang Dari 1MB',
@@ -556,9 +730,20 @@ export default {
       HardBreak,
     ],
     // starting editor's content
-    skillLanguange: '<p>Silahkan Isi Keahlian Bahasa</p>',
-    skill: '<p>Silahkan Isi Kemapuan</p>',
-    experience: '<p>Silahkan Isi Pengalaman Kerja</p>',
+    aboutMe: '',
+    aboutMeRules: [
+      (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
+      (v) => v.length < 250 || 'Deskripsi Singat Anda Tidak Boleh Lebih Dari 250',
+      // eslint-disable-next-line no-useless-escape
+      (v) => /^[a-zA-z., ]*$/.test(v) || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',
+    ],
+    skillLanguange: '',
+    skill: '',
+    experience: '',
+    hobby: '',
+    sertification: '',
+    article: '',
+    expSchool: '',
     priviewImage: null,
     isEditing: null,
     hasSaved: false,
@@ -567,6 +752,22 @@ export default {
     icon: '',
     message: '',
     skeleton: true,
+    // add user
+    city: '',
+    entriesCity: [],
+    isLoadingCity: false,
+    searchCity: null,
+    manuallyCity: false,
+    placeBirth: '',
+    entriesPlaceBirth: [],
+    isLoadingPlaceBirth: false,
+    searchPlaceBirth: null,
+    manuallyPlaceBirth: false,
+    province: '',
+    entriesProvince: [],
+    isLoadingProvince: false,
+    searchProvince: null,
+    manuallyProvince: false,
   }),
   computed: {
     computedDateFormatted() {
@@ -575,6 +776,116 @@ export default {
         return `${day}/${month}/${year}`;
       }
       return '';
+    },
+    itemsCity() {
+      return this.entriesCity.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+    itemsProvince() {
+      return this.entriesProvince.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+    itemsPlaceBirth() {
+      return this.entriesPlaceBirth.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+  },
+  watch: {
+    searchCity() {
+      // Items have already been loaded
+      if (this.itemsCity.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingCity) return;
+
+      this.isLoadingCity = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}city`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.city.forEach((i) => {
+            this.entriesCity.push({
+              name: i.city_name,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingCity = false));
+    },
+    searchProvince() {
+      // Items have already been loaded
+      if (this.itemsProvince.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingProvince) return;
+
+      this.isLoadingProvince = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}province`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.province.forEach((i) => {
+            this.entriesProvince.push({
+              name: i.province,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingProvince = false));
+    },
+    searchPlaceBirth() {
+      // Items have already been loaded
+      if (this.itemsPlaceBirth.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingPlaceBirth) return;
+
+      this.isLoadingPlaceBirth = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}city`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.city.forEach((i) => {
+            this.entriesPlaceBirth.push({
+              name: i.city_name,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingPlaceBirth = false));
     },
   },
   components: {
@@ -595,10 +906,25 @@ export default {
     },
     save() {
       if (this.$refs.form.validate()) {
+        const descWithOuttag = this.aboutMe.replace(/<\/?[^>]+>/gi, ' ');
+        let check = false;
+        for (let index = 0; index < descWithOuttag.length; index += 1) {
+          if (
+            descWithOuttag.charCodeAt(index) >= 48
+            && descWithOuttag.charCodeAt(index) <= 57
+          ) {
+            check = true;
+          }
+        }
         if (this.skillLanguange.length <= 7) {
           this.hasSaved = true;
           this.status = false;
           this.message = 'keahlian bahasa harus diisi jika tidak punya silahkan isi(-)';
+          this.icon = '$warning';
+        } else if (check) {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'keterampilan tidak boleh angka';
           this.icon = '$warning';
         } else if (this.skill.length <= 7) {
           this.hasSaved = true;
@@ -609,6 +935,11 @@ export default {
           this.hasSaved = true;
           this.status = false;
           this.message = 'pengalaman kerja harus diisi jika tidak punya silahkan isi(-)';
+          this.icon = '$warning';
+        } else if (this.hobby.length <= 7) {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'hobi harus diisi jika tidak punya silahkan isi(-)';
           this.icon = '$warning';
         } else {
           this.loadingSave = true;
@@ -624,6 +955,7 @@ export default {
               fullname: this.fullname,
               frontDegree: this.frontDegree,
               backwardDegree: this.backwardDegree,
+              placeOfBirth: this.placeBirth,
               dateOfBirth: this.date,
               sex: this.sex,
               religion: this.religion,
@@ -650,6 +982,11 @@ export default {
               desiredRegion: this.deiredRegion,
               desiredPosition: this.desiredPosition,
               placement: this.location,
+              hobby: this.hobby,
+              article: this.article,
+              certification: this.sertification,
+              expSchool: this.expSchool,
+              aboutMe: this.aboutMe,
             },
           })
             .then((response) => {
@@ -688,14 +1025,18 @@ export default {
         }
       }
     },
+    changeManuallyCity() {
+      this.manuallyCity = !this.manuallyCity;
+    },
+    changeManuallyProvince() {
+      this.manuallyProvince = !this.manuallyProvince;
+    },
+    changeManuallyPlaceOfBirth() {
+      this.manuallyPlaceBirth = !this.manuallyPlaceBirth;
+    },
   },
   beforeCreate() {
-    if (
-      this.$store.state.role === 'Informal'
-      || this.$store.state.role === 'Umum'
-      || this.$store.state.role === 'Profesional'
-      || this.$store.state.role === 'Magang'
-    ) {
+    if (this.$store.state.role === 'Pencaker') {
       axios({
         baseURL: `${this.$store.state.domain}job-seeker/token`,
         method: 'get',
@@ -740,6 +1081,12 @@ export default {
             this.deiredRegion = response.data.data.jobSeeker[0].desiredRegion;
             this.desiredPosition = response.data.data.jobSeeker[0].desiredPosition;
             this.location = response.data.data.jobSeeker[0].placement;
+            this.placeBirth = response.data.data.jobSeeker[0].placeOfBirth;
+            this.hobby = response.data.data.jobSeeker[0].hobby;
+            this.expSchool = response.data.data.jobSeeker[0].expSchool;
+            this.sertification = response.data.data.jobSeeker[0].certification;
+            this.article = response.data.data.jobSeeker[0].article;
+            this.aboutMe = response.data.data.jobSeeker[0].aboutMe;
           }
         })
         .catch(() => {
@@ -755,6 +1102,9 @@ export default {
       this.$router.push('/access-block');
     }
   },
+  created() {
+    this.itemSchool = [...this.$store.state.itemsSchool];
+  },
 };
 </script>
 
@@ -769,5 +1119,14 @@ export default {
 .preview-img {
   max-width: 354px;
   max-height: 472px;
+}
+div >>> ul {
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

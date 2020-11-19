@@ -38,7 +38,7 @@
                 <div class="d-flex">
                   <v-icon class="primary--text mr-2">$UMKM</v-icon>
                   <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    UMKM
+                    perusahaan
                   </p>
                 </div>
               </v-toolbar-title>
@@ -60,7 +60,7 @@
                 <v-card>
                   <v-card-title class="primary">
                     <span class="headline white--text text-capitalize"
-                      >menambah kartu UMKM</span
+                      >menambah kartu perusahaan</span
                     >
                   </v-card-title>
 

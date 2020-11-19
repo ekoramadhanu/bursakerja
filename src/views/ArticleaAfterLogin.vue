@@ -1,74 +1,74 @@
 <template>
-  <div class="d-flex justify-center mb-2">
-    <div class="max-width">
-      <h3 class="text-center my-2 text-capitalize black--text">artikel</h3>
-      <v-row>
-        <v-col xl="9" lg="9" md="12" sm="12" xs="12">
-          <div v-if="!skeleton">
-            <div v-for="item in article" :key="item.id">
-              <transition name="fade" appear>
-                <v-card elevation="3" class="mt-4 pa-3">
-                  <v-card-text class="pa-2">
-                    <div class="d-flex">
-                      <div>
-                        <router-link
-                          :to="`/article-detail/${item.id}`"
-                          class="text-decoration-none"
-                        >
-                          <p class="text-capitalize ma-0 text-h6 primary--text">
-                            {{ item.title }}
-                          </p>
-                        </router-link>
-                        <div class="d-flex">
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
+  <div>
+    <v-main>
+      <v-container class="d-flex flex-column justify-center size-max mb-8">
+        <v-breadcrumbs
+          :items="items"
+          class="text-capitalize pa-2"
+        ></v-breadcrumbs>
+        <v-row>
+          <v-col xl="12" lg="12" md="12" sm="12" xs="12">
+            <div v-if="!skeleton">
+              <div v-for="item in article" :key="item.id">
+                <transition name="fade" appear>
+                  <v-card elevation="3" class="mt-4 pa-3">
+                    <v-card-text class="pa-2">
+                      <div class="d-flex">
+                        <div>
+                          <router-link
+                            :to="`/detail-article-login/${item.id}`"
+                            class="text-decoration-none"
                           >
-                            <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
-                            admin
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon size="13" class="mr-1">$calendar</v-icon>
-                            {{ item.date }}
-                          </p>
+                            <p
+                              class="text-capitalize ma-0 text-h6 primary--text"
+                            >
+                              {{ item.title }}
+                            </p>
+                          </router-link>
+                          <div class="d-flex">
+                            <p
+                              class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
+                            >
+                              <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                              admin
+                            </p>
+                            <p
+                              class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                            >
+                              <v-icon size="13" class="mr-1">$calendar</v-icon>
+                              {{ item.date }}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="mt-2 text-subtitle-2 font-weight-regular black--text">
-                      {{ item.description }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </transition>
+                      <div
+                        class="mt-2 text-subtitle-2 font-weight-regular black--text"
+                      >
+                        {{ item.description }}
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </transition>
+              </div>
             </div>
-          </div>
-          <div class="text-canter mt-2">
-            <v-pagination
-              v-model="page"
-              total-visible="10"
-              :length="pageCount"
-              @input="pagination()"
-              v-if="!skeleton"
-            ></v-pagination>
-          </div>
-          <div v-if="skeleton">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-            ></v-skeleton-loader>
-          </div>
-        </v-col>
-      </v-row>
-    </div>
+            <div class="text-canter mt-2">
+              <v-pagination
+                v-model="page"
+                total-visible="10"
+                :length="pageCount"
+                @input="pagination()"
+                v-if="!skeleton"
+              ></v-pagination>
+            </div>
+            <div v-if="skeleton">
+              <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
+              <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
+              <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
   </div>
 </template>
 
@@ -77,6 +77,12 @@ import axios from 'axios';
 
 export default {
   data: () => ({
+    items: [
+      {
+        text: 'artikel',
+        disabled: true,
+      },
+    ],
     search: '',
     page: 1,
     article: [],
@@ -103,8 +109,16 @@ export default {
     },
     // method universal
     methodGetArticle(page) {
+      let endpoint = '';
+      if (this.$store.state.role === 'Pencaker') {
+        endpoint = `${this.$store.state.domain}article/umkm/${page}`;
+      } else if (this.$store.state.role === 'Karyawan') {
+        endpoint = `${this.$store.state.domain}article/job-seeker/${page}`;
+      } else {
+        endpoint = `${this.$store.state.domain}article/admin/${page}`;
+      }
       axios({
-        baseURL: `${this.$store.state.domain}article/general/${page}`,
+        baseURL: endpoint,
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
@@ -152,8 +166,18 @@ export default {
     },
   },
   beforeCreate() {
+    let endpoint = '';
+    if (this.$store.state.role === 'Perusahaan') {
+      endpoint = `${this.$store.state.domain}article/umkm/1`;
+    } else if (this.$store.state.role === 'Pencaker') {
+      endpoint = `${this.$store.state.domain}article/job-seeker/1`;
+    } else {
+      endpoint = `${this.$store.state.domain}article/admin/1`;
+    }
+    // eslint-disable-next-line no-console
+    console.log(endpoint);
     axios({
-      baseURL: `${this.$store.state.domain}article/general/1`,
+      baseURL: endpoint,
       method: 'get',
       headers: {
         'x-api-key': this.$store.state.apiKey,
@@ -161,6 +185,8 @@ export default {
       },
     })
       .then((response) => {
+        // eslint-disable-next-line no-console
+        console.log(response.data);
         if (response.data.data.article.length > 0) {
           const modulo = response.data.data.total % 12;
           if (modulo === 0) {
@@ -216,17 +242,4 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
-.max-width {
-  width: 90vw;
-}
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 100vw;
-  }
-}
 </style>

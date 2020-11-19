@@ -1,6 +1,7 @@
 <template>
     <div>
         <jumbotron-home/>
+        <service-home/>
         <partner-home/>
         <footer-home/>
         <floating-button/>
@@ -12,6 +13,7 @@ import jumbotron from '@/components/Jumbotron.vue';
 import partner from '@/components/Partner.vue';
 import footer from '@/components/Footer.vue';
 import floatingButton from '@/components/FloatingButton.vue';
+import service from '@/components/Service.vue';
 import goTo from 'vuetify/es5/services/goto';
 
 export default {
@@ -20,6 +22,7 @@ export default {
     'partner-home': partner,
     'footer-home': footer,
     'floating-button': floatingButton,
+    'service-home': service,
   },
   created() {
     goTo(0);

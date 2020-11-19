@@ -1,165 +1,264 @@
 <template>
-  <div class="mt-12 pt-1 fourth">
-    <div class="d-flex justify-center mb-2">
-      <div class="d-flex flex-column max-width mx-4">
-        <v-card elevation="3" max-width="100vw" class="pa-4" v-if="!skeleton">
-          <v-row>
-            <v-col cols="12" xl="8" lg="8" md="8" sm="8" xs="12">
-              <div class="d-flex">
-                <v-img
-                  :src="image"
-                  aspect-ratio="1.7"
-                  width="100vw"
-                  max-width="130"
-                  height="100vh"
-                  max-height="100"
-                  contain
-                ></v-img>
-                <div class="my-auto">
-                  <p class="text-capitalize text-h5 ma-0">
-                    {{ nameJob }}
-                  </p>
-                  <p
-                    class="text-capitalize cursor text-decoration-underline primary--text"
-                    @click="openWebsite()"
-                  >
-                    {{ nameCompany }}
-                  </p>
-                </div>
-              </div>
-            </v-col>
-            <v-col
-              cols="12"
-              xl="4"
-              lg="4"
-              md="4"
-              sm="4"
-              xs="12"
-              class="d-flex align-center"
-            >
-              <div>
-                <div class="d-flex">
-                  <v-icon class="mr-2" size="15">$money</v-icon>
-                  <p class="ma-0 text-capitalize">{{ salary }}</p>
-                </div>
-                <div class="d-flex mt-4">
-                  <v-icon class="mr-4" size="15">$location</v-icon>
-                  <p class="ma-0 text-capitalize">{{ location }}</p>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-        </v-card>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="card"
-          v-if="skeleton"
-        ></v-skeleton-loader>
-        <v-row  v-if="!skeleton">
-          <v-col cols="12" lg="6" xl="6" md="6" sm="6" xs="12">
+  <div>
+    <v-main class="grey">
+      <v-container class="d-flex flex-column justify-center max-width">
+        <v-breadcrumbs
+          :items="items"
+          class="text-capitalize pa-2"
+        ></v-breadcrumbs>
+        <!--  -->
+        <v-row>
+          <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">
             <v-card elevation="3" class="mt-3">
-              <v-card-title class="text-capitalize primary white--text">
-                deskripsi lowongan pekerjaan
+              <v-card-title class="text-capitalize font-weight-bold text-h5">
+                {{ nameJob }}
               </v-card-title>
-              <v-card-text class="pa-4">
-                <p class="text-capitalize ma-0 text-body-1">
-                  deskripsi pekerjaan
-                </p>
-                <div v-html="description"></div>
-                <p class="text-capitalize ma-0 text-body-1">
-                  pengalman pekerjaan
-                </p>
-                <div v-html="exerience"></div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12" lg="6" xl="6" md="6" sm="6" xs="12">
-            <v-card elevation="3" class="mt-3">
-              <v-card-title class="text-capitalize primary white--text">
-                identitas perusahaan
-              </v-card-title>
-              <v-card-text>
+              <v-divider></v-divider>
+              <v-card-text class="">
                 <v-row>
-                  <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        pemilik perusahaan
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{owner}}</p>
-                    </div>
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        bidang usaha
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{type}}</p>
-                    </div>
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        Jumlah Cabang
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{branches}}</p>
-                    </div>
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        nomor telepon
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{phone}}</p>
-                    </div>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    xl="3"
+                    md="3"
+                    sm="12"
+                    xs="12"
+                    class="pa-2"
+                  >
+                    <p
+                      class="mb-0 text-capitalize font-weight-bold text-subtitle-1"
+                    >
+                      nama perusahaan :
+                    </p>
+                    <p class="mb-1">{{ nameCompany }}</p>
                   </v-col>
-                  <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        bentuk badan hukum
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{legality}}</p>
-                    </div>
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        usia perusahaan
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{old}}</p>
-                    </div>
-                    <div>
-                      <p class="text-capitalize ma-0 text-subtitle-1">
-                        total karyawan
-                      </p>
-                      <p class="text-capitalize ma-0 text-subtitle-2">{{employee}}</p>
-                    </div>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    xl="3"
+                    md="3"
+                    sm="12"
+                    xs="12"
+                    class="pa-2"
+                  >
+                    <p
+                      class="mb-0 text-capitalize font-weight-bold text-subtitle-1"
+                    >
+                      Kota:
+                    </p>
+                    <p>{{ city }}</p>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    xl="3"
+                    md="3"
+                    sm="12"
+                    xs="12"
+                    class="pa-2"
+                  >
+                    <p
+                      class="mb-0 text-capitalize font-weight-bold text-subtitle-1"
+                    >
+                      pendidikan :
+                    </p>
+                    <p>{{ academic }}</p>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    xl="3"
+                    md="3"
+                    sm="12"
+                    xs="12"
+                    class="pa-2"
+                  >
+                    <p
+                      class="mb-0 text-capitalize font-weight-bold text-subtitle-1"
+                    >
+                      tipe pekerjaan :
+                    </p>
+                    <p>{{ typeJob }}</p>
                   </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
+            <v-card elevation="3" class="mt-3">
+              <v-card-title class="text-capitalize font-weight-bold text-h5">
+                {{ nameJob }}
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-card-text class="">
+                <div v-html="description"></div>
+                <div v-html="exerience"></div>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions class="d-flex justify-end">
+                <v-btn
+                  color="primary"
+                  class="text-capitalize"
+                  @click="dialogApplication = true"
+                >
+                  kirim CV
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
+            <v-card elevation="3" class="mt-3">
+              <v-card-title class="text-capitalize">
+                identitas perusahaan
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-card-text>
+                <v-img
+                  :src="image"
+                  aspect-ratio="1.7"
+                  width="150"
+                  max-width="150"
+                  height="150"
+                  max-height="150"
+                  contain
+                  class="mx-auto"
+                ></v-img>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  deskripsi singkat
+                </p>
+                <p>{{ descriptionCompany }}</p>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  website
+                </p>
+                <p
+                  class="text-decoration-underline primary--text cursor"
+                  @click="openWebsite()"
+                >
+                  {{ link }}
+                </p>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  alamat
+                </p>
+                <p>{{ location }}</p>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  jumlah cabang
+                </p>
+                <p>{{ branches }}</p>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  pemilik perusahaan
+                </p>
+                <p>{{ owner }}</p>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  usia perusahaan
+                </p>
+                <p class=" text-capitalize">{{ old }}</p>
+                <p
+                  class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
+                >
+                  jumlah karyawan
+                </p>
+                <p>{{ employee }} orang</p>
+              </v-card-text>
+            </v-card>
           </v-col>
         </v-row>
-        <v-row  v-if="skeleton">
-            <v-col cols="12" lg="6" xl="6" md="6" sm="6" xs="12">
-                <v-skeleton-loader
-                ref="skeleton"
-                type="card"
-                ></v-skeleton-loader>
-            </v-col>
-            <v-col cols="12" lg="6" xl="6" md="6" sm="6" xs="12">
-                <v-skeleton-loader
-                ref="skeleton"
-                type="card"
-                ></v-skeleton-loader>
-            </v-col>
-        </v-row>
-      </div>
-    </div>
-    <footer-home/>
+        <footer-dashboard />
+        <v-dialog v-model="dialogApplication" persistent max-width="550">
+          <v-card>
+            <v-card-title class="headline primary white--text text-capitalize">
+              kirim CV ke lowongan kerja
+            </v-card-title>
+            <v-card-text>
+              <div class="d-flex justify-start align-center pa-2">
+                <v-icon size="80" class="error--text mr-4">$warning</v-icon>
+                <p class="ma-0 black--text">
+                  Apakah anda yakin ingin melamar di lowongan ini ? Jika "iya"
+                  silahkan pilih tombol iya
+                </p>
+              </div>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                elevation="3"
+                class="text-capitalize"
+                @click="dialogApplication = false"
+              >
+                tidak
+              </v-btn>
+              <v-btn color="primary" @click="sendApplication()">
+                <v-progress-circular
+                  indeterminate
+                  color="white"
+                  v-if="loadingApplication"
+                />
+                <p
+                  class="my-auto white--text text-capitalize"
+                  v-if="!loadingApplication"
+                >
+                  iya
+                </p>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-snackbar
+          v-model="hasSaved"
+          :timeout="4000"
+          top
+          right
+          color="white"
+          max-width="250px"
+        >
+          <div class="d-flex">
+            <v-icon
+              :class="
+                status === false ? 'mr-2 error--text' : 'mr-2 success--text'
+              "
+              >{{ icon }}</v-icon
+            >
+            <p class="text-capitalize black--text ma-0 text-subtitle-1">
+              {{ message }}
+            </p>
+          </div>
+        </v-snackbar>
+      </v-container>
+    </v-main>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import footer from '@/components/Footer.vue';
+import footer from '@/components/FooterDasahboard.vue';
 
 export default {
   data: () => ({
+    items: [
+      {
+        text: 'lowongan kerja',
+        disabled: false,
+        to: '/job-vacancy-job-seeker',
+      },
+      {
+        text: 'nama',
+        disabled: true,
+      },
+    ],
     skeleton: true,
     image: null,
     description: '',
+    descriptionCompany: '',
     exerience: '',
     owner: '',
     legality: '',
@@ -172,16 +271,63 @@ export default {
     branches: '',
     employee: '',
     address: '',
+    city: '',
+    academic: '',
+    typeJob: '',
     link: '',
     phone: '',
+    dialogApplication: false,
+    loadingApplication: false,
+    hasSaved: false,
+    status: null,
+    icon: '',
+    message: '',
   }),
   methods: {
     openWebsite() {
       window.open(this.link);
     },
+    sendApplication() {
+      this.loadingApplication = true;
+      axios({
+        baseURL: `${this.$store.state.domain}application-job`,
+        method: 'post',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+        data: {
+          jobVacancy: this.$route.params.id,
+        },
+      })
+        .then((response) => {
+          if (
+            response.data.data.message
+            === 'Application Job Is Successfully Created'
+          ) {
+            this.hasSaved = true;
+            this.status = true;
+            this.message = 'data berhasil terkirim ke perusahaan';
+            this.icon = '$success';
+          } else {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'data tidak berhasil dikirim';
+            this.icon = '$warning';
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.loadingApplication = false;
+          this.dialogApplication = false;
+        });
+    },
   },
   components: {
-    'footer-home': footer,
+    'footer-dashboard': footer,
   },
   beforeCreate() {
     axios({
@@ -193,12 +339,18 @@ export default {
     })
       .then((response) => {
         if (response.data.data.jobVacancy.length === 1) {
+          // eslint-disable-next-line no-console
+          console.log(response.data);
           this.image = response.data.data.jobVacancy[0].company.brand;
           this.description = response.data.data.jobVacancy[0].description;
           this.exerience = response.data.data.jobVacancy[0].experience;
           this.nameJob = response.data.data.jobVacancy[0].name;
           this.salary = response.data.data.jobVacancy[0].salary;
-          this.location = response.data.data.jobVacancy[0].company.address;
+          this.location = `${response.data.data.jobVacancy[0].company.address}, 
+          ${response.data.data.jobVacancy[0].company.city}, ${response.data.data.jobVacancy[0].company.province}`;
+          this.city = response.data.data.jobVacancy[0].company.city;
+          this.academic = response.data.data.jobVacancy[0].academic;
+          this.typeJob = response.data.data.jobVacancy[0].typeJob;
           this.nameCompany = response.data.data.jobVacancy[0].company.name;
           this.link = response.data.data.jobVacancy[0].company.linkWebsite;
           this.owner = response.data.data.jobVacancy[0].company.owner;
@@ -208,6 +360,11 @@ export default {
           this.branches = response.data.data.jobVacancy[0].company.branches;
           this.employee = response.data.data.jobVacancy[0].company.employee;
           this.phone = response.data.data.jobVacancy[0].company.phone;
+          this.descriptionCompany = response.data.data.jobVacancy[0].company.description;
+          this.items.splice(1, 1, {
+            text: response.data.data.jobVacancy[0].name,
+            disabled: true,
+          });
         }
       })
       .catch((error) => {
@@ -223,8 +380,13 @@ export default {
 
 <style scoped>
 .max-width {
-  max-width: 1366px;
-  width: 100vw;
+  width: 90vw;
+}
+@media screen and (min-width: 1366px) {
+  .max-width {
+    max-width: 1100px;
+    width: 90vw;
+  }
 }
 .cursor {
   cursor: pointer;
@@ -235,7 +397,7 @@ export default {
     width: 100vw;
   }
 }
-div >>> ul{
+div >>> ul {
   line-height: 18px !important;
 }
 div >>> ol {

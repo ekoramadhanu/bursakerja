@@ -1,17 +1,27 @@
 <template>
   <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
+    <div class="d-flex justify-center mb-4">
       <div class="max-width px-4">
-        <h3 class="text-center my-2 text-uppercase primary--text">
+        <h2 class="text-center mt-3 mb-2 text-uppercase black--text">
           frequently asked questions
-          <hr class="line mx-auto" />
-        </h3>
-        <h5 class="text-capitalize text-center mb-12">terakhir diperbaharui: {{dateUpdated}}</h5>
-        <div class="max-width-faq" v-html="content">
-        </div>
+        </h2>
+        <h5 class="text-capitalize text-center mb-12" v-if="!skeleton">
+          terakhir diperbaharui: {{ dateUpdated }}
+        </h5>
+        <v-skeleton-loader
+          ref="skeleton"
+          type="text"
+          v-if="skeleton"
+        ></v-skeleton-loader>
+        <div class="max-width-faq mx-auto" v-html="content" v-if="!skeleton"></div>
+        <v-skeleton-loader
+          ref="skeleton"
+          type="paragraph"
+          v-if="skeleton"
+        ></v-skeleton-loader>
       </div>
     </div>
-    <footer-home/>
+    <footer-home />
   </div>
 </template>
 
@@ -25,6 +35,7 @@ export default {
     content: '',
     lastupdate: '',
     dateUpdated: '',
+    skeleton: true,
   }),
   components: {
     'footer-home': footer,
@@ -38,7 +49,10 @@ export default {
       },
     })
       .then((response) => {
-        this.dateUpdated = response.data.data.FAQ[0].date;
+        const date = response.data.data.FAQ[0].date.split('-');
+        this.dateUpdated = `${date[0]} ${
+          this.$store.state.month[parseInt(date[1], 10) - 1]
+        } ${date[2]}`;
         this.content = response.data.data.FAQ[0].description;
       })
       .catch(() => {
@@ -60,10 +74,12 @@ export default {
     this.content = null;
     this.lastupdate = null;
     this.dateUpdated = null;
+    this.skeleton = null;
 
     delete this.content;
     delete this.lastupdate;
     delete this.dateUpdated;
+    delete this.skeleton;
   },
 };
 </script>
@@ -74,18 +90,33 @@ export default {
   border: 1px solid #205faf;
 }
 .max-width {
-  max-width: 1366px;
+  width: 90vw;
+}
+@media screen and (min-width: 1366px) {
+  .max-width {
+    max-width: 1100px;
+    width: 100vw;
+  }
 }
 .max-width-faq {
-  max-width: 600px;
+  max-width: 750px;
 }
-div >>> ul{
-  line-height: 18px !important;
+div >>> ul > li {
+  line-height: 25px !important;
 }
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol{
+  margin: 0px;
+}
+div >>> li > ul{
+  margin: 0px;
 }
 </style>

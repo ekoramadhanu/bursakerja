@@ -17,8 +17,8 @@
         <v-card class="overflow-hidden mt-3">
           <v-toolbar flat color="primary">
             <v-icon class="mr-2 white--text">$warning</v-icon>
-            <v-toolbar-title class="font-weight-light text-capitalize  white--text"
-              >lapor</v-toolbar-title
+            <v-toolbar-title class="font-weight-light text-capitalize white--text"
+              >cek daftar hitam</v-toolbar-title
             >
             <v-spacer></v-spacer>
             <v-btn color="white" fab small @click="isEditing = !isEditing">
@@ -34,22 +34,6 @@
                 required
                 v-model="idCard"
                 :rules="idCardRules"
-                :disabled="!isEditing"
-              />
-              <v-text-field
-                prepend-icon="$jobSeeker"
-                label="Nama Yang Akan Dilapor"
-                required
-                v-model="name"
-                :rules="nameRules"
-                :disabled="!isEditing"
-              />
-              <v-text-field
-                prepend-icon="$phone"
-                label="Nomor Telepon Orang Yang Dilaporkan"
-                required
-                v-model="phone"
-                :rules="phoneRules"
                 :disabled="!isEditing"
               />
             </v-form>
@@ -72,7 +56,7 @@
                 class="text-capitalize white--text my-auto"
                 v-if="!loadingSave"
               >
-                simpan
+                cari
               </p>
             </v-btn>
           </v-card-actions>
@@ -98,7 +82,7 @@
           </p>
         </div>
       </v-snackbar>
-    </v-main>
+    ></v-main>
   </div>
 </template>
 
@@ -109,7 +93,7 @@ export default {
   data: () => ({
     items: [
       {
-        text: 'lapor',
+        text: 'cek daftar hitam',
         disabled: true,
       },
     ],
@@ -119,14 +103,6 @@ export default {
     idCardRules: [
       (v) => !!v || 'Nomor KTP/NIK Tidak Boleh Kosong',
       (v) => /[0-9]/.test(v) || 'Nomor KTP/NIK Harus Angka (0-9)',
-    ],
-    name: '',
-    nameRules: [
-      (v) => !!v || 'Nama Yang dilaporkan Tidak Boleh Kosong',
-    ],
-    phone: '',
-    phoneRules: [
-      (v) => !!v || 'Nomor telepon Yang dilaporkan Tidak Boleh Kosong',
     ],
     loadingSave: false,
     hasSaved: false,
@@ -139,28 +115,28 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingSave = true;
         axios({
-          baseURL: `${this.$store.state.domain}blacklist`,
+          baseURL: `${this.$store.state.domain}blacklist/find`,
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
             authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
-            jobSeeker: this.name,
-            phone: this.phone,
             idCard: this.idCard,
           },
         })
           .then((response) => {
-            if (response.data.data.message === 'Data Blacklist Is Successfully Create') {
+            // eslint-disable-next-line no-console
+            console.log(response.data);
+            if (response.data.data.message === 'Data Is Blacklist') {
               this.hasSaved = true;
               this.status = true;
-              this.message = 'data berhasil simpan';
+              this.message = 'data masuk daftar hitam';
               this.icon = '$success';
             } else {
               this.hasSaved = true;
               this.status = false;
-              this.message = 'data tidak berhasil simpan';
+              this.message = 'data tidak masuk daftar hitam';
               this.icon = '$warning';
             }
           })
@@ -185,8 +161,7 @@ export default {
 </script>
 
 <style scoped>
-.preview-img {
-  max-width: 354px;
-  max-height: 472px;
+.size-max{
+  max-width: 1100px;
 }
 </style>

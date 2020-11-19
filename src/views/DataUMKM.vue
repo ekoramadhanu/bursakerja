@@ -48,14 +48,26 @@
                 label="Pemilik Perusahaan"
                 required
               />
-              <v-text-field
+              <!-- <v-text-field
                 prepend-icon="$UMKM"
                 :disabled="!isEditing"
                 v-model="legality"
                 :rules="legalityRules"
                 label="Bentuk Badan Hukum"
                 required
-              />
+              /> -->
+              <v-select
+                v-model="legality"
+                :items="itemLegality"
+                item-text="name"
+                item-value="id"
+                prepend-icon="$UMKM"
+                label="Bentuk Badan Hukum"
+                :disabled="!isEditing"
+                :rules="legalityRules"
+                single-line
+                required
+              ></v-select>
               <v-text-field
                 prepend-icon="$UMKM"
                 v-model="typeCompany"
@@ -64,34 +76,70 @@
                 label="Bidang Usaha"
                 required
               />
-              <v-text-field
+              <!-- <v-text-field
                 prepend-icon="$UMKM"
                 label="Umur Perusahaan"
                 :disabled="!isEditing"
                 v-model="oldCompany"
                 :rules="oldCompanyRules"
                 required
-              />
+              /> -->
+               <v-select
+                v-model="oldCompany"
+                :items="itemOldCompany"
+                item-text="name"
+                item-value="name"
+                prepend-icon="$UMKM"
+                label="Umur Perusahaan"
+                :rules="oldCompanyRules"
+                :disabled="!isEditing"
+                single-line
+                required
+              ></v-select>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
-                  <v-text-field
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <!-- <v-text-field
                     prepend-icon="$UMKM"
                     :disabled="!isEditing"
                     v-model="branch"
                     :rules="branchRules"
                     label="Jumlah Cabang"
                     required
-                  />
+                  /> -->
+                  <v-select
+                    v-model="branch"
+                    :items="itemBranch"
+                    item-text="name"
+                    item-value="name"
+                    prepend-icon="$UMKM"
+                    label="Jumlah Cabang"
+                    :rules="branchRules"
+                    :disabled="!isEditing"
+                    single-line
+                    required
+                  ></v-select>
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="6" xs="12">
-                  <v-text-field
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <!-- <v-text-field
                     prepend-icon="$UMKM"
                     :disabled="!isEditing"
                     v-model="employee"
                     :rules="employeeRules"
                     label="Jumlah Karyawan"
                     required
-                  />
+                  /> -->
+                  <v-select
+                    v-model="employee"
+                    :items="itemEmployee"
+                    item-text="name"
+                    item-value="name"
+                    prepend-icon="$UMKM"
+                    label="Jumlah Karyawan"
+                    :rules="employeeRules"
+                    :disabled="!isEditing"
+                    single-line
+                    required
+                  ></v-select>
                 </v-col>
               </v-row>
               <v-text-field
@@ -102,6 +150,92 @@
                 :rules="addressRules"
                 required
               />
+              <v-row>
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="city"
+                    :items="itemsCity"
+                    :loading="isLoadingCity"
+                    :search-input.sync="searchCity"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
+                    label="Kota Perusahaan"
+                    prepend-icon="$location"
+                    :disabled="!isEditing"
+                    dense
+                    persistent-hint
+                    :hint="city === '' ? '' : `data yang disimpan : ${city}`"
+                    v-if="!manuallyCity"
+                    :rules="cityRules"
+                  />
+                  <v-text-field
+                    v-model="city"
+                    :rules="cityRules"
+                    prepend-icon="$location"
+                    label="Kota Perusahaan"
+                    required
+                    persistent-hint
+                    :hint="city === '' ? '' : `data yang disimpan : ${city}`"
+                    v-if="manuallyCity"
+                    :disabled="!isEditing"
+                  />
+                  <v-btn
+                    text
+                    class="text-capitalize ml-4"
+                    color="primary"
+                    @click="changeManuallyCity()"
+                    :disabled="!isEditing"
+                  >
+                    lain-lain
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="province"
+                    :items="itemsProvince"
+                    :loading="isLoadingProvince"
+                    :search-input.sync="searchProvince"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
+                    label="Provinsi Perusahaan"
+                    prepend-icon="$location"
+                    :disabled="!isEditing"
+                    dense
+                    persistent-hint
+                    :hint="
+                      province === '' ? '' : `data yang disimpan : ${province}`
+                    "
+                    v-if="!manuallyProvince"
+                    :rules="provinceRules"
+                  />
+                  <v-text-field
+                    v-model="province"
+                    :rules="provinceRules"
+                    prepend-icon="$location"
+                    label="Provinsi Perusahaan"
+                    required
+                    persistent-hint
+                    :hint="
+                      province === '' ? '' : `data yang disimpan : ${province}`
+                    "
+                    v-if="manuallyProvince"
+                    :disabled="!isEditing"
+                  />
+                  <v-btn
+                    text
+                    class="text-capitalize ml-4"
+                    color="primary"
+                    @click="changeManuallyProvince()"
+                    :disabled="!isEditing"
+                  >
+                    lain-lain
+                  </v-btn>
+                </v-col>
+              </v-row>
               <v-text-field
                 prepend-icon="$UMKM"
                 label="Link website"
@@ -152,21 +286,30 @@
                 contain
                 aspect-ratio="1.7"
               />
+              <v-textarea
+                filled
+                label="Deskripsi Terkait Perusahaan"
+                v-model="description"
+                :disabled="!isEditing"
+                :rules="descriptionRules"
+                :counter="250"
+              ></v-textarea>
             </v-form>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
             <div class="mt-3 d-flex justify-end">
-              <v-btn
-                color="primary"
-                @click="save"
-                :disabled="!isEditing"
-              >
-                <v-progress-circular indeterminate color="white" v-if="loadingSave" />
-                <p v-if="!loadingSave" class="text-capitalize my-auto">simpan</p>
-              </v-btn
-              >
+              <v-btn color="primary" @click="save" :disabled="!isEditing">
+                <v-progress-circular
+                  indeterminate
+                  color="white"
+                  v-if="loadingSave"
+                />
+                <p v-if="!loadingSave" class="text-capitalize my-auto">
+                  simpan
+                </p>
+              </v-btn>
             </div>
           </v-card-actions>
         </v-card>
@@ -221,18 +364,52 @@ export default {
     ownerRules: [(v) => !!v || 'Pemilik Perusahaan Tidak Boleh Kosong'],
     legality: '',
     legalityRules: [(v) => !!v || 'Badan Hukum Tidak Boleh Kosong'],
+    itemLegality: [
+      { id: 'Perseorangan', name: 'Perseorangan' },
+      { id: 'Firma', name: 'Firma' },
+      { id: 'CV', name: 'Perseroan Komanditer' },
+      { id: 'PT', name: 'Perseroan Terbatas' },
+      { id: 'Koperasi', name: 'Koperasi' },
+    ],
     oldCompany: '',
     oldCompanyRules: [(v) => !!v || 'Umur Perusahan Tidak Boleh Kosong'],
+    itemOldCompany: [
+      { name: '< 1 tahun' },
+      { name: '1 - 5 tahun' },
+      { name: '5 - 10  tahun' },
+      { name: '> 10  tahun' },
+    ],
     typeCompany: '',
     typeCompanyRules: [(v) => !!v || 'Bidang Usaha Tidak Boleh Kosong'],
     branch: '',
     branchRules: [(v) => !!v || 'Cabang Perusahaan Tidak Boleh Kosong'],
+    itemBranch: [
+      { name: '< 5' },
+      { name: '5 - 10' },
+      { name: '11 - 20' },
+      { name: '21 - 30' },
+      { name: '31 - 35' },
+      { name: ' > 35' },
+    ],
     employee: '',
     employeeRules: [(v) => !!v || 'Jumlah Karyawan Tidak Boleh Kosong'],
+    itemEmployee: [
+      { name: '< 50 Karyawan' },
+      { name: '50 - 100 Karyawan' },
+      { name: '100 - 1000 Karyawan' },
+      { name: '1000 - 5000 Karyawan' },
+      { name: '> 5000 Karyawan' },
+    ],
     address: '',
     addressRules: [(v) => !!v || 'Alamat Tidak Boleh Kosong'],
+    cityRules: [(v) => !!v || 'Kota Tidak Boleh Kosong'],
+    provinceRules: [(v) => !!v || 'Provinsi Tidak Boleh Kosong'],
     link: '',
-    linkRules: [(v) => !!v || 'Link Website Tidak Boleh Kosong'],
+    linkRules: [
+      (v) => !!v || 'Link Website Tidak Boleh Kosong',
+      (v) => /^http:|https:/.test(v)
+        || 'Link Website Harus Dimulai Dengan http:// atau https://',
+    ],
     phone: '',
     phoneRules: [
       (v) => !!v || 'Nomor Telepon Tidak Boleh Kosong',
@@ -253,7 +430,102 @@ export default {
     icon: '',
     message: '',
     skeleton: true,
+    // add atttribute
+    description: '',
+    descriptionRules: [
+      (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
+      (v) => v.length < 250 || 'Deskripsi Singat Anda Tidak Boleh Lebih Dari 250',
+      // eslint-disable-next-line no-useless-escape
+      (v) => /^[a-zA-z., ]*$/.test(v)
+        || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',
+    ],
+    city: '',
+    entriesCity: [],
+    isLoadingCity: false,
+    searchCity: null,
+    manuallyCity: false,
+    province: '',
+    entriesProvince: [],
+    isLoadingProvince: false,
+    searchProvince: null,
+    manuallyProvince: false,
   }),
+  computed: {
+    itemsCity() {
+      return this.entriesCity.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+    itemsProvince() {
+      return this.entriesProvince.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+  },
+  watch: {
+    searchCity() {
+      // Items have already been loaded
+      if (this.itemsCity.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingCity) return;
+
+      this.isLoadingCity = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}city`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.city.forEach((i) => {
+            this.entriesCity.push({
+              name: i.city_name,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingCity = false));
+    },
+    searchProvince() {
+      // Items have already been loaded
+      if (this.itemsProvince.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingProvince) return;
+
+      this.isLoadingProvince = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}province`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.province.forEach((i) => {
+            this.entriesProvince.push({
+              name: i.province,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingProvince = false));
+    },
+  },
   methods: {
     ChangeImageKTP(event) {
       // this.image = event;
@@ -298,14 +570,19 @@ export default {
             branches: this.branch,
             employee: this.employee,
             address: this.address,
+            city: this.city,
+            province: this.province,
             linkWebsite: this.link,
             phone: this.phone,
             photoCard: this.priviewImageKTP,
             photoLogo: this.priviewImageBrand,
+            description: this.description,
           },
         })
           .then((response) => {
-            if (response.data.data.message === 'Data UMKM Is Successfully Update') {
+            if (
+              response.data.data.message === 'Data UMKM Is Successfully Update'
+            ) {
               this.hasSaved = true;
               this.status = true;
               this.message = 'data berhasil disimpan';
@@ -329,9 +606,15 @@ export default {
           });
       }
     },
+    changeManuallyCity() {
+      this.manuallyCity = !this.manuallyCity;
+    },
+    changeManuallyProvince() {
+      this.manuallyProvince = !this.manuallyProvince;
+    },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'UMKM') {
+    if (this.$store.state.role === 'Perusahaan') {
       axios({
         baseURL: `${this.$store.state.domain}umkm/token`,
         method: 'get',
@@ -354,6 +637,17 @@ export default {
             this.phone = response.data.data.umkm[0].phone;
             this.priviewImageKTP = response.data.data.umkm[0].imageCard;
             this.priviewImageBrand = response.data.data.umkm[0].imageLogo;
+            this.description = response.data.data.umkm[0].description;
+            if (response.data.data.umkm[0].city === null) {
+              this.city = '';
+            } else {
+              this.city = response.data.data.umkm[0].city;
+            }
+            if (response.data.data.umkm[0].province === null) {
+              this.province = '';
+            } else {
+              this.province = response.data.data.umkm[0].province;
+            }
           }
         })
         .catch(() => {
@@ -376,5 +670,14 @@ export default {
 .preview-img {
   max-width: 354px;
   max-height: 354px;
+}
+div >>> ul {
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
 }
 </style>

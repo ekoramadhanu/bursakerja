@@ -12,13 +12,25 @@ export default new Vuex.Store({
         name: 'dashboard', icon: '$dashboard', link: '/home',
       },
       {
-        name: 'pencari kerja', icon: '$jobSeeker', link: '/job-seeker-panel',
+        name: 'karyawan', icon: '$jobSeeker', link: '/job-seeker-panel',
       },
       {
-        name: 'UMKM', icon: '$UMKM', link: '/UMKM-panel',
+        name: 'cari magang', icon: '$jobSeeker', link: '/internship-login',
+      },
+      {
+        name: 'cari karyawan', icon: '$jobSeeker', link: '/job-seeker-company',
+      },
+      {
+        name: 'lowongan', icon: '$job', link: '/job-vacancy-job-seeker',
+      },
+      {
+        name: 'perusahaan', icon: '$UMKM', link: '/UMKM-panel',
       },
       {
         name: 'daftar hitam', icon: '$blacklist', link: '/blacklist-panel',
+      },
+      {
+        name: 'cek daftar hitam', icon: '$blacklist', link: '/check-blacklist',
       },
       {
         name: 'admin', icon: '$admin', link: '/admin-panel',
@@ -26,9 +38,9 @@ export default new Vuex.Store({
       {
         name: 'sekolah unggulan', icon: '$school', link: '/school-panel',
       },
-      {
-        name: 'artikel', icon: '$article', link: '/article-panel',
-      },
+      // {
+      //   name: 'artikel', icon: '$article', link: '/article-panel',
+      // },
       {
         name: 'hubungi kami', icon: '$contact', link: '/contact',
       },
@@ -62,9 +74,9 @@ export default new Vuex.Store({
       {
         name: 'magang', icon: '$job', link: '/internship-panel',
       },
-      {
-        name: 'karyawan', icon: '$job', link: '',
-      },
+      // {
+      //   name: 'karyawan', icon: '$job', link: '',
+      // },
       {
         name: 'lapor', icon: '$warning', link: '/report',
       },
@@ -76,6 +88,19 @@ export default new Vuex.Store({
     checkToken: false,
     nameUser: '',
     role: '',
+    itemsSchool: [
+      { name: 'S3' },
+      { name: 'S2' },
+      { name: 'S1' },
+      { name: 'SMA/K' },
+      { name: 'SMP' },
+      { name: 'SD' },
+    ],
+    month: [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei',
+      'Juni', 'Juli', 'Agustus', 'September', 'Oktober',
+      'November', 'Desember',
+    ],
   },
   getters: {
     returnSidebar: (state) => (payload) => {
@@ -96,6 +121,11 @@ export default new Vuex.Store({
             });
           }
         });
+        navigation.push({
+          name: 'artikel',
+          icon: '$article',
+          link: '/article-panel',
+        });
       } else if (payload === 'Admin 2') {
         state.sidebar.forEach((i) => {
           if (
@@ -103,9 +133,8 @@ export default new Vuex.Store({
             || i.name === 'FAQ'
             || i.name === 'hubungi kami'
             || i.name === 'mitra'
-            || i.name === 'artikel'
-            || i.name === 'pencari kerja'
-            || i.name === 'UMKM'
+            || i.name === 'karyawan'
+            || i.name === 'perusahaan'
             || i.name === 'pengumuman'
             || i.name === 'sekolah unggulan'
             || i.name === 'profesional'
@@ -120,6 +149,11 @@ export default new Vuex.Store({
             });
           }
         });
+        navigation.push({
+          name: 'artikel',
+          icon: '$article',
+          link: '/article-panel',
+        });
       } else if (payload === 'Admin 3') {
         state.sidebar.forEach((i) => {
           if (
@@ -127,9 +161,8 @@ export default new Vuex.Store({
             || i.name === 'FAQ'
             || i.name === 'hubungi kami'
             || i.name === 'mitra'
-            || i.name === 'artikel'
-            || i.name === 'pencari kerja'
-            || i.name === 'UMKM'
+            || i.name === 'karyawan'
+            || i.name === 'perusahaan'
             || i.name === 'pengumuman'
             || i.name === 'sekolah unggulan'
             || i.name === 'profesional'
@@ -146,12 +179,20 @@ export default new Vuex.Store({
             });
           }
         });
-      } else if (payload === 'UMKM') {
+        navigation.push({
+          name: 'artikel',
+          icon: '$article',
+          link: '/article-panel',
+        });
+      } else if (payload === 'Perusahaan') {
         state.sidebar.forEach((i) => {
           if (i.name === 'upload loker'
             || i.name === 'pengumuman'
             || i.name === 'lapor'
             || i.name === 'data UMKM'
+            || i.name === 'cek daftar hitam'
+            || i.name === 'cari karyawan'
+            || i.name === 'cari magang'
           ) {
             navigation.push({
               name: i.name,
@@ -160,11 +201,17 @@ export default new Vuex.Store({
             });
           }
         });
+        navigation.push({
+          name: 'artikel',
+          icon: '$article',
+          link: '/article-user',
+        });
       } else {
         state.sidebar.forEach((i) => {
           if (
             i.name === 'resume'
             || i.name === 'pengumuman'
+            || i.name === 'lowongan'
           ) {
             navigation.push({
               name: i.name,
@@ -172,6 +219,11 @@ export default new Vuex.Store({
               link: i.link,
             });
           }
+        });
+        navigation.push({
+          name: 'artikel',
+          icon: '$article',
+          link: '/article-user',
         });
       }
       // sort array

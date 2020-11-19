@@ -225,7 +225,7 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'UMKM'
+    if (this.$store.state.role === 'Pencaker'
     || this.$store.state.role === 'Magang'
     || this.$store.state.role === 'Umum'
     || this.$store.state.role === 'Profesional'

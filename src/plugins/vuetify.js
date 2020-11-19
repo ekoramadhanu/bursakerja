@@ -58,18 +58,26 @@ export default new Vuetify({
       money: 'fas fa-money-bill-wave-alt',
       experience: 'fas fa-suitcase',
       language: 'fas fa-globe',
-      detail: 'fas fa-angle-double-right',
+      detail: 'fas fa-align-justify',
+      dropdown: 'fas fa-chevron-down',
+      pdf: 'far fa-file-pdf',
     },
-    theme: {
-      themes: {
-        light: {
-          primary: '#205faf', // blue
-          primaryDark: '#175da3', // blue light
-          fourth: '#F6F6F6', // grey
-          error: '#F72E0F', // red
-          success: '#01DB17', // green
-          warning: '#FCF404', // yellow
-        },
+  },
+  theme: {
+    themes: {
+      light: {
+        primary: '#2196F3', // blue
+        primaryDark: '#1976D2', // blue dark
+        primaryLight: '#2196F3', // blue light
+        accent: '#448AFF', // blue accent
+        primaryText: '#212121', // text color primary
+        secondaryText: '#757575', // text color secondary
+        divider: '#BDBDBD', // divider color
+        iconColor: '#FFFFFF', // white
+        grey: '#F3F2EF', // gray background
+        error: '#f44336', // red
+        success: '#4caf50', // green
+        warning: '#ffeb3b', // yellow
       },
     },
   },

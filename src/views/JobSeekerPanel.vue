@@ -38,7 +38,7 @@
                 <div class="d-flex">
                   <v-icon class="primary--text mr-2">$jobSeeker</v-icon>
                   <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    pencari kerja
+                    karyawan
                   </p>
                 </div>
               </v-toolbar-title>
@@ -60,7 +60,7 @@
                 <v-card>
                   <v-card-title class="primary">
                     <span class="headline white--text text-capitalize"
-                      >menambah kartu pencari kerja</span
+                      >menambah kartu karyawan</span
                     >
                   </v-card-title>
 
@@ -148,7 +148,7 @@
         <v-card>
           <v-card-title class="primary">
             <span class="headline white--text text-capitalize"
-              >mengubah kartu Pencari Kerja</span
+              >mengubah kartu karyawan</span
             >
           </v-card-title>
 
@@ -293,7 +293,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingAdd = true;
         axios({
-          baseURL: `${this.$store.state.domain}job-seeker/card-general`,
+          baseURL: `${this.$store.state.domain}job-seeker/card`,
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -328,7 +328,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = '';
+            this.search = 'Semua';
             if (this.jobSeeker.length > 0) {
               this.jobSeeker.splice(0, this.jobSeeker.length);
             }
@@ -389,7 +389,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = '';
+            this.search = 'Semua';
             if (this.jobSeeker.length > 0) {
               this.jobSeeker.splice(0, this.jobSeeker.length);
             }
@@ -417,169 +417,67 @@ export default {
     },
     // method universal
     methodGetCardjobSeeker(page) {
+      let endpoint = '';
       if (this.search === 'Semua') {
-        axios({
-          baseURL: `${this.$store.state.domain}job-seeker/card-general/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobSeeker.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              let nameCard = '';
-              response.data.data.jobSeeker.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Aktif';
-                } else {
-                  nameStatus = 'Aktif';
-                }
-                if (i.name === null) {
-                  nameCard = '-';
-                } else {
-                  nameCard = i.name;
-                }
-                this.jobSeeker.push({
-                  id: i.id,
-                  number: counter,
-                  name: nameCard,
-                  bursaCard: i.bursa_card,
-                  status: nameStatus,
-                  pin: i.pin,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch(() => {
-            this.hasSaved = true;
-            this.status = false;
-            this.message = 'server mengalami error';
-            this.icon = '$warning';
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+        endpoint = `${this.$store.state.domain}job-seeker/card/${page}`;
       } else if (this.search === 'Aktif') {
-        axios({
-          baseURL: `${this.$store.state.domain}job-seeker/card-general-activate/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobSeeker.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              let nameCard = '';
-              response.data.data.jobSeeker.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Aktif';
-                } else {
-                  nameStatus = 'Aktif';
-                }
-                if (i.name === null) {
-                  nameCard = '-';
-                } else {
-                  nameCard = i.name;
-                }
-                this.jobSeeker.push({
-                  id: i.id,
-                  number: counter,
-                  name: nameCard,
-                  bursaCard: i.bursa_card,
-                  status: nameStatus,
-                  pin: i.pin,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch(() => {
-            this.hasSaved = true;
-            this.status = false;
-            this.message = 'server mengalami error';
-            this.icon = '$warning';
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+        endpoint = `${this.$store.state.domain}job-seeker/card-activate/${page}`;
       } else {
-        axios({
-          baseURL: `${this.$store.state.domain}job-seeker/card-general-not-activate/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobSeeker.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              let nameCard = '';
-              response.data.data.jobSeeker.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Aktif';
-                } else {
-                  nameStatus = 'Aktif';
-                }
-                if (i.name === null) {
-                  nameCard = '-';
-                } else {
-                  nameCard = i.name;
-                }
-                this.jobSeeker.push({
-                  id: i.id,
-                  number: counter,
-                  name: nameCard,
-                  bursaCard: i.bursa_card,
-                  status: nameStatus,
-                  pin: i.pin,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch(() => {
-            this.hasSaved = true;
-            this.status = false;
-            this.message = 'server mengalami error';
-            this.icon = '$warning';
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+        endpoint = `${this.$store.state.domain}job-seeker/card-not-activate/${page}`;
       }
+      axios({
+        baseURL: endpoint,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.jobSeeker.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = (page - 1) * 10;
+            let nameStatus = '';
+            let nameCard = '';
+            response.data.data.jobSeeker.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Aktif';
+              } else {
+                nameStatus = 'Aktif';
+              }
+              if (i.name === null) {
+                nameCard = '-';
+              } else {
+                nameCard = i.name;
+              }
+              this.jobSeeker.push({
+                id: i.id,
+                number: counter,
+                name: nameCard,
+                bursaCard: i.bursa_card,
+                status: nameStatus,
+                pin: i.pin,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.loadingTable = false;
+        });
     },
   },
   beforeCreate() {
@@ -592,7 +490,7 @@ export default {
       this.$router.push('/access-block');
     } else {
       axios({
-        baseURL: `${this.$store.state.domain}job-seeker/card-general/1`,
+        baseURL: `${this.$store.state.domain}job-seeker/card/1`,
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
@@ -678,6 +576,6 @@ export default {
 
 <style scoped>
 .size-max{
-  max-width: 1366px;
+  max-width: 1100px;
 }
 </style>
