@@ -2,10 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
         <v-card elevation="3" class="pa-4">
           <div class="d-flex">
             <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
@@ -35,7 +31,7 @@
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
-                :rules="previewImage !== null? []: imageRules"
+                :rules="previewImage !== null ? [] : imageRules"
                 :disabled="!isEditing"
                 @change="ChangeImage"
               ></v-file-input>
@@ -57,17 +53,18 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              :disabled="!isEditing"
-              color="primary"
-              @click="save"
-            >
+            <v-btn :disabled="!isEditing" color="primary" @click="save">
               <v-progress-circular
                 indeterminate
                 color="white"
                 v-if="loadingSave"
               ></v-progress-circular>
-              <p class="text-capitalize white--text my-auto" v-if="!loadingSave">simpan</p>
+              <p
+                class="text-capitalize white--text my-auto"
+                v-if="!loadingSave"
+              >
+                simpan
+              </p>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -77,16 +74,12 @@
           v-if="skeleton"
           class="mt-3"
         ></v-skeleton-loader>
-        <v-snackbar
-          v-model="hasSaved"
-          :timeout="2000"
-          top
-          right
-          color="white"
-        >
+        <v-snackbar v-model="hasSaved" :timeout="2000" top right color="white">
           <div class="d-flex">
             <v-icon
-              :class="status === false ? 'mr-2 error--text' : 'mr-2 success--text'"
+              :class="
+                status === false ? 'mr-2 error--text' : 'mr-2 success--text'
+              "
               >{{ icon }}</v-icon
             >
             <p class="text-capitalize black--text ma-0 text-subtitle-1">
@@ -225,11 +218,13 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'Pencaker'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'Pencaker'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({
@@ -291,11 +286,11 @@ export default {
   overflow: auto;
   max-height: 300px;
 }
-.preview-img{
-    max-width: 800px;
-    max-height: 600px;
+.preview-img {
+  max-width: 800px;
+  max-height: 600px;
 }
-div >>> ul{
+div >>> ul {
   line-height: 18px !important;
 }
 div >>> ol {

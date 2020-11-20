@@ -373,17 +373,16 @@
       </div>
       <div v-if="role === 'Perusahaan' || role === 'Pencaker'">
         <v-container>
-          <v-card class="pa-4">
+          <!-- <v-card class="pa-4"> -->
             <div class="d-flex">
               <v-row align="center" justify="center">
-                <v-col cols="4" class="d-none d-sm-flex">
+                <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="6">
                   <v-img
                     src="@/assets/Connected-rafiki.svg"
                     contain
-                    height="296"
                   ></v-img>
                 </v-col>
-                <v-col cols="8">
+                <v-col md="6" lg="6">
                   <h1>Selamat Datang!</h1>
                   <p>
                     Selamat datang di dasbor bursa kerja. Dari halaman ini, Anda
@@ -394,7 +393,7 @@
                 </v-col>
               </v-row>
             </div>
-          </v-card>
+          <!-- </v-card> -->
         </v-container>
       </div>
     </v-container>

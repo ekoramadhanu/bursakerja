@@ -2,10 +2,7 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-          <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
+
         <v-img
           :src="image"
           aspect-ratio="1.7"

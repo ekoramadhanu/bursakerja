@@ -2,10 +2,7 @@
   <div>
     <v-main class="grey">
       <v-container class="d-flex flex-column justify-center max-width grey">
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
+
         <v-card elevation="3" class="pa-4 mx-9">
           <div class="d-flex">
             <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>

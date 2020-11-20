@@ -2,18 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-data-table
           :headers="headerAdmin"
           :items="admin"
@@ -26,13 +14,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$admin</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    admin bursa kerja
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Daftar Admin Bursa Kerja</p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogAdd" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
@@ -44,7 +28,7 @@
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text text-capitalize">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -59,26 +43,23 @@
                       <v-text-field
                         v-model="editedItemAdmin.name"
                         :rules="nameRules"
-                        prepend-icon="$admin"
                         label="Nama"
                         required
                       />
                       <v-text-field
                         v-model="editedItemAdmin.email"
                         :rules="emailRules"
-                        prepend-icon="$email"
                         label="Alamat Email"
                         required
                       />
                       <v-select
                         v-model="editedItemAdmin.role"
                         :rules="roleRules"
-                        prepend-icon="$admin"
                         no-data-text="Data Tidak Ditemukan"
                         :items="role"
                         item-text="name"
                         item-value="id"
-                        label="pilih Tugas Admin"
+                        label="Tugas Admin"
                       />
                     </v-form>
                   </v-card-text>
@@ -87,10 +68,10 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                      color="white"
-                      class="text-capitalize mr-2"
-                      elevation="3"
+                      color="primary"
+                      class="px-4 mr-2"
                       @click="closeAdd()"
+                      text
                     >
                       batal
                     </v-btn>
@@ -101,7 +82,7 @@
                         v-if="loadingAdd"
                       />
                       <p
-                        class="my-auto text-capitalize text-white"
+                        class="px-4 my-auto text-white"
                         v-if="!loadingAdd"
                       >
                         simpan
@@ -121,25 +102,33 @@
               @click:append="searchAdmin()"
             />
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn
+              @click="openDialogUpdate(item)"
+              color="orange"
+              x-small
+              class="mr-2 white--text"
+              elevation="0"
+            >
+              Ubah Tugas
             </v-btn>
             <v-btn
               @click="openDialogDeactivate(item)"
-              class="error--text"
-              icon
               v-if="item.status === 'Aktif'"
-            >
-              <v-icon> $times </v-icon>
+              elevation="0"
+              x-small
+              color="red"
+              class="ml-2 white--text"
+              >Nonaktifkan
             </v-btn>
             <v-btn
               @click="openDialogActivate(item)"
-              class="success--text"
-              icon
               v-else
-            >
-              <v-icon> $check </v-icon>
+              elevation="0"
+              color="green"
+              x-small
+              class="ml-2 white--text"
+              >Aktifkan
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -173,29 +162,28 @@
             >
           </v-card-title>
 
-          <v-card-text>
+          <v-card-text class="mt-8">
             <v-form ref="form" lazy-validation>
               <v-select
                 v-model="editedItemAdmin.role"
                 :rules="roleRules"
-                prepend-icon="$admin"
                 no-data-text="Data Tidak Ditemukan"
                 :items="role"
                 item-text="name"
                 item-value="id"
-                label="pilih Tugas Admin"
+                label="Tugas Admin"
               />
             </v-form>
           </v-card-text>
 
-          <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              color="white"
-              class="text-capitalize mr-2"
-              elevation="3"
+              color="primary"
+              class="mr-2 px-4"
+              elevation="0"
               @click="closeUpdate()"
+              text
             >
               batal
             </v-btn>
@@ -205,7 +193,10 @@
                 color="white"
                 v-if="loadingUpdate"
               />
-              <p class="my-auto text-capitalize text-white" v-if="!loadingUpdate">
+              <p
+                class="my-auto text-white px-4"
+                v-if="!loadingUpdate"
+              >
                 simpan
               </p>
             </v-btn>
@@ -221,15 +212,19 @@
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin menonaktifkan admin ? Jika "iya"
-                silahkan pilih tombol iya
+                Apakah anda yakin menonaktifkan admin ? Jika "iya" silahkan
+                pilih tombol iya
               </p>
             </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogDeactivate = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogDeactivate = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveDeactivated()">
@@ -257,15 +252,19 @@
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin mengaktifkan akun admin ? Jika "iya"
-                silahkan pilih tombol iya
+                Apakah anda yakin mengaktifkan akun admin ? Jika "iya" silahkan
+                pilih tombol iya
               </p>
             </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogActivate = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogActivate = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveActivate()">
@@ -532,7 +531,7 @@ export default {
         .then((response) => {
           if (
             response.data.data.message
-              === 'Data Admin Is Successfully Deactivate'
+            === 'Data Admin Is Successfully Deactivate'
           ) {
             this.hasSaved = true;
             this.status = true;
@@ -581,8 +580,7 @@ export default {
       })
         .then((response) => {
           if (
-            response.data.data.message
-              === 'Data Admin Is Successfully Activate'
+            response.data.data.message === 'Data Admin Is Successfully Activate'
           ) {
             this.hasSaved = true;
             this.status = true;
