@@ -22,7 +22,7 @@
                   item-value="name"
                   label="Lokasi Sekolah"
                   prepend-icon="$location"
-                  append-outer-icon="$close"
+                  append-outer-icon="mdi-close"
                   @click:append-outer="resetLocation()"
                   outlined
                   dense

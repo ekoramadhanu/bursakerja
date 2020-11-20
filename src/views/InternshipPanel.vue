@@ -2,25 +2,23 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
-        <div class="d-flex justify-end">
-          <v-overflow-btn
-            v-model="statusProfesional"
-            class="mt-3 cursor"
-            :items="filter"
-            label="Pilih Status"
-            filled
-            @change="searchCardJobSeeker()"
-          ></v-overflow-btn>
-        </div>
+        <v-row>
+          <v-spacer
+            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
+          ></v-spacer>
+          <v-col lg="4" md="4">
+            <div class="d-flex justify-end">
+              <v-overflow-btn
+                v-model="statusProfesional"
+                class="cursor"
+                :items="filter"
+                label="Pilih Status"
+                dense
+                @change="searchCardJobSeeker()"
+              ></v-overflow-btn>
+            </div>
+          </v-col>
+        </v-row>
         <v-data-table
           :headers="headerJobSeeker"
           :items="jobSeeker"
@@ -33,13 +31,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$job</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    magang
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Daftar Tenaga Magang</p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog
                 v-model="dialogAdd"
@@ -56,28 +50,25 @@
                     v-on="on"
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 text-capitalize white--text">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-toolbar class="primary">
                     <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">$close</v-icon>
+                      <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      silahkan isi data pekerja magang
+                      Tambah data pekerja magang
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="saveAdd()">
+                    <v-btn elevation="0" @click="saveAdd()" dark color="white">
                       <v-progress-circular
                         indeterminate
-                        color="white"
+                        color="primary"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="ma-0 text-capitalize white--text"
-                        v-if="!loadingAdd"
-                      >
+                      <p class="ma-0 primary--text" v-if="!loadingAdd">
                         simpan
                       </p>
                     </v-btn>
@@ -88,21 +79,18 @@
                       <v-text-field
                         v-model="editedItemJobSeeker.name"
                         :rules="nameRules"
-                        prepend-icon="$jobSeeker"
                         label="Nama Pekerja Magang"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.position"
                         :rules="positionRules"
-                        prepend-icon="$job"
                         label="Posisi Pekerja Magang"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.phone"
                         :rules="phoneRules"
-                        prepend-icon="$phone"
                         label="Telepon Pekerja Magang"
                         required
                       />
@@ -116,7 +104,6 @@
                         item-text="name"
                         item-value="name"
                         label="Lokasi Pekerja Magang"
-                        prepend-icon="$location"
                         v-if="!manually"
                         persistent-hint
                         hint="Jika Tidak Ada Silahkan Pilih Lain - Lain "
@@ -132,7 +119,7 @@
                       />
                       <v-btn
                         text
-                        class="text-capitalize ml-4"
+                        class="text-capitalize pl-0"
                         color="primary"
                         @click="changeManually()"
                       >
@@ -143,10 +130,10 @@
                         :items="itemSchool"
                         item-text="name"
                         item-value="name"
-                        label="Sekolah Terakhir Pekerja Magang"
-                        prepend-icon="$school"
+                        label="Pendidikan Terakhir Pekerja Magang"
                         :rules="schoolRules"
-                        single-line
+                        Tampilkan
+                        Semua
                         required
                       ></v-select>
                       <v-menu
@@ -161,7 +148,6 @@
                           <v-text-field
                             v-model="computedDateFormatted"
                             label="Tanggal Berakhir Pekerja Magang"
-                            prepend-icon="$calendar"
                             :rules="expiredRules"
                             readonly
                             v-bind="attrs"
@@ -174,7 +160,7 @@
                         ></v-date-picker>
                       </v-menu>
                       <v-file-input
-                        label="Unggah Gambar Sekolah (Maks 1 MB)"
+                        label="Unggah Foto (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
@@ -212,55 +198,64 @@
               @click:append="searchProfesional()"
             />
           </template>
-          <template v-slot:item.number="{ item }">
+          <template v-slot:[`item.number`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.number }}</p>
           </template>
-          <template v-slot:item.name="{ item }">
+          <template v-slot:[`item.name`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.name }}</p>
           </template>
-          <template v-slot:item.position="{ item }">
+          <template v-slot:[`item.position`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.position }}</p>
           </template>
-          <template v-slot:item.phone="{ item }">
+          <template v-slot:[`item.phone`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.phone }}</p>
           </template>
-          <template v-slot:item.location="{ item }">
+          <template v-slot:[`item.location`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.location }}</p>
           </template>
-          <template v-slot:item.school="{ item }">
+          <template v-slot:[`item.school`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.school }}</p>
           </template>
-          <template v-slot:item.status="{ item }">
+          <template v-slot:[`item.status`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.status }}</p>
           </template>
-          <template v-slot:item.expired="{ item }">
+          <template v-slot:[`item.expired`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.expired }}</p>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn
-              @click="openDialogUpdate(item)"
-              class="warning--text"
-              icon
-              v-if="item.status === 'Tidak Aktif'"
-            >
-              <v-icon> mdi-pencil </v-icon>
-            </v-btn>
-            <v-btn
-              @click="openDialogDeShow(item)"
-              class="error--text"
-              icon
-              v-if="item.status === 'Aktif'"
-            >
-              <v-icon> $times </v-icon>
-            </v-btn>
-            <v-btn
-              @click="openDialogShow(item)"
-              class="success--text"
-              icon
-              v-if="item.status === 'Tidak Aktif'"
-            >
-              <v-icon> $check </v-icon>
-            </v-btn>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-row class="mr-2 my-2">
+              <v-btn
+                @click="openDialogUpdate(item)"
+                dark
+                color="orange"
+                x-small
+                v-if="item.status === 'Tidak Aktif'"
+              >
+                ubah data
+              </v-btn>
+            </v-row>
+            <v-row class="mr-2 my-2">
+              <v-btn
+                @click="openDialogDeShow(item)"
+                dark
+                color="error"
+                x-small
+                v-if="item.status === 'Aktif'"
+              >
+                nonaktifkan
+              </v-btn>
+            </v-row>
+            <v-row class="mr-2 my-2">
+              <v-btn
+                @click="openDialogShow(item)"
+                dark
+                color="success"
+                x-small
+                v-if="item.status === 'Tidak Aktif'"
+              >
+                aktifkan
+              </v-btn>
+            </v-row>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -294,21 +289,19 @@
         <v-card>
           <v-toolbar class="primary">
             <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">$close</v-icon>
+              <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              silahkan isi data pekerja magang
+              Edit data pekerja magang
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text @click="saveUpdate()">
+            <v-btn @click="saveUpdate()" elevation="0" color="white">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingAdd"
               />
-              <p class="ma-0 text-capitalize white--text" v-if="!loadingAdd">
-                simpan
-              </p>
+              <p class="ma-0 primary--text" v-if="!loadingAdd">simpan</p>
             </v-btn>
           </v-toolbar>
 
@@ -317,21 +310,18 @@
               <v-text-field
                 v-model="editedItemJobSeeker.name"
                 :rules="nameRules"
-                prepend-icon="$jobSeeker"
                 label="Nama Pekerja Magang"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.position"
                 :rules="positionRules"
-                prepend-icon="$job"
                 label="Posisi Pekerja Magang"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.phone"
                 :rules="phoneRules"
-                prepend-icon="$phone"
                 label="Telepon Pekerja Magang"
                 required
               />
@@ -345,7 +335,6 @@
                 item-text="name"
                 item-value="name"
                 label="Lokasi Pekerja Magang"
-                prepend-icon="$location"
                 v-if="!manually"
                 persistent-hint
                 :hint="`Jika Tidak Ada Silahkan Pilih Lain - Lain,
@@ -355,14 +344,13 @@
               <v-text-field
                 v-model="editedItemJobSeeker.location"
                 :rules="locationRules"
-                prepend-icon="$location"
                 label="Lokasi Pekerja Magang"
                 required
                 v-if="manually"
               />
               <v-btn
                 text
-                class="text-capitalize ml-4"
+                class="text-capitalize pl-0"
                 color="primary"
                 @click="changeManually()"
               >
@@ -373,10 +361,8 @@
                 :items="itemSchool"
                 item-text="name"
                 item-value="name"
-                label="Sekolah Terakhir Pekerja Magang"
-                prepend-icon="$school"
+                label="Pendidikan Terakhir Pekerja Magang"
                 :rules="schoolRules"
-                single-line
                 required
               ></v-select>
               <v-menu
@@ -391,7 +377,6 @@
                   <v-text-field
                     v-model="computedDateFormatted"
                     label="Tanggal Berakhir Pekerja Magang"
-                    prepend-icon="$calendar"
                     :rules="expiredRules"
                     readonly
                     v-bind="attrs"
@@ -409,7 +394,7 @@
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
-                :rules="editedItemJobSeeker.image !== '' ? [] :imageRules"
+                :rules="editedItemJobSeeker.image !== '' ? [] : imageRules"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -582,11 +567,11 @@ export default {
         value: 'number',
       },
       { text: 'Nama', value: 'name', sortable: false },
-      { text: 'posisi', value: 'position', sortable: false },
-      { text: 'telepon', value: 'phone', sortable: false },
-      { text: 'lokasi', value: 'location', sortable: false },
+      { text: 'Posisi', value: 'position', sortable: false },
+      { text: 'Telepon', value: 'phone', sortable: false },
+      { text: 'Lokasi', value: 'location', sortable: false },
       { text: 'Sekolah', value: 'school', sortable: false },
-      { text: 'status', value: 'status', sortable: false },
+      { text: 'Status', value: 'status', sortable: false },
       { text: 'Tanggal Berakhir', value: 'expired', sortable: false },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
@@ -639,32 +624,23 @@ export default {
     ],
     imageRules: [
       (v) => !!v || 'Foto Perkerja Magang Tidak Boleh Kosong',
-      (v) => !v
-        || v.size < 1000000
-        || 'Foto Perkerja Magang Harus Kurang Dari 1MB',
+      (v) => !v || v.size < 1000000 || 'Foto Perkerja Magang Harus Kurang Dari 1MB',
     ],
     page: 1,
     pageCount: 3,
     search: '',
-    filter: ['Aktif', 'Tidak Aktif', 'Semua'],
+    filter: ['Aktif', 'Tidak Aktif', 'Tampilkan Semua'],
     nameRules: [(v) => !!v || 'Nama Pekerja Magang Tidak Boleh Kosong'],
-    positionRules: [
-      (v) => !!v || 'Posisi Pekerja Magang Tidak Boleh Kosong',
-    ],
+    positionRules: [(v) => !!v || 'Posisi Pekerja Magang Tidak Boleh Kosong'],
     phoneRules: [
       (v) => !!v || 'Nomor Telepon Pekerja Magang Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v)
-        || 'Nomor Telepon Pekerja Magang Harus Angka (0-9)',
+      (v) => /[0-9]/.test(v) || 'Nomor Telepon Pekerja Magang Harus Angka (0-9)',
       (v) => /^08/.test(v)
         || 'Nomor Telepon Pekerja Magang Harus Dimulai Dengan 08...',
     ],
-    locationRules: [
-      (v) => !!v || 'Lokasi Pekerja Magang Tidak Boleh Kosong',
-    ],
+    locationRules: [(v) => !!v || 'Lokasi Pekerja Magang Tidak Boleh Kosong'],
     itemSchool: [],
-    schoolRules: [
-      (v) => !!v || 'Sekolah Pekerja Magang Tidak Boleh Kosong',
-    ],
+    schoolRules: [(v) => !!v || 'Sekolah Pekerja Magang Tidak Boleh Kosong'],
     expiredRules: [(v) => !!v || 'Tanggal Berakhir Iklan Tidak Boleh Kosong'],
     skeleton: true,
     hasSaved: false,
@@ -676,7 +652,7 @@ export default {
     isLoading: false,
     searchLocation: null,
     manually: false,
-    statusProfesional: 'Semua',
+    statusProfesional: 'Tampilkan Semua',
   }),
   computed: {
     computedDateFormatted() {

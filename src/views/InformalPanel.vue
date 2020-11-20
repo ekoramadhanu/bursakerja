@@ -56,7 +56,7 @@
                 <v-card>
                   <v-toolbar class="primary">
                     <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">$close</v-icon>
+                      <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
                       Tambah Data Pekerja Infomal
@@ -68,10 +68,7 @@
                         color="primary"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="ma-0 primary--text"
-                        v-if="!loadingAdd"
-                      >
+                      <p class="ma-0 primary--text" v-if="!loadingAdd">
                         simpan
                       </p>
                     </v-btn>
@@ -122,7 +119,7 @@
                       />
                       <v-btn
                         text
-                        class="text-capitalize"
+                        class="text-capitalize pl-0"
                         color="primary"
                         @click="changeManually()"
                       >
@@ -135,7 +132,6 @@
                         item-value="name"
                         label="Pendidikan Terakhir"
                         :rules="schoolRules"
-                        single-line
                         required
                       ></v-select>
                       <v-menu
@@ -162,7 +158,7 @@
                         ></v-date-picker>
                       </v-menu>
                       <v-file-input
-                        label="Unggah Gambar Sekolah (Maks 1 MB)"
+                        label="Unggah Foto (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
@@ -291,7 +287,7 @@
         <v-card>
           <v-toolbar class="primary">
             <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">$close</v-icon>
+              <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
               Edit Data Pekerja Informal
@@ -303,9 +299,7 @@
                 color="primary"
                 v-if="loadingAdd"
               />
-              <p class="ma-0 primary--text" v-if="!loadingAdd">
-                simpan
-              </p>
+              <p class="ma-0 primary--text" v-if="!loadingAdd">simpan</p>
             </v-btn>
           </v-toolbar>
 
@@ -354,7 +348,7 @@
               />
               <v-btn
                 text
-                class="text-capitalize"
+                class="text-capitalize pl-0"
                 color="primary"
                 @click="changeManually()"
               >
@@ -367,7 +361,6 @@
                 item-value="name"
                 label="Pendidikan Terakhir"
                 :rules="schoolRules"
-                single-line
                 required
               ></v-select>
               <v-menu

@@ -39,7 +39,7 @@
                 <v-card>
                   <v-toolbar class="primary">
                     <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">$close</v-icon>
+                      <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
                       Tambah Artikel
@@ -187,7 +187,7 @@
         <v-card>
           <v-toolbar class="primary">
             <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">$close</v-icon>
+              <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
               ubah data artikel

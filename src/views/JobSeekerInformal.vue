@@ -23,7 +23,7 @@
                     item-value="name"
                     label="Lokasi Informal"
                     prepend-icon="$location"
-                    append-outer-icon="$close"
+                    append-outer-icon="mdi-close"
                     @click:append-outer="resetLocation()"
                     outlined
                     dense
@@ -41,7 +41,7 @@
                     item-value="name"
                     label="Jabatan Informal"
                     prepend-icon="$job"
-                    append-outer-icon="$close"
+                    append-outer-icon="mdi-close"
                     @click:append-outer="resetJob()"
                     outlined
                     dense
@@ -59,7 +59,7 @@
                     item-value="name"
                     label="Sekolah Terakhir Pekerja Informal"
                     prepend-icon="$school"
-                    append-outer-icon="$close"
+                    append-outer-icon="mdi-close"
                     @click:append-outer="resetSchool()"
                     outlined
                     dense

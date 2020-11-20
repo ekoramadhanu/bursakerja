@@ -54,7 +54,7 @@
                 <v-card>
                   <v-toolbar class="primary">
                     <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">$close</v-icon>
+                      <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
                       silahkan isi data sekolah
@@ -238,7 +238,7 @@
         <v-card>
           <v-toolbar class="primary">
             <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">$close</v-icon>
+              <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
               mengubah data sekolah

@@ -2,15 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-data-table
           :headers="headerJobVacancy"
           :items="jobVacancy"
@@ -23,13 +14,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$jobSeeker</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    lowongan kerja
+                  <p class="ma-0 hidden-xs-only">
+                    Daftar Pemasangan Lowongan Kerja
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-text-field
@@ -42,20 +31,24 @@
               @click:append="searchjobVacancy()"
             />
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-btn
               @click="openDialogDecline(item)"
-              class="error--text"
-              icon
+              dark
+              x-small
+              color="error"
+              class="mr-2"
             >
-              <v-icon> $times </v-icon>
+              batalkan
             </v-btn>
             <v-btn
               @click="openDialogAcpprove(item)"
-              class="success--text"
-              icon
+              dark
+              x-small
+              color="success"
+              class="ml-2"
             >
-              <v-icon> $check </v-icon>
+              setujui
             </v-btn>
           </template>
           <template v-slot:no-data>

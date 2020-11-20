@@ -24,7 +24,7 @@
                     item-value="name"
                     label="Lokasi Lowingan"
                     prepend-icon="$location"
-                    append-outer-icon="$close"
+                    append-outer-icon="mdi-close"
                     @click:append-outer="resetLocation()"
                     outlined
                     dense
@@ -42,7 +42,7 @@
                     item-value="name"
                     label="Posisi Lowongan"
                     prepend-icon="$job"
-                    append-outer-icon="$close"
+                    append-outer-icon="mdi-close"
                     @click:append-outer="resetJob()"
                     outlined
                     dense
