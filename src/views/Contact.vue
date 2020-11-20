@@ -16,7 +16,7 @@
             <v-icon class="mr-2 white--text">$contact</v-icon>
             <v-toolbar-title
               class="font-weight-light text-capitalize white--text"
-              >hubungi kami</v-toolbar-title
+              >Kontak</v-toolbar-title
             >
             <v-spacer></v-spacer>
             <v-btn color="white" fab small @click="isEditing = !isEditing">
@@ -117,7 +117,7 @@ export default {
   data: () => ({
     items: [
       {
-        text: 'hubungi kami',
+        text: 'Kontak',
         disabled: true,
       },
     ],

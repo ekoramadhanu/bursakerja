@@ -42,7 +42,7 @@ export default new Vuex.Store({
       //   name: 'artikel', icon: '$article', link: '/article-panel',
       // },
       {
-        name: 'hubungi kami', icon: '$contact', link: '/contact',
+        name: 'kontak', icon: '$contact', link: '/contact',
       },
       {
         name: 'FAQ', icon: '$FAQ', link: '/faq-panel',
@@ -110,7 +110,7 @@ export default new Vuex.Store({
           if (
             i.name === 'tentang kami'
             || i.name === 'FAQ'
-            || i.name === 'hubungi kami'
+            || i.name === 'kontak'
             || i.name === 'mitra'
             || i.name === 'artikel'
           ) {
@@ -131,7 +131,7 @@ export default new Vuex.Store({
           if (
             i.name === 'tentang kami'
             || i.name === 'FAQ'
-            || i.name === 'hubungi kami'
+            || i.name === 'kontak'
             || i.name === 'mitra'
             || i.name === 'karyawan'
             || i.name === 'perusahaan'
@@ -159,7 +159,7 @@ export default new Vuex.Store({
           if (
             i.name === 'tentang kami'
             || i.name === 'FAQ'
-            || i.name === 'hubungi kami'
+            || i.name === 'kontak'
             || i.name === 'mitra'
             || i.name === 'karyawan'
             || i.name === 'perusahaan'
