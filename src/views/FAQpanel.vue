@@ -5,12 +5,12 @@
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
             <v-toolbar-title class="font-weight-light white--text"
-              >Edit FAQ</v-toolbar-title
+              >FAQ yang Ditampilkan</v-toolbar-title
             >
             <v-spacer></v-spacer>
-            <v-btn color="white" fab small @click="isEditing = !isEditing">
-              <v-icon v-if="isEditing" class="primary--text">mdi-close</v-icon>
-              <v-icon v-else class="primary--text">mdi-pencil</v-icon>
+            <v-btn color="white" icon @click="isEditing = !isEditing">
+              <v-icon v-if="isEditing">mdi-close</v-icon>
+              <v-icon v-else>mdi-pencil</v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text>
@@ -24,8 +24,7 @@
             <v-divider></v-divider>
             <div v-html="content" class="mt-2"></div>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
+          <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>
             <v-btn
               :disabled="!isEditing"
