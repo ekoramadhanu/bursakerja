@@ -1,17 +1,12 @@
 <template>
   <div class="d-flex justify-center mb-2">
     <div class="max-width">
-      <v-lazy
-        v-model="isActive"
-        :options="{
-          threshold: 1,
-        }"
-        transition="slideUp"
-      >
-        <h2 class="text-center my-2 text-uppercase primaryText--text">
-          pilih kategori sdm
-        </h2>
-      </v-lazy>
+      <p class="text-center my-2 text-capitalize black--text text-h4 font-weight-bold">
+        kategori sumber daya manusia
+      </p>
+      <p class="text-center my-2 ">
+        Kami membagi kategori sumber daya manusia menjadi 4 macam
+      </p>
       <!-- <v-lazy
         v-model="isActive"
         :options="{
