@@ -2,15 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-data-table
           :headers="headerArticle"
           :items="article"
@@ -23,13 +14,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$article</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    artikel
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Daftar Artikel</p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog
                 v-model="dialogAdd"
@@ -46,7 +33,7 @@
                     v-on="on"
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 text-capitalize white--text">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -55,21 +42,20 @@
                       <v-icon class="white--text">$close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      silahkan isi data artikel
+                      Tambah Artikel
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="saveAdd()">
+                    <v-btn
+                      @click="saveAdd()"
+                      color="white"
+                      class="primary--text"
+                    >
                       <v-progress-circular
                         indeterminate
-                        color="white"
+                        color="primary"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="ma-0 text-capitalize white--text"
-                        v-if="!loadingAdd"
-                      >
-                        simpan
-                      </p>
+                      <p class="ma-0" v-if="!loadingAdd">terbitkan</p>
                     </v-btn>
                   </v-toolbar>
 
@@ -78,18 +64,16 @@
                       <v-text-field
                         v-model="editedItemArticle.title"
                         :rules="titleRules"
-                        prepend-icon="$article"
                         label="Judul Artikel"
                         required
                       />
                       <v-select
                         v-model="editedItemArticle.user"
                         :rules="userRules"
-                        prepend-icon="$article"
                         :items="userRead"
                         item-text="name"
                         item-value="id"
-                        label="pilih pembaca dari artikel ini"
+                        label="Pilih Pembaca Artikel"
                       />
                       <v-file-input
                         label="Unggah Gambar Artikel (Maks 1 MB)"
@@ -110,7 +94,10 @@
                       <tip-tap-vuetify
                         v-model="editedItemArticle.description"
                         :extensions="extensions"
-                        :card-props="{ height: '300', style: 'overflow: auto;' }"
+                        :card-props="{
+                          height: '300',
+                          style: 'overflow: auto;',
+                        }"
                       />
                     </v-form>
                   </v-card-text>
@@ -127,7 +114,7 @@
               @click:append="searchArticle()"
             />
           </template>
-          <template v-slot:item.image="{ item }">
+          <template v-slot:[`item.image`]="{ item }">
             <v-img
               :src="item.image"
               aspect-ratio="1.7"
@@ -137,9 +124,15 @@
               class="ma-2"
             ></v-img>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn
+              @click="openDialogUpdate(item)"
+              color="orange"
+              x-small
+              class="mr-2 white--text"
+              elevation="0"
+            >
+              ubah artikel
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -200,14 +193,14 @@
               ubah data artikel
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text @click="saveUpdate()">
+            <v-btn @click="saveUpdate()" color="white" class="primary--text">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 text-capitalize white--text" v-if="!loadingUpdate">
-                simpan
+              <p class="ma-0" v-if="!loadingUpdate">
+                simpan perubahan
               </p>
             </v-btn>
           </v-toolbar>
@@ -217,18 +210,16 @@
               <v-text-field
                 v-model="editedItemArticle.title"
                 :rules="titleRules"
-                prepend-icon="$article"
                 label="Judul Artikel"
                 required
               />
               <v-select
                 v-model="editedItemArticle.user"
                 :rules="userRules"
-                prepend-icon="$article"
                 :items="userRead"
                 item-text="name"
                 item-value="id"
-                label="pilih pembaca dari artikel ini"
+                label="Pilih Pembaca Artikel"
               />
               <v-file-input
                 label="Unggah Gambar Artikel (Maks 1 MB)"
@@ -236,7 +227,7 @@
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
-                :rules="editedItemArticle.image !== null? [] : imageRules"
+                :rules="editedItemArticle.image !== null ? [] : imageRules"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -250,6 +241,7 @@
                 v-model="editedItemArticle.description"
                 :extensions="extensions"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
+                placeholder="Tulis Artikel"
               />
             </v-form>
           </v-card-text>
@@ -309,13 +301,13 @@ export default {
     editedItemArticle: {
       title: '',
       image: null,
-      description: '<p>Silahkan Isi Pejelasan</p>',
+      description: '',
       user: '',
     },
     defaultItem: {
       title: '',
       image: null,
-      description: '<p>Silahkan Isi Pejelasan</p>',
+      description: '',
       user: '',
     },
     page: 1,
@@ -458,7 +450,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}article/${this.article[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}article/${
+            this.article[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -473,7 +467,8 @@ export default {
         })
           .then((response) => {
             if (
-              response.data.data.message === 'Data Article Is Successfully Updated'
+              response.data.data.message
+              === 'Data Article Is Successfully Updated'
             ) {
               this.hasSaved = true;
               this.status = true;
@@ -601,11 +596,13 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'UMKM'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({
