@@ -4,34 +4,42 @@
       <div class="max-width mx-auto">
         <div class="d-flex height-navbar">
           <v-app-bar-nav-icon
-            class="hidden-md-and-up primary--text"
+            class="hidden-lg-and-up primary--text"
             @click="drawer = !drawer"
             light
           />
           <router-link
             to="/"
-            class="my-auto text-decoration-none hidden-sm-and-down"
+            class="my-auto text-decoration-none hidden-md-and-down"
           >
             <v-toolbar-title class="primary--text">
               <v-img
                 src="@/assets/logo.svg"
+                width="100%"
+                height="100%"
+                max-width="153"
+                max-height="30"
                 to="/"
                 contain
               ></v-img>
             </v-toolbar-title>
           </router-link>
-          <router-link to="/" class="my-auto text-width-xs hidden-md-and-up">
+          <router-link to="/" class="my-auto text-width-xs hidden-lg-and-up">
             <v-toolbar-title>
               <v-img
                 src="@/assets/logo.svg"
                 to="/"
+                width="100%"
+                height="100%"
+                max-width="153"
+                max-height="30"
                 class="mx-auto"
                 contain
               ></v-img
             ></v-toolbar-title>
           </router-link>
           <v-spacer></v-spacer>
-          <div class="hidden-sm-and-down button-height">
+          <div class="hidden-md-and-down button-height">
             <v-btn text to="/" elevation="0" class="no-focus" height="100%">
               <span class="my-auto">beranda</span>
             </v-btn>
@@ -160,7 +168,7 @@
         </div>
       </div>
     </v-app-bar>
-    //drawer menu
+    <!-- drawer menu -->
     <v-navigation-drawer v-model="drawer" fixed temporary>
       <v-list dense>
         <v-list-item to="/">

@@ -315,7 +315,7 @@ const routes = [
   },
   {
     path: '/article-user',
-    name: 'Artikel',
+    name: 'ArtikelUser',
     component: articleaAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {

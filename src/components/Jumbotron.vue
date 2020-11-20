@@ -8,35 +8,35 @@
         md="6"
         sm="6"
         xs="12"
-        class="pl-9 pr-1 d-flex align-center"
+        class="pr-1 d-flex align-center"
       >
         <div class="d-flex flex-column">
-          <transition name="slideLeft" appear>
-            <h2 class="text-capitalize">Bursakerja.biz123</h2>
-          </transition>
-          <transition name="slideLeft" appear>
-            <p class="text-justify">
-              Bursakerja.biz adalah portal bursa kerja yang dikelola untuk
-              membantu para pengguna, baik perusahaan atau perorangan, menemukan
-              Sumber Daya Manusia yang mumpuni dan berintegritas sesuai
-              kualifikasi yang diperlukan. Data pencaker dikelompokkan
-              sedemikian rupa berdasarkan kota, posisi yang diinginkan, serta
-              pendidikan terakhir untuk memudahkan pengguna menemukan SDM yang
-              tepat
-            </p>
-          </transition>
-          <transition name="slideLeft" appear>
-            <div class="d-flex">
-              <v-btn
-                width="150"
-                height="40"
-                class="mr-2 text-capitalize"
-                color="primary"
-                @click="start()"
-                >mulai sekarang</v-btn
-              >
-            </div>
-          </transition>
+          <!-- <h2 class="text-capitalize">Bursakerja.biz123</h2>
+          <p class="text-justify">
+            Bursakerja.biz adalah portal bursa kerja yang dikelola untuk
+            membantu para pengguna, baik perusahaan atau perorangan, menemukan
+            Sumber Daya Manusia yang mumpuni dan berintegritas sesuai
+            kualifikasi yang diperlukan. Data pencaker dikelompokkan sedemikian
+            rupa berdasarkan kota, posisi yang diinginkan, serta pendidikan
+            terakhir untuk memudahkan pengguna menemukan SDM yang tepat
+          </p> -->
+          <p class="text-capitalize text-h3 font-weight-bold">
+            temukan kandidat anda!
+          </p>
+          <p class="text-subtitle-2 font-weight-regular">
+            Kami dapat membantu Anda menemukan sumber daya manusia yang mumpuni
+            dan berintegritas sesuai dengan kualifikasi yang diperlukan
+            berdasarkan kota, posisi pekerjaan, dan kualifikasi pendidikan.
+          </p>
+          <v-btn
+            width="155"
+            height="53"
+            class="mt-6"
+            color="primary"
+            @click="start()"
+          >
+            mulai sekarang
+          </v-btn>
         </div>
       </v-col>
       <v-col
@@ -46,48 +46,39 @@
         md="6"
         sm="6"
         xs="12"
-        class="d-flex align-center"
+        class="d-flex align-center justify-center"
       >
-        <transition name="slideRight" appear>
-          <v-img
-            src="@/assets/jumbotron.svg"
-            max-height="547"
-            height="auto"
-            aspect-ratio="1.7"
-            contain
-          ></v-img>
-        </transition>
+        <v-img
+          src="@/assets/Job hunt-rafiki.svg"
+          max-height="452"
+          max-width="452"
+          height="100%"
+          width="100%"
+          aspect-ratio="1.7"
+          contain
+        ></v-img>
       </v-col>
     </v-row>
     <v-row class="hidden-sm-and-up max-width">
-      <v-col cols="12" xs="12" class="pl-6 pr-6 d-flex align-center">
+      <v-col cols="12" xs="12" class="pr-6 d-flex align-center">
         <div class="d-flex flex-column">
-          <transition name="slideLeft" appear>
-            <h2 class="text-capitalize">Bursakerja.biz</h2>
-          </transition>
-          <transition name="slideLeft" appear>
-            <p class="text-justify">
-              Bursakerja.biz adalah portal bursa kerja yang dikelola untuk
-              membantu para pengguna, baik perusahaan atau perorangan, menemukan
-              Sumber Daya Manusia yang mumpuni dan berintegritas sesuai
-              kualifikasi yang diperlukan. Data pencaker dikelompokkan
-              sedemikian rupa berdasarkan kota, posisi yang diinginkan, serta
-              pendidikan terakhir untuk memudahkan pengguna menemukan SDM yang
-              tepat
-            </p>
-          </transition>
-          <transition name="slideLeft" appear>
-            <div class="d-flex flex-column mt-3">
-              <v-btn
-                width="150"
-                height="40"
-                class="mr-2 text-capitalize"
-                color="primary"
-                @click="start()"
-                >mulai sekarang</v-btn
-              >
-            </div>
-          </transition>
+           <p class="text-capitalize text-h3 font-weight-bold">
+            temukan kandidat anda!
+          </p>
+          <p class="text-subtitle-2 font-weight-regular">
+            Kami dapat membantu Anda menemukan sumber daya manusia yang mumpuni
+            dan berintegritas sesuai dengan kualifikasi yang diperlukan
+            berdasarkan kota, posisi pekerjaan, dan kualifikasi pendidikan.
+          </p>
+          <v-btn
+            width="155"
+            height="53"
+            class="mt-6"
+            color="primary"
+            @click="start()"
+          >
+            mulai sekarang
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -145,16 +136,5 @@ export default {
   .max-width {
     max-width: 100vw;
   }
-}
-.slide-fade-enter-active {
-  transition: all 0.3s ease;
-}
-.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 1, 0.8, 1);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
-  opacity: 0;
 }
 </style>
