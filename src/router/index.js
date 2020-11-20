@@ -219,7 +219,7 @@ const routes = [
   },
   {
     path: '/detail-blacklist/:jobSeeker/:company',
-    name: 'detailBlacklist',
+    name: 'Detail Karyawan',
     component: detailBlacklist,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {

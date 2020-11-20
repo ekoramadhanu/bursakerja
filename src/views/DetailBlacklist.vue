@@ -2,9 +2,9 @@
   <div>
     <v-main>
       <v-container fluid>
-
-        <p class="ma-0 text-capitalize grey--text">Data karyawan</p>
+        <v-btn text color="accent" @click="$router.go(-1)">kembali</v-btn>
         <v-card elevation="3" class="mt-3 pa-4">
+          <v-card-title> Data karyawan </v-card-title>
           <v-row v-if="countData > 0">
             <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
               <v-img
@@ -79,7 +79,6 @@
             <p class="text-center ma-0 text-capitalize">data tidak ditemukan</p>
           </div>
         </v-card>
-        <p class="mx-0 mt-3 my-0 text-capitalize grey--text">Data UMKM</p>
         <v-card elevation="3" class="mt-3 pa-4">
           <v-card-title>
             <div class="d-flex">

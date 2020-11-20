@@ -2,15 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-data-table
           :headers="headerBlacklist"
           :items="blacklist"
@@ -23,13 +14,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$blacklist</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    daftar hitam
+                  <p class="ma-0 text-capitalize hidden-xs-only">
+                    daftar hitam karyawan
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogDeleteAll" max-width="550px" persistent>
                 <template v-slot:activator="{ on, attrs }">
@@ -43,7 +32,7 @@
                     <v-icon size="15" class="white--text mr-2"
                       >mdi-delete</v-icon
                     >
-                    <p class="ma-0 white--text text-capitalize">hapus semua</p>
+                    <p class="ma-0 white--text">hapus semua</p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -59,8 +48,8 @@
                         >$warning</v-icon
                       >
                       <p class="ma-0 black--text">
-                        Apakah anda yakin menghapus semua karyawan dari
-                        daftar hitam ? Jika "iya" silahkan pilih tombol iya
+                        Apakah anda yakin menghapus semua karyawan dari daftar
+                        hitam ? Jika "iya" silahkan pilih tombol iya
                       </p>
                     </div>
                   </v-card-text>
@@ -107,16 +96,26 @@
               @click:append="searchBlacklist()"
             />
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-btn
-              icon
+              color="primaryLight"
+              x-small
               :to="`/detail-blacklist/${item.idCard}/${item.idCompany}`"
-              class="success--text"
+              dark
+              elevation="0"
+              class="mr-2"
             >
-              <v-icon> $detail</v-icon>
+              detail karyawan
             </v-btn>
-            <v-btn @click="deleteItem(item)" class="error--text" icon>
-              <v-icon> mdi-delete </v-icon>
+            <v-btn
+              @click="deleteItem(item)"
+              color="error"
+              x-small
+              elevation="0"
+              dark
+              class="ml-2"
+            >
+              hapus
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -171,8 +170,8 @@
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin menghapus karyawan ini dari daftar hitam
-                ? Jika "iya" silahkan pilih tombol iya
+                Apakah anda yakin menghapus karyawan ini dari daftar hitam ?
+                Jika "iya" silahkan pilih tombol iya
               </p>
             </div>
           </v-card-text>

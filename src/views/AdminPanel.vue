@@ -107,8 +107,9 @@
               @click="openDialogUpdate(item)"
               color="orange"
               x-small
-              class="mr-2 white--text"
+              class="mr-2"
               elevation="0"
+              dark
             >
               Ubah Tugas
             </v-btn>
@@ -117,8 +118,9 @@
               v-if="item.status === 'Aktif'"
               elevation="0"
               x-small
-              color="red"
-              class="ml-2 white--text"
+              color="error"
+              class="ml-2"
+              dark
               >Nonaktifkan
             </v-btn>
             <v-btn
@@ -127,7 +129,8 @@
               elevation="0"
               color="green"
               x-small
-              class="ml-2 white--text"
+              class="ml-2"
+              dark
               >Aktifkan
             </v-btn>
           </template>
