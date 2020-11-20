@@ -2,20 +2,10 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-icon class="mr-2 white--text">$FAQ</v-icon>
             <v-toolbar-title class="font-weight-light white--text"
-              >FAQ</v-toolbar-title
+              >Edit FAQ</v-toolbar-title
             >
             <v-spacer></v-spacer>
             <v-btn color="white" fab small @click="isEditing = !isEditing">
@@ -24,7 +14,6 @@
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <p class="text-subtitle-1 text-capitalize mb-1">isi FAQ</p>
             <tip-tap-vuetify
               v-model="content"
               :extensions="extensions"
@@ -49,7 +38,7 @@
                 color="white"
                 v-if="loadingSave"
               ></v-progress-circular>
-              <p class="text-capitalize white--text my-auto" v-if="!loadingSave">simpan</p>
+              <p class="white--text my-auto" v-if="!loadingSave">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>

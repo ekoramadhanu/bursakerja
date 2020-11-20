@@ -387,7 +387,7 @@ const routes = [
   },
   {
     path: '/contact',
-    name: 'contact',
+    name: 'Kontak',
     component: contact,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
