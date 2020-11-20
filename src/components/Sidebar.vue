@@ -1,43 +1,36 @@
 <template>
   <div>
     <v-navigation-drawer v-model="drawer" app color="primary" fixed>
-      <v-list dense shaped>
+      <v-list>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-capitalize white--text text-h6">
-              bursa kerja
-            </v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title class="white--text title-brand">
+            bursakerja.biz
+          </v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item two-line>
+        <v-list-item class="align-center justify-center">
           <v-list-item-avatar
             class="white d-flex justify-center align-center"
-            size="50"
+            size="64"
           >
             <h2 class="primary--text ma-0 text-uppercase">
-              {{photo}}
+              {{ photo }}
             </h2>
           </v-list-item-avatar>
-
+        </v-list-item>
+        <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title class="white--text text-capitalize body-2">{{
-             fullname
+            <v-list-item-title class="white--text text-capitalize subtitle-1">{{
+              fullname
             }}</v-list-item-title>
-            <v-list-item-title class="white--text caption">
+            <v-list-item-title class="white--text subtitle-2">
               <p class="py-1 ma-0">{{ this.$store.state.role }}</p>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item-group active-class="active">
-          <p class="caption text-capitalize white--text my-1 ml-4">
-            menu utama
-          </p>
+        <v-list-item-group active-class="sidebar-item-active">
           <v-list-item to="/home">
-            <v-list-item-action>
-              <v-icon class="white--text">$dashboard</v-icon>
-            </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="text-capitalize white--text">
                 dashboard
@@ -50,34 +43,14 @@
             link
             :to="item.link"
           >
-            <v-list-item-action v-if="item.icon !== '$announcement'">
-              <v-icon class="white--text text-capitalize">{{
-                item.icon
-              }}</v-icon>
-            </v-list-item-action>
-
-            <v-list-item-action v-if="item.icon === '$announcement'">
-              <v-badge
-                :content="messages"
-                :value="messages"
-                dot
-                color="white"
-              >
-                <v-icon class="white--text">{{item.icon}}</v-icon>
-              </v-badge>
-            </v-list-item-action>
-
             <v-list-item-content>
               <v-list-item-title class="white--text text-capitalize">{{
                 item.name
               }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <p class="caption text-capitalize white--text my-1 ml-4">akun</p>
+          <v-divider></v-divider>
           <v-list-item to="/change-password">
-            <v-list-item-action>
-              <v-icon class="white--text">$padlock</v-icon>
-            </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="text-capitalize white--text">
                 ganti kata sandi
@@ -85,9 +58,6 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="logout()">
-            <v-list-item-action>
-              <v-icon class="white--text">$logout</v-icon>
-            </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="text-capitalize white--text">
                 keluar
@@ -100,6 +70,7 @@
 
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
       <!-- <div class="width-topbar d-flex justify-end">
         <v-badge
           :content="messages"
@@ -161,7 +132,10 @@ export default {
     } else if (this.$store.state.role === 'Perusahaan') {
       endpoint = `${this.$store.state.domain}broadcast/umkm`;
     }
-    if (this.$store.state.role === 'Perusahaan' || this.$store.state.role === 'Pencaker') {
+    if (
+      this.$store.state.role === 'Perusahaan'
+      || this.$store.state.role === 'Pencaker'
+    ) {
       axios({
         baseURL: endpoint,
         method: 'get',
@@ -189,11 +163,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.width-topbar {
-  width: 100%;
-}
-.active {
-  background-color: #114f8c;
+<style lang="scss" scoped>
+.sidebar-item-active {
+  background-color: #0d47a1;
 }
 </style>

@@ -67,14 +67,14 @@ export default new Vuetify({
     themes: {
       light: {
         primary: '#2196F3', // blue
-        primaryDark: '#1976D2', // blue dark
+        primaryDark: '#0D47A1', // blue dark
         primaryLight: '#2196F3', // blue light
         accent: '#448AFF', // blue accent
         primaryText: '#212121', // text color primary
         secondaryText: '#757575', // text color secondary
         divider: '#BDBDBD', // divider color
         iconColor: '#FFFFFF', // white
-        grey: '#F3F2EF', // gray background
+        grey: '#ECEFF1', // gray background
         error: '#f44336', // red
         success: '#4caf50', // green
         warning: '#ffeb3b', // yellow
