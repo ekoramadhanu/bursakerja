@@ -2,25 +2,23 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
-        <div class="d-flex justify-end">
-          <v-overflow-btn
-            v-model="search"
-            class="mt-3"
-            :items="filter"
-            label="Pilih Status"
-            filled
-            @change="searchCardJobSeeker()"
-          ></v-overflow-btn>
-        </div>
+        <v-row>
+          <v-spacer
+            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
+          ></v-spacer>
+          <v-col lg="4" md="4">
+            <div class="d-flex justify-end">
+              <v-overflow-btn
+                v-model="search"
+                class="cursor"
+                :items="filter"
+                label="Pilih Status"
+                dense
+                @change="searchCardJobSeeker()"
+              ></v-overflow-btn>
+            </div>
+          </v-col>
+        </v-row>
         <v-data-table
           :headers="headerJobSeeker"
           :items="jobSeeker"
@@ -33,13 +31,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$jobSeeker</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    karyawan
+                  <p class="ma-0 hidden-xs-only">
+                    Daftar Karyawan
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogAdd" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
@@ -51,7 +47,7 @@
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text text-capitalize">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -66,15 +62,13 @@
                       <v-text-field
                         v-model="editedItemJobSeeker.bursaCard"
                         :rules="bursaCardRules"
-                        prepend-icon="$idCard"
-                        label="Nomor kartu Bursa Kerja"
+                        label="Nomor Kartu Bursa Kerja"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.pin"
                         :rules="pinRules"
-                        prepend-icon="$padlock"
-                        label="PIN kartu Bursa Kerja"
+                        label="PIN Kartu Bursa Kerja"
                         required
                       />
                     </v-form>
@@ -84,16 +78,16 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                      color="white"
-                      class="text-capitalize mr-2"
-                      elevation="3"
+                    text
+                      color="primary"
+                      class="mr-2"
                       @click="closeAdd()"
                     >
                       batal
                     </v-btn>
                     <v-btn
                       color="primary"
-                      class="text-capitalize white--text"
+                      class="white--text"
                       @click="saveAdd()"
                     >
                       <v-progress-circular
@@ -102,7 +96,7 @@
                         v-if="loadingAdd"
                       />
                       <p
-                        class="my-auto white--text text-capitalize"
+                        class="my-auto white--text"
                         v-if="!loadingAdd"
                       >
                         simpan
@@ -113,9 +107,9 @@
               </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn @click="openDialogUpdate(item)" x-small dark elevation="0" color="orange">
+              ubah data kartu
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -155,14 +149,14 @@
                 v-model="editedItemJobSeeker.bursaCard"
                 :rules="bursaCardRules"
                 prepend-icon="$idCard"
-                label="Nomor kartu Bursa Kerja"
+                label="Nomor Kartu Bursa Kerja"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.pin"
                 :rules="pinRules"
                 prepend-icon="$padlock"
-                label="PIN kartu Bursa Kerja"
+                label="PIN Kartu Bursa Kerja"
                 required
               />
             </v-form>
@@ -172,9 +166,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              color="white"
-              class="text-capitalize mr-2"
-              elevation="3"
+            text
+              color="primary"
+              class="mr-2"
               @click="closeUpdate()"
             >
               batal
@@ -185,7 +179,7 @@
                 color="white"
                 v-if="loadingUpdate"
               />
-              <p class="my-auto white--text text-capitalize" v-if="!loadingUpdate">
+              <p class="my-auto white--text" v-if="!loadingUpdate">
                 simpan
               </p>
             </v-btn>
@@ -256,8 +250,8 @@ export default {
     },
     page: 1,
     pageCount: 3,
-    search: 'Semua',
-    filter: ['Aktif', 'Tidak Aktif', 'Semua'],
+    search: 'Tampilkan Semua',
+    filter: ['Aktif', 'Tidak Aktif', 'Tampilkan Semua'],
     pinRules: [(v) => !!v || 'PIN Bursa Kerja Tidak Boleh Kosong'],
     bursaCardRules: [(v) => !!v || 'Nomor Bursa Kerja Tidak Boleh Kosong'],
     skeleton: true,
@@ -325,7 +319,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = 'Semua';
+            this.search = 'Tampilkan Semua';
             if (this.jobSeeker.length > 0) {
               this.jobSeeker.splice(0, this.jobSeeker.length);
             }
@@ -386,7 +380,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = 'Semua';
+            this.search = 'Tampilkan Semua';
             if (this.jobSeeker.length > 0) {
               this.jobSeeker.splice(0, this.jobSeeker.length);
             }
@@ -415,7 +409,7 @@ export default {
     // method universal
     methodGetCardjobSeeker(page) {
       let endpoint = '';
-      if (this.search === 'Semua') {
+      if (this.search === 'Tampilkan Semua') {
         endpoint = `${this.$store.state.domain}job-seeker/card/${page}`;
       } else if (this.search === 'Aktif') {
         endpoint = `${this.$store.state.domain}job-seeker/card-activate/${page}`;

@@ -659,7 +659,7 @@ export default {
     isLoading: false,
     searchLocation: null,
     manually: false,
-    statusProfesional: 'Semua',
+    statusProfesional: 'Tampilkan Semua',
   }),
   computed: {
     computedDateFormatted() {
