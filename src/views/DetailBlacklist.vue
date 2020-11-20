@@ -2,10 +2,7 @@
   <div>
     <v-main>
       <v-container fluid>
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
+
         <p class="ma-0 text-capitalize grey--text">Data karyawan</p>
         <v-card elevation="3" class="mt-3 pa-4">
           <v-row v-if="countData > 0">

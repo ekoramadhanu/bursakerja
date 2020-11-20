@@ -14,7 +14,7 @@ import partner from '@/components/Partner.vue';
 import footer from '@/components/Footer.vue';
 import floatingButton from '@/components/FloatingButton.vue';
 import service from '@/components/Service.vue';
-import goTo from 'vuetify/es5/services/goto';
+import goTo from 'vuetify/lib/services/goto';
 
 export default {
   components: {

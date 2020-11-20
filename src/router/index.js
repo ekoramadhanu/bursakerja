@@ -231,7 +231,7 @@ const routes = [
   },
   {
     path: '/check-blacklist',
-    name: 'checkBlaclist',
+    name: 'Cek Daftar Hitam',
     component: checkBlaclist,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -267,7 +267,7 @@ const routes = [
   },
   {
     path: '/upload-job-vacancy',
-    name: 'uploadJobVacancy',
+    name: 'Upload Lowongan Kerja',
     component: uploadJobVacancy,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -279,7 +279,7 @@ const routes = [
   },
   {
     path: '/detail-job-vacancy/:id',
-    name: 'detailJobVacancy',
+    name: 'Detail Lowongan Kerja',
     component: detailJobVacancy,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -291,7 +291,7 @@ const routes = [
   },
   {
     path: '/job-vacancy-job-seeker',
-    name: 'jobVacancyAfterLogin',
+    name: 'Lowongan Kerja',
     component: jobVacancyAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -303,7 +303,7 @@ const routes = [
   },
   {
     path: '/job-seeker-company',
-    name: 'jobSeekerAfterLogin',
+    name: 'Cari Karyawan',
     component: jobSeekerAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -315,7 +315,7 @@ const routes = [
   },
   {
     path: '/article-user',
-    name: 'articleaAfterLogin',
+    name: 'Artikel',
     component: articleaAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -363,7 +363,7 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'dashboard',
+    name: 'Dashboard',
     component: dashboard,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -375,7 +375,7 @@ const routes = [
   },
   {
     path: '/faq-panel',
-    name: 'faqPanel',
+    name: 'Panel FAQ',
     component: faqPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -399,7 +399,7 @@ const routes = [
   },
   {
     path: '/change-password',
-    name: 'changePassword',
+    name: 'Ganti Kata Sandi',
     component: changePassword,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -411,7 +411,7 @@ const routes = [
   },
   {
     path: '/about-us-panel',
-    name: 'aboutUsPanel',
+    name: 'Panel Tentang Kami',
     component: aboutUsPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -423,7 +423,7 @@ const routes = [
   },
   {
     path: '/article-panel',
-    name: 'articlePanel',
+    name: 'Panel Artikel',
     component: articlePanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -435,7 +435,7 @@ const routes = [
   },
   {
     path: '/school-panel',
-    name: 'schoolPanel',
+    name: 'Panel Sekolah Unggulan',
     component: schoolPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -447,7 +447,7 @@ const routes = [
   },
   {
     path: '/job-seeker-panel',
-    name: 'jobSeekerPanel',
+    name: 'Panel Karyawan',
     component: jobSeekerPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -459,7 +459,7 @@ const routes = [
   },
   {
     path: '/UMKM-panel',
-    name: 'UMKMPanel',
+    name: 'Panel Perusahaan',
     component: UMKMPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -471,7 +471,7 @@ const routes = [
   },
   {
     path: '/mitra-panel',
-    name: 'mitraPanel',
+    name: 'Panel Mitra',
     component: mitraPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -483,7 +483,7 @@ const routes = [
   },
   {
     path: '/announcement-panel',
-    name: 'announcementPanel',
+    name: 'Pengumuman',
     component: announcementPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -495,7 +495,7 @@ const routes = [
   },
   {
     path: '/job-vacancy-panel',
-    name: 'jobVacancyPanel',
+    name: 'Panel Lowongan Kerja',
     component: jobVacancyPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -507,7 +507,7 @@ const routes = [
   },
   {
     path: '/admin-panel',
-    name: 'adminPanel',
+    name: 'Panel Admin',
     component: adminPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -519,7 +519,7 @@ const routes = [
   },
   {
     path: '/blacklist-panel',
-    name: 'blacklistPanel',
+    name: 'Daftar Hitam',
     component: blacklistPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -531,7 +531,7 @@ const routes = [
   },
   {
     path: '/professional-panel',
-    name: 'professionalPanel',
+    name: 'Panel Profesional',
     component: professionalPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -543,7 +543,7 @@ const routes = [
   },
   {
     path: '/internship-panel',
-    name: 'internshipPanel',
+    name: 'Panel Magang',
     component: internshipPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -555,7 +555,7 @@ const routes = [
   },
   {
     path: '/informal-panel',
-    name: 'informalPanel',
+    name: 'Panel Informal',
     component: informalPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -567,7 +567,7 @@ const routes = [
   },
   {
     path: '/report',
-    name: 'report',
+    name: 'Laporan',
     component: report,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -579,7 +579,7 @@ const routes = [
   },
   {
     path: '/resume-job-seeker',
-    name: 'resumeJobSeeker',
+    name: 'Resume',
     component: resumeJobSeeker,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -591,7 +591,7 @@ const routes = [
   },
   {
     path: '/data-umkm',
-    name: 'dataUMKM',
+    name: 'Data Perusahaan',
     component: dataUMKM,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -603,7 +603,7 @@ const routes = [
   },
   {
     path: '/detail-article-login/:id',
-    name: 'detailArticleAfterLogin',
+    name: 'Artikel',
     component: detailArticleAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -615,7 +615,7 @@ const routes = [
   },
   {
     path: '/internship-login',
-    name: 'jobSeekerInternshipAfterLogin',
+    name: 'Cari Magang',
     component: jobSeekerInternshipAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {

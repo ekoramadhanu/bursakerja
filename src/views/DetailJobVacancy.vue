@@ -2,10 +2,7 @@
   <div>
     <v-main class="grey">
       <v-container class="d-flex flex-column justify-center max-width">
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
+
         <!--  -->
         <v-row>
           <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">

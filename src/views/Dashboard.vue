@@ -1,10 +1,10 @@
 <template>
   <v-main class="fourth">
     <v-container fluid>
-      <v-breadcrumbs
+      <!-- <v-breadcrumbs
         :items="items"
         class="text-capitalize pa-2"
-      ></v-breadcrumbs>
+      ></v-breadcrumbs> -->
       <div
         v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
       >
@@ -15,7 +15,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$UMKM</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countUMKM}} katu bursa
+                  {{ countUMKM }} katu bursa
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -33,7 +33,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$UMKM</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countUMKMActivate}} kartu
+                  {{ countUMKMActivate }} kartu
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -51,7 +51,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$UMKM</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countUMKMNotActivate}} kartu
+                  {{ countUMKMNotActivate }} kartu
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -67,21 +67,21 @@
         </v-row>
         <v-row v-if="sekeletonUMKM">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
@@ -99,7 +99,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countJobSeker}} katu bursa
+                  {{ countJobSeker }} katu bursa
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -117,7 +117,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countJobSekerActivate}} kartu
+                  {{ countJobSekerActivate }} kartu
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -135,7 +135,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countJobSekerNotActivate}} kartu
+                  {{ countJobSekerNotActivate }} kartu
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -151,21 +151,21 @@
         </v-row>
         <v-row v-if="sekeletonJobSeeker">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
@@ -183,7 +183,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countIntern}} katu bursa
+                  {{ countIntern }} katu bursa
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -201,7 +201,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countPro}} kartu
+                  {{ countPro }} kartu
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -219,7 +219,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countInformal}} kartu
+                  {{ countInformal }} kartu
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -235,21 +235,21 @@
         </v-row>
         <v-row v-if="sekeletonJobSeeker">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
@@ -265,7 +265,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$admin</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                {{countAdmin1}} user
+                  {{ countAdmin1 }} user
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -283,7 +283,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$admin</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countAdmin2}} user
+                  {{ countAdmin2 }} user
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -301,7 +301,7 @@
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$admin</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countAdmin3}} user
+                  {{ countAdmin3 }} user
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -317,21 +317,21 @@
         </v-row>
         <v-row v-if="sekeletonAdmin">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
@@ -341,13 +341,13 @@
       </div>
       <div v-if="role === 'Admin 3'">
         <p class="text-capitalize ma-0 pa-2 grey--text">daftar hitam</p>
-        <v-row  v-if="!sekeletonBlacklist">
+        <v-row v-if="!sekeletonBlacklist">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
             <v-card elevation="4" color="primary" class="rounded-lg">
               <v-card-title class="d-flex justify-space-around mb-3">
                 <v-icon size="50" class="mr-2 white--text">$blacklist</v-icon>
                 <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{countblacklist}} user
+                  {{ countblacklist }} user
                 </p>
               </v-card-title>
               <v-divider></v-divider>
@@ -363,7 +363,7 @@
         </v-row>
         <v-row v-if="sekeletonBlacklist">
           <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-             <v-skeleton-loader
+            <v-skeleton-loader
               ref="skeleton"
               type="card"
               height="342"
@@ -371,22 +371,30 @@
           </v-col>
         </v-row>
       </div>
-      <div
-        v-if="
-          role === 'Perusahaan' ||
-          role === 'Pencaker'
-        "
-      >
-        <p class="text-capitalize ma-0 pa-2 grey--text">catatan</p>
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              website atau portal ini hanya mendata karyawan dan UMKM untuk
-              lebih lanjut akan dilakukan secara offline
-            </p>
-          </div>
-        </v-card>
+      <div v-if="role === 'Perusahaan' || role === 'Pencaker'">
+        <v-container>
+          <!-- <v-card class="pa-4"> -->
+            <div class="d-flex">
+              <v-row align="center" justify="center">
+                <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="6">
+                  <v-img
+                    src="@/assets/Connected-rafiki.svg"
+                    contain
+                  ></v-img>
+                </v-col>
+                <v-col md="6" lg="6">
+                  <h1>Selamat Datang!</h1>
+                  <p>
+                    Selamat datang di dasbor bursa kerja. Dari halaman ini, Anda
+                    dapat melihat ringkasan aktivitas penggunaan Bursakerja.
+                    Apabila Anda menemui permasalahan atau memerlukan bantuan,
+                    silakan hubungi kami di media sosial kami.
+                  </p>
+                </v-col>
+              </v-row>
+            </div>
+          <!-- </v-card> -->
+        </v-container>
       </div>
     </v-container>
   </v-main>
@@ -423,7 +431,11 @@ export default {
     sekeletonBlacklist: true,
   }),
   beforeCreate() {
-    if (this.$store.state.role === 'Admin 1' || this.$store.state.role === 'Admin 2' || this.$store.state.role === 'Admin 3') {
+    if (
+      this.$store.state.role === 'Admin 1'
+      || this.$store.state.role === 'Admin 2'
+      || this.$store.state.role === 'Admin 3'
+    ) {
       axios({
         baseURL: `${this.$store.state.domain}umkm/count-data`,
         method: 'get',

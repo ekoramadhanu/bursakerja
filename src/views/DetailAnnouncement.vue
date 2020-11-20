@@ -2,10 +2,7 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
+
         <div class="mt-2">
           <p class="text-center text-h5">{{title}}</p>
           <div v-html="content"></div>

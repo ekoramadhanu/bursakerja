@@ -1,55 +1,21 @@
 <template>
   <div class="fullscreen d-flex justify-center align-center">
-    <div class="pa-2 card-login">
-      <typical
-        class="text-h6 text-center text-capitalize"
-        :steps="['mohon maaf halaman ini tidak tersedia', 6000]"
-        :wrapper="'p'"
-      />
-      <typical
-        v-if="desc"
-        class="text-center text-capitalize"
-        :steps="[
-          `alamat link yang anda gunakan mungkin salah, atau sudah kami ganti.
-          silahkan cek kembali alamat link anda`,
-          6000,
-        ]"
-        :wrapper="'p'"
-      />
+    <div class="pa-2">
+      <img src="@/assets/404-rafiki.svg" alt="Halaman Tidak Ditemukan" />
+      <h1 class="text-center">Halaman Tidak Ditemukan</h1>
+      <p class="text-center">
+        Alamat yang Anda masukkan mungkin salah atau tidak ada
+      </p>
+      <div class="container d-flex justify-center">
+        <v-btn color="primary" href="/" elevation="0">KEMBALI KE BERANDA</v-btn>
+      </div>
     </div>
   </div>
 </template>
-
-<script>
-import typical from 'vue-typical';
-
-export default {
-  data: () => ({
-    desc: false,
-  }),
-  components: {
-    typical,
-  },
-  created() {
-    setTimeout(() => {
-      this.desc = true;
-    }, 2500);
-  },
-};
-</script>
 
 <style scoped>
 .fullscreen {
   width: 100vw;
   height: 100vh;
-}
-.card-login {
-  max-width: 450px;
-  width: 450px;
-}
-.backgorund-repeat {
-  background-position: initial;
-  background-repeat: space;
-  background-size: 90px 90px;
 }
 </style>

@@ -2,91 +2,48 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-        <v-breadcrumbs
-          :items="items"
-          class="text-capitalize pa-2"
-        ></v-breadcrumbs>
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              kami sarankan untuk mengganti kata sandi minimal 3 bulan sekali
-              untuk meningkatkan keamanan
-            </p>
-          </div>
-        </v-card>
-        <v-card class="overflow-hidden mt-3">
-          <v-toolbar flat color="primary">
-            <v-icon class="mr-2 white--text">$padlock</v-icon>
-            <v-toolbar-title
-              class="font-weight-light text-capitalize white--text"
-              >ganti kata sandi</v-toolbar-title
-            >
-            <v-spacer></v-spacer>
-            <v-btn color="white" fab small @click="isEditing = !isEditing">
-              <v-icon v-if="isEditing" class="primary--text">mdi-close</v-icon>
-              <v-icon v-else class="primary--text">mdi-pencil</v-icon>
-            </v-btn>
-          </v-toolbar>
+        <v-card class="overflow-hidden mt-6 px-2 py-2">
           <v-card-text>
             <v-form ref="form" lazy-validation>
               <v-text-field
-                prepend-icon="$padlock"
-                label="Kata Sandi lama"
+                label="Kata Sandi Saat Ini"
                 :type="showPassword ? 'text' : 'password'"
                 :append-icon="showPassword ? '$eye' : '$eyeSlash'"
                 v-model="password"
                 :rules="passwordRules"
-                :disabled="!isEditing"
                 @click:append="changeShowPassword()"
                 required
               />
               <v-text-field
-                prepend-icon="$padlock"
                 label="Kata Sandi Baru"
                 :type="showNewPassword ? 'text' : 'password'"
                 :append-icon="showNewPassword ? '$eye' : '$eyeSlash'"
                 v-model="newPassword"
                 :rules="newPasswordRules"
-                :disabled="!isEditing"
                 @click:append="changeShowNewPassword()"
                 required
               />
               <v-text-field
-                prepend-icon="$padlock"
                 label="Ulangi Kata Sandi Baru"
                 :type="showRePassword ? 'text' : 'password'"
                 :append-icon="showRePassword ? '$eye' : '$eyeSlash'"
                 v-model="rePassword"
                 :rules="rePasswordRules"
-                :disabled="!isEditing"
                 @click:append="changeShowRePassword()"
                 required
               />
             </v-form>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              :disabled="!isEditing"
-              color="primary"
-              @click="save"
-              class="text-capitalize"
-            >
-              <v-progress-circular
-                indeterminate
-                color="white"
-                v-if="loading"
-              />
-              <p class="my-auto white--text text-capitalize" v-if="!loading">
-                simpan
-              </p>
-            </v-btn>
-          </v-card-actions>
         </v-card>
+        <v-layout class="mt-4">
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="save">
+            <v-progress-circular indeterminate color="white" v-if="loading" />
+            <span v-if="!loading"> simpan </span>
+          </v-btn>
+        </v-layout>
       </v-container>
-       <v-snackbar
+      <v-snackbar
         v-model="hasSaved"
         :timeout="4000"
         top
@@ -158,7 +115,11 @@ export default {
         } else {
           this.loading = true;
           let endpoint = '';
-          if (this.role === 'Admin 1' || this.role === 'Admin 2' || this.role === 'Admin 3') {
+          if (
+            this.role === 'Admin 1'
+            || this.role === 'Admin 2'
+            || this.role === 'Admin 3'
+          ) {
             endpoint = `${this.$store.state.domain}admin/change-password`;
           } else if (this.role === 'Perusahaan') {
             endpoint = `${this.$store.state.domain}umkm/change-password`;
@@ -178,7 +139,9 @@ export default {
             },
           })
             .then((response) => {
-              if (response.data.data.message.includes('Is Successfully Update')) {
+              if (
+                response.data.data.message.includes('Is Successfully Update')
+              ) {
                 this.hasSaved = true;
                 this.status = true;
                 this.message = 'data berhasil disimpan';

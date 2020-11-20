@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import backgroundUrl from '@/assets/bakcgorund.svg';
+import backgroundUrl from '@/assets/background.svg';
 import axios from 'axios';
 
 export default {
