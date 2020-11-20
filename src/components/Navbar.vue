@@ -54,20 +54,20 @@
                 <v-list-item
                   v-for="item in sortItems"
                   :key="item.title"
-                  :href="item.to"
+                  :to="item.to"
                   dense
                 >
-                  <v-list-item-title class="text-uppercase">{{
+                  <v-list-item-title class="text-uppercase no-focus">{{
                     item.title
                   }}</v-list-item-title>
                 </v-list-item>
                 <v-list-item
                   v-for="item in itemsArticle"
                   :key="item.title"
-                  :href="item.to"
+                  :to="item.to"
                   dense
                 >
-                  <v-list-item-title class="text-uppercase nav-menu-button">{{
+                  <v-list-item-title class="text-uppercase no-focus">{{
                     item.title
                   }}</v-list-item-title>
                 </v-list-item>
@@ -81,14 +81,15 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item to="/job-seeker" dense>
+                <v-list-item to="/job-seeker" dense class=" no-focus">
                   <v-list-item-title class="text-uppercase"> karyawan </v-list-item-title>
                 </v-list-item>
                 <v-list-item
                   v-for="(item, index) in sortItemsJob"
                   :key="index"
-                  :href="item.to"
+                  :to="item.to"
                   dense
+                  class=" no-focus"
                 >
                   <v-list-item-title class="text-uppercase">{{
                     item.title
@@ -107,8 +108,9 @@
                 <v-list-item
                   v-for="(item, index) in sortItemJobVacancy"
                   :key="index"
-                  :href="item.to"
+                  :to="item.to"
                   dense
+                  class=" no-focus"
                 >
                   <v-list-item-title class="text-uppercase">{{
                     item.title
@@ -131,40 +133,6 @@
               <p class="my-auto">masuk</p>
             </v-btn>
           </div>
-          <!-- <v-menu
-            offset-y
-            transition="slide-x-transition"
-            v-if="this.$store.state.checkToken"
-          >
-            <template v-slot:activator="{ on }">
-              <v-btn icon v-on="on" class="hidden-xs-only">
-                <v-icon class="primary--text">$account</v-icon>
-                <p class="ma-0 ">akun</p>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item to="/home">
-                <v-list-item-icon>
-                  <v-icon class="primary--text">$dashboard</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title class=" primary--text"
-                    >dashboard</v-list-item-title
-                  >
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item @click="logout()">
-                <v-list-item-icon>
-                  <v-icon class="primary--text">$logout</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title class=" primary--text"
-                    >keluar</v-list-item-title
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-menu> -->
         </div>
       </div>
     </v-app-bar>

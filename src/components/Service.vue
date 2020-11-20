@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center mb-2">
+  <div class="d-flex justify-center mb-2 grey py-16">
     <div class="max-width">
       <p class="text-center my-2 text-capitalize black--text text-h4 font-weight-bold">
         kategori sumber daya manusia
