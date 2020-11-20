@@ -20,10 +20,7 @@
               ></v-img>
             </v-toolbar-title>
           </router-link>
-          <router-link
-            to="/"
-            class="my-auto text-width-xs text-decoration-none hidden-md-and-up"
-          >
+          <router-link to="/" class="my-auto text-width-xs hidden-md-and-up">
             <v-toolbar-title>
               <v-img
                 src="@/assets/logo.svg"
@@ -49,7 +46,7 @@
                 <v-list-item
                   v-for="item in sortItems"
                   :key="item.title"
-                  :to="item.to"
+                  :href="item.to"
                   dense
                 >
                   <v-list-item-title class="text-uppercase">{{
@@ -59,7 +56,7 @@
                 <v-list-item
                   v-for="item in itemsArticle"
                   :key="item.title"
-                  :to="item.to"
+                  :href="item.to"
                   dense
                 >
                   <v-list-item-title class="text-uppercase nav-menu-button">{{
@@ -82,7 +79,7 @@
                 <v-list-item
                   v-for="(item, index) in sortItemsJob"
                   :key="index"
-                  :to="item.to"
+                  :href="item.to"
                   dense
                 >
                   <v-list-item-title class="text-uppercase">{{
@@ -102,7 +99,7 @@
                 <v-list-item
                   v-for="(item, index) in sortItemJobVacancy"
                   :key="index"
-                  :to="item.to"
+                  :href="item.to"
                   dense
                 >
                   <v-list-item-title class="text-uppercase">{{
@@ -345,6 +342,7 @@ export default {
 <style lang='scss' scoped>
 .button-height {
   height: 100%;
+  max-width: 1366px;
 }
 .max-width {
   max-width: 1366px;

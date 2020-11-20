@@ -59,7 +59,7 @@ export default new Vuetify({
       experience: 'fas fa-suitcase',
       language: 'fas fa-globe',
       detail: 'fas fa-align-justify',
-      dropdown: 'fas fa-chevron-down',
+      dropdown: 'mdi-menu-down',
       pdf: 'far fa-file-pdf',
     },
   },

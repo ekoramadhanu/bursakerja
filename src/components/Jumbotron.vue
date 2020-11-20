@@ -12,7 +12,7 @@
       >
         <div class="d-flex flex-column">
           <transition name="slideLeft" appear>
-            <h2 class="text-capitalize">Bursakerja.biz</h2>
+            <h2 class="text-capitalize">Bursakerja.biz123</h2>
           </transition>
           <transition name="slideLeft" appear>
             <p class="text-justify">
