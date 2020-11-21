@@ -3,13 +3,11 @@
     <navbar-home v-if="checkIndex && !loadData"/>
     <sidebar-dashboard v-if="checkLogin && !loadData" />
     <router-view v-if="!loadData" />
-    <footer-dasahboard v-if="checkLogin && !loadData" />
   </v-app>
 </template>
 
 <script>
 import navbar from '@/components/Navbar.vue';
-import footerDasahboard from '@/components/FooterDasahboard.vue';
 import sidebar from '@/components/Sidebar.vue';
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
@@ -23,7 +21,6 @@ export default {
   }),
   components: {
     'navbar-home': navbar,
-    'footer-dasahboard': footerDasahboard,
     'sidebar-dashboard': sidebar,
   },
   beforeCreate() {
