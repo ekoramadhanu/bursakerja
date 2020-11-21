@@ -2,9 +2,13 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <div class="d-flex justify-end">
-          <v-select
+        <v-row>
+          <v-spacer
+            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
+          ></v-spacer>
+          <v-col lg="4" md="4">
+            <div class="d-flex justify-end">
+              <v-select
             v-model="statusProfesional"
             class="mt-3 cursor"
             :items="filter"
@@ -12,7 +16,9 @@
             outlined
             @change="searchCardJobSeeker()"
           ></v-select>
-        </div>
+            </div>
+          </v-col>
+        </v-row>
         <v-data-table
           :headers="headerJobSeeker"
           :items="jobSeeker"
@@ -25,13 +31,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$job</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    profesional
+                  <p class="ma-0 hidden-xs-only">
+                    Daftar Tenaga Profesional
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog
                 v-model="dialogAdd"
@@ -48,7 +52,7 @@
                     v-on="on"
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 text-capitalize white--text">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -57,17 +61,17 @@
                       <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      silahkan isi data pekerja profesional
+                      Tambah data pekerja profesional
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="saveAdd()">
+                    <v-btn @click="saveAdd()" elevation="0" color="white">
                       <v-progress-circular
                         indeterminate
-                        color="white"
+                        color="primary"
                         v-if="loadingAdd"
                       />
                       <p
-                        class="ma-0 text-capitalize white--text"
+                        class="ma-0 primary--text"
                         v-if="!loadingAdd"
                       >
                         simpan
@@ -80,21 +84,18 @@
                       <v-text-field
                         v-model="editedItemJobSeeker.name"
                         :rules="nameRules"
-                        prepend-icon="$jobSeeker"
                         label="Nama Pekerja Profesional"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.position"
                         :rules="positionRules"
-                        prepend-icon="$job"
                         label="Posisi Pekerja Profesional"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.phone"
                         :rules="phoneRules"
-                        prepend-icon="$phone"
                         label="Telepon Pekerja Profesional"
                         required
                       />
@@ -108,7 +109,6 @@
                         item-text="name"
                         item-value="name"
                         label="Lokasi Pekerja Profesional"
-                        prepend-icon="$location"
                         v-if="!manually"
                         persistent-hint
                         hint="Jika Tidak Ada Silahkan Pilih Lain - Lain "
@@ -117,7 +117,6 @@
                       <v-text-field
                         v-model="editedItemJobSeeker.location"
                         :rules="locationRules"
-                        prepend-icon="$location"
                         label="Lokasi Pekerja Profesional"
                         required
                         v-if="manually"
@@ -135,10 +134,8 @@
                         :items="itemSchool"
                         item-text="name"
                         item-value="name"
-                        label="Sekolah Terakhir Pekerja Sekolah"
-                        prepend-icon="$school"
+                        label="Pendidikan Terakhir Pekerja Sekolah"
                         :rules="schoolRules"
-                        single-line
                         required
                       ></v-select>
                       <v-menu
@@ -152,8 +149,7 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
                             v-model="computedDateFormatted"
-                            label="Tanggal Berakhir Pekerja Sekolah"
-                            prepend-icon="$calendar"
+                            label="Tanggal Berakhir Pekerja Profesional"
                             :rules="expiredRules"
                             readonly
                             v-bind="attrs"
@@ -166,7 +162,7 @@
                         ></v-date-picker>
                       </v-menu>
                       <v-file-input
-                        label="Unggah Gambar Sekolah (Maks 1 MB)"
+                        label="Unggah Foto (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
@@ -204,54 +200,61 @@
               @click:append="searchProfesional()"
             />
           </template>
-          <template v-slot:item.number="{ item }">
+          <template v-slot:[`item.number`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.number }}</p>
           </template>
-          <template v-slot:item.name="{ item }">
+          <template v-slot:[`item.name`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.name }}</p>
           </template>
-          <template v-slot:item.position="{ item }">
+          <template v-slot:[`item.position`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.position }}</p>
           </template>
-          <template v-slot:item.phone="{ item }">
+          <template v-slot:[`item.phone`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.phone }}</p>
           </template>
-          <template v-slot:item.location="{ item }">
+          <template v-slot:[`item.location`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.location }}</p>
           </template>
-          <template v-slot:item.school="{ item }">
+          <template v-slot:[`item.school`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.school }}</p>
           </template>
-          <template v-slot:item.status="{ item }">
+          <template v-slot:[`item.status`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.status }}</p>
           </template>
-          <template v-slot:item.expired="{ item }">
+          <template v-slot:[`item.expired`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.expired }}</p>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-btn
               @click="openDialogUpdate(item)"
-              class="warning--text"
-              icon
+              color="orange"
+              elevation="0"
+              x-small
+              dark
+              class="mr-4"
               v-if="item.status === 'Tidak Aktif'"
             >
-              <v-icon> mdi-pencil </v-icon>
+              ubah data
             </v-btn>
             <v-btn
               @click="openDialogDeShow(item)"
-              class="error--text"
-              icon
+              color="error"
+              elevation="0"
+              x-small
+              dark
               v-if="item.status === 'Aktif'"
             >
-              <v-icon> $times </v-icon>
+              nonaktifkan
             </v-btn>
             <v-btn
               @click="openDialogShow(item)"
-              class="success--text"
-              icon
+              color="success"
+              elevation="0"
+              x-small
+              dark
               v-if="item.status === 'Tidak Aktif'"
             >
-              <v-icon> $check </v-icon>
+              aktifkan
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -289,16 +292,16 @@
               <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              silahkan isi data pekerja profesional
+              Ubah data pekerja profesional
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text @click="saveUpdate()">
+            <v-btn @click="saveUpdate()" elevation="0" color="white">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingAdd"
               />
-              <p class="ma-0 text-capitalize white--text" v-if="!loadingAdd">
+              <p class="ma-0 primary--text" v-if="!loadingAdd">
                 simpan
               </p>
             </v-btn>
@@ -309,21 +312,18 @@
               <v-text-field
                 v-model="editedItemJobSeeker.name"
                 :rules="nameRules"
-                prepend-icon="$jobSeeker"
                 label="Nama Pekerja Profesional"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.position"
                 :rules="positionRules"
-                prepend-icon="$job"
                 label="Posisi Pekerja Profesional"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.phone"
                 :rules="phoneRules"
-                prepend-icon="$phone"
                 label="Telepon Pekerja Profesional"
                 required
               />
@@ -337,7 +337,6 @@
                 item-text="name"
                 item-value="name"
                 label="Lokasi Pekerja Profesional"
-                prepend-icon="$location"
                 v-if="!manually"
                 persistent-hint
                 :hint="`Jika Tidak Ada Silahkan Pilih Lain - Lain,
@@ -354,7 +353,7 @@
               />
               <v-btn
                 text
-                class="text-capitalize ml-4"
+                class="text-capitalize pa-0"
                 color="primary"
                 @click="changeManually()"
               >
@@ -365,10 +364,8 @@
                 :items="itemSchool"
                 item-text="name"
                 item-value="name"
-                label="Sekolah Terakhir Pekerja Sekolah"
-                prepend-icon="$school"
+                label="Pendidikan Terakhir Pekerja Sekolah"
                 :rules="schoolRules"
-                single-line
                 required
               ></v-select>
               <v-menu
@@ -382,8 +379,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="computedDateFormatted"
-                    label="Tanggal Berakhir Pekerja Sekolah"
-                    prepend-icon="$calendar"
+                    label="Tanggal Berakhir Pekerja Profesional"
                     :rules="expiredRules"
                     readonly
                     v-bind="attrs"
@@ -574,11 +570,11 @@ export default {
         value: 'number',
       },
       { text: 'Nama', value: 'name', sortable: false },
-      { text: 'posisi', value: 'position', sortable: false },
-      { text: 'telepon', value: 'phone', sortable: false },
-      { text: 'lokasi', value: 'location', sortable: false },
+      { text: 'Posisi', value: 'position', sortable: false },
+      { text: 'Telepon', value: 'phone', sortable: false },
+      { text: 'Lokasi', value: 'location', sortable: false },
       { text: 'Sekolah', value: 'school', sortable: false },
-      { text: 'status', value: 'status', sortable: false },
+      { text: 'Status', value: 'status', sortable: false },
       { text: 'Tanggal Berakhir', value: 'expired', sortable: false },
       { text: 'Actions', value: 'actions', sortable: false },
     ],

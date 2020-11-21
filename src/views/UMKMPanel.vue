@@ -2,17 +2,24 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <div class="d-flex justify-end">
-          <v-select
-            v-model="search"
-            class="mt-3"
-            :items="filter"
-            label="Pilih Status yang Ditampilkan"
-            outlined
-            @change="searchCardUMKM()"
-          ></v-select>
-        </div>
+        <v-row>
+          <v-spacer
+            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
+          ></v-spacer>
+          <v-col lg="4" md="4">
+            <div class="d-flex justify-end">
+              <v-select
+                v-model="search"
+                class="mt-3"
+                :items="filter"
+                label="Pilih Status yang Ditampilkan"
+                outlined
+                @change="searchCardUMKM()"
+              ></v-select>
+            </div>
+          </v-col>
+        </v-row>
+        <div class="d-flex justify-end"></div>
         <v-data-table
           :headers="headerUMKM"
           :items="UMKM"
@@ -25,13 +32,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$UMKM</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    perusahaan
+                  <p class="ma-0 hidden-xs-only">
+                    Daftar Perusahaan Pemegang Kartu Bursa Kerja
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogAdd" max-width="500px" persistent>
                 <template v-slot:activator="{ on, attrs }">
@@ -43,11 +48,11 @@
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text text-capitalize">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
-                  <v-card-title class="primary">
+                  <v-card-title class="primary mb-4">
                     <span class="headline white--text text-capitalize"
                       >menambah kartu perusahaan</span
                     >
@@ -58,15 +63,13 @@
                       <v-text-field
                         v-model="editedItemUMKM.bursaCard"
                         :rules="bursaCardRules"
-                        prepend-icon="$idCard"
-                        label="Nomor kartu Bursa Kerja"
+                        label="Nomor Kartu Bursa Kerja"
                         required
                       />
                       <v-text-field
                         v-model="editedItemUMKM.pin"
                         :rules="pinRules"
-                        prepend-icon="$padlock"
-                        label="PIN kartu Bursa Kerja"
+                        label="PIN Kartu Bursa Kerja"
                         required
                       />
                     </v-form>
@@ -101,9 +104,9 @@
               </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn @click="openDialogUpdate(item)" color="orange" x-small dark elevation="0">
+              ubah data kartu
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -131,7 +134,7 @@
       </v-container>
       <v-dialog v-model="dialogUpdate" max-width="500px" persistent>
         <v-card>
-          <v-card-title class="primary">
+          <v-card-title class="primary mb-4">
             <span class="headline white--text text-capitalize"
               >mengubah kartu UMKM</span
             >
@@ -142,15 +145,13 @@
               <v-text-field
                 v-model="editedItemUMKM.bursaCard"
                 :rules="bursaCardRules"
-                prepend-icon="$idCard"
-                label="Nomor kartu Bursa Kerja"
+                label="Nomor Kartu Bursa Kerja"
                 required
               />
               <v-text-field
                 v-model="editedItemUMKM.pin"
                 :rules="pinRules"
-                prepend-icon="$padlock"
-                label="PIN kartu Bursa Kerja"
+                label="PIN Kartu Bursa Kerja"
                 required
               />
             </v-form>
@@ -173,7 +174,10 @@
                 color="white"
                 v-if="loadingUpdate"
               />
-              <p class="my-auto white--text text-capitalize" v-if="!loadingUpdate">
+              <p
+                class="my-auto white--text text-capitalize"
+                v-if="!loadingUpdate"
+              >
                 simpan
               </p>
             </v-btn>
@@ -339,7 +343,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}umkm/card/${this.UMKM[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}umkm/card/${
+            this.UMKM[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -660,7 +666,7 @@ export default {
   max-width: 800px;
   max-height: 600px;
 }
-.size-max{
+.size-max {
   max-width: 1366px;
 }
 </style>

@@ -2,16 +2,7 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max mb-8">
-
         <div v-if="role === 'Admin 2' || role === 'Admin 3'">
-          <v-card elevation="3" class="pa-4">
-            <div class="d-flex">
-              <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-              <p class="text-capitalize ma-0 text-subtitle-1">
-                hati hati data akan disimpan ke database
-              </p>
-            </div>
-          </v-card>
           <v-data-table
             :headers="headerArticle"
             :items="article"
@@ -24,13 +15,11 @@
               <v-toolbar flat color="white">
                 <v-toolbar-title>
                   <div class="d-flex">
-                    <v-icon class="primary--text mr-2">$announcement</v-icon>
-                    <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                      pengumuman
+                    <p class="ma-0 hidden-xs-only">
+                      Daftar Pengumuman
                     </p>
                   </div>
                 </v-toolbar-title>
-                <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
                 <v-dialog
                   v-model="dialogAdd"
@@ -47,20 +36,20 @@
                       v-on="on"
                     >
                       <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                      <p class="ma-0 text-capitalize white--text">tambah</p>
+                      <p class="ma-0 white--text">tambah</p>
                     </v-btn>
                   </template>
                   <v-card>
-                    <v-toolbar class="primary">
+                    <v-toolbar class="primary mb-4">
                       <v-btn icon @click="closeAdd()">
                         <v-icon class="white--text">mdi-close</v-icon>
                       </v-btn>
                       <v-toolbar-title class="text-capitalize white--text">
-                        silahkan isi data pengumuman
+                       Tambah Pengumuman
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
-                      <v-btn text @click="saveAdd()">
-                        <p class="ma-0 text-capitalize white--text">simpan</p>
+                      <v-btn @click="saveAdd()" color="white" elevation="0">
+                        <p class="ma-0 primary--text">simpan</p>
                       </v-btn>
                     </v-toolbar>
 
@@ -69,18 +58,16 @@
                         <v-text-field
                           v-model="editedItemArticle.title"
                           :rules="titleRules"
-                          prepend-icon="$announcement"
-                          label="Judul pengumuman"
+                          label="Judul Pengumuman"
                           required
                         />
                         <v-select
                           v-model="editedItemArticle.user"
                           :rules="userRules"
-                          prepend-icon="$announcement"
                           :items="userRead"
                           item-text="name"
                           item-value="id"
-                          label="pilih pembaca dari artikel ini"
+                          label="Pilih Pembaca Pengumuman"
                         />
                         <tip-tap-vuetify
                           v-model="editedItemArticle.description"
@@ -105,9 +92,9 @@
                 @click:append="searchArticle()"
               />
             </template>
-            <template v-slot:item.actions="{ item }">
-              <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-                <v-icon> mdi-pencil </v-icon>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-btn @click="openDialogUpdate(item)" x-small elevation="0" color="orange" dark>
+                ubah pengumuman
               </v-btn>
             </template>
             <template v-slot:no-data>
@@ -182,7 +169,7 @@
         v-if="role === 'Admin 2' || role === 'Admin 3'"
       >
         <v-card>
-          <v-toolbar class="primary">
+          <v-toolbar class="primary mb-4">
             <v-btn icon @click="closeUpdate()">
               <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
@@ -190,13 +177,13 @@
               ubah data pengumuman
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text @click="saveUpdate()">
+            <v-btn @click="saveUpdate()" elevation="0" color="white">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 text-capitalize white--text" v-if="!loadingUpdate">
+              <p class="ma-0 primary--text" v-if="!loadingUpdate">
                 simpan
               </p>
             </v-btn>
@@ -207,18 +194,16 @@
               <v-text-field
                 v-model="editedItemArticle.title"
                 :rules="titleRules"
-                prepend-icon="$article"
                 label="Judul Artikel"
                 required
               />
               <v-select
                 v-model="editedItemArticle.user"
                 :rules="userRules"
-                prepend-icon="$article"
                 :items="userRead"
                 item-text="name"
                 item-value="id"
-                label="pilih pembaca dari artikel ini"
+                label="Pilih Pembaca Pengumuman"
               />
               <tip-tap-vuetify
                 v-model="editedItemArticle.description"

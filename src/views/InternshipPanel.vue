@@ -349,7 +349,7 @@
               />
               <v-btn
                 text
-                class="text-capitalize pl-0"
+                class="text-capitalize pa-0"
                 color="primary"
                 @click="changeManually()"
               >

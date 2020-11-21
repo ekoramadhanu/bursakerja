@@ -58,7 +58,7 @@
                     hide-selected
                     item-text="name"
                     item-value="name"
-                    label="Sekolah Terakhir Pekerja"
+                    label="Pendidikan Terakhir Pekerja"
                     prepend-icon="$school"
                     append-outer-icon="mdi-close"
                     @click:append-outer="resetSchool()"

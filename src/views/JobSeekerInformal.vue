@@ -57,7 +57,7 @@
                     hide-selected
                     item-text="name"
                     item-value="name"
-                    label="Sekolah Terakhir Pekerja Informal"
+                    label="Pendidikan Terakhir Pekerja Informal"
                     prepend-icon="$school"
                     append-outer-icon="mdi-close"
                     @click:append-outer="resetSchool()"

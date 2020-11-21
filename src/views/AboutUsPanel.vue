@@ -5,21 +5,20 @@
 
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-icon class="mr-2 white--text">$UMKM</v-icon>
             <v-toolbar-title
-              class="font-weight-light text-capitalize white--text"
-              >tentang kami</v-toolbar-title
+              class="font-weight-light white--text"
+              >Tentang Kami yang Ditampilkan</v-toolbar-title
             >
             <v-spacer></v-spacer>
-            <v-btn color="white" fab small @click="isEditing = !isEditing">
-              <v-icon v-if="isEditing" class="primary--text">mdi-close</v-icon>
-              <v-icon v-else class="primary--text">mdi-pencil</v-icon>
+            <v-btn color="white" icon @click="isEditing = !isEditing">
+              <v-icon v-if="isEditing">mdi-close</v-icon>
+              <v-icon v-else>mdi-pencil</v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" lazy-validation>
               <v-file-input
-                label="Unggah Gambar Bursa Kerja (Maks 1 MB) Dengan Ukuran 970x220"
+                label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 970x220"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
@@ -43,8 +42,7 @@
               />
             </v-form>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
+          <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>
             <v-btn :disabled="!isEditing" color="primary" @click="save">
               <v-progress-circular
@@ -53,7 +51,7 @@
                 v-if="loadingSave"
               ></v-progress-circular>
               <p
-                class="text-capitalize white--text my-auto"
+                class="white--text my-auto"
                 v-if="!loadingSave"
               >
                 simpan

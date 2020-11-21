@@ -2,7 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
         <v-data-table
           :headers="headerSchool"
           :items="school"
@@ -17,13 +16,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$school</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    sekolah unggulan
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Daftar Sekolah Unggulan</p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog
                 v-model="dialogAdd"
@@ -40,28 +35,25 @@
                     v-on="on"
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 text-capitalize white--text">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
-                  <v-toolbar class="primary">
+                  <v-toolbar class="primary mb-4">
                     <v-btn icon @click="closeAdd()">
                       <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      silahkan isi data sekolah
+                      tambah data sekolah
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="saveAdd()">
+                    <v-btn @click="saveAdd()" elevation="0" color="white">
                       <v-progress-circular
                         indeterminate
-                        color="white"
+                        color="primary"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="ma-0 text-capitalize white--text"
-                        v-if="!loadingAdd"
-                      >
+                      <p class="ma-0 primary--text" v-if="!loadingAdd">
                         simpan
                       </p>
                     </v-btn>
@@ -72,7 +64,6 @@
                       <v-text-field
                         v-model="editedItemSchool.name"
                         :rules="nameRules"
-                        prepend-icon="$article"
                         label="Nama Sekolah"
                         required
                       />
@@ -86,7 +77,6 @@
                         item-text="name"
                         item-value="name"
                         label="Lokasi Sekolah"
-                        prepend-icon="$location"
                         v-if="!manually"
                         persistent-hint
                         hint="Jika Tidak Ada Silahkan Pilih Lain - Lain "
@@ -95,14 +85,13 @@
                       <v-text-field
                         v-model="editedItemSchool.location"
                         :rules="locationRules"
-                        prepend-icon="$location"
                         label="Lokasi Sekolah"
                         required
                         v-if="manually"
                       />
                       <v-btn
                         text
-                        class="text-capitalize ml-4"
+                        class="text-capitalize pa-0"
                         color="primary"
                         @click="changeManually()"
                       >
@@ -140,14 +129,14 @@
             <v-text-field
               v-model="search"
               append-icon="$search"
-              label="Pencarian Judul Sekolah"
+              label="Pencarian Sekolah"
               class="px-5"
               single-line
               hide-details
               @click:append="searchSchool()"
             />
           </template>
-          <template v-slot:item.image="{ item }">
+          <template v-slot:[`item.image`]="{ item }">
             <v-img
               :src="item.image"
               aspect-ratio="1.7"
@@ -157,25 +146,36 @@
               class="ma-2"
             ></v-img>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn
+              @click="openDialogUpdate(item)"
+              class="mr-4"
+              dark
+              color="orange"
+              x-small
+              elevation="0"
+            >
+              ubah data
             </v-btn>
             <v-btn
               @click="openDialogDeactivate(item)"
-              class="error--text"
-              icon
+              dark
+              color="error"
+              x-small
+              elevation="0"
               v-if="item.status === 'Ditampilkan'"
             >
-              <v-icon> $times </v-icon>
+              nonaktifkan
             </v-btn>
             <v-btn
               @click="openDialogActivate(item)"
-              class="success--text"
-              icon
+              dark
+              color="success"
+              x-small
+              elevation="0"
               v-else
             >
-              <v-icon> $check </v-icon>
+              aktifkan
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -228,21 +228,21 @@
         transition="dialog-bottom-transition"
       >
         <v-card>
-          <v-toolbar class="primary">
+          <v-toolbar class="primary mb-4">
             <v-btn icon @click="closeUpdate()">
               <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              mengubah data sekolah
+              Edit data sekolah
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text @click="saveUpdate()">
+            <v-btn @click="saveUpdate()" elevation="0" color="white">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 text-capitalize white--text" v-if="!loadingUpdate">
+              <p class="ma-0 primary--text" v-if="!loadingUpdate">
                 simpan
               </p>
             </v-btn>
@@ -253,7 +253,6 @@
               <v-text-field
                 v-model="editedItemSchool.name"
                 :rules="nameRules"
-                prepend-icon="$article"
                 label="Nama Sekolah"
                 required
               />
@@ -267,7 +266,6 @@
                 item-text="name"
                 item-value="name"
                 label="Lokasi Sekolah"
-                prepend-icon="$location"
                 v-if="!manually"
                 persistent-hint
                 :hint="`Jika Tidak Ada Silahkan Pilih Lain - Lain
@@ -277,7 +275,6 @@
               <v-text-field
                 v-model="editedItemSchool.location"
                 :rules="locationRules"
-                prepend-icon="$location"
                 label="Lokasi Sekolah"
                 required
                 persistent-hint
@@ -286,7 +283,7 @@
               />
               <v-btn
                 text
-                class="text-capitalize ml-4"
+                class="text-capitalize pa-0"
                 color="primary"
                 @click="changeManually()"
               >
@@ -448,7 +445,7 @@ export default {
       { text: 'Nama Sekolah', value: 'name', sortable: false },
       { text: 'Logo Sekolah', value: 'image', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
-      { text: 'lokasi', value: 'location', sortable: false },
+      { text: 'Lokasi', value: 'location', sortable: false },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
     school: [],
