@@ -8,14 +8,14 @@
           ></v-spacer>
           <v-col lg="4" md="4">
             <div class="d-flex justify-end">
-              <v-overflow-btn
-                v-model="search"
-                class="cursor"
+              <v-select
                 :items="filter"
-                label="Pilih Status"
-                dense
+                label="Pilih Status yang Ditampilkan"
+                v-model="search"
                 @change="searchCardJobSeeker()"
-              ></v-overflow-btn>
+                outlined
+              >
+              </v-select>
             </div>
           </v-col>
         </v-row>
@@ -31,9 +31,7 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <p class="ma-0 hidden-xs-only">
-                    Daftar Karyawan
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Daftar Karyawan</p>
                 </div>
               </v-toolbar-title>
               <v-spacer></v-spacer>
@@ -78,7 +76,7 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                    text
+                      text
                       color="primary"
                       class="mr-2"
                       @click="closeAdd()"
@@ -95,10 +93,7 @@
                         color="white"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="my-auto white--text"
-                        v-if="!loadingAdd"
-                      >
+                      <p class="my-auto white--text" v-if="!loadingAdd">
                         simpan
                       </p>
                     </v-btn>
@@ -108,7 +103,13 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn @click="openDialogUpdate(item)" x-small dark elevation="0" color="orange">
+            <v-btn
+              @click="openDialogUpdate(item)"
+              x-small
+              dark
+              elevation="0"
+              color="orange"
+            >
               ubah data kartu
             </v-btn>
           </template>
@@ -165,12 +166,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-            text
-              color="primary"
-              class="mr-2"
-              @click="closeUpdate()"
-            >
+            <v-btn text color="primary" class="mr-2" @click="closeUpdate()">
               batal
             </v-btn>
             <v-btn color="primary" @click="saveUpdate()">
@@ -179,9 +175,7 @@
                 color="white"
                 v-if="loadingUpdate"
               />
-              <p class="my-auto white--text" v-if="!loadingUpdate">
-                simpan
-              </p>
+              <p class="my-auto white--text" v-if="!loadingUpdate">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -346,7 +340,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}job-seeker/card/${this.jobSeeker[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}job-seeker/card/${
+            this.jobSeeker[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -359,7 +355,8 @@ export default {
         })
           .then((response) => {
             if (
-              response.data.data.message === 'Data Job Seeker Is Successfully Updated'
+              response.data.data.message
+              === 'Data Job Seeker Is Successfully Updated'
             ) {
               this.hasSaved = true;
               this.status = true;
@@ -472,12 +469,14 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'Admin 1'
-    || this.$store.state.role === 'UMKM'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'Admin 1'
+      || this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({
@@ -566,7 +565,7 @@ export default {
 </script>
 
 <style scoped>
-.size-max{
+.size-max {
   max-width: 1100px;
 }
 </style>

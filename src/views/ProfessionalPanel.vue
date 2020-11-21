@@ -3,23 +3,15 @@
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
 
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <div class="d-flex justify-end">
-          <v-overflow-btn
+          <v-select
             v-model="statusProfesional"
             class="mt-3 cursor"
             :items="filter"
-            label="Pilih Status"
-            filled
+            label="Pilih Status yang Ditampilkan"
+            outlined
             @change="searchCardJobSeeker()"
-          ></v-overflow-btn>
+          ></v-select>
         </div>
         <v-data-table
           :headers="headerJobSeeker"

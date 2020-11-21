@@ -8,14 +8,13 @@
           ></v-spacer>
           <v-col lg="4" md="4">
             <div class="d-flex justify-end">
-              <v-overflow-btn
+              <v-select
                 v-model="statusProfesional"
-                class="cursor"
                 :items="filter"
-                label="Pilih Status"
+                label="Pilih Status yang Ditampilkan"
                 dense
                 @change="searchCardJobSeeker()"
-              ></v-overflow-btn>
+              ></v-select>
             </div>
           </v-col>
         </v-row>

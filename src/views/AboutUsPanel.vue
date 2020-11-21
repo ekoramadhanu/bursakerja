@@ -2,14 +2,7 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
+
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
             <v-icon class="mr-2 white--text">$UMKM</v-icon>
