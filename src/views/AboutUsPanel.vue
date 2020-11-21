@@ -164,7 +164,7 @@ export default {
           this.loadingSave = true;
           axios({
             baseURL: `${this.$store.state.domain}about-us/${this.idAboutUs}`,
-            method: 'patch',
+            method: 'PATCH',
             headers: {
               'x-api-key': this.$store.state.apiKey,
               authorization: `Bearer ${this.$cookies.get('token')}`,

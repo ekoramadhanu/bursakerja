@@ -1,41 +1,51 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
-      <div class="max-width px-4">
-        <v-img
-          :src="image"
-          aspect-ratio="1.7"
-          width="100vw"
-          max-width="970"
-          max-height="220"
-          class="mb-6 mt-3"
-          contain
-          v-if="!skeleton"
-        ></v-img>
+  <div>
+    <div class="justify-center">
+      <v-container>
         <v-skeleton-loader
           ref="skeleton"
           type="image"
-          class="mb-6 mt-3"
           v-if="skeleton"
+          max-height="400"
         ></v-skeleton-loader>
-        <div
-          class="max-width-about-us mx-auto text-justify"
-          v-html="content"
-          v-if="!skeleton"
-        ></div>
         <v-skeleton-loader
           ref="skeleton"
-          type="paragraph"
+          type="article"
           v-if="skeleton"
         ></v-skeleton-loader>
-      </div>
+      </v-container>
     </div>
-    <footer-home />
+    <v-row v-if="!skeleton">
+      <v-img :src="image" height="400"></v-img>
+    </v-row>
+    <v-col cols="8" offset="2">
+      <v-row>
+        <v-container>
+          <v-btn
+            text
+            x-small
+            color="dark grey"
+            class="pa-0"
+            @click="$router.go(-1)"
+            >kembali</v-btn
+          >
+        </v-container>
+      </v-row>
+      <v-row>
+        <v-container>
+            <h1 class="display-2 mb-2">Tentang Kami</h1>
+          <div
+            class="text-justify mt-3"
+            v-html="content"
+            v-if="!skeleton"
+          ></div>
+        </v-container>
+      </v-row>
+    </v-col>
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
 
@@ -45,13 +55,11 @@ export default {
     image: '',
     skeleton: true,
   }),
-  components: {
-    'footer-home': footer,
-  },
+  components: {},
   beforeCreate() {
     axios({
       baseURL: `${this.$store.state.domain}about-us`,
-      method: 'get',
+      method: 'GET',
       headers: {
         'x-api-key': this.$store.state.apiKey,
       },
