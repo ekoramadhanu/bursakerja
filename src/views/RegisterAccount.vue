@@ -14,6 +14,9 @@
           <v-container>
             <v-row>
               <div class="mb-8">
+                <v-btn text small color="dark grey" class="pa-0 mb-4" to="/"
+                  >kembali ke beranda</v-btn
+                >
                 <h1 class="display-2">Aktivasi Akun</h1>
                 <h2 class="subtitle-1">
                   Nomor kartu dan PIN Anda telah kami konfirmasi. Silahkan isi

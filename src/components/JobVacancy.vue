@@ -20,7 +20,7 @@
                   hide-selected
                   item-text="name"
                   item-value="name"
-                  label="Lokasi Lowingan"
+                  label="Lokasi Lowongan"
                   prepend-icon="$location"
                   append-outer-icon="mdi-close"
                   @click:append-outer="resetLocation()"
