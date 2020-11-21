@@ -18,7 +18,7 @@
     <v-row v-if="!skeleton">
       <v-img :src="image" height="400"></v-img>
     </v-row>
-    <v-col cols="8" offset="2">
+    <v-col cols="8" offset="2" v-if="!skeleton">
       <v-row>
         <v-container>
           <v-btn
@@ -26,13 +26,13 @@
             x-small
             color="dark grey"
             class="pa-0"
-            @click="$router.go(-1)"
-            >kembali</v-btn
+            to="/"
+            >kembali ke beranda</v-btn
           >
         </v-container>
       </v-row>
       <v-row>
-        <v-container>
+        <v-container v-if="!skeleton">
             <h1 class="display-2 mb-2">Tentang Kami</h1>
           <div
             class="text-justify mt-3"
