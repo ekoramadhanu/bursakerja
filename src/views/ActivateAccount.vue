@@ -22,7 +22,7 @@
                   Silahkan masukkan nomor kartu dan pin yang tertera pada kartu
                   Bursa Kerja
                 </h2>
-                  <v-btn text small color="primary" class="pa-0 my-4" to="/login-job-seeker"
+                  <v-btn text color="primary" class="pa-0 my-4" to="/login-job-seeker"
                     >saya sudah punya akun</v-btn
                   >
               </div>
@@ -94,25 +94,6 @@
           </v-container>
         </v-col>
       </v-row>
-      <!-- <v-row>
-      <div class="pa-2 card-login">
-        <p class="text-capitalize text-center text-h4">
-          aktivasi akun bursa kerja
-        </p>
-
-        <v-card max-height="450" outlined class="mt-2" elevation="3">
-          <v-btn
-            width="100%"
-            height="40"
-            color="primary"
-            class="text-capitalize"
-          >
-            <v-icon class="mr-2">$login</v-icon>
-            <p class="text-capitalize my-auto">Masuk</p>
-          </v-btn>
-        </v-card>
-      </div>
-    </v-row> --->
     </v-container>
   </div>
 </template>
