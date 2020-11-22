@@ -18,15 +18,16 @@
             color="white"
             height="100%"
             width="100vw"
-            max-width="1366"
+            max-width="1044"
             class="d-flex align-center"
           >
             <div class="white" v-for="item in returnlist(i, 7)" :key="item.id">
               <v-img
                 :src="item.image"
-                width="180"
-                height="80"
+                width="128"
+                height="42"
                 aspect-ratio="1.7"
+                class="greyscale mr-12"
                 contain
               ></v-img>
             </div>
@@ -118,4 +119,15 @@ export default {
   width: 100vw;
   max-width: 1366px;
 }
+.greyscale{
+  -webkit-filter:grayscale(100%);
+  -moz-filter:grayscale(100%);
+  filter:grayscale(100%);
+}
+.greyscale:hover{
+  -webkit-filter:grayscale(0%);
+  -moz-filter:grayscale(0%);
+  filter:grayscale(0%);
+}
+
 </style>
