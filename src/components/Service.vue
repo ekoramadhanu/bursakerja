@@ -1,312 +1,186 @@
 <template>
   <div class="d-flex justify-center mb-2 grey py-16">
     <div class="max-width">
-      <p class="text-center my-2 text-capitalize black--text text-h4 font-weight-bold">
+      <p
+        class="text-center my-2 text-capitalize black--text text-h4 font-weight-bold"
+      >
         kategori sumber daya manusia
       </p>
-      <p class="text-center my-2 ">
+      <p class="text-center my-2 greySecondary--text">
         Kami membagi kategori sumber daya manusia menjadi 4 macam
       </p>
-      <!-- <v-lazy
-        v-model="isActive"
-        :options="{
-          threshold: 1,
-        }"
-        transition="slideUp"
-      >
-        <div class="max-width-text mx-auto">
-          <p class="text-center">
-            Kami akan membantu perusahaan terutama UMKM untuk mendapatkan
-            karyawan yang berkualitas dan bagi masyarakat yang bergabung akan
-            mendapatkan pemberdayaan untuk mendapatkan pekerjaan. Oleh karena
-            itu kami menyediakan beberapa layanan sebagai berikut
-          </p>
-        </div>
-      </v-lazy> -->
-      <v-lazy
-        v-model="isActive"
-        :options="{
-          threshold: 1,
-        }"
-      >
-        <v-row class="mx-2">
-          <v-col cols="12" xl="3" lg="3" md="6" sm="6" xs="12">
-            <transition name="fadeUp" appear>
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
+      <v-row class="d-flex justify-center">
+        <v-col
+          cols="12"
+          xl="3"
+          lg="3"
+          md="6"
+          sm="6"
+          xs="12"
+          class="card-column"
+        >
+          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+            <v-card-text class="pa-2 size-card-text">
+              <v-img
+                src="@/assets/Resume-rafiki.svg"
+                height="100%"
+                width="100%"
+                max-height="243"
+                max-width="243"
+                aspect-ratio="1.7"
+                contain
+                class="mx-auto"
+              ></v-img>
+              <p class="ma-0 text-h5 text-center black--text text-capitalize">
+                karyawan
+              </p>
+              <p class="mb-0 mt-2 text-subtitle-2 text-center">
+                Rekrut karyawan sesuai kota saat ini, posisi yang diinginkan,
+                dan pendidikan terakhir
+              </p>
+            </v-card-text>
+            <v-card-actions
+              class="d-flex justify-center align-end size-card-action"
+            >
+              <v-btn
+                color="primary"
+                to="/job-seeker"
+                width="185"
+                height="44"
+                class="text-subtitle-2"
               >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/candidateJobSeeker.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    karyawan
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    Anda dapat memilih dan merekrut Karyawan sesuai yang anda
-                    inginkan berdasarkan kota, formasi maupun pendidikan
-                    terakhir
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn
-                    color="primary"
-                    class="text-capitalize"
-                    to="/job-seeker"
-                  >
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-          <v-col cols="12" xl="3" lg="3" md="6" sm="6" xs="12">
-            <transition name="fadeUp" :appear="delayOne()">
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
-                v-if="animateOne"
+                lihat selengkapnya
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          xl="3"
+          lg="3"
+          md="6"
+          sm="6"
+          xs="12"
+          class="card-column"
+        >
+          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+            <v-card-text class="pa-2 size-card-text">
+              <v-img
+                src="@/assets/Electrician-rafiki.svg"
+                height="100%"
+                width="100%"
+                max-width="243"
+                max-height="243"
+                aspect-ratio="1.7"
+                contain
+                class="mx-auto"
+              ></v-img>
+              <p class="ma-0 text-h6 text-center text-capitalize">
+                tenaga profesional
+              </p>
+              <p class="mb-0 mt-2 text-subtitle-1 text-center">
+                Anda dapat merekrut tenaga profesional yang memiliki kepandaian
+                atau keahlian khusus
+              </p>
+            </v-card-text>
+            <v-card-actions
+              class="d-flex justify-center align-end size-card-action"
+            >
+              <v-btn
+                color="primary"
+                class="text-capitalize"
+                to="/job-seeker-professional"
               >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/professional.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    tenaga profesional
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    profesional adalah SDM yang memiliki kepandaian atau
-                    keahlian khusus seperti dokter, pengacara, Master Ceremoni
-                    (MC), Ahli Sumur, Montir, Tukang AC,
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn
-                    color="primary"
-                    class="text-capitalize"
-                    to="/job-seeker-professional"
-                  >
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-          <v-col cols="12" xl="3" lg="3" md="6" sm="6" xs="12">
-            <transition name="fadeUp" :appear="delayTwo()">
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
-                v-if="animateTwo"
+                lihat selengkapnya
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          xl="3"
+          lg="3"
+          md="6"
+          sm="6"
+          xs="12"
+          class="card-column"
+        >
+          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+            <v-card-text class="pa-2 size-card-text">
+              <v-img
+                src="@/assets/Gardening-rafiki.svg"
+                height="100%"
+                width="100%"
+                max-height="243"
+                max-width="243"
+                aspect-ratio="1.7"
+                contain
+                class="mx-auto"
+              ></v-img>
+              <p class="ma-0 text-h6 text-center text-capitalize">
+                Tenaga Informal
+              </p>
+              <p class="mb-0 mt-2 text-subtitle-1 text-center">
+                Tenaga informal mencakup tenaga kerja seperti asisten rumah
+                tangga, pengasuh bayi, dan sebagainya
+              </p>
+            </v-card-text>
+            <v-card-actions
+              class="d-flex justify-center align-end size-card-action"
+            >
+              <v-btn
+                color="primary"
+                class="text-capitalize"
+                to="/job-seeker-informal"
               >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/informalv2.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    Tenaga Informal
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    Tenaga informal Adalah tenaga kerja seperti asisten rumah
-                    tangga, babby sitter, tukang rumput, tukang kebun, tukang
-                    ojek, dll
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn
-                    color="primary"
-                    class="text-capitalize"
-                    to="/job-seeker-informal"
-                  >
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-          <v-col cols="12" xl="3" lg="3" md="6" sm="6" xs="12">
-            <transition name="fadeUp" :appear="delayThree()">
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
-                v-if="animateThree"
+                lihat selengkapnya
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col
+          cols="12"
+          xl="3"
+          lg="3"
+          md="6"
+          sm="6"
+          xs="12"
+          class="card-column"
+        >
+          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+            <v-card-text class="pa-2 size-card-text">
+              <v-img
+                src="@/assets/Working-rafiki.svg"
+                height="100%"
+                width="100%"
+                max-height="243"
+                max-width="243"
+                aspect-ratio="1.7"
+                contain
+                class="mx-auto"
+              ></v-img>
+              <p class="ma-0 text-h6 text-center text-capitalize">
+                Tenaga Magang
+              </p>
+              <p class="mb-0 mt-2 text-subtitle-1 text-center">
+                Tenaga magang dapat menerapkan disiplin ilmu atau keahliannya di
+                perusahaan Anda
+              </p>
+            </v-card-text>
+            <v-card-actions
+              class="d-flex justify-center align-end size-card-action"
+            >
+              <v-btn
+                color="primary"
+                class="text-capitalize"
+                to="/job-seeker-internship"
               >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/internship.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    Tenaga Magang
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    Tenaga magang adalah para lulusan smk, sarjana, umum yang
-                    membutuhkan perusahaan tempat untuk menerapkan
-                    keahlian/disiplin keilmuannya
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn
-                    color="primary"
-                    class="text-capitalize"
-                    to="/job-seeker-internship"
-                  >
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-        </v-row>
-      </v-lazy>
-      <!-- <v-lazy
-        v-model="isActive"
-        :options="{
-          threshold: 1,
-        }"
-      >
-        <v-row class="mx-2">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-            <transition name="fadeUp" :appear="delayThree()">
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
-                v-if="animateThree"
-              >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/internship.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    karyawan magang
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    bagi perusahaan terutama UMKM yang terdaftar di sistem,
-                    dapat memilih karyawan magang dengan cepat dan mudah.
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn color="primary" class="text-capitalize" to='/job-seeker-internship'>
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-            <transition name="fadeUp" :appear="delayFour()">
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
-                v-if="animateFour"
-              >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/propose.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    cari lowongan kerja
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    bagi karyawan yang terdaftar, dapat memilih berbagai macam
-                    lowongan perusahaan terutama UMKM di berbagai daerah dengan
-                    cepat.
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn color="primary" class="text-capitalize" to='/job-vacancy'>
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="12">
-            <transition name="fadeUp" :appear="delayFive()">
-              <v-card
-                elevation="3"
-                class="rounded-xl"
-                :height="getWindowsWidth"
-                v-if="animateFive"
-              >
-                <v-card-text class="pa-2 size-card-text">
-                  <v-img
-                    src="@/assets/job vacancy.svg"
-                    height="150"
-                    width="150"
-                    aspect-ratio="1.7"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-                  <p class="ma-0 text-h6 text-center text-capitalize">
-                    pasang lowongan kerja
-                  </p>
-                  <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                    bagi perusahaan terutama UMKM yang terdaftar di sistem,
-                    dapat memasanng lowongan kepada karyawan yang terdaftar
-                    dalam sistem kami.
-                  </p>
-                </v-card-text>
-                <v-card-actions
-                  class="d-flex justify-center align-end size-card-action"
-                >
-                  <v-btn color="primary" class="text-capitalize" to='/upload-job-vacancy'>
-                    lihat selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </transition>
-          </v-col>
-        </v-row>
-      </v-lazy> -->
+                lihat selengkapnya
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -323,26 +197,7 @@ export default {
     animateFive: false,
   }),
   watch: {},
-  computed: {
-    getWindowsWidth() {
-      if (this.windowsWidth >= 1264) {
-        return 386;
-      }
-      if (this.windowsWidth >= 960 && this.windowsWidth < 1264) {
-        return 390;
-      }
-      if (this.windowsWidth >= 900 && this.windowsWidth < 960) {
-        return 422;
-      }
-      if (this.windowsWidth >= 700 && this.windowsWidth < 900) {
-        return 454;
-      }
-      if (this.windowsWidth >= 600 && this.windowsWidth < 700) {
-        return 540;
-      }
-      return null;
-    },
-  },
+  computed: {},
   methods: {
     rezise() {
       this.windowsWidth = window.innerWidth;
@@ -430,5 +285,9 @@ export default {
 }
 .size-card-text {
   height: 85%;
+}
+.card-column {
+  max-height: 445px;
+  max-width: 243px;
 }
 </style>

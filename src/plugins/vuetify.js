@@ -75,6 +75,7 @@ export default new Vuetify({
         divider: '#BDBDBD', // divider color
         iconColor: '#FFFFFF', // white
         grey: '#ECEFF1', // gray background
+        greySecondary: '#78909C', // gray background
         error: '#f44336', // red
         success: '#4caf50', // green
         warning: '#ffeb3b', // yellow

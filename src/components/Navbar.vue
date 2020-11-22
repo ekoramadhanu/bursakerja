@@ -41,11 +41,11 @@
           <v-spacer></v-spacer>
           <div class="hidden-md-and-down button-height">
             <v-btn text to="/" elevation="0" class="no-focus" height="100%">
-              <span class="my-auto">beranda</span>
+              <span class="my-auto font-family">beranda</span>
             </v-btn>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" text class="no-focus" height="100%"
+                <v-btn v-bind="attrs" v-on="on" text class="no-focus font-family" height="100%"
                   >artikel
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
@@ -57,7 +57,7 @@
                   :to="item.to"
                   dense
                 >
-                  <v-list-item-title class="text-uppercase no-focus">{{
+                  <v-list-item-title class="text-uppercase no-focus font-family">{{
                     item.title
                   }}</v-list-item-title>
                 </v-list-item>
@@ -67,7 +67,7 @@
                   :to="item.to"
                   dense
                 >
-                  <v-list-item-title class="text-uppercase no-focus">{{
+                  <v-list-item-title class="text-uppercase no-focus font-family">{{
                     item.title
                   }}</v-list-item-title>
                 </v-list-item>
@@ -75,14 +75,16 @@
             </v-menu>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" text class="no-focus" height="100%"
+                <v-btn v-bind="attrs" v-on="on" text class="no-focus font-family" height="100%"
                   >pencari kerja
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
               <v-list>
                 <v-list-item to="/job-seeker" dense class=" no-focus">
-                  <v-list-item-title class="text-uppercase"> karyawan </v-list-item-title>
+                  <v-list-item-title class="text-uppercase font-family">
+                    karyawan
+                  </v-list-item-title>
                 </v-list-item>
                 <v-list-item
                   v-for="(item, index) in sortItemsJob"
@@ -91,7 +93,7 @@
                   dense
                   class=" no-focus"
                 >
-                  <v-list-item-title class="text-uppercase">{{
+                  <v-list-item-title class="text-uppercase font-family">{{
                     item.title
                   }}</v-list-item-title>
                 </v-list-item>
@@ -99,7 +101,7 @@
             </v-menu>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" text class="no-focus" height="100%"
+                <v-btn v-bind="attrs" v-on="on" text class="no-focus font-family" height="100%"
                   >lowongan
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
@@ -112,17 +114,17 @@
                   dense
                   class=" no-focus"
                 >
-                  <v-list-item-title class="text-uppercase">{{
+                  <v-list-item-title class="text-uppercase font-family">{{
                     item.title
                   }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
             <v-btn text to="/school" elevation="0" class="no-focus" height="100%">
-              <span class="my-auto">sekolah unggulan</span>
+              <span class="my-auto font-family">sekolah unggulan</span>
             </v-btn>
             <v-btn class="mx-4" outlined color="primary" to="/activate-account">
-              <p class="my-auto">aktivasi</p>
+              <p class="my-auto font-family">aktivasi</p>
             </v-btn>
             <v-btn
               class="ml-4"
@@ -130,7 +132,7 @@
               to="/login-job-seeker"
               elevation="0"
             >
-              <p class="my-auto">masuk</p>
+              <p class="my-auto font-family">masuk</p>
             </v-btn>
           </div>
         </div>
@@ -321,7 +323,7 @@ export default {
   max-width: 1366px;
 }
 .max-width {
-  max-width: 1366px;
+  max-width: 1100px;
   width: 100vw;
   height: 100%;
 }
