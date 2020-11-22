@@ -40,12 +40,23 @@
           </router-link>
           <v-spacer></v-spacer>
           <div class="hidden-md-and-down button-height">
-            <v-btn text to="/" elevation="0" class="no-focus" height="100%">
+            <v-btn
+              text
+              to="/"
+              elevation="0"
+              class="pa-0 mr-6 no-focus"
+              height="100%"
+            >
               <span class="my-auto font-family">beranda</span>
             </v-btn>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" text class="no-focus font-family" height="100%"
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  text
+                  class="no-focus font-family pa-0 mr-6"
+                  height="100%"
                   >artikel
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
@@ -57,9 +68,10 @@
                   :to="item.to"
                   dense
                 >
-                  <v-list-item-title class="text-uppercase no-focus font-family">{{
-                    item.title
-                  }}</v-list-item-title>
+                  <v-list-item-title
+                    class="text-uppercase no-focus font-family"
+                    >{{ item.title }}</v-list-item-title
+                  >
                 </v-list-item>
                 <v-list-item
                   v-for="item in itemsArticle"
@@ -67,21 +79,27 @@
                   :to="item.to"
                   dense
                 >
-                  <v-list-item-title class="text-uppercase no-focus font-family">{{
-                    item.title
-                  }}</v-list-item-title>
+                  <v-list-item-title
+                    class="text-uppercase no-focus font-family"
+                    >{{ item.title }}</v-list-item-title
+                  >
                 </v-list-item>
               </v-list>
             </v-menu>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" text class="no-focus font-family" height="100%"
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  text
+                  class="no-focus font-family pa-0 mr-6"
+                  height="100%"
                   >pencari kerja
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item to="/job-seeker" dense class=" no-focus">
+                <v-list-item to="/job-seeker" dense class="no-focus">
                   <v-list-item-title class="text-uppercase font-family">
                     karyawan
                   </v-list-item-title>
@@ -91,7 +109,7 @@
                   :key="index"
                   :to="item.to"
                   dense
-                  class=" no-focus"
+                  class="no-focus"
                 >
                   <v-list-item-title class="text-uppercase font-family">{{
                     item.title
@@ -101,7 +119,12 @@
             </v-menu>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" text class="no-focus font-family" height="100%"
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  text
+                  class="no-focus font-family pa-0 mr-6"
+                  height="100%"
                   >lowongan
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
@@ -112,7 +135,7 @@
                   :key="index"
                   :to="item.to"
                   dense
-                  class=" no-focus"
+                  class="no-focus"
                 >
                   <v-list-item-title class="text-uppercase font-family">{{
                     item.title
@@ -120,14 +143,20 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-            <v-btn text to="/school" elevation="0" class="no-focus" height="100%">
+            <v-btn
+              text
+              to="/school"
+              elevation="0"
+              class="no-focus pa-0 mr-6"
+              height="100%"
+            >
               <span class="my-auto font-family">sekolah unggulan</span>
             </v-btn>
-            <v-btn class="mx-4" outlined color="primary" to="/activate-account">
+            <v-btn class="mr-6" outlined color="primary" to="/activate-account">
               <p class="my-auto font-family">aktivasi</p>
             </v-btn>
             <v-btn
-              class="ml-4"
+              class=""
               color="primary"
               to="/login-job-seeker"
               elevation="0"
@@ -141,51 +170,75 @@
     <!-- drawer menu -->
     <v-navigation-drawer v-model="drawer" fixed temporary>
       <v-list dense>
-        <v-list-item to="/">
+        <v-list-item to="/" class="no-focus">
           <v-list-item-content>
-            <v-list-item-title class="">beranda</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase"
+              >beranda</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
-        <v-list-group :value="false">
+        <v-list-group :value="dropDown" append-icon="$dropdown" active-class="black--text">
           <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title class="">profil</v-list-item-title>
+            <v-list-item-content class="no-focus">
+              <v-list-item-title class="font-family text-uppercase"
+                >profil</v-list-item-title
+              >
             </v-list-item-content>
           </template>
           <v-list-item
             v-for="item in sortItems"
             :key="item.title"
             :to="item.to"
+            class="no-focus"
+            active-class="black--text"
           >
-            <v-list-item-title class="">{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item>
           <v-list-item
             v-for="item in sortItemArticle"
             :key="item.title"
             :to="item.to"
+            class="no-focus"
           >
-            <v-list-item-title class="">{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
-        <v-list-group :value="false">
+        <v-list-group :value="dropDown" append-icon="$dropdown" active-class="black--text">
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title class="">pencari kerja</v-list-item-title>
+              <v-list-item-title class="font-family text-uppercase"
+                >pencari kerja</v-list-item-title
+              >
             </v-list-item-content>
           </template>
           <v-list-item to="/job-seeker">
-            <v-list-item-content>
-              <v-list-item-title class="">karyawan</v-list-item-title>
+            <v-list-item-content class="no-focus">
+              <v-list-item-title class="font-family text-uppercase"
+                >karyawan</v-list-item-title
+              >
             </v-list-item-content>
           </v-list-item>
-          <v-list-item v-for="item in itemJob" :key="item.title" :to="item.to">
-            <v-list-item-title class="">{{ item.title }}</v-list-item-title>
+          <v-list-item
+            v-for="item in itemJob"
+            :key="item.title"
+            :to="item.to"
+            class="no-focus"
+          >
+            <v-list-item-title class="font-family text-uppercase">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
-        <v-list-group :value="false">
+        <v-list-group :value="dropDown" append-icon="$dropdown" active-class="black--text">
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title class="">lowongan kerja</v-list-item-title>
+              <v-list-item-title class="font-family text-uppercase"
+                >lowongan kerja</v-list-item-title
+              >
             </v-list-item-content>
           </template>
           <v-list-item
@@ -193,23 +246,31 @@
             :key="item.title"
             :to="item.to"
           >
-            <v-list-item-title class="">{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
         <v-list-item to="/school">
           <v-list-item-content>
-            <v-list-item-title class="">sekolah unggulan</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase"
+              >sekolah unggulan</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item to="/activate-account">
           <v-list-item-content>
-            <v-list-item-title class="">aktivasi</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase"
+              >aktivasi</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
         <v-list-item to="/login-job-seeker">
           <v-list-item-content>
-            <v-list-item-title class="">masuk</v-list-item-title>
+            <v-list-item-title class="font-family text-uppercase"
+              >masuk</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -235,6 +296,7 @@ export default {
       { title: 'pasang lowongan', to: '/upload-job-vacancy' },
       { title: 'cari lowongan', to: '/job-vacancy' },
     ],
+    dropDown: false,
   }),
   computed: {
     sortItems() {
@@ -314,6 +376,8 @@ export default {
 
     delete this.drawer;
   },
+  updated() {
+  },
 };
 </script>
 
@@ -323,7 +387,7 @@ export default {
   max-width: 1366px;
 }
 .max-width {
-  max-width: 1100px;
+  max-width: 1044px;
   width: 100vw;
   height: 100%;
 }
@@ -341,7 +405,7 @@ export default {
 .text-width-xs {
   width: 100%;
 }
-.no-focus::before {
+.no-focus:before {
   opacity: 0 !important;
 }
 </style>

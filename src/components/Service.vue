@@ -2,14 +2,18 @@
   <div class="d-flex justify-center mb-2 grey py-16">
     <div class="max-width">
       <p
-        class="text-center my-2 text-capitalize black--text text-h4 font-weight-bold"
+        class="text-center font-family my-2 text-capitalize black--text text-h4 font-weight-bold"
       >
-        kategori sumber daya manusia
+        <span class="font-family">
+          kategori sumber daya manusia
+        </span>
       </p>
       <p class="text-center my-2 greySecondary--text">
-        Kami membagi kategori sumber daya manusia menjadi 4 macam
+        <span class="font-family">
+          Kami membagi kategori sumber daya manusia menjadi 4 macam
+        </span>
       </p>
-      <v-row class="d-flex justify-center">
+      <v-row class="d-flex justify-center mt-12">
         <v-col
           cols="12"
           xl="3"
@@ -31,12 +35,18 @@
                 contain
                 class="mx-auto"
               ></v-img>
-              <p class="ma-0 text-h5 text-center black--text text-capitalize">
-                karyawan
+              <p
+                class="ma-0 text-h5 text-center black--text text-capitalize"
+              >
+                <span class="font-family">
+                  karyawan
+                </span>
               </p>
-              <p class="mb-0 mt-2 text-subtitle-2 text-center">
-                Rekrut karyawan sesuai kota saat ini, posisi yang diinginkan,
-                dan pendidikan terakhir
+              <p class="mb-0 mt-2 font-family text-subtitle-2 text-center">
+                <span class="font-family">
+                  Rekrut karyawan sesuai kota saat ini, posisi yang diinginkan,
+                  dan pendidikan terakhir
+                </span>
               </p>
             </v-card-text>
             <v-card-actions
@@ -49,7 +59,9 @@
                 height="44"
                 class="text-subtitle-2"
               >
-                lihat selengkapnya
+                <p class="mb-0 font-family">
+                  lihat selengkapnya
+                </p>
               </v-btn>
             </v-card-actions>
           </v-card>

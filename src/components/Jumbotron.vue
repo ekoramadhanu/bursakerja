@@ -10,7 +10,7 @@
         xs="12"
         class="pr-1 d-flex align-center"
       >
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column font-family">
           <!-- <h2 class="text-capitalize">Bursakerja.biz123</h2>
           <p class="text-justify">
             Bursakerja.biz adalah portal bursa kerja yang dikelola untuk
@@ -21,12 +21,16 @@
             terakhir untuk memudahkan pengguna menemukan SDM yang tepat
           </p> -->
           <p class="text-capitalize text-h3 font-weight-bold">
-            temukan kandidat anda!
+            <span class="font-family">
+              temukan kandidat anda!
+            </span>
           </p>
-          <p class="text-subtitle-2 font-weight-regular">
-            Kami dapat membantu Anda menemukan sumber daya manusia yang mumpuni
-            dan berintegritas sesuai dengan kualifikasi yang diperlukan
-            berdasarkan kota, posisi pekerjaan, dan kualifikasi pendidikan.
+          <p class="text-subtitle-2">
+            <span class="font-family font-weight-medium">
+              Kami dapat membantu Anda menemukan sumber daya manusia yang mumpuni
+              dan berintegritas sesuai dengan kualifikasi yang diperlukan
+              berdasarkan kota, posisi pekerjaan, dan kualifikasi pendidikan.
+            </span>
           </p>
           <v-btn
             width="155"
@@ -126,11 +130,11 @@ export default {
     height: 100vh;
     width: 100vw;
     max-width: 100vw;
-    max-height: 650px;
+    max-height: 736px;
   }
 }
 .max-width {
-  max-width: 1366px;
+  max-width: 1044px;
 }
 @media screen and (max-width: 600px) {
   .max-width {
