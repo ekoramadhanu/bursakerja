@@ -5,18 +5,17 @@
 
         <v-card class="overflow-hidden mt-3" elevation="3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-icon class="mr-2 white--text">$CV</v-icon>
             <v-toolbar-title
               class="font-weight-light text-capitalize white--text"
             >
               data resume karyawan
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn color="white" fab small @click="isEditing = !isEditing">
-              <v-icon v-if="isEditing" class="primary--text">
+            <v-btn color="white" icon @click="isEditing = !isEditing">
+              <v-icon v-if="isEditing">
                 mdi-close
               </v-icon>
-              <v-icon v-else class="primary--text"> mdi-pencil </v-icon>
+              <v-icon v-else> mdi-pencil </v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text class="py-4 px-6">
@@ -528,15 +527,14 @@
             </v-form>
           </v-card-text>
           <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
+          <v-card-actions v-if="isEditing">
             <v-btn :disabled="!isEditing" color="primary" @click="save">
               <v-progress-circular
                 indeterminate
                 color="white"
                 v-if="loadingSave"
               />
-              <p v-if="!loadingSave" class="text-capitalize my-auto">simpan</p>
+              <p v-if="!loadingSave" class="my-auto">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>

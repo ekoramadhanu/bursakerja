@@ -3,12 +3,7 @@
     <div class="max-width">
       <v-row>
         <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
-          <v-card elevation="3">
-            <v-card-title
-              class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
-            >
-              pilih kriteria
-            </v-card-title>
+          <v-card>
             <v-card-text class="pb-0">
               <v-form lazy-validation>
                 <v-autocomplete

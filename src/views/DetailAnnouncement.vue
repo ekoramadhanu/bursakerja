@@ -1,13 +1,24 @@
 <template>
   <div>
     <v-main>
-      <v-container class="d-flex flex-column justify-center size-max">
-
-        <div class="mt-2">
-          <p class="text-center text-h5">{{title}}</p>
-          <div v-html="content"></div>
-        </div>
-      </v-container>
+      <div class="justify-center">
+        <v-row>
+          <v-col cols="12" xl="8" lg="8" offset-lg="2" offset-xl="2">
+            <v-container>
+              <v-btn
+                text
+                x-small
+                color="dark grey"
+                class="pa-0 mb-4"
+                @click="$router.go(-1)"
+                >kembali</v-btn
+              >
+              <h1 class="display-2 mb-2">{{ title }}</h1>
+              <div v-html="content"></div>
+            </v-container>
+          </v-col>
+        </v-row>
+      </div>
     </v-main>
   </div>
 </template>
@@ -39,11 +50,10 @@ export default {
         'x-api-key': this.$store.state.apiKey,
         authorization: `Bearer ${this.$cookies.get('token')}`,
       },
-    })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
+    }).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    });
     axios({
       baseURL: `${this.$store.state.domain}announcement/${this.$route.params.id}`,
       method: 'get',
@@ -74,7 +84,7 @@ export default {
 </script>
 
 <style scoped>
-.size-max{
+.size-max {
   max-width: 1100px;
 }
 div >>> ul {

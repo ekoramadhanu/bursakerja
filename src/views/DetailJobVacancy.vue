@@ -2,13 +2,28 @@
   <div>
     <v-main class="grey">
       <v-container class="d-flex flex-column justify-center max-width">
-
-        <!--  -->
+        <v-row>
+          <v-col cols="12">
+            <v-btn
+              x-small
+              text
+              color="dark grey"
+              @click="$router.go(-1)"
+              class="pa-0"
+            >
+              Kembali
+            </v-btn>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">
             <v-card elevation="3" class="mt-3">
               <v-card-title class="text-capitalize font-weight-bold text-h5">
                 {{ nameJob }}
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="dialogApplication = true">
+                  kirim CV
+                </v-btn>
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text class="">
@@ -81,24 +96,12 @@
               </v-card-text>
             </v-card>
             <v-card elevation="3" class="mt-3">
-              <v-card-title class="text-capitalize font-weight-bold text-h5">
-                {{ nameJob }}
-              </v-card-title>
+              <v-card-title> Deskripsi Pekerjaan </v-card-title>
               <v-divider></v-divider>
               <v-card-text class="">
                 <div v-html="description"></div>
                 <div v-html="exerience"></div>
               </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions class="d-flex justify-end">
-                <v-btn
-                  color="primary"
-                  class="text-capitalize"
-                  @click="dialogApplication = true"
-                >
-                  kirim CV
-                </v-btn>
-              </v-card-actions>
             </v-card>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
@@ -158,7 +161,7 @@
                 >
                   usia perusahaan
                 </p>
-                <p class=" text-capitalize">{{ old }}</p>
+                <p class="text-capitalize">{{ old }}</p>
                 <p
                   class="text-capitalize text-subtitle-1 font-weight-bold mb-1"
                 >
@@ -169,7 +172,6 @@
             </v-card>
           </v-col>
         </v-row>
-        <footer-dashboard />
         <v-dialog v-model="dialogApplication" persistent max-width="550">
           <v-card>
             <v-card-title class="headline primary white--text text-capitalize">
@@ -237,7 +239,6 @@
 
 <script>
 import axios from 'axios';
-import footer from '@/components/FooterDasahboard.vue';
 
 export default {
   data: () => ({
@@ -322,9 +323,6 @@ export default {
           this.dialogApplication = false;
         });
     },
-  },
-  components: {
-    'footer-dashboard': footer,
   },
   beforeCreate() {
     axios({

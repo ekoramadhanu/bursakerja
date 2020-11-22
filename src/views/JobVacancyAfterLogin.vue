@@ -3,13 +3,14 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
-            <v-card elevation="3">
-              <v-card-title
-                class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
-              >
-                pilih kriteria
-              </v-card-title>
+          <v-col>
+            <v-card>
+              <v-card-title> Pilih Kriteria </v-card-title>
+              <v-card-subtitle>
+                Silahkan masukkan kriteria untuk menampilkan lowongan
+                berdasarkan lokasi dan posisi. Jika Anda tidak menemukan
+                kriteria yang diinginkan, Anda dapat menghubungi kami.
+              </v-card-subtitle>
               <v-card-text>
                 <v-form lazy-validation>
                   <v-row class="align-center">
@@ -26,7 +27,7 @@
                         label="Lokasi Lowongan"
                         @click:append-outer="resetLocation()"
                         persistent-hint
-                        hint="jika tidak ada lokasi yang anda cari, silahkan hubungi pihak kami"
+                        dense
                       />
                     </v-col>
                     <v-col cols="12" xl="5" lg="5" md="5">
@@ -42,7 +43,7 @@
                         label="Posisi Lowongan"
                         @click:append-outer="resetJob()"
                         persistent-hint
-                        hint="jika tidak ada jabatan yang anda cari, silahkan hubungi pihak kami"
+                        dense
                       />
                     </v-col>
                     <v-col cols="12" xl="2" lg="2" md="2">
@@ -56,20 +57,10 @@
             </v-card>
           </v-col>
           <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
-            <v-card elevation="3">
-              <v-card-title class="pa-3 d-flex justify-space-between">
-                <p
-                  class="text-capitalize ma-0 text-subtitle-1 font-weight-bold"
-                >
-                  daftar lowongan pekerjaan
-                </p>
-                <p
-                  class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
-                  v-if="!skeleton"
-                >
-                  {{ min }} - {{ max }} dari {{ lengthData }} lowongan
-                </p>
-              </v-card-title>
+            <v-card class="mb-4" elevation="0">
+              <v-card-text>
+                {{ max }} dari {{ lengthData }} lowongan ditemukan
+              </v-card-text>
             </v-card>
             <div v-if="jobSeeker.length > 0 && !skeleton">
               <div v-for="item in jobSeeker" :key="item.id">
@@ -115,20 +106,8 @@
                         </v-card-text>
                       </v-row>
                     </v-card-text>
-                    <v-card-text class="pa-2">
-                      <div class="d-flex">
-                        <div>
-                          <p
-                            class="text-capitalize text-subtitle-1 primary--text ma-0"
-                          ></p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular mb-2"
-                          ></p>
-                        </div>
-                      </div>
-                    </v-card-text>
-                      <v-card-actions>
-                        <v-btn
+                    <v-card-actions>
+                      <v-btn
                         text
                         color="primary"
                         :to="`/detail-job-vacancy/${item.id}`"
@@ -142,15 +121,9 @@
             </div>
             <div v-if="!skeleton && jobSeeker.length === 0">
               <v-card elevation="3" class="mt-4 pa-3">
-                <typical
-                  class="text-center text-capitalize"
-                  :steps="[
-                    `data belum ada di dalam sistem kami. silahkan hubungi pihak kami
-                    untuk bertanya lebih lanjut`,
-                    6000,
-                  ]"
-                  :wrapper="'p'"
-                />
+                <v-card-text class="text-center">
+                  Data yang Anda cari tidak ditemukan.
+                </v-card-text>
               </v-card>
             </div>
             <div v-if="skeleton">
@@ -169,22 +142,15 @@
             </div>
           </v-col>
         </v-row>
-        <footer-dashboard />
       </v-container>
     </v-main>
   </div>
 </template>
 
 <script>
-import footer from '@/components/FooterDasahboard.vue';
-import typical from 'vue-typical';
 import axios from 'axios';
 
 export default {
-  components: {
-    'footer-dashboard': footer,
-    typical,
-  },
   data: () => ({
     items: [
       {

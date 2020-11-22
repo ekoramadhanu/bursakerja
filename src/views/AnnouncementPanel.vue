@@ -15,9 +15,7 @@
               <v-toolbar flat color="white">
                 <v-toolbar-title>
                   <div class="d-flex">
-                    <p class="ma-0 hidden-xs-only">
-                      Daftar Pengumuman
-                    </p>
+                    <p class="ma-0 hidden-xs-only">Daftar Pengumuman</p>
                   </div>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
@@ -45,7 +43,7 @@
                         <v-icon class="white--text">mdi-close</v-icon>
                       </v-btn>
                       <v-toolbar-title class="text-capitalize white--text">
-                       Tambah Pengumuman
+                        Tambah Pengumuman
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn @click="saveAdd()" color="white" elevation="0">
@@ -93,7 +91,13 @@
               />
             </template>
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn @click="openDialogUpdate(item)" x-small elevation="0" color="orange" dark>
+              <v-btn
+                @click="openDialogUpdate(item)"
+                x-small
+                elevation="0"
+                color="orange"
+                dark
+              >
                 ubah pengumuman
               </v-btn>
             </template>
@@ -122,21 +126,37 @@
         </div>
         <div v-else>
           <div v-if="!skeleton">
-            <div v-for="item in article" :key="item.id">
-              <v-card elevation="3" class="mt-3">
-                <v-card-title class="text-capitalize">
-                  <router-link
-                    :to="`/detail-announcement/${item.id}`"
-                    class="text-decoration-none"
-                  >
-                    <p class="text-capitalize ma-0 text-h6 primary--text">
+            <v-col
+              xl="8"
+              lg="8"
+              md="12"
+              sm="12"
+              xs="12"
+              offset-lg="2"
+              offset-xl="2"
+            >
+              <div v-for="item in article" :key="item.id">
+                <v-card class="mt-4">
+                  <v-card-title class="text-capitalize">
+                    <router-link
+                      :to="`/detail-announcement/${item.id}`"
+                      class="text-decoration-none"
+                    >
                       {{ item.title }}
-                    </p>
-                  </router-link>
-                </v-card-title>
-                <v-card-text v-html="item.desc"></v-card-text>
-              </v-card>
-            </div>
+                    </router-link>
+                  </v-card-title>
+                  <v-card-text v-html="item.desc"></v-card-text>
+                  <v-card-action>
+                    <v-btn
+                      :to="`/detail-announcement/${item.id}`"
+                      text
+                      color="primary"
+                      >baca selengkapnya</v-btn
+                    >
+                  </v-card-action>
+                </v-card>
+              </div>
+            </v-col>
           </div>
           <div v-if="skeleton"></div>
         </div>
@@ -183,9 +203,7 @@
                 color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 primary--text" v-if="!loadingUpdate">
-                simpan
-              </p>
+              <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
             </v-btn>
           </v-toolbar>
 

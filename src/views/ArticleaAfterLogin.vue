@@ -3,7 +3,7 @@
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max mb-8">
         <v-row>
-        <v-col xl="9" lg="9" md="12" sm="12" xs="12">
+        <v-col xl="8" lg="8" md="12" sm="12" xs="12" offset-lg="2" offset-xl="2">
           <div v-if="!skeleton">
             <div v-for="item in article" :key="item.id">
               <transition name="fade" appear>
@@ -33,7 +33,7 @@
                     {{ item.description }}
                   </v-card-text>
                   <v-card-action class="d-flex">
-                    <v-btn :to="`/article-detail/${item.id}`" text color="primary">
+                    <v-btn :to="`/detail-article-login/${item.id}`" text color="primary">
                       Baca Selengkapnya
                     </v-btn>
                   </v-card-action>

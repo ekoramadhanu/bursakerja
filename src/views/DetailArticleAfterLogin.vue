@@ -20,7 +20,7 @@
         <v-img :src="image" height="400"></v-img>
       </v-row>
       <v-row v-if="!skeleton">
-        <v-col cols="8" offset="2">
+        <v-col cols="12" xl="8" lg="8" offset-lg="2" offset-xl="2">
           <v-row>
             <v-container>
               <v-btn

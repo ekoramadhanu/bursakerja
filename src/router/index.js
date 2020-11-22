@@ -627,7 +627,7 @@ const routes = [
   },
   {
     path: '/detail-announcement/:id',
-    name: 'detailAnnouncement',
+    name: 'Pengumuman',
     component: detailAnnouncement,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
