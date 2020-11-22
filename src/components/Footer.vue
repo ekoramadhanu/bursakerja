@@ -1,217 +1,248 @@
 <template>
   <div>
-    <v-lazy
-      v-model="isActive"
-      :options="{
-        threshold: 1,
-      }"
-      transition="fadeUp"
-    >
-      <div class="primary d-flex justify-center">
-        <v-row class="pl-9 pr-4 max-width ma-0">
-          <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
-            <v-list flat color="primary" dense>
-              <v-subheader class="text-uppercase white--text"
-                >bursa kerja</v-subheader
-              >
-              <v-list-item-group color="white">
-                <v-list-item to="/about-us">
-                  <v-list-item-content class="py-1">
-                    <v-list-item-title class="text-capitalize white--text">
-                      tentang kami
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item to="/faq">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-uppercase white--text"
-                      >faq</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item to="/school">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text">
-                      sekolah unggulan
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item to="/article">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >artikel</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-col>
-          <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
-            <v-list flat color="primary" dense>
-              <v-subheader class="text-uppercase white--text"
-                >pencaker</v-subheader
-              >
-              <v-list-item-group color="white">
-                <v-list-item
-                  to="/job-seeker-informal"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >informal</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item
-                  to="/job-seeker"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >karyawan</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item
-                  to="/job-seeker-internship"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >tenaga magang</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item
-                  to="/job-seeker-professional"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >profesional</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-col>
-          <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
-            <v-list flat color="primary" dense>
-              <v-subheader class="text-uppercase white--text">lowker</v-subheader>
-              <v-list-item-group color="primary">
-                <v-list-item to="/upload-job-vacancy">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text">
-                      pasang lowongan kerja</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="primary">
-                <v-list-item to="/job-vacancy">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text">
-                      cari lowongan</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-col>
-          <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
-            <v-list flat color="primary" dense>
-              <v-subheader class="text-uppercase white--text"
-                >media sosial</v-subheader
-              >
-              <v-list-item-group color="white">
-                <v-list-item @click="openWhastapp()">
-                  <v-list-item-icon>
-                    <v-icon class="white--text">$whatsapp</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >whatsapp</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item @click="openEmail()">
-                  <v-list-item-icon>
-                    <v-icon class="white--text">$email</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >email</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item @click="openTwitter()">
-                  <v-list-item-icon>
-                    <v-icon class="white--text">$twitter</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text"
-                      >twitter</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item @click="openFacebook()">
-                  <v-list-item-icon>
-                    <v-icon class="white--text">$facebook</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text">
-                      facebook</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group color="white">
-                <v-list-item @click="openInstagram()">
-                  <v-list-item-icon>
-                    <v-icon class="white--text">$instagram</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize white--text">
-                      instagram</v-list-item-title
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
-      </div>
-    </v-lazy>
-    <v-lazy
-      v-model="isActive"
-      :options="{
-        threshold: 1,
-      }"
-      transition="fadeUp"
-    >
-      <v-footer class="pa-0 primary" light>
-        <v-row justify="center" no-gutters>
-          <v-col class="py-4 text-center white--text max-width" cols="12">
-            {{ new Date().getFullYear() }} —
-            <strong class="text-capitalize">bursa kerja</strong>
-          </v-col>
-        </v-row>
-      </v-footer>
-    </v-lazy>
+    <div class="accent d-flex justify-center">
+      <v-row class="max-width ma-0">
+        <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
+          <v-list flat color="accent" dense>
+            <p class="text-uppercase white--text text-h6">
+              <span class="font-family"> bursa kerja </span>
+            </p>
+            <v-list-item-group color="white">
+              <v-list-item to="/about-us" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text font-family text-subtitle-2"
+                  >
+                    <span class="font-family"> tentang kami </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item to="/faq" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-uppercase white--text font-family text-subtitle-2"
+                  >
+                    <span class="font-family"> faq </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item to="/school" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> sekolah unggulan </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item to="/article" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> artikel </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-col>
+        <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
+          <v-list flat color="accent" dense>
+            <p class="text-uppercase white--text text-h6">
+              <span class="font-family"> pencaker </span>
+            </p>
+            <v-list-item-group color="white">
+              <v-list-item to="/job-seeker-informal" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> informal </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item to="/job-seeker" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> karyawan </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item to="/job-seeker-internship" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text font-family text-subtitle-2"
+                  >
+                    <span class="font-family"> tenaga magang </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item to="/job-seeker-professional" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> profesional </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-col>
+        <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
+          <v-list flat color="accent" dense>
+            <p class="text-uppercase white--text text-h6">
+              <span class="font-family"> lowongan kerja </span>
+            </p>
+            <v-list-item-group color="primary">
+              <v-list-item to="/upload-job-vacancy" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> pasang lowongan kerja </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="primary">
+              <v-list-item to="/job-vacancy" class="pa-0">
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="text-capitalize white--text text-subtitle-2"
+                  >
+                    <span class="font-family"> cari lowongan </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-col>
+        <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
+          <v-list flat color="accent" dense>
+            <p class="text-uppercase white--text text-h6">
+              <span class="font-family"> media sosial </span>
+            </p>
+            <v-list-item-group color="white">
+              <v-list-item @click="openWhastapp()" class="pa-0">
+                <v-list-item-icon class="mr-2">
+                  <v-card
+                    height="27"
+                    width="27"
+                    class="rounded-circle d-flex justify-center align-center"
+                  >
+                    <v-icon class="primary--text" size="20"> $whatsapp </v-icon>
+                  </v-card>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="text-capitalize white--text">
+                    whatsapp
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item @click="openEmail()" class="pa-0">
+                <v-list-item-icon class="mr-2">
+                  <v-card
+                    height="27"
+                    width="27"
+                    class="rounded-circle d-flex justify-center align-center"
+                  >
+                    <v-icon class="primary--text" size="20">$email</v-icon>
+                  </v-card>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="text-capitalize white--text">
+                    email
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item @click="openTwitter()" class="pa-0">
+                <v-list-item-icon class="mr-2">
+                  <v-card
+                    height="27"
+                    width="27"
+                    class="rounded-circle d-flex justify-center align-center"
+                  >
+                    <v-icon class="primary--text" size="20">$twitter</v-icon>
+                  </v-card>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="text-capitalize white--text">
+                    twitter
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item @click="openFacebook()" class="pa-0">
+                <v-list-item-icon class="mr-2">
+                  <v-card
+                    height="27"
+                    width="27"
+                    class="rounded-circle d-flex justify-center align-center"
+                  >
+                    <v-icon class="primary--text" size="20">$facebook</v-icon>
+                  </v-card>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="text-capitalize white--text">
+                    facebook</v-list-item-title
+                  >
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+            <v-list-item-group color="white">
+              <v-list-item @click="openInstagram()" class="pa-0">
+                <v-list-item-icon class="mr-2">
+                  <v-card
+                    height="27"
+                    width="27"
+                    class="rounded-circle d-flex justify-center align-center"
+                  >
+                    <v-icon class="primary--text" size="20">$instagram</v-icon>
+                  </v-card>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="text-capitalize white--text">
+                    instagram</v-list-item-title
+                  >
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-col>
+      </v-row>
+    </div>
+    <v-footer class="pa-0 accent">
+      <v-row justify="center" no-gutters>
+        <v-col
+          class="py-4 text-center white--text max-width font-family"
+          cols="12"
+        >
+          {{ new Date().getFullYear() }} —
+          <span class="text-capitalize">bursa kerja</span>
+        </v-col>
+      </v-row>
+    </v-footer>
   </div>
 </template>
 
@@ -283,6 +314,6 @@ export default {
 
 <style scoped>
 .max-width {
-  max-width: 1366px;
+  max-width: 1044px;
 }
 </style>

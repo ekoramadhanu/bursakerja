@@ -83,13 +83,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <div class="pa-2 card-login">
-      <p class="text-capitalize text-center text-h4">masuk bursa kerja</p>
-      <v-card max-width="450" outlined class="pa-4 mt-2" elevation="3">
-        <p class="text-capitalize text-center text-h6">masuk sebagai admin</p>
-        <div v-if="status !== null"></div>
-      </v-card>
-    </div>
   </div>
 </template>
 

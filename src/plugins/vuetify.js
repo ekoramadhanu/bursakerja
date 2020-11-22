@@ -14,11 +14,11 @@ export default new Vuetify({
       activate: 'mdi-account-reactivate',
       search: 'fas fa-search',
       arrowUp: 'fas fa-chevron-up',
-      whatsapp: 'fab fa-whatsapp-square',
-      facebook: 'fab fa-facebook-square',
-      email: 'fas fa-envelope',
-      twitter: 'fab fa-twitter-square',
-      instagram: 'fab fa-instagram-square',
+      whatsapp: 'mdi-whatsapp',
+      facebook: 'fab fa-facebook-f',
+      email: 'mdi-email',
+      twitter: 'mdi-twitter',
+      instagram: 'mdi-instagram',
       phone: 'fas fa-phone-alt',
       idCard: 'fas fa-id-card',
       padlock: 'fas fa-lock',
@@ -69,7 +69,7 @@ export default new Vuetify({
         primary: '#2196F3', // blue
         primaryDark: '#0D47A1', // blue dark
         primaryLight: '#2196F3', // blue light
-        accent: '#448AFF', // blue accent
+        accent: '#0D47A1', // blue accent
         primaryText: '#212121', // text color primary
         secondaryText: '#757575', // text color secondary
         divider: '#BDBDBD', // divider color
