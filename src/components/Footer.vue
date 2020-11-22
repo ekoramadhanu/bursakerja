@@ -150,8 +150,12 @@
                   </v-card>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title class="text-capitalize white--text">
-                    whatsapp
+                  <v-list-item-title
+                    class="text-capitalize text-subtitle-2 white--text"
+                  >
+                  <span class="font-family">
+                    {{ whatsapp }}
+                  </span>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -168,8 +172,10 @@
                   </v-card>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title class="text-capitalize white--text">
-                    email
+                  <v-list-item-title class="text-capitalize white--text text-subtitle-2">
+                    <span class="font-family">
+                      {{email}}
+                    </span>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -186,8 +192,10 @@
                   </v-card>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title class="text-capitalize white--text">
-                    twitter
+                  <v-list-item-title class="text-capitalize white--text text-subtitle-2">
+                    <span class="font-family">
+                      {{twitter}}
+                    </span>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -204,9 +212,11 @@
                   </v-card>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title class="text-capitalize white--text">
-                    facebook</v-list-item-title
-                  >
+                  <v-list-item-title class="text-capitalize white--text text-subtitle-2">
+                    <span class="font-family">
+                      {{facebook}}
+                    </span>
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -222,9 +232,11 @@
                   </v-card>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title class="text-capitalize white--text">
-                    instagram</v-list-item-title
-                  >
+                  <v-list-item-title class="text-capitalize white--text tex-subtitle-2">
+                    <span class="font-family">
+                      {{instagram}}
+                    </span>
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -253,10 +265,15 @@ export default {
   data: () => ({
     isActive: false,
     urlWhatsapp: '',
+    whatsapp: '',
     urlEmail: '',
+    email: '',
     urlTwitter: '',
+    twitter: '',
     urlFacebook: '',
+    facebook: '',
     urlInstagram: '',
+    instagram: '',
   }),
   methods: {
     openWhastapp() {
@@ -286,10 +303,15 @@ export default {
       .then((response) => {
         const numberWhatsapp = response.data.data.contact[0].whatsapp.slice(1);
         this.urlWhatsapp = `https://api.whatsapp.com/send?phone=+62${numberWhatsapp}`;
+        this.whatsapp = response.data.data.contact[0].whatsapp;
         this.urlEmail = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${response.data.data.contact[0].email}`;
+        this.email = response.data.data.contact[0].email;
         this.urlTwitter = `https://twitter.com/${response.data.data.contact[0].twitter}`;
+        this.twitter = response.data.data.contact[0].twitter;
         this.urlFacebook = `https://www.facebook.com/${response.data.data.contact[0].facebook}`;
+        this.facebook = response.data.data.contact[0].facebook;
         this.urlInstagram = `https://www.instagram.com/${response.data.data.contact[0].instagram}`;
+        this.instagram = response.data.data.contact[0].instagram;
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
