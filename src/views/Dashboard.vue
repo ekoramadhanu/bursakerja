@@ -8,391 +8,121 @@
       <div
         v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
       >
-        <p class="text-capitalize ma-0 pa-2 grey--text">UMKM</p>
-        <v-row v-if="!sekeletonUMKM">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$UMKM</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countUMKM }} katu bursa
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah kartu bursa UMKM
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$UMKM</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countUMKMActivate }} kartu
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah umkm yang bergabung
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$UMKM</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countUMKMNotActivate }} kartu
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah kartu umkm tidak aktif
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row v-if="sekeletonUMKM">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-        </v-row>
+        <!-- <v-card class="pa-4"> -->
+        <div class="d-flex">
+          <v-row align="center" justify="center">
+            <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="4">
+              <v-img src="@/assets/Connected-rafiki.svg" contain></v-img>
+            </v-col>
+            <v-col md="6" lg="4">
+              <h1>Selamat Datang!</h1>
+              <p>
+                Selamat datang di dasbor bursa kerja. Dari halaman ini, Anda
+                dapat melihat ringkasan aktivitas penggunaan Bursakerja. Apabila
+                Anda menemui permasalahan atau memerlukan bantuan, silakan
+                hubungi kami di media sosial kami.
+              </p>
+            </v-col>
+          </v-row>
+        </div>
+        <!-- </v-card> -->
+        <v-container>
+          <v-row v-if="!sekeletonUMKM">
+            <v-col cols="12" xl="4" lg="4"
+              ><v-card>
+                <v-card-title>Jumlah UMKM Tergabung</v-card-title>
+                <v-card-text>
+                  <h1 class="text-h3">{{ countUMKM }}</h1>
+                  <h2 class="subtitle-1">UMKM</h2>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-text>
+                  <v-chip-group column>
+                    <v-chip class="success"
+                      >{{ countUMKMActivate }} UMKM Aktif</v-chip
+                    >
+                    <v-chip class="error"
+                      >{{ countUMKMNotActivate }} UMKM Nonaktif</v-chip
+                    >
+                  </v-chip-group>
+                </v-card-text>
+              </v-card></v-col
+            >
+            <v-col cols="12" xl="4" lg="4"
+              ><v-card>
+                <v-card-title>Jumlah Karyawan Tergabung</v-card-title>
+                <v-card-text>
+                  <h1 class="text-h3">{{ countJobSeker }}</h1>
+                  <h2 class="subtitle-1">Orang</h2>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-text>
+                  <v-chip-group column>
+                    <v-chip class="orange white--text"
+                      >{{ countInformal }} Pekerja Informal</v-chip
+                    >
+                    <v-chip class="blue white--text"
+                      >{{ countIntern }} Pekerja Magang</v-chip
+                    >
+                    <v-chip class="purple white--text"
+                      >{{ countPro }} Pekerja Profesional</v-chip
+                    >
+                  </v-chip-group>
+                </v-card-text>
+              </v-card></v-col
+            >
+            <v-col cols="12" xl="4" lg="4"
+              ><v-card>
+                <v-card-title>Jumlah Admin</v-card-title>
+                <v-card-text>
+                  <h1 class="text-h3">
+                    {{
+                      parseInt(countAdmin1) +
+                      parseInt(countAdmin2) +
+                      parseInt(countAdmin3)
+                    }}
+                  </h1>
+                  <h2 class="subtitle-1">Admin</h2>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-text>
+                  <v-chip-group column>
+                    <v-chip class="orange white--text"
+                      >{{ countAdmin1 }} Admin 1</v-chip
+                    >
+                    <v-chip class="error white--text"
+                      >{{ countAdmin2 }} Admin 2</v-chip
+                    >
+                    <v-chip class="success white--text"
+                      >{{ countAdmin3 }} Admin 3</v-chip
+                    >
+                  </v-chip-group>
+                </v-card-text>
+              </v-card></v-col
+            >
+          </v-row>
+        </v-container>
       </div>
-      <div
-        v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
-      >
-        <p class="text-capitalize ma-0 pa-2 grey--text">karyawan</p>
-        <v-row v-if="!sekeletonJobSeeker">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countJobSeker }} katu bursa
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah kartu bursa karyawan
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countJobSekerActivate }} kartu
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah karyawan yang bergabung
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countJobSekerNotActivate }} kartu
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah kartu karyawan tidak aktif
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row v-if="sekeletonJobSeeker">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-        </v-row>
-      </div>
-      <div
-        v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
-      >
-        <p class="text-capitalize ma-0 pa-2 grey--text">tipe karyawan</p>
-        <v-row v-if="!sekeletonJobSeeker">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countIntern }} katu bursa
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah magang
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countPro }} kartu
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah profesional
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$jobSeeker</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countInformal }} kartu
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah informal
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row v-if="sekeletonJobSeeker">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-        </v-row>
-      </div>
-      <div v-if="role === 'Admin 3'">
-        <p class="text-capitalize ma-0 pa-2 grey--text">admin</p>
-        <v-row v-if="!sekeletonAdmin">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$admin</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countAdmin1 }} user
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah kadmin 1
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$admin</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countAdmin2 }} user
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah admin 2
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$admin</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countAdmin3 }} user
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah admin 3
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row v-if="sekeletonAdmin">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-        </v-row>
-      </div>
-      <div v-if="role === 'Admin 3'">
-        <p class="text-capitalize ma-0 pa-2 grey--text">daftar hitam</p>
-        <v-row v-if="!sekeletonBlacklist">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-card elevation="4" color="primary" class="rounded-lg">
-              <v-card-title class="d-flex justify-space-around mb-3">
-                <v-icon size="50" class="mr-2 white--text">$blacklist</v-icon>
-                <p class="subtitle-1 ma-0 white--text text-capitalize">
-                  {{ countblacklist }} user
-                </p>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-subtitle class="primaryDark pa-1 d-flex align-center">
-                <p
-                  class="subtitle-2 white--text text-capitalize ma-0 ml-5 my-1"
-                >
-                  jumlah daftar hitam
-                </p>
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row v-if="sekeletonBlacklist">
-          <v-col cols="12" xl="4" lg="4" md="4" sm="4" xs="6">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-              height="342"
-            ></v-skeleton-loader>
-          </v-col>
-        </v-row>
-      </div>
+        <!-- Past Elements was here -->
       <div v-if="role === 'Perusahaan' || role === 'Pencaker'">
         <v-container>
           <!-- <v-card class="pa-4"> -->
-            <div class="d-flex">
-              <v-row align="center" justify="center">
-                <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="6">
-                  <v-img
-                    src="@/assets/Connected-rafiki.svg"
-                    contain
-                  ></v-img>
-                </v-col>
-                <v-col md="6" lg="6">
-                  <h1>Selamat Datang!</h1>
-                  <p>
-                    Selamat datang di dasbor bursa kerja. Dari halaman ini, Anda
-                    dapat melihat ringkasan aktivitas penggunaan Bursakerja.
-                    Apabila Anda menemui permasalahan atau memerlukan bantuan,
-                    silakan hubungi kami di media sosial kami.
-                  </p>
-                </v-col>
-              </v-row>
-            </div>
+          <div class="d-flex">
+            <v-row align="center" justify="center">
+              <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="6">
+                <v-img src="@/assets/Connected-rafiki.svg" contain></v-img>
+              </v-col>
+              <v-col md="6" lg="6">
+                <h1>Selamat Datang!</h1>
+                <p>
+                  Selamat datang di dasbor bursa kerja. Dari halaman ini, Anda
+                  dapat melihat ringkasan aktivitas penggunaan Bursakerja.
+                  Apabila Anda menemui permasalahan atau memerlukan bantuan,
+                  silakan hubungi kami di media sosial kami.
+                </p>
+              </v-col>
+            </v-row>
+          </div>
           <!-- </v-card> -->
         </v-container>
       </div>

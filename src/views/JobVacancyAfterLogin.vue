@@ -1,8 +1,7 @@
 <template>
   <div>
     <v-main>
-      <v-container class="d-flex flex-column justify-center size-max">
-
+      <v-container>
         <v-row>
           <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
             <v-card elevation="3">
@@ -11,56 +10,49 @@
               >
                 pilih kriteria
               </v-card-title>
-              <v-card-text class="pb-0">
+              <v-card-text>
                 <v-form lazy-validation>
-                  <v-autocomplete
-                    v-model="location"
-                    :items="itemsLocation"
-                    :loading="isLoadingLocation"
-                    :search-input.sync="searchLocation"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Lokasi Lowingan"
-                    prepend-icon="$location"
-                    append-outer-icon="mdi-close"
-                    @click:append-outer="resetLocation()"
-                    outlined
-                    dense
-                    persistent-hint
-                    hint="jika tidak ada lokasi yang anda cari, silahkan hubungi pihak kami"
-                  />
-                  <v-autocomplete
-                    v-model="job"
-                    :items="itemsJob"
-                    :loading="isLoadingJob"
-                    :search-input.sync="searchJob"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Posisi Lowongan"
-                    prepend-icon="$job"
-                    append-outer-icon="mdi-close"
-                    @click:append-outer="resetJob()"
-                    outlined
-                    dense
-                    persistent-hint
-                    hint="jika tidak ada jabatan yang anda cari, silahkan hubungi pihak kami"
-                  />
+                  <v-row class="align-center">
+                    <v-col cols="12" xl="5" lg="5" md="5">
+                      <v-autocomplete
+                        v-model="location"
+                        :items="itemsLocation"
+                        :loading="isLoadingLocation"
+                        :search-input.sync="searchLocation"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="name"
+                        label="Lokasi Lowongan"
+                        @click:append-outer="resetLocation()"
+                        persistent-hint
+                        hint="jika tidak ada lokasi yang anda cari, silahkan hubungi pihak kami"
+                      />
+                    </v-col>
+                    <v-col cols="12" xl="5" lg="5" md="5">
+                      <v-autocomplete
+                        v-model="job"
+                        :items="itemsJob"
+                        :loading="isLoadingJob"
+                        :search-input.sync="searchJob"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="name"
+                        label="Posisi Lowongan"
+                        @click:append-outer="resetJob()"
+                        persistent-hint
+                        hint="jika tidak ada jabatan yang anda cari, silahkan hubungi pihak kami"
+                      />
+                    </v-col>
+                    <v-col cols="12" xl="2" lg="2" md="2">
+                      <v-btn block color="primary" @click="searchJobSeeker()">
+                        cari
+                      </v-btn>
+                    </v-col>
+                  </v-row>
                 </v-form>
               </v-card-text>
-              <v-card-actions class="pt-0 px-4 pb-4">
-                <v-btn
-                  class="text-capitalize"
-                  block
-                  color="primary"
-                  @click="searchJobSeeker()"
-                >
-                  cari lowongan
-                </v-btn>
-              </v-card-actions>
             </v-card>
           </v-col>
           <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
@@ -82,55 +74,66 @@
             <div v-if="jobSeeker.length > 0 && !skeleton">
               <div v-for="item in jobSeeker" :key="item.id">
                 <transition name="fade" appear>
-                  <v-card elevation="3" class="mt-4 pa-3">
+                  <v-card class="my-2">
+                    <v-card-text>
+                      <v-row>
+                        <v-col
+                          cols="2"
+                          lg="2"
+                          xl="2"
+                          md="2"
+                          class="hidden-sm-and-down"
+                          ><v-img
+                            max-width="200"
+                            aspect-ratio="1"
+                            :src="item.image"
+                            class="mr-2"
+                          ></v-img
+                        ></v-col>
+                        <v-col cols="12" lg="10" xl="10" md="10">
+                          <v-card-title>{{ item.position }}</v-card-title>
+                          <v-card-subtitle>{{ item.company }}</v-card-subtitle>
+                          <v-card-text>
+                            <p
+                              class="text-capitalize text-subtitle-2 font-weight-regular"
+                            >
+                              <v-icon class="mr-2" size="15">$location</v-icon>
+                              {{ item.location }}
+                            </p>
+                            <p
+                              class="text-capitalize text-subtitle-2 font-weight-regular"
+                            >
+                              <v-icon class="mr-2" size="15">$calendar</v-icon>
+                              {{ item.date }}
+                            </p></v-card-text
+                          ></v-col
+                        >
+                      </v-row>
+                      <v-row>
+                        <v-card-text>
+                          {{ item.desc }}
+                        </v-card-text>
+                      </v-row>
+                    </v-card-text>
                     <v-card-text class="pa-2">
                       <div class="d-flex">
-                        <v-img
-                          width="150"
-                          max-width="150"
-                          height="120"
-                          max-height="120"
-                          :src="item.image"
-                          contain
-                          class="mr-2"
-                        ></v-img>
                         <div>
                           <p
                             class="text-capitalize text-subtitle-1 primary--text ma-0"
-                          >
-                            {{ item.position }}
-                          </p>
+                          ></p>
                           <p
                             class="text-capitalize text-subtitle-2 font-weight-regular mb-2"
-                          >
-                            {{ item.company }}
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular my-0 ml-3"
-                          >
-                            <v-icon class="mr-2" size="15">$location</v-icon>
-                            {{ item.location }}
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular my-0 ml-3"
-                          >
-                            <v-icon class="mr-2" size="15">$calendar</v-icon>
-                            {{ item.date }}
-                          </p>
+                          ></p>
                         </div>
                       </div>
-                      <div class="mt-2 text-subtitle-2 font-weight-regular">
-                        {{ item.desc }}
-                      </div>
                     </v-card-text>
-                    <v-card-actions class="d-flex justify-end pa-1">
-                      <v-btn
+                      <v-card-actions>
+                        <v-btn
                         text
                         color="primary"
-                        class="text-capitalize"
                         :to="`/detail-job-vacancy/${item.id}`"
                       >
-                        selengkapnya
+                        detail lowongan
                       </v-btn>
                     </v-card-actions>
                   </v-card>

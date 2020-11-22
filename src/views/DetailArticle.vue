@@ -1,62 +1,63 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
-      <div class="max-width px-4">
-        <v-img
-          :src="image"
-          aspect-ratio="1.7"
-          width="100vw"
-          max-width="230"
-          height="100vh"
-          max-height="200"
-          class="mx-auto"
-          v-if="!skeleton"
-          contain
-        ></v-img>
+  <div>
+    <div class="justify-center">
+      <v-container>
         <v-skeleton-loader
           ref="skeleton"
           type="image"
           v-if="skeleton"
-          class="mx-auto"
+          max-height="400"
         ></v-skeleton-loader>
-        <p
-          class="text-uppercase mb-0 mt-3 text-center text-h5"
-          v-if="!skeleton"
-        >
-          {{ title }}
-        </p>
         <v-skeleton-loader
           ref="skeleton"
-          type="sentences"
+          type="article"
           v-if="skeleton"
-          class="mx-auto"
         ></v-skeleton-loader>
-        <p class="text-capitalize mb-0 mt-3" v-if="!skeleton">
-          dibuat : {{ date }}
-        </p>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="sentences"
-          v-if="skeleton"
-          class="mx-auto"
-        ></v-skeleton-loader>
-        <div class="text-justify mt-3" v-html="content" v-if="!skeleton"></div>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="paragraph"
-          v-if="skeleton"
-          class="mx-auto"
-        ></v-skeleton-loader>
-      </div>
+      </v-container>
     </div>
-    <footer-home />
+    <v-row v-if="!skeleton">
+      <v-img :src="image" height="400"></v-img>
+    </v-row>
+    <v-row v-if="!skeleton">
+      <v-col cols="8" offset="2">
+        <v-row>
+          <v-container>
+            <v-btn
+              text
+              x-small
+              color="dark grey"
+              class="pa-0"
+              @click="$router.go(-1)"
+              >kembali ke daftar artikel</v-btn
+            >
+          </v-container>
+        </v-row>
+        <v-row class="mt-4">
+          <v-container>
+            <h1 class="display-2 mb-2">{{ title }}</h1>
+            <h2 class="subtitle-1">
+              {{ formatDate(date) }}
+            </h2>
+          </v-container>
+        </v-row>
+        <v-row>
+          <v-container>
+            <div
+              class="text-justify mt-3"
+              v-html="content"
+              v-if="!skeleton"
+            ></div>
+          </v-container>
+        </v-row>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
+import moment from 'moment';
 
 export default {
   data: () => ({
@@ -66,9 +67,7 @@ export default {
     date: '',
     skeleton: true,
   }),
-  components: {
-    'footer-home': footer,
-  },
+  components: {},
   beforeCreate() {
     axios({
       baseURL: `${this.$store.state.domain}article/${this.$route.params.id}`,
@@ -112,6 +111,11 @@ export default {
     delete this.locationSchool;
     delete this.skeleton;
   },
+  methods: {
+    formatDate(value) {
+      return moment(value, 'DD-MM-YYYY').locale('id').format('dddd, LL');
+    },
+  },
 };
 </script>
 
@@ -124,8 +128,8 @@ export default {
   max-width: 100vw;
   width: 100vw;
 }
-@media screen and (min-width: 600px){
-  .max-width{
+@media screen and (min-width: 600px) {
+  .max-width {
     max-width: 600px;
     width: 100vw;
   }
@@ -133,7 +137,7 @@ export default {
 .max-width-about-us {
   max-width: 600px;
 }
-div >>> ul{
+div >>> ul {
   line-height: 18px !important;
 }
 div >>> ol {

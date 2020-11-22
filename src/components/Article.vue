@@ -1,44 +1,41 @@
 <template>
-  <div class="d-flex justify-center mb-2">
+  <div class="d-flex justify-center mb-2 mt-4">
     <div class="max-width">
-      <h3 class="text-center my-2 text-capitalize black--text">artikel</h3>
       <v-row>
         <v-col xl="9" lg="9" md="12" sm="12" xs="12">
           <div v-if="!skeleton">
             <div v-for="item in article" :key="item.id">
               <transition name="fade" appear>
-                <v-card elevation="3" class="mt-4 pa-3">
-                  <v-card-text class="pa-2">
-                    <div class="d-flex">
-                      <div>
-                        <router-link
-                          :to="`/article-detail/${item.id}`"
-                          class="text-decoration-none"
-                        >
-                          <p class="text-capitalize ma-0 text-h6 primary--text">
-                            {{ item.title }}
-                          </p>
-                        </router-link>
-                        <div class="d-flex">
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
-                          >
-                            <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
-                            admin
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon size="13" class="mr-1">$calendar</v-icon>
-                            {{ item.date }}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="mt-2 text-subtitle-2 font-weight-regular black--text">
-                      {{ item.description }}
-                    </div>
+                <v-card elevation="3" class="mt-4 pa-2">
+                  <v-card-title
+                    ><router-link
+                      :to="`/article-detail/${item.id}`"
+                      class="text-decoration-none"
+                      >{{ item.title }}
+                    </router-link></v-card-title
+                  >
+                  <v-card-subtitle
+                    ><span
+                      class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
+                    >
+                      <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                      admin
+                    </span>
+                    <span
+                      class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                    >
+                      <v-icon size="13" class="mr-1">$calendar</v-icon>
+                      {{ item.date }}
+                    </span></v-card-subtitle
+                  >
+                  <v-card-text>
+                    {{ item.description }}
                   </v-card-text>
+                  <v-card-action class="d-flex">
+                    <v-btn :to="`/article-detail/${item.id}`" text color="primary">
+                      Baca Selengkapnya
+                    </v-btn>
+                  </v-card-action>
                 </v-card>
               </transition>
             </div>
@@ -51,20 +48,6 @@
               @input="pagination()"
               v-if="!skeleton"
             ></v-pagination>
-          </div>
-          <div v-if="skeleton">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="card"
-            ></v-skeleton-loader>
           </div>
         </v-col>
       </v-row>
@@ -143,7 +126,7 @@ export default {
           }
         })
         .catch((error) => {
-        // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console
           console.log(error);
         })
         .finally(() => {
