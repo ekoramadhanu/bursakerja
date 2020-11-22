@@ -19,7 +19,7 @@
           xl="3"
           lg="3"
           md="6"
-          sm="6"
+          sm="12"
           xs="12"
           class="card-column"
         >
@@ -42,7 +42,7 @@
                   karyawan
                 </span>
               </p>
-              <p class="mb-0 mt-2 font-family text-subtitle-2 text-center">
+              <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
                   Rekrut karyawan sesuai kota saat ini, posisi yang diinginkan,
                   dan pendidikan terakhir
@@ -59,7 +59,7 @@
                 height="44"
                 class="text-subtitle-2"
               >
-                <p class="mb-0 font-family">
+                <p class="my-auto font-family">
                   lihat selengkapnya
                 </p>
               </v-btn>
@@ -71,7 +71,7 @@
           xl="3"
           lg="3"
           md="6"
-          sm="6"
+          sm="12"
           xs="12"
           class="card-column"
         >
@@ -87,12 +87,16 @@
                 contain
                 class="mx-auto"
               ></v-img>
-              <p class="ma-0 text-h6 text-center text-capitalize">
-                tenaga profesional
+              <p class="ma-0 text-h5 text-center text-capitalize black--text ">
+                <span class="font-family">
+                  tenaga profesional
+                </span>
               </p>
-              <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                Anda dapat merekrut tenaga profesional yang memiliki kepandaian
-                atau keahlian khusus
+              <p class="mb-0 mt-2 text-subtitle-2 text-center">
+                <span class="font-family">
+                  Anda dapat merekrut tenaga profesional yang memiliki kepandaian
+                  atau keahlian khusus
+                </span>
               </p>
             </v-card-text>
             <v-card-actions
@@ -100,10 +104,14 @@
             >
               <v-btn
                 color="primary"
-                class="text-capitalize"
+                width="185"
+                height="44"
+                class="text-subtitle-2"
                 to="/job-seeker-professional"
               >
-                lihat selengkapnya
+                <p class="my-auto font-family">
+                  lihat selengkapnya
+                </p>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -113,7 +121,7 @@
           xl="3"
           lg="3"
           md="6"
-          sm="6"
+          sm="12"
           xs="12"
           class="card-column"
         >
@@ -129,12 +137,16 @@
                 contain
                 class="mx-auto"
               ></v-img>
-              <p class="ma-0 text-h6 text-center text-capitalize">
-                Tenaga Informal
+              <p class="ma-0 text-h5 text-center text-capitalize black--text">
+                <span class="font-family">
+                  Tenaga Informal
+                </span>
               </p>
-              <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                Tenaga informal mencakup tenaga kerja seperti asisten rumah
-                tangga, pengasuh bayi, dan sebagainya
+              <p class="mb-0 mt-2 text-subtitle-2 text-center">
+                <span class="font-family">
+                  Tenaga informal mencakup tenaga kerja seperti asisten rumah
+                  tangga, pengasuh bayi, dan sebagainya
+                </span>
               </p>
             </v-card-text>
             <v-card-actions
@@ -142,10 +154,14 @@
             >
               <v-btn
                 color="primary"
-                class="text-capitalize"
+                width="185"
+                height="44"
+                class="text-subtitle-2"
                 to="/job-seeker-informal"
               >
-                lihat selengkapnya
+                <p class="my-auto font-family">
+                  lihat selengkapnya
+                </p>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -155,7 +171,7 @@
           xl="3"
           lg="3"
           md="6"
-          sm="6"
+          sm="12"
           xs="12"
           class="card-column"
         >
@@ -171,12 +187,16 @@
                 contain
                 class="mx-auto"
               ></v-img>
-              <p class="ma-0 text-h6 text-center text-capitalize">
-                Tenaga Magang
+              <p class="ma-0 text-h5 text-center text-capitalize black--text">
+                <span class="font-family">
+                  Tenaga Magang
+                </span>
               </p>
-              <p class="mb-0 mt-2 text-subtitle-1 text-center">
-                Tenaga magang dapat menerapkan disiplin ilmu atau keahliannya di
-                perusahaan Anda
+              <p class="mb-0 mt-2 text-subtitle-2 text-center">
+                <span class="font-family">
+                  Tenaga magang dapat menerapkan disiplin ilmu atau keahliannya di
+                  perusahaan Anda
+                </span>
               </p>
             </v-card-text>
             <v-card-actions
@@ -184,10 +204,14 @@
             >
               <v-btn
                 color="primary"
-                class="text-capitalize"
+                width="185"
+                height="44"
+                class="text-subtitle-2"
                 to="/job-seeker-internship"
               >
-                lihat selengkapnya
+                <p class="my-auto font-family">
+                  lihat selengkapnya
+                </p>
               </v-btn>
             </v-card-actions>
           </v-card>
