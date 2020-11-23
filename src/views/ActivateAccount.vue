@@ -14,31 +14,38 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4" to="/"
-                  >kembali ke beranda</v-btn
-                >
-                <h1 class="display-2">Aktivasi Akun</h1>
-                <h2 class="subtitle-1">
-                  Silahkan masukkan nomor kartu dan pin yang tertera pada kartu
-                  Bursa Kerja
-                </h2>
-                  <v-btn text color="primary" class="pa-0 my-4" to="/login-job-seeker"
+                <v-btn text small color="dark grey" class="pa-0 mb-5 font-family" to="/">
+                  <v-icon class="mr-3" size="16">$arrowLeft</v-icon>
+                  kembali ke beranda
+                </v-btn>
+                <h3 class="text-h3 font-weight-bold">
+                  <span class="font-family">
+                    Aktivasi Akun
+                  </span>
+                </h3>
+                <p class="text-subtitle-1">
+                  <span class="font-family">
+                    Silahkan masukkan nomor kartu dan pin yang tertera pada kartu
+                    Bursa Kerja
+                  </span>
+                </p>
+                  <v-btn text color="primary" class="pa-0" to="/login-job-seeker"
                     >saya sudah punya akun</v-btn
                   >
               </div>
             </v-row>
             <v-row>
-              <v-card width="100%" max-width="960">
-                <v-card-text v-if="status !== null">
-                  <v-alert
-                    :type="status === true ? 'success' : 'error'"
-                    v-if="status !== null"
-                    class="text-capitalize"
-                  >
-                    {{ message }}
-                  </v-alert>
-                </v-card-text>
-                <v-card-text>
+              <v-card width="100%" max-width="960" elevation="0" class="pa-0">
+                <v-card-text class="pa-0">
+                  <div v-if="status !== null">
+                    <v-alert
+                      :type="status === true ? 'success' : 'error'"
+                      v-if="status !== null"
+                      class="text-capitalize"
+                    >
+                      {{ message }}
+                    </v-alert>
+                  </div>
                   <v-form ref="form" lazy-validation>
                     <v-text-field
                       v-model="bursaCard"
@@ -55,7 +62,7 @@
                       @click:append="changeShowPin()"
                       required
                     />
-                    <div class="hidden-xs-only hidden-sm-only">
+                    <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">
                         <v-btn
                           min-width="100"
@@ -67,7 +74,7 @@
                             color="white"
                             v-if="loadingActivated"
                           />
-                          <p v-if="!loadingActivated" class="my-auto">
+                          <p v-if="!loadingActivated" class="my-auto font-weight-bold">
                             konfirmasi
                           </p>
                         </v-btn>
@@ -81,7 +88,7 @@
                             color="white"
                             v-if="loadingActivated"
                           />
-                          <p v-if="!loadingActivated" class="my-auto">
+                          <p v-if="!loadingActivated" class="my-auto font-weight-bold">
                             konfirmasi
                           </p>
                         </v-btn>
