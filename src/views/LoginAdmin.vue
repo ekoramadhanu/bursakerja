@@ -14,17 +14,17 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="grey" class="pa-0 mb-4" to="/">
-                  <v-icon class="mr-3">$arrowLeft</v-icon>
+                <v-btn text small color="dark grey" class="pa-0 mb-5" to="/">
+                  <v-icon class="mr-3" size="16">$arrowLeft</v-icon>
                   <span class="font-family">
                     kembali ke beranda
                   </span>
                 </v-btn>
-                <h1 class="display-2">
+                <h3 class="text-h3 font-weight-bold">
                   <span class="font-family">
                     Masuk Admin
                   </span>
-                </h1>
+                </h3>
                 <h2 class="subtitle-1">
                   <span class="font-family">
                     Silahkan masukkan alamat email dan kata sandi admin yang
@@ -34,16 +34,16 @@
               </div>
             </v-row>
             <v-row>
-              <v-card width="100%" max-width="960">
-                <v-card-text v-if="status !== null">
-                  <v-alert
-                    :type="status ? 'success' : 'error'"
-                    class="text-capitalize"
-                  >
-                    {{ message }}
-                  </v-alert>
-                </v-card-text>
-                <v-card-text>
+              <v-card width="100%" max-width="960" elevation="0" class="pa-0">
+                <v-card-text class="pa-0">
+                  <div v-if="status !== null">
+                    <v-alert
+                      :type="status ? 'success' : 'error'"
+                      class="text-capitalize"
+                    >
+                      {{ message }}
+                    </v-alert>
+                  </div>
                   <v-form ref="form" lazy-validation>
                     <v-text-field
                       v-model="email"
@@ -60,7 +60,7 @@
                       @click:append="changeShowPassword()"
                       required
                     />
-                    <div class="hidden-xs-only hidden-md-only">
+                    <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">
                         <v-btn min-width="100" color="primary" @click="login()">
                           <v-progress-circular
@@ -68,7 +68,7 @@
                             color="white"
                             v-if="loadingLogin"
                           />
-                          <p v-if="!loadingLogin" class="my-auto">masuk</p>
+                          <p v-if="!loadingLogin" class="my-auto font-weight-bold">masuk</p>
                         </v-btn>
                       </div>
                     </div>
@@ -80,7 +80,7 @@
                             color="white"
                             v-if="loadingLogin"
                           />
-                          <p v-if="!loadingLogin" class="my-auto">masuk</p>
+                          <p v-if="!loadingLogin" class="my-auto font-weight-bold">masuk</p>
                         </v-btn>
                       </div>
                     </div>

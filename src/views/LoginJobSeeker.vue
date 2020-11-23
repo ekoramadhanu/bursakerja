@@ -69,7 +69,7 @@
                       @click:append="changeShowPassword()"
                       required
                     />
-                    <div class="hidden-xs-only hidden-sm-only">
+                    <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">
                         <v-btn min-width="100" color="primary" @click="login()">
                           <v-progress-circular
