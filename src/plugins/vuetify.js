@@ -41,7 +41,7 @@ export default new Vuetify({
       job: 'fas fa-suitcase',
       success: 'fas fa-check-circle',
       times: 'fas fa-times',
-      check: 'fas fa-check',
+      check: 'mdi-check',
       warning: 'fas fa-exclamation-triangle',
       add: 'fas fa-plus',
       degree: 'fas fa-user-graduate',
@@ -62,6 +62,7 @@ export default new Vuetify({
       dropdown: 'mdi-menu-down',
       pdf: 'far fa-file-pdf',
       arrowLeft: 'mdi-arrow-left',
+      close: 'mdi-close',
     },
   },
   theme: {
