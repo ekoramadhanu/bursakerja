@@ -254,7 +254,6 @@ export default {
   destroyed() {
     window.removeEventListener('resize', this.rezise);
     window.removeEventListener('load', this.rezise);
-    window.removeEventListener('DOMContentLoaded', this.rezise);
   },
 };
 </script>

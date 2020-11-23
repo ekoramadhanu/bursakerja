@@ -7,13 +7,12 @@
       <v-carousel
         cycle
         height="200"
-        hide-delimiters
         :show-arrows="false"
+        hide-delimiters
         next-icon="fas fa-chevron-right"
-        eager
         v-if="!skeleton"
       >
-        <v-carousel-item v-for="i in returnModuleByCounter(6)" :key="i">
+        <v-carousel-item v-for="i in returnModuleByCounter(returnWidth)" :key="i">
           <v-sheet
             color="white"
             height="100%"
@@ -21,7 +20,7 @@
             max-width="1044"
             class="d-flex align-center"
           >
-            <div class="white" v-for="item in returnlist(i, 6)" :key="item.id">
+            <div class="white mx-auto" v-for="item in returnlist(i, returnWidth)" :key="item.id">
               <v-img
                 :src="item.image"
                 width="128"
@@ -57,7 +56,20 @@ export default {
     mitra: [],
     skeleton: true,
     isActive: false,
+    windowsWidth: null,
   }),
+  computed: {
+    returnWidth() {
+      if (this.windowsWidth >= 1264) {
+        return 6;
+      } if (this.windowsWidth >= 960 && this.windowsWidth < 1264) {
+        return 4;
+      } if (this.windowsWidth >= 600 && this.windowsWidth < 960) {
+        return 2;
+      }
+      return 1;
+    },
+  },
   methods: {
     returnModuleByCounter(counter) {
       const payload = this.mitra.length;
@@ -70,6 +82,10 @@ export default {
       const counterStart = (payload - 1) * counter;
       const counterEnd = payload * counter;
       return this.mitra.slice(counterStart, counterEnd);
+    },
+    rezise() {
+      this.windowsWidth = window.innerWidth;
+      console.log(this.windowsWidth);
     },
   },
   beforeCreate() {
@@ -96,6 +112,16 @@ export default {
       .finally(() => {
         this.skeleton = false;
       });
+  },
+  created() {
+    window.addEventListener('resize', this.rezise);
+    window.addEventListener('load', this.rezise);
+    window.addEventListener('DOMContentLoaded', this.rezise);
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.rezise);
+    window.removeEventListener('load', this.rezise);
+    window.removeEventListener('DOMContentLoaded', this.rezise);
   },
   beforeDestroy() {
     this.slide = null;
