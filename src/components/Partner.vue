@@ -85,7 +85,6 @@ export default {
     },
     rezise() {
       this.windowsWidth = window.innerWidth;
-      console.log(this.windowsWidth);
     },
   },
   beforeCreate() {
