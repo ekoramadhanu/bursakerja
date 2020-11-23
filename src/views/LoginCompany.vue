@@ -14,22 +14,28 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4" to="/"
+                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/"
                   >kembali ke beranda</v-btn
                 >
-                <h1 class="display-2">Masuk</h1>
-                <h2 class="subtitle-1">
-                  Silahkan pilih jenis akun dan masukkan alamat email serta kata
-                  sandi yang terdaftar
-                </h2>
+                <h3 class="text-h3 font-weight-bold">
+                  <span class="font-family">
+                    Masuk
+                  </span>
+                </h3>
+                <p class="text-subtitle-1">
+                  <span class="font-family">
+                    Silahkan pilih jenis akun dan masukkan alamat email serta kata
+                    sandi yang terdaftar
+                  </span>
+                </p>
                 <v-btn
                   text
                   color="dark grey"
-                  class="pa-0 my-4 mr-4"
+                  class="pa-0 my-4 mr-4 font-family"
                   to="/login-job-seeker"
                   >Sebagai Pencari Kerja</v-btn
                 >
-                <v-btn text color="primary" class="pa-0 my-4"
+                <v-btn text color="primary" class="pa-0 my-4 font-family font-weight-bold"
                   >Sebagai Perusahaan</v-btn
                 >
               </div>
@@ -70,7 +76,7 @@
                             color="white"
                             v-if="loadingActivated"
                           />
-                          <p v-if="!loadingActivated" class="my-auto">masuk</p>
+                          <p v-if="!loadingActivated" class="my-auto font-family">masuk</p>
                         </v-btn>
                       </div>
                     </div>
@@ -82,7 +88,7 @@
                             color="white"
                             v-if="loadingActivated"
                           />
-                          <p v-if="!loadingActivated" class="my-auto">masuk</p>
+                          <p v-if="!loadingActivated" class="my-auto font-family">masuk</p>
                         </v-btn>
                       </div>
                     </div>

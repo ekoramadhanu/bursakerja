@@ -22,13 +22,13 @@
                     Masuk
                   </span>
                 </h3>
-                <h2 class="text-subtitle-1">
+                <p class="text-subtitle-1">
                   <span class="font-family">
                     Silahkan pilih jenis akun dan masukkan alamat email serta kata
                     sandi yang terdaftar
                   </span>
-                </h2>
-                <v-btn text color="primary" class="pa-0 my-4 mr-4 font-family"
+                </p>
+                <v-btn text color="primary" class="pa-0 my-4 mr-4 font-family font-weight-bold"
                   >Sebagai Pencari Kerja</v-btn
                 >
                 <v-btn
