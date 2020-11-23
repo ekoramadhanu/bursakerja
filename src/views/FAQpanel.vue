@@ -23,12 +23,12 @@
             />
             <p
               class="text-subtitle-1 text-uppercase font-weight-bold mt-4 mb-0"
-              v-if="!isEditing"
+              v-if="isEditing"
             >
               pratinjau
             </p>
-            <v-divider v-if="!isEditing" class="mb-4"></v-divider>
-            <div v-html="content" class="text-justify font-family"></div>
+            <v-divider v-if="isEditing" class="mb-4"></v-divider>
+            <div v-html="content" class="text-justify font-family black--text"></div>
           </v-card-text>
           <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>

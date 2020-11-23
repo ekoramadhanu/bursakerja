@@ -2,15 +2,10 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-toolbar-title
-              class="font-weight-light white--text"
-            >
-              <span class="font-family">
-                Tentang Kami yang Ditampilkan
-              </span>
+            <v-toolbar-title class="font-weight-light white--text">
+              <span class="font-family"> Tentang Kami yang Ditampilkan </span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn color="white" icon @click="isEditing = !isEditing">
@@ -43,10 +38,11 @@
                 :extensions="extensions"
               />
             </v-form>
-            <p class="text-subtitle-1 mb-0 mt-4 text-uppercase font-weight-bold" v-if="isEditing">
-              <span class="font-family">
-                pratinjau
-              </span>
+            <p
+              class="text-subtitle-1 mb-0 mt-4 text-uppercase font-weight-bold"
+              v-if="isEditing"
+            >
+              <span class="font-family"> pratinjau </span>
             </p>
             <v-divider v-if="isEditing" class="mb-4"></v-divider>
             <div>
@@ -57,7 +53,11 @@
                 aspect-ratio="1.7778"
                 class="mb-4"
               />
-              <div class="text-justify font-family" v-html="content" v-if="!skeleton"></div>
+              <div
+                class="text-justify font-family black--text"
+                v-html="content"
+                v-if="!skeleton"
+              ></div>
             </div>
           </v-card-text>
           <v-card-actions v-if="isEditing">
@@ -68,12 +68,7 @@
                 color="white"
                 v-if="loadingSave"
               ></v-progress-circular>
-              <p
-                class="white--text my-auto"
-                v-if="!loadingSave"
-              >
-                simpan
-              </p>
+              <p class="white--text my-auto" v-if="!loadingSave">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>

@@ -152,12 +152,12 @@
             >
               <span class="my-auto font-family">sekolah unggulan</span>
             </v-btn>
-            <v-btn class="mr-6" outlined color="primary" to="/activate-account">
-              <p class="my-auto font-family font-weight-bold">aktivasi</p>
+            <v-btn class="mr-6 rounded-lg" outlined color="primary" to="/activate-account">
+              <p class="my-auto font-family font-weight-bold ">aktivasi</p>
             </v-btn>
             <v-btn
               class=""
-              color="primary"
+              color="primary rounded-lg"
               to="/login-job-seeker"
               elevation="0"
             >

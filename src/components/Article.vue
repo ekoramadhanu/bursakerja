@@ -2,42 +2,67 @@
   <div class="d-flex justify-center mb-2 mt-4">
     <div class="max-width">
       <v-row>
-        <v-col xl="9" lg="9" md="12" sm="12" xs="12">
+        <v-col xl="12" lg="12" md="12" sm="12" xs="12">
           <div v-if="!skeleton">
+            <p class="text-capitalize font-weight-bold text-h3">
+              <span class="font-family"> artikel </span>
+            </p>
             <div v-for="item in article" :key="item.id">
-              <transition name="fade" appear>
-                <v-card elevation="3" class="mt-4 pa-2">
-                  <v-card-title
-                    ><router-link
-                      :to="`/article-detail/${item.id}`"
-                      class="text-decoration-none"
-                      >{{ item.title }}
-                    </router-link></v-card-title
+              <v-card elevation="3" class="mt-4 pa-4 rounded-xl" color="grey">
+                <v-card-title class="font-family pa-0 font-weight-bold">
+                  {{ item.title }}
+                </v-card-title>
+                <v-card-subtitle class="mt-2 pa-0 mb-4 d-flex">
+                  <p
+                    class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
                   >
-                  <v-card-subtitle
-                    ><span
-                      class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
-                    >
-                      <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                    <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                    <span class="font-family">
                       admin
                     </span>
-                    <span
-                      class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                    >
-                      <v-icon size="13" class="mr-1">$calendar</v-icon>
-                      {{ item.date }}
-                    </span></v-card-subtitle
+                  </p>
+                  <p
+                    class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
                   >
-                  <v-card-text>
+                    <v-icon size="13" class="mr-1">$calendar</v-icon>
+                    <span class="font-family">
+                      {{ item.date }}
+                    </span>
+                  </p></v-card-subtitle
+                >
+                <v-card-text class="pa-0 font-family black--text">
+                  <span class="font-family">
                     {{ item.description }}
-                  </v-card-text>
-                  <v-card-action class="d-flex">
-                    <v-btn :to="`/article-detail/${item.id}`" text color="primary">
-                      Baca Selengkapnya
-                    </v-btn>
-                  </v-card-action>
-                </v-card>
-              </transition>
+                  </span>
+                </v-card-text>
+                <v-card-actions class="d-flex mt-4 pa-0">
+                  <v-btn
+                    :to="`/article-detail/${item.id}`"
+                    color="primary"
+                    outlined
+                    width="100vw"
+                    height="100vh"
+                    max-width="136"
+                    max-height="44"
+                    class="rounded-lg"
+                  >
+                    <p class="my-auto text-subtitle-2 font-weight-regular">
+                      <span class="font-family">
+                        Baca Artikel
+                      </span>
+                    </p>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </div>
+          </div>
+          <div v-if="skeleton">
+            <div v-for="i in 4" :key="i">
+              <v-skeleton-loader
+                class="mx-auto"
+                max-width="1044"
+                type="card"
+              ></v-skeleton-loader>
             </div>
           </div>
           <div class="text-canter mt-2">
@@ -96,18 +121,18 @@ export default {
       })
         .then((response) => {
           if (response.data.data.article.length > 0) {
-            const modulo = response.data.data.total % 12;
+            const modulo = response.data.data.total % 20;
             if (modulo === 0) {
-              this.pageCount = response.data.data.total / 12;
+              this.pageCount = response.data.data.total / 20;
             } else {
-              this.pageCount = (response.data.data.total - modulo) / 12 + 1;
+              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
             }
             let counter = 0;
             response.data.data.article.forEach((i) => {
               const date = i.date.split('-');
               let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
               if (shortDesc.length > 100) {
-                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+                shortDesc = `${shortDesc.substr(0, 400)}.....`;
               }
               counter += 1;
               this.article.push({
@@ -145,18 +170,18 @@ export default {
     })
       .then((response) => {
         if (response.data.data.article.length > 0) {
-          const modulo = response.data.data.total % 12;
+          const modulo = response.data.data.total % 20;
           if (modulo === 0) {
-            this.pageCount = response.data.data.total / 12;
+            this.pageCount = response.data.data.total / 20;
           } else {
-            this.pageCount = (response.data.data.total - modulo) / 12 + 1;
+            this.pageCount = (response.data.data.total - modulo) / 20 + 1;
           }
           let counter = 0;
           response.data.data.article.forEach((i) => {
             const date = i.date.split('-');
             let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
             if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              shortDesc = `${shortDesc.substr(0, 400)}.....`;
             }
             counter += 1;
             this.article.push({
@@ -199,17 +224,7 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  width: 90vw;
-}
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 100vw;
-  }
+  width: 1044px;
 }
 </style>

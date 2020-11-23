@@ -1,56 +1,64 @@
 <template>
-  <div>
-    <div class="justify-center">
-      <v-container>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="image"
-          v-if="skeleton"
-          max-height="400"
-        ></v-skeleton-loader>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="article"
-          v-if="skeleton"
-        ></v-skeleton-loader>
-      </v-container>
-    </div>
-    <v-row v-if="!skeleton">
-      <v-img :src="image" height="400"></v-img>
-    </v-row>
-    <v-row v-if="!skeleton">
-      <v-col cols="8" offset="2">
-        <v-row>
-          <v-container>
-            <v-btn
-              text
-              x-small
-              color="dark grey"
-              class="pa-0"
-              @click="$router.go(-1)"
-              >kembali ke daftar artikel</v-btn
-            >
-          </v-container>
-        </v-row>
-        <v-row class="mt-4">
-          <v-container>
-            <h1 class="display-2 mb-2">{{ title }}</h1>
-            <h2 class="subtitle-1">
+  <div class="mt-12">
+    <v-container class="max-width mx-auto">
+      <v-skeleton-loader
+        ref="skeleton"
+        type="image"
+        v-if="skeleton"
+        max-height="1044"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        ref="skeleton"
+        type="article"
+        v-if="skeleton"
+      ></v-skeleton-loader>
+      <div v-if="!skeleton" class="d-flex justify-center">
+        <v-img
+          :src="image"
+          height="400"
+          max-width="1044"
+          aspect-ratio="1.7778"
+          class="image-cover"
+        />
+      </div>
+      <div v-if="!skeleton">
+        <div class="py-3 mt-3">
+          <v-btn
+            text
+            x-small
+            color="dark grey"
+            class="pa-0 mb-6"
+            @click="$router.go(-1)"
+          >
+            <span class="font-family"> kembali ke daftar artikel </span>
+          </v-btn>
+        </div>
+        <h3 class="text-h3 font-weight-bold">
+          <span class="font-family">
+            {{ title }}
+          </span>
+        </h3>
+        <div class="mt-2 pa-0 mb-4 d-flex">
+          <p
+            class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+          >
+            <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+            <span class="font-family"> admin </span>
+          </p>
+          <p class="text-capitalize text-subtitle-2 font-weight-regular ma-0">
+            <v-icon size="13" class="mr-1">$calendar</v-icon>
+            <span class="font-family">
               {{ formatDate(date) }}
-            </h2>
-          </v-container>
-        </v-row>
-        <v-row>
-          <v-container>
-            <div
-              class="text-justify mt-3"
-              v-html="content"
-              v-if="!skeleton"
-            ></div>
-          </v-container>
-        </v-row>
-      </v-col>
-    </v-row>
+            </span>
+          </p>
+        </div>
+        <div
+          class="text-justify mt-3 font-family"
+          v-html="content"
+          v-if="!skeleton"
+        ></div>
+      </div>
+    </v-container>
   </div>
 </template>
 
@@ -120,30 +128,28 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  max-width: 100vw;
-  width: 100vw;
+  max-width: 1044px;
 }
-@media screen and (min-width: 600px) {
-  .max-width {
-    max-width: 600px;
-    width: 100vw;
-  }
+div >>> ul > li {
+  line-height: 25px !important;
 }
-.max-width-about-us {
-  max-width: 600px;
-}
-div >>> ul {
-  line-height: 18px !important;
-}
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
+}
+.image-cover {
+  object-fit: cover;
 }
 </style>

@@ -5,7 +5,7 @@
         <v-data-table
           :headers="headerArticle"
           :items="article"
-          class="elevation-3 mt-3"
+          class="elevation-3 mt-3 font-family"
           hide-default-footer
           v-if="!skeleton"
           :loading="loadingTable"
@@ -14,7 +14,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <p class="ma-0 hidden-xs-only">Daftar Artikel</p>
+                  <p class="ma-0">
+                    <span class="font-family">
+                      Daftar Artikel
+                    </span>
+                  </p>
                 </div>
               </v-toolbar-title>
               <v-spacer></v-spacer>
@@ -33,7 +37,11 @@
                     v-on="on"
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 white--text">tambah</p>
+                    <p class="ma-0 white--text">
+                      <span class="font-family font-weight-bold">
+                        tambah
+                      </span>
+                    </p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -42,7 +50,9 @@
                       <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      Tambah Artikel
+                      <span class="font-family">
+                        Tambah Artikel
+                      </span>
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -55,11 +65,14 @@
                         color="primary"
                         v-if="loadingAdd"
                       />
-                      <p class="ma-0" v-if="!loadingAdd">terbitkan</p>
+                      <p class="ma-0 font-family font-weight-bold"
+                        v-if="!loadingAdd">
+                        terbitkan
+                      </p>
                     </v-btn>
                   </v-toolbar>
 
-                  <v-card-text>
+                  <v-card-text class="mt-4">
                     <v-form ref="form" lazy-validation>
                       <v-text-field
                         v-model="editedItemArticle.title"
@@ -100,6 +113,8 @@
                         }"
                       />
                     </v-form>
+                    <p class="mb-0 mt-4 text-uppercase font-weight-bold ">pratinjau</p>
+                    <v-divider class="mb-4"></v-divider>
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -290,11 +305,12 @@ export default {
         text: 'Nomor',
         sortable: false,
         value: 'number',
+        class: ['font-weight-bold'],
       },
       { text: 'Judul', value: 'title', sortable: false },
-      { text: 'image', value: 'image', sortable: false },
+      { text: 'Gambar', value: 'image', sortable: false },
       { text: 'Pembaca', value: 'user', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     article: [],
     editedIndex: -1,
@@ -615,6 +631,8 @@ export default {
       })
         .then((response) => {
           if (response.data.data.article.length > 0) {
+            // eslint-disable-next-line no-console
+            console.log(response.data);
             const modulo = response.data.data.total % 10;
             if (modulo === 0) {
               this.pageCount = response.data.data.total / 10;
