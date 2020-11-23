@@ -26,7 +26,7 @@
             </span>
           </p>
           <p class="text-subtitle-2">
-            <span class="font-family font-weight-medium">
+            <span class="font-family font-weight-regular">
               Kami dapat membantu Anda menemukan sumber daya manusia yang mumpuni
               dan berintegritas sesuai dengan kualifikasi yang diperlukan
               berdasarkan kota, posisi pekerjaan, dan kualifikasi pendidikan.

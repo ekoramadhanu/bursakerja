@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-container>
-      <v-row class="full-height align-center">
+    <v-container class="font-family">
+      <v-row class="full-height d-flex align-center">
         <v-col cols="12" lg="6" xl="6" md="6"
           ><v-img
             src="@/assets/Login-rafiki.svg"
@@ -14,13 +14,21 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4" to="/"
-                  >kembali ke beranda</v-btn
-                >
-                <h1 class="display-2">Masuk Admin</h1>
+                <v-btn text small color="grey" class="pa-0 mb-4" to="/">
+                  <span class="font-family">
+                    kembali ke beranda
+                  </span>
+                </v-btn>
+                <h1 class="display-2">
+                  <span class="font-family">
+                    Masuk Admin
+                  </span>
+                </h1>
                 <h2 class="subtitle-1">
-                  Silahkan masukkan alamat email dan kata sandi admin yang
-                  terdaftar
+                  <span class="font-family">
+                    Silahkan masukkan alamat email dan kata sandi admin yang
+                    terdaftar
+                  </span>
                 </h2>
               </div>
             </v-row>
@@ -87,7 +95,6 @@
 </template>
 
 <script>
-import backgroundUrl from '@/assets/background.svg';
 import axios from 'axios';
 
 export default {
@@ -106,8 +113,6 @@ export default {
     showPassword: false,
     // loading
     loadingLogin: false,
-    // baground
-    backgroundUrl,
     // alert
     status: null,
     message: '',
@@ -211,17 +216,4 @@ export default {
 </script>
 
 <style scoped>
-.fullscreen {
-  width: 100vw;
-  height: 100vh;
-}
-.card-login {
-  max-width: 450px;
-  width: 450px;
-}
-.backgorund-repeat {
-  background-position: initial;
-  background-repeat: space;
-  background-size: 90px 90px;
-}
 </style>

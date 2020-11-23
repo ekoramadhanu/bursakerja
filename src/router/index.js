@@ -315,7 +315,7 @@ const routes = [
   },
   {
     path: '/article-user',
-    name: 'Artikel',
+    name: 'Artikel Umum',
     component: articleaAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -483,7 +483,7 @@ const routes = [
   },
   {
     path: '/announcement-panel',
-    name: 'Pengumuman',
+    name: 'Pengumuman Admin',
     component: announcementPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {

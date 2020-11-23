@@ -14,21 +14,27 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4" to="/"
+                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/"
                   >kembali ke beranda</v-btn
                 >
-                <h1 class="display-2">Masuk</h1>
-                <h2 class="subtitle-1">
-                  Silahkan pilih jenis akun dan masukkan alamat email serta kata
-                  sandi yang terdaftar
+                <h3 class="text-h3 font-weight-bold">
+                  <span class="font-family ">
+                    Masuk
+                  </span>
+                </h3>
+                <h2 class="text-subtitle-1">
+                  <span class="font-family">
+                    Silahkan pilih jenis akun dan masukkan alamat email serta kata
+                    sandi yang terdaftar
+                  </span>
                 </h2>
-                <v-btn text color="primary" class="pa-0 my-4 mr-4"
+                <v-btn text color="primary" class="pa-0 my-4 mr-4 font-family"
                   >Sebagai Pencari Kerja</v-btn
                 >
                 <v-btn
                   text
                   color="dark grey"
-                  class="pa-0 my-4"
+                  class="pa-0 my-4 font-family"
                   to="/login-company"
                   >Sebagai Perusahaan</v-btn
                 >
@@ -72,7 +78,7 @@
                           />
                           <p
                             v-if="!loadingActivated"
-                            class="my-auto"
+                            class="my-auto font-family"
                           >
                             masuk
                           </p>
@@ -92,7 +98,7 @@
                           />
                           <p
                             v-if="!loadingActivated"
-                            class="my-auto"
+                            class="my-auto font-family"
                           >
                             masuk
                           </p>
@@ -125,7 +131,7 @@ export default {
     password: '',
     passwordRules: [
       (v) => !!v || 'Kata Sandi Tidak Boleh Kosong',
-      (v) => (v.length >= 6 && v.length <= 12) || 'Kata Sandi Harus (6-12)',
+      (v) => (v.length >= 8 && v.length <= 12) || 'Kata Sandi Harus (8-12)',
     ],
     showPassword: false,
     loadingActivated: false,

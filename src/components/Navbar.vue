@@ -47,7 +47,7 @@
               class="pa-0 mr-6 no-focus"
               height="100%"
             >
-              <span class="my-auto font-family">beranda</span>
+              <span class="my-auto font-family font-weight-regular">beranda</span>
             </v-btn>
             <v-menu offset-y class="button-height" open-on-hover>
               <template v-slot:activator="{ on, attrs }">
