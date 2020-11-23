@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-main>
-      <v-container class="d-flex flex-column justify-center size-max">
+      <v-container class="d-flex flex-column justify-center max-width">
         <v-data-table
           :headers="headerArticle"
           :items="article"
@@ -15,9 +15,7 @@
               <v-toolbar-title>
                 <div class="d-flex">
                   <p class="ma-0">
-                    <span class="font-family">
-                      Daftar Artikel
-                    </span>
+                    <span class="font-family"> Daftar Artikel </span>
                   </p>
                 </div>
               </v-toolbar-title>
@@ -38,41 +36,43 @@
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
                     <p class="ma-0 white--text">
-                      <span class="font-family font-weight-bold">
-                        tambah
-                      </span>
+                      <span class="font-family font-weight-bold"> tambah </span>
                     </p>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-toolbar class="primary">
-                    <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title class="text-capitalize white--text">
-                      <span class="font-family">
-                        Tambah Artikel
-                      </span>
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      @click="saveAdd()"
-                      color="white"
-                      class="primary--text"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="primary"
-                        v-if="loadingAdd"
-                      />
-                      <p class="ma-0 font-family font-weight-bold"
-                        v-if="!loadingAdd">
-                        terbitkan
-                      </p>
-                    </v-btn>
+                    <div class="max-width mx-auto d-flex justify-end">
+                      <v-btn icon @click="closeAdd()">
+                        <v-icon class="white--text">mdi-close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title
+                        class="text-capitalize white--text my-auto"
+                      >
+                        <span class="font-family"> tambah artikel </span>
+                      </v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        @click="saveUpdate()"
+                        color="white"
+                        class="primary--text my-auto"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="primary"
+                          v-if="loadingUpdate"
+                        />
+                        <p
+                          class="ma-0 font-family font-weight-bold"
+                          v-if="!loadingUpdate"
+                        >
+                          simpan perubahan
+                        </p>
+                      </v-btn>
+                    </div>
                   </v-toolbar>
 
-                  <v-card-text class="mt-4">
+                  <v-card-text class="mt-4 mx-auto max-width">
                     <v-form ref="form" lazy-validation>
                       <v-text-field
                         v-model="editedItemArticle.title"
@@ -94,7 +94,9 @@
                         required
                         ref="fileInput"
                         enctype="multipart/form-data"
-                        :rules="imageRules"
+                        :rules="
+                          editedItemArticle.image !== null ? [] : imageRules
+                        "
                         @change="ChangeImage"
                       ></v-file-input>
                       <img
@@ -111,10 +113,56 @@
                           height: '300',
                           style: 'overflow: auto;',
                         }"
+                        placeholder="Tulis Artikel"
                       />
                     </v-form>
-                    <p class="mb-0 mt-4 text-uppercase font-weight-bold ">pratinjau</p>
+                    <p
+                      class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+                    >
+                      pratinjau
+                    </p>
                     <v-divider class="mb-4"></v-divider>
+                    <div
+                      v-if="
+                        editedItemArticle.image !== null ||
+                        editedItemArticle.title !== '' ||
+                        editedItemArticle.description.length > 0
+                      "
+                    >
+                      <v-img
+                        :src="editedItemArticle.image"
+                        height="400"
+                        max-width="1044"
+                        aspect-ratio="1.7778"
+                        class="mb-4 mx-auto"
+                      />
+                      <h3 class="text-h3 font-weight-bold black--text">
+                        <span class="font-family">
+                          {{ editedItemArticle.title }}
+                        </span>
+                      </h3>
+                      <div class="mt-2 pa-0 mb-4 d-flex">
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+                        >
+                          <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                          <span class="font-family"> admin </span>
+                        </p>
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                        >
+                          <v-icon size="13" class="mr-1">$calendar</v-icon>
+                          <span class="font-family">
+                            {{ dateNow }}
+                          </span>
+                        </p>
+                      </div>
+                      <div
+                        class="text-justify font-family black--text"
+                        v-html="editedItemArticle.description"
+                        v-if="!skeleton"
+                      ></div>
+                    </div>
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -201,26 +249,35 @@
       >
         <v-card>
           <v-toolbar class="primary">
-            <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title class="text-capitalize white--text">
-              ubah data artikel
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn @click="saveUpdate()" color="white" class="primary--text">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-                v-if="loadingUpdate"
-              />
-              <p class="ma-0" v-if="!loadingUpdate">
-                simpan perubahan
-              </p>
-            </v-btn>
+            <div class="max-width mx-auto d-flex justify-end">
+              <v-btn icon @click="closeUpdate()">
+                <v-icon class="white--text">mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title class="text-capitalize white--text my-auto">
+                <span class="font-family"> ubah data artikel </span>
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn
+                @click="saveUpdate()"
+                color="white"
+                class="primary--text my-auto"
+              >
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  v-if="loadingUpdate"
+                />
+                <p
+                  class="ma-0 font-family font-weight-bold"
+                  v-if="!loadingUpdate"
+                >
+                  simpan perubahan
+                </p>
+              </v-btn>
+            </div>
           </v-toolbar>
 
-          <v-card-text>
+          <v-card-text class="mt-4 mx-auto max-width">
             <v-form ref="form" lazy-validation>
               <v-text-field
                 v-model="editedItemArticle.title"
@@ -259,6 +316,53 @@
                 placeholder="Tulis Artikel"
               />
             </v-form>
+            <p
+              class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+            >
+              pratinjau
+            </p>
+            <v-divider class="mb-4"></v-divider>
+            <div
+              v-if="
+                editedItemArticle.image !== null ||
+                editedItemArticle.title !== '' ||
+                editedItemArticle.description.length > 0
+              "
+            >
+              <v-img
+                :src="editedItemArticle.image"
+                height="400"
+                max-width="1044"
+                aspect-ratio="1.7778"
+                class="mb-4 mx-auto"
+              />
+              <h3 class="text-h3 font-weight-bold black--text">
+                <span class="font-family">
+                  {{ editedItemArticle.title }}
+                </span>
+              </h3>
+              <div class="mt-2 pa-0 mb-4 d-flex">
+                <p
+                  class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+                >
+                  <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                  <span class="font-family"> admin </span>
+                </p>
+                <p
+                  class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                >
+                  <v-icon size="13" class="mr-1">$calendar</v-icon>
+                  <span class="font-family">
+                    {{ dateNow }}
+                  </span>
+                </p>
+              </div>
+              <div
+                class="text-justify font-family black--text"
+                v-html="editedItemArticle.description"
+                v-if="!skeleton"
+              ></div>
+            </div>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -369,6 +473,14 @@ export default {
   }),
   components: {
     'tip-tap-vuetify': TiptapVuetify,
+  },
+  computed: {
+    dateNow() {
+      const date = new Date();
+      return `${date.getDay()} ${
+        this.$store.state.month[date.getMonth() - 1]
+      } ${date.getFullYear()}`;
+    },
   },
   methods: {
     pagination() {
@@ -722,15 +834,30 @@ export default {
 </script>
 
 <style scoped>
-.tip-tap-size {
-  overflow: auto;
-  max-height: 300px;
-}
 .preview-img {
-  max-width: 800px;
-  max-height: 600px;
+  max-width: 1044px;
+  max-height: 400px;
 }
-.size-max {
-  max-width: 1366px;
+.max-width {
+  width: 100vw;
+  max-width: 1044px;
+}
+div >>> ul > li {
+  line-height: 25px !important;
+}
+div >>> ol > li {
+  line-height: 25px !important;
+}
+div >>> li > p {
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
 }
 </style>
