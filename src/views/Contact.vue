@@ -6,8 +6,11 @@
           <v-toolbar flat color="primary">
             <v-toolbar-title
               class="font-weight-light white--text"
-              >Kontak yang Ditampilkan</v-toolbar-title
             >
+              <span class="font-family">
+                Kontak yang Ditampilkan
+              </span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn color="white" icon @click="isEditing = !isEditing">
               <v-icon v-if="isEditing" color="white">mdi-close</v-icon>
@@ -66,7 +69,11 @@
                 color="primary"
                 v-if="loadingSave"
               ></v-progress-circular>
-              <p v-if="!loadingSave" class="my-auto">simpan</p>
+              <p v-if="!loadingSave" class="my-auto font-weight-bold">
+                <span class="font-family">
+                  simpan
+                </span>
+              </p>
             </v-btn>
           </v-card-actions>
         </v-card>

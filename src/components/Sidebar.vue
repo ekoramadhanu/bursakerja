@@ -20,11 +20,17 @@
         </v-list-item>
         <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title class="white--text text-capitalize subtitle-1">{{
-              fullname
-            }}</v-list-item-title>
+            <v-list-item-title class="white--text text-capitalize text-subtitle-1">
+              <span class="font-family">
+                {{ fullname }}
+              </span>
+            </v-list-item-title>
             <v-list-item-title class="white--text subtitle-2">
-              <p class="py-1 ma-0">{{ this.$store.state.role }}</p>
+              <p class="py-1 ma-0">
+                <span class="font-family">
+                  {{ this.$store.state.role }}
+                </span>
+              </p>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -32,7 +38,7 @@
         <v-list-item-group active-class="sidebar-item-active">
           <v-list-item to="/home">
             <v-list-item-content>
-              <v-list-item-title class="text-capitalize white--text">
+              <v-list-item-title class="text-capitalize white--text font-family">
                 dashboard
               </v-list-item-title>
             </v-list-item-content>
@@ -44,22 +50,22 @@
             :to="item.link"
           >
             <v-list-item-content>
-              <v-list-item-title class="white--text text-capitalize">{{
-                item.name
-              }}</v-list-item-title>
+              <v-list-item-title class="white--text text-capitalize font-family">
+                {{ item.name }}
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
           <v-list-item to="/change-password">
             <v-list-item-content>
-              <v-list-item-title class="text-capitalize white--text">
+              <v-list-item-title class="text-capitalize white--text font-family">
                 ganti kata sandi
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="logout()">
             <v-list-item-content>
-              <v-list-item-title class="text-capitalize white--text">
+              <v-list-item-title class="text-capitalize white--text font-family">
                 keluar
               </v-list-item-title>
             </v-list-item-content>
@@ -71,16 +77,6 @@
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="font-family">{{ $route.name }}</v-toolbar-title>
-      <!-- <div class="width-topbar d-flex justify-end">
-        <v-badge
-          :content="messages"
-          :value="messages"
-          overlap
-          class="hidden-xs-only"
-        >
-          <v-icon class="text-right">$bell</v-icon>
-        </v-badge>
-      </div> -->
     </v-app-bar>
   </div>
 </template>

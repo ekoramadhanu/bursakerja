@@ -11,6 +11,7 @@
               <v-select
                 :items="filter"
                 label="Pilih Status yang Ditampilkan"
+                class="font-family"
                 v-model="search"
                 @change="searchCardJobSeeker()"
                 outlined
@@ -22,7 +23,7 @@
         <v-data-table
           :headers="headerJobSeeker"
           :items="jobSeeker"
-          class="elevation-3 mt-3"
+          class="elevation-3 mt-3 font-family"
           hide-default-footer
           :loading="loadingTable"
           v-if="!skeleton"
@@ -31,7 +32,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <p class="ma-0 hidden-xs-only">Daftar Karyawan</p>
+                  <p class="ma-0 font-family">
+                    Daftar Karyawan
+                  </p>
                 </div>
               </v-toolbar-title>
               <v-spacer></v-spacer>
@@ -40,7 +43,7 @@
                   <v-btn
                     color="primary"
                     dark
-                    class="mb-2"
+                    class="mb-2 font-weight-bold"
                     v-bind="attrs"
                     v-on="on"
                   >
@@ -230,7 +233,7 @@ export default {
       { text: 'PIN', value: 'pin', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
       { text: 'Nama Pemegang', value: 'name', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     jobSeeker: [],
     editedIndex: -1,
