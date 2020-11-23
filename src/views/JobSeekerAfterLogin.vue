@@ -1,125 +1,97 @@
 <template>
   <div>
     <v-main>
-      <v-container class="d-flex flex-column justify-center size-max mb-8">
-
+      <v-container>
         <v-row>
-          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
-            <v-card elevation="3">
-              <v-card-title
-                class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
-              >
-                pilih kriteria
-              </v-card-title>
-              <v-card-text class="pb-0">
+          <v-col>
+            <v-card>
+              <v-card-title> Pilih Kriteria </v-card-title>
+              <v-card-subtitle>
+                Silahkan masukkan kriteria untuk menampilkan lowongan
+                berdasarkan lokasi dan posisi. Jika Anda tidak menemukan
+                kriteria yang diinginkan, Anda dapat menghubungi kami.
+              </v-card-subtitle>
+              <v-card-text>
                 <v-form lazy-validation>
-                  <v-autocomplete
-                    v-model="location"
-                    :items="itemsLocation"
-                    :loading="isLoadingLocation"
-                    :search-input.sync="searchLocation"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Lokasi Pekerja"
-                    prepend-icon="$location"
-                    append-outer-icon="mdi-close"
-                    @click:append-outer="resetLocation()"
-                    outlined
-                    dense
-                    persistent-hint
-                    hint="jika tidak ada lokasi yang anda cari, silahkan hubungi pihak kami"
-                  />
-                  <v-autocomplete
-                    v-model="job"
-                    :items="itemsJob"
-                    :loading="isLoadingJob"
-                    :search-input.sync="searchJob"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Jabatan Pekerja"
-                    prepend-icon="$job"
-                    append-outer-icon="mdi-close"
-                    @click:append-outer="resetJob()"
-                    outlined
-                    dense
-                    persistent-hint
-                    hint="jika tidak ada jabatan yang anda cari, silahkan hubungi pihak kami"
-                  />
-                  <v-autocomplete
-                    v-model="school"
-                    :items="itemsSchool"
-                    :loading="isLoadingSchool"
-                    :search-input.sync="searchSchool"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Pendidikan Terakhir Pekerja"
-                    prepend-icon="$school"
-                    append-outer-icon="mdi-close"
-                    @click:append-outer="resetSchool()"
-                    outlined
-                    dense
-                    persistent-hint
-                    hint="jika tidak ada sekolah yang anda cari, silahkan hubungi pihak kami"
-                  />
+                  <v-row class="align-center">
+                    <v-col cols="12" xl="4" lg="4">
+                      <v-autocomplete
+                        v-model="location"
+                        :items="itemsLocation"
+                        :loading="isLoadingLocation"
+                        :search-input.sync="searchLocation"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="name"
+                        label="Lokasi Pekerja"
+                        @click:append-outer="resetLocation()"
+                        dense
+                        persistent-hint
+                      />
+                    </v-col>
+                    <v-col cols="12" xl="4" lg="4">
+                      <v-autocomplete
+                        v-model="job"
+                        :items="itemsJob"
+                        :loading="isLoadingJob"
+                        :search-input.sync="searchJob"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="name"
+                        label="Jabatan Pekerja"
+                        @click:append-outer="resetJob()"
+                        dense
+                        persistent-hint
+                      />
+                    </v-col>
+                    <v-col cols="12" xl="3" lg="3">
+                      <v-autocomplete
+                        v-model="school"
+                        :items="itemsSchool"
+                        :loading="isLoadingSchool"
+                        :search-input.sync="searchSchool"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="name"
+                        label="Pendidikan Terakhir Pekerja"
+                        @click:append-outer="resetSchool()"
+                        dense
+                        persistent-hint
+                    /></v-col>
+                    <v-col cols="12" xl="1" lg="1"
+                      ><v-btn block color="primary" @click="searchJobSeeker()">
+                        cari
+                      </v-btn></v-col
+                    >
+                  </v-row>
                 </v-form>
               </v-card-text>
-              <v-card-actions class="pt-0 px-4 pb-4">
-                <v-btn
-                  class="text-capitalize"
-                  block
-                  color="primary"
-                  @click="searchJobSeeker()"
-                >
-                  cari pekerja
-                </v-btn>
-              </v-card-actions>
             </v-card>
           </v-col>
-          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
-            <v-card elevation="3">
-              <v-card-title class="pa-3 d-flex justify-space-between">
-                <p
-                  class="text-capitalize ma-0 text-subtitle-1 font-weight-bold"
-                >
-                  daftar pekerja
-                </p>
-                <p
-                  class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
-                  v-if="!skeleton"
-                >
-                  {{ min }} - {{ max }} dari {{ lengthData }} pekerja
-                </p>
-              </v-card-title>
+          <v-col cols="12">
+            <v-card class="mb-4" elevation="0">
+              <v-card-text>
+                {{ max }} dari {{ lengthData }} pekerja ditemukan
+              </v-card-text>
             </v-card>
             <div v-if="jobSeeker.length > 0 && !skeleton">
               <div v-for="item in jobSeeker" :key="item.id">
                 <transition name="fade" appear>
-                  <v-card elevation="3" class="mt-4 pa-3">
-                    <v-card-text class="pa-2">
-                      <div class="d-flex">
-                        <v-img
-                          width="150"
-                          max-width="150"
-                          height="120"
-                          max-height="120"
-                          :src="item.image"
-                          contain
-                          class="mr-2"
-                        ></v-img>
-                        <div>
-                          <p class="text-capitalize ma-0 text-h6">
-                            {{ item.name }}
-                          </p>
-                          <p class="text-capitalize text-subtitle-2 ma-0">
-                            {{ item.position }}
-                          </p>
-                          <p
+                  <v-card class="mt-4 pa-2">
+                    <v-container>
+                    <v-row>
+                      <div class="mx-4">
+                        <v-avatar size="128" class="profile">
+                          <v-img :src="item.image" :alt="item.name"></v-img>
+                        </v-avatar>
+                      </div>
+                      <div>
+                        <h6 class="text-h6">{{ item.name }}</h6>
+                        <span class="subtitle-1">{{ item.position }}</span>
+                         <p
                             class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
                           >
                             <v-icon class="mr-3" size="12">$phone</v-icon>
@@ -137,20 +109,19 @@
                             <v-icon class="mr-3" size="12">$location</v-icon>
                             {{ item.location }}
                           </p>
-                        </div>
                       </div>
-                      <div class="mt-2 text-subtitle-2 font-weight-regular">
-                        {{ item.desc }}
-                      </div>
+                    </v-row>
+                    </v-container>
+                    <v-card-text>
+                      {{ item.desc }}
                     </v-card-text>
-                    <v-card-actions class="d-flex justify-end pa-1">
+                    <v-card-actions>
                       <v-btn
                         text
                         color="primary"
-                        class="text-capitalize"
                         :to="`/job-seeker-detail/${item.id}`"
                       >
-                        selengkapnya
+                        profil selengkapnya
                       </v-btn>
                     </v-card-actions>
                   </v-card>
@@ -526,7 +497,7 @@ export default {
 </script>
 
 <style scoped>
-.size-max{
+.size-max {
   max-width: 1100px;
 }
 </style>

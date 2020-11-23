@@ -6,6 +6,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import './scss/styles.scss';
+import './scss/variables.scss';
 
 // eslint-disable-next-line import/order
 import VueCookies from 'vue-cookies';
