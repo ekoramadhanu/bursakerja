@@ -1,47 +1,42 @@
 <template>
-  <div>
-    <div class="justify-center">
-      <v-container>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="image"
-          v-if="skeleton"
-          max-height="400"
-        ></v-skeleton-loader>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="article"
-          v-if="skeleton"
-        ></v-skeleton-loader>
-      </v-container>
-    </div>
-    <v-row v-if="!skeleton">
-      <v-img :src="image" height="400"></v-img>
-    </v-row>
-    <v-col cols="8" offset="2" v-if="!skeleton">
-      <v-row>
-        <v-container>
-          <v-btn
-            text
-            x-small
-            color="dark grey"
-            class="pa-0"
-            to="/"
-            >kembali ke beranda</v-btn
-          >
-        </v-container>
-      </v-row>
-      <v-row>
-        <v-container v-if="!skeleton">
-            <h1 class="display-2 mb-2">Tentang Kami</h1>
-          <div
-            class="text-justify mt-3"
-            v-html="content"
-            v-if="!skeleton"
-          ></div>
-        </v-container>
-      </v-row>
-    </v-col>
+  <div class="mt-12">
+    <v-container class="max-width">
+      <v-skeleton-loader
+        class="mx-auto"
+        ref="skeleton"
+        type="image"
+        v-if="skeleton"
+        max-height="400"
+        max-width="1044"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        ref="skeleton"
+        type="article"
+        v-if="skeleton"
+      ></v-skeleton-loader>
+      <div v-if="!skeleton" class="d-flex justify-center">
+        <v-img
+          :src="image"
+          height="400"
+          max-width="1044"
+          aspect-ratio="1.7778"
+          class="image-cover"
+        />
+      </div>
+      <div v-if="!skeleton">
+        <div class="py-3 mt-3">
+          <v-btn text x-small color="dark grey" class="pa-0 font-family" to="/">
+            kembali ke beranda
+          </v-btn>
+        </div>
+        <h1 class="text-h3 mb-4 font-weight-bold">
+          <span class="font-family">
+            Tentang Kami
+          </span>
+        </h1>
+        <div class="text-justify font-family" v-html="content" v-if="!skeleton"></div>
+      </div>
+    </v-container>
   </div>
 </template>
 
@@ -105,20 +100,10 @@ div >>> ol {
 div >>> li > p {
   margin: 3px;
 }
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  width: 90vw;
+  max-width: 1044px;
 }
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 100vw;
-  }
-}
-.max-width-about-us {
-  max-width: 650px;
+.image-cover {
+  object-fit: cover;
 }
 </style>

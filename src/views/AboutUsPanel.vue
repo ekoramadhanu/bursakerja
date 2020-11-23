@@ -16,9 +16,9 @@
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <v-form ref="form" lazy-validation>
+            <v-form ref="form" lazy-validation v-if="isEditing">
               <v-file-input
-                label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 970x220"
+                label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 1044x400"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
@@ -41,6 +41,22 @@
                 :disabled="!isEditing"
               />
             </v-form>
+            <p class="text-subtitle-1 mb-0 mt-4 text-uppercase font-weight-bold" v-if="isEditing">
+              <span class="font-family">
+                pratinjau
+              </span>
+            </p>
+            <v-divider v-if="isEditing" class="mb-4"></v-divider>
+            <div>
+              <v-img
+                :src="previewImage"
+                height="400"
+                max-width="1044"
+                aspect-ratio="1.7778"
+                class="mb-4"
+              />
+              <div class="text-justify font-family" v-html="content" v-if="!skeleton"></div>
+            </div>
           </v-card-text>
           <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>
@@ -278,8 +294,8 @@ export default {
   max-height: 300px;
 }
 .preview-img {
-  max-width: 800px;
-  max-height: 600px;
+  max-width: 1044px;
+  max-height: 400px;
 }
 div >>> ul {
   line-height: 18px !important;
@@ -289,5 +305,8 @@ div >>> ol {
 }
 div >>> li > p {
   margin: 3px !important;
+}
+.image-cover {
+  object-fit: cover;
 }
 </style>
