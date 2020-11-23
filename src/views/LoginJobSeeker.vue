@@ -14,11 +14,11 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/">
+                <v-btn text small color="dark grey" class="pa-0 font-family" to="/">
                   <v-icon class="mr-3" size="16">$arrowLeft</v-icon>
                   kembali ke beranda
                 </v-btn>
-                <h3 class="text-h3 font-weight-bold">
+                <h3 class="text-h3 font-weight-bold mt-5">
                   <span class="font-family ">
                     Masuk
                   </span>
@@ -29,30 +29,30 @@
                     sandi yang terdaftar
                   </span>
                 </p>
-                <v-btn text color="primary" class="pa-0 my-4 mr-4 font-family font-weight-bold"
+                <v-btn text color="primary" class="pa-0 mr-10 font-family font-weight-bold"
                   >Sebagai Pencari Kerja</v-btn
                 >
                 <v-btn
                   text
                   color="dark grey"
-                  class="pa-0 my-4 font-family"
+                  class="pa-0 font-family"
                   to="/login-company"
                   >Sebagai Perusahaan</v-btn
                 >
               </div>
             </v-row>
             <v-row>
-              <v-card width="100%" max-width="960" elevation="0">
-                <v-card-text v-if="status !== null">
-                  <v-alert
-                    :type="status === true ? 'success' : 'error'"
-                    v-if="status !== null"
-                    class="text-capitalize"
-                  >
-                    {{ message }}
-                  </v-alert>
-                </v-card-text>
-                <v-card-text>
+              <v-card width="100%" max-width="960" elevation="0" class="pa-0">
+                <v-card-text class="pa-0">
+                  <div v-if="status !== null">
+                    <v-alert
+                      :type="status === true ? 'success' : 'error'"
+                      v-if="status !== null"
+                      class="text-capitalize"
+                    >
+                      {{ message }}
+                    </v-alert>
+                  </div>
                   <v-form ref="form" lazy-validation>
                     <v-text-field
                       v-model="email"

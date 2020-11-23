@@ -14,9 +14,9 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/"
-                  >kembali ke beranda</v-btn
-                >
+                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/">
+                  kembali ke beranda
+                </v-btn>
                 <h3 class="text-h3 font-weight-bold">
                   <span class="font-family">
                     Masuk
