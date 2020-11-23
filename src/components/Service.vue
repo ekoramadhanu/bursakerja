@@ -23,7 +23,7 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Resume-rafiki.svg"
@@ -75,7 +75,7 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Electrician-rafiki.svg"
@@ -125,7 +125,7 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Gardening-rafiki.svg"
@@ -175,7 +175,7 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-xl" height="445" width="243">
+          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Working-rafiki.svg"
