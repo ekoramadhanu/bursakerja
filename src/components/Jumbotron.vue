@@ -20,13 +20,13 @@
             rupa berdasarkan kota, posisi yang diinginkan, serta pendidikan
             terakhir untuk memudahkan pengguna menemukan SDM yang tepat
           </p> -->
-          <p class="text-capitalize text-h3 font-weight-bold">
-            <span class="font-family">
+          <p class="text-capitalize text-h3">
+            <span class="font-family font-weight-bold">
               temukan kandidat anda!
             </span>
           </p>
-          <p class="text-subtitle-2">
-            <span class="font-family font-weight-regular">
+          <p class="text-subtitle-2 font-weight-regular">
+            <span class="font-family">
               Kami dapat membantu Anda menemukan sumber daya manusia yang mumpuni
               dan berintegritas sesuai dengan kualifikasi yang diperlukan
               berdasarkan kota, posisi pekerjaan, dan kualifikasi pendidikan.
@@ -36,7 +36,7 @@
             width="155"
             height="53"
             class="mt-6"
-            color="primary"
+            color="primary font-weight-bold"
             @click="start()"
           >
             mulai sekarang
@@ -78,7 +78,7 @@
             width="155"
             height="53"
             class="mt-6"
-            color="primary"
+            color="primary font-weight-bold"
             @click="start()"
           >
             mulai sekarang

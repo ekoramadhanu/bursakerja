@@ -38,7 +38,7 @@
               <p
                 class="ma-0 text-h5 text-center black--text text-capitalize"
               >
-                <span class="font-family">
+                <span class="font-family font-weight-bold">
                   karyawan
                 </span>
               </p>
@@ -59,7 +59,7 @@
                 height="44"
                 class="text-subtitle-2"
               >
-                <p class="my-auto font-family">
+                <p class="my-auto font-family font-weight-bold">
                   lihat selengkapnya
                 </p>
               </v-btn>
@@ -88,7 +88,7 @@
                 class="mx-auto"
               ></v-img>
               <p class="ma-0 text-h5 text-center text-capitalize black--text ">
-                <span class="font-family">
+                <span class="font-family font-weight-bold">
                   tenaga profesional
                 </span>
               </p>
@@ -109,7 +109,7 @@
                 class="text-subtitle-2"
                 to="/job-seeker-professional"
               >
-                <p class="my-auto font-family">
+                <p class="my-auto font-family font-weight-bold">
                   lihat selengkapnya
                 </p>
               </v-btn>
@@ -138,7 +138,7 @@
                 class="mx-auto"
               ></v-img>
               <p class="ma-0 text-h5 text-center text-capitalize black--text">
-                <span class="font-family">
+                <span class="font-family font-weight-bold">
                   Tenaga Informal
                 </span>
               </p>
@@ -159,7 +159,7 @@
                 class="text-subtitle-2"
                 to="/job-seeker-informal"
               >
-                <p class="my-auto font-family">
+                <p class="my-auto font-family font-weight-bold">
                   lihat selengkapnya
                 </p>
               </v-btn>
@@ -188,7 +188,7 @@
                 class="mx-auto"
               ></v-img>
               <p class="ma-0 text-h5 text-center text-capitalize black--text">
-                <span class="font-family">
+                <span class="font-family font-weight-bold">
                   Tenaga Magang
                 </span>
               </p>
@@ -209,7 +209,7 @@
                 class="text-subtitle-2"
                 to="/job-seeker-internship"
               >
-                <p class="my-auto font-family">
+                <p class="my-auto font-family font-weight-bold">
                   lihat selengkapnya
                 </p>
               </v-btn>

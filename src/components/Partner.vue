@@ -115,7 +115,11 @@ export default {
   created() {
     window.addEventListener('resize', this.rezise);
     window.addEventListener('load', this.rezise);
-    window.addEventListener('DOMContentLoaded', this.rezise);
+  },
+  updated() {
+    if (this.windowsWidth !== window.innerWidth) {
+      this.rezise();
+    }
   },
   destroyed() {
     window.removeEventListener('resize', this.rezise);

@@ -153,7 +153,7 @@
               <span class="my-auto font-family">sekolah unggulan</span>
             </v-btn>
             <v-btn class="mr-6" outlined color="primary" to="/activate-account">
-              <p class="my-auto font-family">aktivasi</p>
+              <p class="my-auto font-family font-weight-bold">aktivasi</p>
             </v-btn>
             <v-btn
               class=""
@@ -161,7 +161,7 @@
               to="/login-job-seeker"
               elevation="0"
             >
-              <p class="my-auto font-family">masuk</p>
+              <p class="my-auto font-family font-weight-bold">masuk</p>
             </v-btn>
           </div>
         </div>

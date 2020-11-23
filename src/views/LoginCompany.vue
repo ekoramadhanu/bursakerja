@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import backgroundUrl from '@/assets/background.svg';
 import axios from 'axios';
 
 export default {
@@ -118,11 +117,10 @@ export default {
     password: '',
     passwordRules: [
       (v) => !!v || 'Kata Sandi Tidak Boleh Kosong',
-      (v) => (v.length >= 6 && v.length <= 12) || 'Kata Sandi Harus (6-12)',
+      (v) => (v.length >= 8 && v.length <= 12) || 'Kata Sandi Harus (8-12)',
     ],
     showPassword: false,
     loadingActivated: false,
-    backgroundUrl,
     status: null,
     message: '',
   }),
@@ -212,17 +210,4 @@ export default {
 </script>
 
 <style scoped>
-.fullscreen {
-  width: 100vw;
-  height: 100vh;
-}
-.card-login {
-  max-width: 450px;
-  width: 450px;
-}
-.backgorund-repeat {
-  background-position: initial;
-  background-repeat: space;
-  background-size: 90px 90px;
-}
 </style>

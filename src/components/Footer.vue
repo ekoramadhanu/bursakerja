@@ -5,7 +5,7 @@
         <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
           <v-list flat color="accent" dense>
             <p class="text-uppercase white--text text-h6">
-              <span class="font-family"> bursa kerja </span>
+              <span class="font-family font-weight-bold"> bursa kerja </span>
             </p>
             <v-list-item-group color="white">
               <v-list-item to="/about-us" class="pa-0">
@@ -56,7 +56,7 @@
         <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
           <v-list flat color="accent" dense>
             <p class="text-uppercase white--text text-h6">
-              <span class="font-family"> pencaker </span>
+              <span class="font-family font-weight-bold"> pencaker </span>
             </p>
             <v-list-item-group color="white">
               <v-list-item to="/job-seeker-informal" class="pa-0">
@@ -107,7 +107,7 @@
         <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
           <v-list flat color="accent" dense>
             <p class="text-uppercase white--text text-h6">
-              <span class="font-family"> lowongan kerja </span>
+              <span class="font-family font-weight-bold"> lowongan kerja </span>
             </p>
             <v-list-item-group color="primary">
               <v-list-item to="/upload-job-vacancy" class="pa-0">
@@ -136,7 +136,7 @@
         <v-col cols="12" xl="3" lg="3" md="3" sm="12" xs="12">
           <v-list flat color="accent" dense>
             <p class="text-uppercase white--text text-h6">
-              <span class="font-family"> media sosial </span>
+              <span class="font-family font-weight-bold"> media sosial </span>
             </p>
             <v-list-item-group color="white">
               <v-list-item @click="openWhastapp()" class="pa-0">
