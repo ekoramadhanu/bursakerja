@@ -56,7 +56,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
+          <v-col cols="12">
             <v-card class="mb-4" elevation="0">
               <v-card-text>
                 {{ max }} dari {{ lengthData }} lowongan ditemukan
@@ -75,7 +75,6 @@
                           md="2"
                           class="hidden-sm-and-down"
                           ><v-img
-                            max-width="200"
                             aspect-ratio="1"
                             :src="item.image"
                             class="mr-2"

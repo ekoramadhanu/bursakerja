@@ -183,7 +183,7 @@ const routes = [
   },
   {
     path: '/job-seeker-professional',
-    name: 'jobSeekerProfesional',
+    name: 'Profesional',
     component: jobSeekerProfesional,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -195,7 +195,7 @@ const routes = [
   },
   {
     path: '/article-detail/:id',
-    name: 'detailArticle',
+    name: 'Artikel',
     component: detailArticle,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -207,7 +207,7 @@ const routes = [
   },
   {
     path: '/job-seeker-detail/:id',
-    name: 'detailJobSeeker',
+    name: 'Detail Data Pencari Kerja',
     component: detailJobSeeker,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -639,7 +639,7 @@ const routes = [
   },
   {
     path: '/application-job/:id',
-    name: 'applicationJob',
+    name: 'Daftar Lamaran',
     component: applicationJob,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
