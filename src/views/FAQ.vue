@@ -19,21 +19,29 @@
           <v-col cols="8" offset="2">
             <v-row>
               <v-container>
-                <v-btn text x-small color="dark grey" class="pa-0" to="/"
-                  >kembali ke beranda</v-btn
-                >
+                <v-btn text x-small color="dark grey" class="pa-0 font-family" to="/">
+                  kembali ke beranda
+                </v-btn>
               </v-container>
             </v-row>
             <v-row class="mt-4">
               <v-container>
-                <h1 class="display-2 mb-2">Frequently Asked Questions</h1>
-                <h2 class="subtitle-1">Diperbarui: {{ dateUpdated }}</h2>
+                <h3 class="text-h3 mb-2 font-weight-bold">
+                  <span class="font-family">
+                    Frequently Asked Questions
+                  </span>
+                </h3>
+                <p class="textsubtitle-1">
+                  <span class="font-family">
+                    Diperbarui: {{ dateUpdated }}
+                  </span>
+                </p>
               </v-container>
             </v-row>
             <v-row>
               <v-container>
                 <div
-                  class="text-justify mt-3"
+                  class="text-justify mt-3 font-family"
                   v-html="content"
                   v-if="!skeleton"
                 ></div>
