@@ -13,7 +13,7 @@
         eager
         v-if="!skeleton"
       >
-        <v-carousel-item v-for="i in returnModuleByCounter(7)" :key="i">
+        <v-carousel-item v-for="i in returnModuleByCounter(6)" :key="i">
           <v-sheet
             color="white"
             height="100%"
@@ -21,7 +21,7 @@
             max-width="1044"
             class="d-flex align-center"
           >
-            <div class="white" v-for="item in returnlist(i, 7)" :key="item.id">
+            <div class="white" v-for="item in returnlist(i, 6)" :key="item.id">
               <v-img
                 :src="item.image"
                 width="128"

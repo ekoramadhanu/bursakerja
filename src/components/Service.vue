@@ -13,15 +13,15 @@
           Kami membagi kategori sumber daya manusia menjadi 4 macam
         </span>
       </p>
-      <v-row class="d-flex justify-center mt-12">
+      <v-row class="d-flex justify-center mt-12 max-width">
         <v-col
           cols="12"
           xl="3"
           lg="3"
-          md="12"
-          sm="12"
+          md="6"
+          sm="6"
           xs="12"
-          class="card-column"
+          class="d-flex justify-center"
         >
           <v-card elevation="3" class="rounded-xl" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
@@ -70,10 +70,10 @@
           cols="12"
           xl="3"
           lg="3"
-          md="12"
-          sm="12"
+          md="6"
+          sm="6"
           xs="12"
-          class="card-column"
+          class="d-flex justify-center"
         >
           <v-card elevation="3" class="rounded-xl" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
@@ -120,10 +120,10 @@
           cols="12"
           xl="3"
           lg="3"
-          md="12"
-          sm="12"
+          md="6"
+          sm="6"
           xs="12"
-          class="card-column"
+          class="d-flex justify-center"
         >
           <v-card elevation="3" class="rounded-xl" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
@@ -170,10 +170,10 @@
           cols="12"
           xl="3"
           lg="3"
-          md="12"
-          sm="12"
+          md="6"
+          sm="6"
           xs="12"
-          class="card-column"
+          class="d-flex justify-center"
         >
           <v-card elevation="3" class="rounded-xl" height="445" width="243">
             <v-card-text class="pa-2 size-card-text">
@@ -226,42 +226,12 @@ export default {
   data: () => ({
     isActive: false,
     windowsWidth: null,
-    animateOne: false,
-    animateTwo: false,
-    animateThree: false,
-    animateFour: false,
-    animateFive: false,
   }),
   watch: {},
   computed: {},
   methods: {
     rezise() {
       this.windowsWidth = window.innerWidth;
-    },
-    delayOne() {
-      window.setTimeout(() => {
-        this.animateOne = true;
-      }, 500);
-    },
-    delayTwo() {
-      window.setTimeout(() => {
-        this.animateTwo = true;
-      }, 1000);
-    },
-    delayThree() {
-      window.setTimeout(() => {
-        this.animateThree = true;
-      }, 2000);
-    },
-    delayFour() {
-      window.setTimeout(() => {
-        this.animateFour = true;
-      }, 2500);
-    },
-    delayFive() {
-      window.setTimeout(() => {
-        this.animateFive = true;
-      }, 3000);
     },
   },
   created() {
@@ -277,21 +247,9 @@ export default {
   beforeDestroy() {
     this.isActive = null;
     this.windowsWidth = null;
-    this.animateOne = null;
-    this.animateTwo = null;
-    this.animateThree = null;
-    this.animateFour = null;
-    this.animateFive = null;
-    this.widthCard = null;
 
     delete this.isActive;
     delete this.windowsWidth;
-    delete this.animateOne;
-    delete this.animateTwo;
-    delete this.animateThree;
-    delete this.animateFour;
-    delete this.animateFive;
-    delete this.widthCard;
   },
   destroyed() {
     window.removeEventListener('resize', this.rezise);
@@ -302,20 +260,23 @@ export default {
 </script>
 
 <style scoped>
-.max-width {
-  max-width: 100vw;
-  width: 100vw;
+@media screen and (min-width: 1264px){
+  .max-width {
+    max-width: 1044px;
+    width: 100vw;
+  }
+}
+@media screen and (max-width: 1263px) and (min-width: 960px) {
+  .max-width {
+    max-width: 960px;
+    width: 100vw;
+  }
 }
 .max-width-text {
   max-width: 1000px;
   width: 100vw;
 }
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1366px;
-    width: 100vw;
-  }
-}
+
 .size-card-action {
   height: 15%;
 }
