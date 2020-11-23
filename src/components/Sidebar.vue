@@ -70,7 +70,7 @@
 
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
+      <v-toolbar-title class="font-family">{{ $route.name }}</v-toolbar-title>
       <!-- <div class="width-topbar d-flex justify-end">
         <v-badge
           :content="messages"

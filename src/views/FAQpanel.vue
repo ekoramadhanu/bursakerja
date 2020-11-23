@@ -4,9 +4,9 @@
       <v-container class="d-flex flex-column justify-center size-max">
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-toolbar-title class="font-weight-light white--text"
-              >FAQ yang Ditampilkan</v-toolbar-title
-            >
+            <v-toolbar-title class="font-weight-light white--text">
+              <span class="font-family"> FAQ yang Ditampilkan </span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn color="white" icon @click="isEditing = !isEditing">
               <v-icon v-if="isEditing">mdi-close</v-icon>
@@ -15,14 +15,20 @@
           </v-toolbar>
           <v-card-text>
             <tip-tap-vuetify
+              v-if="isEditing"
               v-model="content"
+              class="font-family"
               :extensions="extensions"
-              :disabled="!isEditing"
               :card-props="{ height: '600', style: 'overflow: auto;' }"
             />
-            <p class="text-subtitle-1 text-capitalize mt-3 mb-1">pratinjau</p>
-            <v-divider></v-divider>
-            <div v-html="content" class="mt-2"></div>
+            <p
+              class="text-subtitle-1 text-uppercase font-weight-bold mt-4 mb-0"
+              v-if="!isEditing"
+            >
+              pratinjau
+            </p>
+            <v-divider v-if="!isEditing" class="mb-4"></v-divider>
+            <div v-html="content" class="text-justify font-family"></div>
           </v-card-text>
           <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>
@@ -32,7 +38,7 @@
               @click="save"
               class=""
             >
-             <v-progress-circular
+              <v-progress-circular
                 indeterminate
                 color="white"
                 v-if="loadingSave"
@@ -58,7 +64,9 @@
       >
         <div class="d-flex">
           <v-icon
-            :class="status === false ? 'mr-2 error--text' : 'mr-2 success--text'"
+            :class="
+              status === false ? 'mr-2 error--text' : 'mr-2 success--text'
+            "
             >{{ icon }}</v-icon
           >
           <p class="text-capitalize black--text ma-0 text-subtitle-1">
@@ -176,11 +184,13 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'UMKM'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({
@@ -236,10 +246,6 @@ export default {
 .size-max {
   max-width: 1366px;
 }
-.tip-tap-size {
-  overflow: auto;
-  max-height: 300px;
-}
 div >>> ul > li {
   line-height: 25px !important;
 }
@@ -252,10 +258,10 @@ div >>> li > p {
 div >>> li {
   margin-bottom: 10px;
 }
-div >>> li > ol{
+div >>> li > ol {
   margin: 0px;
 }
-div >>> li > ul{
+div >>> li > ul {
   margin: 0px;
 }
 </style>

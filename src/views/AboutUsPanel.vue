@@ -7,8 +7,11 @@
           <v-toolbar flat color="primary">
             <v-toolbar-title
               class="font-weight-light white--text"
-              >Tentang Kami yang Ditampilkan</v-toolbar-title
             >
+              <span class="font-family">
+                Tentang Kami yang Ditampilkan
+              </span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn color="white" icon @click="isEditing = !isEditing">
               <v-icon v-if="isEditing">mdi-close</v-icon>
@@ -24,7 +27,6 @@
                 ref="fileInput"
                 enctype="multipart/form-data"
                 :rules="previewImage !== null ? [] : imageRules"
-                :disabled="!isEditing"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -36,9 +38,9 @@
               />
               <tip-tap-vuetify
                 v-model="content"
+                class="font-family"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
                 :extensions="extensions"
-                :disabled="!isEditing"
               />
             </v-form>
             <p class="text-subtitle-1 mb-0 mt-4 text-uppercase font-weight-bold" v-if="isEditing">
@@ -289,22 +291,27 @@ export default {
 .size-max {
   max-width: 1366px;
 }
-.tip-tap-size {
-  overflow: auto;
-  max-height: 300px;
-}
 .preview-img {
   max-width: 1044px;
   max-height: 400px;
 }
-div >>> ul {
-  line-height: 18px !important;
+div >>> ul > li {
+  line-height: 25px !important;
 }
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
 }
 .image-cover {
   object-fit: cover;
