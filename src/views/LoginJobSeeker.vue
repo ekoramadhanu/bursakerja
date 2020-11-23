@@ -14,9 +14,10 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/"
-                  >kembali ke beranda</v-btn
-                >
+                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/">
+                  <v-icon class="mr-3" size="16">$arrowLeft</v-icon>
+                  kembali ke beranda
+                </v-btn>
                 <h3 class="text-h3 font-weight-bold">
                   <span class="font-family ">
                     Masuk
@@ -41,7 +42,7 @@
               </div>
             </v-row>
             <v-row>
-              <v-card width="100%" max-width="960">
+              <v-card width="100%" max-width="960" elevation="0">
                 <v-card-text v-if="status !== null">
                   <v-alert
                     :type="status === true ? 'success' : 'error'"

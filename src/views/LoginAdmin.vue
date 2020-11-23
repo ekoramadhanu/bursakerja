@@ -15,6 +15,7 @@
             <v-row>
               <div class="mb-8">
                 <v-btn text small color="grey" class="pa-0 mb-4" to="/">
+                  <v-icon class="mr-3">$arrowLeft</v-icon>
                   <span class="font-family">
                     kembali ke beranda
                   </span>

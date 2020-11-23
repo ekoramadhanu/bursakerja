@@ -61,6 +61,7 @@ export default new Vuetify({
       detail: 'fas fa-align-justify',
       dropdown: 'mdi-menu-down',
       pdf: 'far fa-file-pdf',
+      arrowLeft: 'mdi-arrow-left',
     },
   },
   theme: {
