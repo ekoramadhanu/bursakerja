@@ -14,44 +14,52 @@
           <v-container>
             <v-row>
               <div class="mb-8">
-                <v-btn text small color="dark grey" class="pa-0 mb-4 font-family" to="/">
+                <v-btn
+                  text
+                  small
+                  color="dark grey"
+                  class="pa-0 mb-5 font-family"
+                  to="/"
+                >
+                  <v-icon class="mr-3" size="16">$arrowLeft</v-icon>
                   kembali ke beranda
                 </v-btn>
                 <h3 class="text-h3 font-weight-bold">
-                  <span class="font-family">
-                    Masuk
-                  </span>
+                  <span class="font-family"> Masuk </span>
                 </h3>
-                <p class="text-subtitle-1">
+                <p class="text-subtitle-1 mb-6">
                   <span class="font-family">
-                    Silahkan pilih jenis akun dan masukkan alamat email serta kata
-                    sandi yang terdaftar
+                    Silahkan pilih jenis akun dan masukkan alamat email serta
+                    kata sandi yang terdaftar
                   </span>
                 </p>
                 <v-btn
                   text
                   color="dark grey"
-                  class="pa-0 my-4 mr-4 font-family"
+                  class="pa-0 mr-10 font-family"
                   to="/login-job-seeker"
                   >Sebagai Pencari Kerja</v-btn
                 >
-                <v-btn text color="primary" class="pa-0 my-4 font-family font-weight-bold"
+                <v-btn
+                  text
+                  color="primary"
+                  class="pa-0 font-family font-weight-bold"
                   >Sebagai Perusahaan</v-btn
                 >
               </div>
             </v-row>
             <v-row>
-              <v-card width="100%" max-width="960">
-                <v-card-text v-if="status !== null">
-                  <v-alert
-                    :type="status === true ? 'success' : 'error'"
-                    v-if="status !== null"
-                    class="text-capitalize"
-                  >
-                    {{ message }}
-                  </v-alert>
-                </v-card-text>
-                <v-card-text>
+              <v-card width="100%" max-width="960" elevation="0" class="pa-0">
+                <v-card-text class="pa-0">
+                  <div v-if="status !== null">
+                    <v-alert
+                      :type="status === true ? 'success' : 'error'"
+                      v-if="status !== null"
+                      class="text-capitalize"
+                    >
+                      {{ message }}
+                    </v-alert>
+                  </div>
                   <v-form ref="form" lazy-validation>
                     <v-text-field
                       v-model="email"
@@ -76,7 +84,12 @@
                             color="white"
                             v-if="loadingActivated"
                           />
-                          <p v-if="!loadingActivated" class="my-auto font-family">masuk</p>
+                          <p
+                            v-if="!loadingActivated"
+                            class="my-auto font-family font-weight-bold"
+                          >
+                            masuk
+                          </p>
                         </v-btn>
                       </div>
                     </div>
@@ -88,7 +101,12 @@
                             color="white"
                             v-if="loadingActivated"
                           />
-                          <p v-if="!loadingActivated" class="my-auto font-family">masuk</p>
+                          <p
+                            v-if="!loadingActivated"
+                            class="my-auto font-family font-weight-bold"
+                          >
+                            masuk
+                          </p>
                         </v-btn>
                       </div>
                     </div>

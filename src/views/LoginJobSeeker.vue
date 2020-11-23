@@ -23,7 +23,7 @@
                     Masuk
                   </span>
                 </h3>
-                <p class="text-subtitle-1">
+                <p class="text-subtitle-1 mb-6">
                   <span class="font-family">
                     Silahkan pilih jenis akun dan masukkan alamat email serta kata
                     sandi yang terdaftar
@@ -79,7 +79,7 @@
                           />
                           <p
                             v-if="!loadingActivated"
-                            class="my-auto font-family"
+                            class="my-auto font-family font-weight-bold"
                           >
                             masuk
                           </p>
@@ -99,7 +99,7 @@
                           />
                           <p
                             v-if="!loadingActivated"
-                            class="my-auto font-family"
+                            class="my-auto font-family font-weight-bold"
                           >
                             masuk
                           </p>
