@@ -50,13 +50,14 @@
           </v-col>
         </v-row>
       </div>
+      <floating-button/>
     </div>
   </div>
 </template>
 
 <script>
+import floatingButton from '@/components/FloatingButton.vue';
 import axios from 'axios';
-import goTo from 'vuetify/es5/services/goto';
 
 export default {
   data: () => ({
@@ -66,6 +67,7 @@ export default {
     skeleton: true,
   }),
   components: {
+    'floating-button': floatingButton,
   },
   beforeCreate() {
     axios({
@@ -90,12 +92,6 @@ export default {
       .finally(() => {
         this.skeleton = false;
       });
-  },
-  created() {
-    goTo(0);
-  },
-  updated() {
-    goTo(0);
   },
   beforeDestroy() {
     this.content = null;
