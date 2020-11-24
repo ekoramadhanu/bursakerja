@@ -50,17 +50,11 @@ import jobSeekerInternshipAfterLogin from '../views/JobSeekerInternshipAfterLogi
 import applicationJob from '../views/ApplicationJob.vue';
 import detailAnnouncement from '../views/DetailAnnouncement.vue';
 import accessBlock from '../views/403.vue';
-import test from '../views/test.vue';
 import notFound from '../views/404.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/test',
-    name: 'test',
-    component: test,
-  },
   {
     path: '/',
     name: 'home',
