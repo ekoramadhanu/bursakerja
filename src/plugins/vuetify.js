@@ -19,7 +19,7 @@ export default new Vuetify({
       email: 'mdi-email',
       twitter: 'mdi-twitter',
       instagram: 'mdi-instagram',
-      phone: 'fas fa-phone-alt',
+      phone: 'mdi-phone',
       idCard: 'fas fa-id-card',
       padlock: 'fas fa-lock',
       eye: 'far fa-eye',

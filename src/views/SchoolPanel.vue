@@ -547,7 +547,6 @@ export default {
     entries: [],
     isLoading: false,
     searchLocation: null,
-    manually: false,
   }),
   computed: {
     itemsLocation() {
@@ -595,9 +594,6 @@ export default {
     'tip-tap-vuetify': TiptapVuetify,
   },
   methods: {
-    changeManually() {
-      this.manually = !this.manually;
-    },
     pagination() {
       this.loadingtable = true;
       this.school.splice(0, this.school.length);
@@ -626,7 +622,6 @@ export default {
       this.$nextTick(() => {
         this.editedItemSchool = { ...this.defaultItem };
         this.editedIndex = -1;
-        this.manually = false;
         this.$refs.form.reset();
         this.$refs.form.resetValidation();
       });
@@ -749,7 +744,6 @@ export default {
         this.editedIndex = -1;
         this.$refs.form.reset();
         this.$refs.form.resetValidation();
-        this.manually = false;
       });
     },
     openDialogDeactivate(item) {
@@ -797,7 +791,6 @@ export default {
         .finally(() => {
           this.loadingDeactive = false;
           this.dialogDeactive = false;
-          this.manually = false;
         });
     },
     openDialogActivate(item) {
@@ -845,7 +838,6 @@ export default {
         .finally(() => {
           this.loadingActivate = false;
           this.dialogActivate = false;
-          this.manually = false;
         });
     },
     capitalizeEachWord(str) {
