@@ -66,8 +66,12 @@
                       />
                     </v-col>
                     <v-col cols="12" xl="2" lg="2" md="2" sm="12" xs="12">
-                      <v-btn block color="primary" @click="searchJobSeeker()">
-                        cari pekerja
+                      <v-btn
+                        block
+                        color="primary font-weight-bold font-family"
+                        @click="searchJobSeeker()"
+                      >
+                        cari
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -173,12 +177,10 @@
         </v-row>
       </div>
     </div>
-    <footer-home />
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 
 export default {
@@ -224,9 +226,6 @@ export default {
         return { ...entry, name };
       });
     },
-  },
-  components: {
-    'footer-home': footer,
   },
   watch: {
     searchLocation() {
@@ -350,7 +349,10 @@ export default {
       this.$router.push(`/job-seeker-detail/${id}`);
     },
     capitalizeEachWord(str) {
-      return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
     },
     // method universal
     methodGetJobSeeker(page) {
