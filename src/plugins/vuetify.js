@@ -29,7 +29,7 @@ export default new Vuetify({
       UMKM: 'fas fa-building',
       blacklist: 'fas fa-user-times',
       admin: 'fas fa-user-shield',
-      school: 'fas fa-school',
+      school: 'mdi-school',
       article: 'fas fa-newspaper',
       contact: 'fas fa-comments',
       FAQ: 'fas fa-comment',

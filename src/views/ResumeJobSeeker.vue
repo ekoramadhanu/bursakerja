@@ -228,7 +228,7 @@
                         item-text="name"
                         item-value="id"
                         label="Kota/Kabupaten"
-                        :disable-lookup="province === null ? true: false "
+                        :disable-lookup="province === null ? true : false"
                         persistent-hint
                         return-object
                         :hint="
@@ -283,7 +283,7 @@
           ></v-skeleton-loader>
           <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
-             <p class="text-capitalize font-weight-bold text-h6 mb-8">
+              <p class="text-capitalize font-weight-bold text-h6 mb-8">
                 <span class="font-family"> Deskripsi Diri </span>
               </p>
               <v-textarea
@@ -417,7 +417,9 @@
               <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
                 <v-card-text class="pa-4">
                   <p class="text-capitalize font-weight-bold text-h6">
-                    <span class="font-family"> Keahlian &amp; Keterampilan </span>
+                    <span class="font-family">
+                      Keahlian &amp; Keterampilan
+                    </span>
                   </p>
                   <v-row>
                     <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
@@ -425,7 +427,10 @@
                         v-model="skillLanguange"
                         placeholder="Keahlian Bahasa"
                         :extensions="extensions"
-                        :card-props="{ height: '300', style: 'overflow: auto;' }"
+                        :card-props="{
+                          height: '300',
+                          style: 'overflow: auto;',
+                        }"
                       />
                     </v-col>
                     <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
@@ -433,7 +438,10 @@
                         v-model="skill"
                         placeholder="Keterampilan"
                         :extensions="extensions"
-                        :card-props="{ height: '300', style: 'overflow: auto;' }"
+                        :card-props="{
+                          height: '300',
+                          style: 'overflow: auto;',
+                        }"
                       />
                     </v-col>
                   </v-row>
@@ -470,24 +478,42 @@
           <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
               <p class="text-capitalize font-weight-bold text-h6">
-                <span class="font-family"> Data Pekerjaan yang Diinginkan </span>
+                <span class="font-family">
+                  Data Pekerjaan yang Diinginkan
+                </span>
               </p>
               <v-row>
                 <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
-                  <v-text-field
+                  <v-autocomplete
                     v-model="deiredRegion"
-                    :rules="deiredRegionRules"
+                    :items="itemsDeiredRegion"
+                    :loading="isLoadingDeiredRegion"
+                    :search-input.sync="searchDeiredRegion"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
                     label="Wilayah yang Diinginkan"
-                    required
+                    persistent-hint
+                    :hint="
+                      deiredRegion === ''
+                        ? ''
+                        : `data yang disimpan : ${deiredRegion}`
+                    "
+                    :rules="deiredRegionRules"
                   />
                 </v-col>
                 <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
-                   <v-text-field
+                  <v-select
                     v-model="location"
-                    :rules="locationRules"
+                    :items="locationList"
+                    item-text="name"
+                    item-value="name"
                     label="Penempatan"
+                    :rules="locationRules"
+                    single-line
                     required
-                  />
+                  ></v-select>
                 </v-col>
                 <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
                   <v-text-field
@@ -660,7 +686,8 @@ export default {
     fileMessage: '',
     location: '',
     locationRules: [(v) => !!v || 'Penempatan Tidak Boleh Kosong'],
-    deiredRegion: '',
+    locationList: [{ name: 'Dalam Negeri' }, { name: 'Luar Negeri' }],
+    // deiredRegion: '',
     deiredRegionRules: [
       (v) => !!v || 'Wilayah Yang Diinginkan Tidak Boleh Kosong',
     ],
@@ -699,7 +726,8 @@ export default {
       (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
       (v) => /^[a-zA-z., ]*$/.test(v)
         || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',
-      (v) => (v || '').length <= 250 || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
+      (v) => (v || '').length <= 250
+        || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
     ],
     skillLanguange: '',
     skill: '',
@@ -730,6 +758,10 @@ export default {
     entriesDistrict: [],
     isLoadingDistrict: false,
     searchDistrict: null,
+    deiredRegion: '',
+    entriesDeiredRegion: [],
+    isLoadingDeiredRegion: false,
+    searchDeiredRegion: null,
     selectedFile: null,
     isSelecting: false,
   }),
@@ -755,6 +787,12 @@ export default {
     },
     itemsDistrict() {
       return this.entriesDistrict.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+    itemsDeiredRegion() {
+      return this.entriesDeiredRegion.map((entry) => {
         const { name } = entry;
         return { ...entry, name };
       });
@@ -798,6 +836,38 @@ export default {
         })
         // eslint-disable-next-line no-return-assign
         .finally(() => (this.isLoadingCity = false));
+    },
+    searchDeiredRegion() {
+      // Items have already been loaded
+      if (this.entriesDeiredRegion.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingDeiredRegion) return;
+
+      this.isLoadingDeiredRegion = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}city`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.city.forEach((i) => {
+            this.entriesDeiredRegion.push({
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+              provinceId: i.provinceId,
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingDeiredRegion = false));
     },
     searchProvince() {
       // Items have already been loaded
@@ -1012,7 +1082,10 @@ export default {
       this.$refs.uploader.click();
     },
     capitalizeEachWord(str) {
-      return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
     },
   },
   beforeCreate() {
