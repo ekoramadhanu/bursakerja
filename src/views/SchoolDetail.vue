@@ -2,57 +2,57 @@
   <div class="mt-12 pt-1">
     <div class="d-flex justify-center mb-2">
       <div class="max-width px-4">
-        <transition name="fade" appear>
-          <v-img
-            :src="image"
-            aspect-ratio="1.7"
-            width="100vw"
-            max-width="230"
-            height="100vh"
-            max-height="200"
-            class="mx-auto"
-            v-if="!skeleton"
-            contain
-          ></v-img>
-        </transition>
+        <v-img
+          :src="image"
+          aspect-ratio="1.7"
+          width="100vw"
+          max-width="230"
+          height="100vh"
+          max-height="200"
+          class="mx-auto"
+          v-if="!skeleton"
+          contain
+        ></v-img>
         <v-skeleton-loader
           ref="skeleton"
           type="image"
           v-if="skeleton"
           class="mx-auto"
         ></v-skeleton-loader>
-        <transition name="fade" appear>
-          <p
-            class="text-uppercase mb-0 mt-3 text-center text-h5"
-            v-if="!skeleton"
-          >
+        <p
+          class="mb-0 mt-6 text-h5 font-weight-bold"
+          v-if="!skeleton"
+        >
+          <span class="font-family">
             {{ nameSchool }}
-          </p>
-        </transition>
+          </span>
+        </p>
         <v-skeleton-loader
           ref="skeleton"
           type="sentences"
           v-if="skeleton"
           class="mx-auto"
         ></v-skeleton-loader>
-        <transition name="fade" appear>
-          <p class="text-capitalize mb-0 mt-3 max-width-about-us mx-auto" v-if="!skeleton">
-            lokasi : {{ locationSchool }}
-          </p>
-        </transition>
+        <p
+          class="mt-4 text-subtitle-1"
+          v-if="!skeleton"
+        >
+          <v-icon size="15" class="mr-1">$location</v-icon>
+          <span class="font-family">
+            {{ locationSchool }}
+          </span>
+        </p>
         <v-skeleton-loader
           ref="skeleton"
           type="sentences"
           v-if="skeleton"
           class="mx-auto"
         ></v-skeleton-loader>
-        <transition name="fade" appear>
-          <div
-            class="text-justify max-width-about-us mt-3 mx-auto"
-            v-html="content"
-            v-if="!skeleton"
-          ></div>
-        </transition>
+        <div
+          class="text-justify mt-6  font-family"
+          v-html="content"
+          v-if="!skeleton"
+        ></div>
         <v-skeleton-loader
           ref="skeleton"
           type="paragraph"
@@ -128,29 +128,25 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  width: 90vw;
+  max-width: 1044px;
 }
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 100vw;
-  }
+div >>> ul > li {
+  line-height: 25px !important;
 }
-.max-width-about-us {
-  max-width: 650px;
-}
-div >>> ul {
-  line-height: 18px !important;
-}
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
 }
 </style>

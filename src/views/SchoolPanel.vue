@@ -6,7 +6,7 @@
           :headers="headerSchool"
           :items="school"
           v-if="!skeleton"
-          class="elevation-3 mt-3"
+          class="elevation-3 mt-3 font-family"
           hide-default-footer
           :loading="loadingtable"
           :items-per-page="10"
@@ -16,7 +16,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <p class="ma-0 hidden-xs-only">Daftar Sekolah Unggulan</p>
+                  <p class="ma-0">
+                    <span class="fon-family"> Daftar Sekolah Unggulan </span>
+                  </p>
                 </div>
               </v-toolbar-title>
               <v-spacer></v-spacer>
@@ -35,7 +37,7 @@
                     v-on="on"
                   >
                     <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 white--text">tambah</p>
+                    <p class="ma-0 white--text font-weight-bold">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
@@ -44,7 +46,7 @@
                       <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      tambah data sekolah
+                      <span class="font-family"> tambah data sekolah </span>
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn @click="saveAdd()" elevation="0" color="white">
@@ -53,8 +55,11 @@
                         color="primary"
                         v-if="loadingAdd"
                       />
-                      <p class="ma-0 primary--text" v-if="!loadingAdd">
-                        simpan
+                      <p
+                        class="ma-0 primary--text font-weight-bold"
+                        v-if="!loadingAdd"
+                      >
+                        <span class="font-family"> simpan </span>
                       </p>
                     </v-btn>
                   </v-toolbar>
@@ -77,26 +82,9 @@
                         item-text="name"
                         item-value="name"
                         label="Lokasi Sekolah"
-                        v-if="!manually"
                         persistent-hint
-                        hint="Jika Tidak Ada Silahkan Pilih Lain - Lain "
                         :rules="locationRules"
                       />
-                      <v-text-field
-                        v-model="editedItemSchool.location"
-                        :rules="locationRules"
-                        label="Lokasi Sekolah"
-                        required
-                        v-if="manually"
-                      />
-                      <v-btn
-                        text
-                        class="text-capitalize pa-0"
-                        color="primary"
-                        @click="changeManually()"
-                      >
-                        lain-lain
-                      </v-btn>
                       <v-file-input
                         label="Unggah Gambar Sekolah (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
@@ -122,6 +110,42 @@
                         }"
                       />
                     </v-form>
+                    <p
+                      class="mt-4 mb-0 text-uppercase font-weight-bold text-subtitle-1"
+                    >
+                      <span class="font-family"> pratinjau </span>
+                    </p>
+                    <v-divider class="m-4"></v-divider>
+                    <v-img
+                      :src="editedItemSchool.image"
+                      aspect-ratio="1.7"
+                      width="100vw"
+                      max-width="230"
+                      height="100vh"
+                      max-height="200"
+                      class="mx-auto"
+                      v-if="!skeleton"
+                      contain
+                    ></v-img>
+                    <p
+                      class="mb-0 mt-6 text-h5 font-weight-bold"
+                      v-if="!skeleton"
+                    >
+                      <span class="font-family">
+                        {{ editedItemSchool.name }}
+                      </span>
+                    </p>
+                    <p class="mt-4 text-subtitle-1" v-if="!skeleton">
+                      <v-icon size="15" class="mr-1">$location</v-icon>
+                      <span class="font-family">
+                        {{ editedItemSchool.location }}
+                      </span>
+                    </p>
+                    <div
+                      class="text-justify mt-6 font-family"
+                      v-html="editedItemSchool.description"
+                      v-if="!skeleton"
+                    ></div>
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -233,7 +257,9 @@
               <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              Edit data sekolah
+              <span class="font-family">
+                Edit data sekolah
+              </span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn @click="saveUpdate()" elevation="0" color="white">
@@ -242,13 +268,15 @@
                 color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 primary--text" v-if="!loadingUpdate">
-                simpan
+              <p class="ma-0 primary--text font-weight-bold" v-if="!loadingUpdate">
+                <span class="font-family">
+                  simpan
+                </span>
               </p>
             </v-btn>
           </v-toolbar>
 
-          <v-card-text>
+          <v-card-text class="size-max mx-auto">
             <v-form ref="form" lazy-validation>
               <v-text-field
                 v-model="editedItemSchool.name"
@@ -266,29 +294,10 @@
                 item-text="name"
                 item-value="name"
                 label="Lokasi Sekolah"
-                v-if="!manually"
                 persistent-hint
-                :hint="`Jika Tidak Ada Silahkan Pilih Lain - Lain
-                (data disimpan: ${editedItemSchool.location})`"
+                :hint="`data disimpan: ${editedItemSchool.location}`"
                 :rules="locationRules"
               />
-              <v-text-field
-                v-model="editedItemSchool.location"
-                :rules="locationRules"
-                label="Lokasi Sekolah"
-                required
-                persistent-hint
-                :hint="`(data disimpan: ${editedItemSchool.location})`"
-                v-if="manually"
-              />
-              <v-btn
-                text
-                class="text-capitalize pa-0"
-                color="primary"
-                @click="changeManually()"
-              >
-                lain-lain
-              </v-btn>
               <v-file-input
                 label="Unggah Gambar Sekolah (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
@@ -311,6 +320,39 @@
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
             </v-form>
+            <p
+              class="mt-4 mb-0 text-uppercase font-weight-bold text-subtitle-1"
+            >
+              <span class="font-family"> pratinjau </span>
+            </p>
+            <v-divider class="m-4"></v-divider>
+            <v-img
+              :src="editedItemSchool.image"
+              aspect-ratio="1.7"
+              width="100vw"
+              max-width="230"
+              height="100vh"
+              max-height="200"
+              class="mx-auto"
+              v-if="!skeleton"
+              contain
+            ></v-img>
+            <p class="mb-0 mt-6 text-h5 font-weight-bold" v-if="!skeleton">
+              <span class="font-family">
+                {{ editedItemSchool.name }}
+              </span>
+            </p>
+            <p class="mt-4 text-subtitle-1" v-if="!skeleton">
+              <v-icon size="15" class="mr-1">$location</v-icon>
+              <span class="font-family">
+                {{ editedItemSchool.location }}
+              </span>
+            </p>
+            <div
+              class="text-justify mt-6 font-family"
+              v-html="editedItemSchool.description"
+              v-if="!skeleton"
+            ></div>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -357,7 +399,7 @@
       <v-dialog v-model="dialogActivate" persistent max-width="450">
         <v-card>
           <v-card-title class="headline primary white--text text-capitalize">
-            ubah data perusahaan mitra
+            ubah data sekolah unggulan
           </v-card-title>
           <v-card-text>
             <div class="d-flex justify-start align-center pa-2">
@@ -535,7 +577,9 @@ export default {
         .then((res) => {
           res.data.city.forEach((i) => {
             this.entries.push({
-              name: i.city_name,
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+              provinceId: i.provinceId,
             });
           });
         })
@@ -803,6 +847,12 @@ export default {
           this.dialogActivate = false;
           this.manually = false;
         });
+    },
+    capitalizeEachWord(str) {
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
     },
 
     // method universal

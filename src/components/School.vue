@@ -1,118 +1,118 @@
 <template>
   <div class="d-flex justify-center mb-2">
     <div class="max-width">
-      <v-row>
-        <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
-          <v-card elevation="3">
-            <v-card-title
-              class="text-capitalize pa-3 text-subtitle-1 font-weight-bold"
-            >
-              pilih kriteria
-            </v-card-title>
-            <v-card-text class="pb-0">
+      <v-row class="mt-6">
+        <v-col xl="12" lg="12" md="12" sm="12" xs="12">
+          <v-card elevation="3" class="rounded-xl" width="100vw">
+            <v-card-text class="pa-4">
               <v-form lazy-validation>
-                <v-autocomplete
-                  v-model="search"
-                  :items="itemsLocation"
-                  :loading="isLoading"
-                  :search-input.sync="searchLocation"
-                  hide-no-data
-                  hide-selected
-                  item-text="name"
-                  item-value="name"
-                  label="Lokasi Sekolah"
-                  prepend-icon="$location"
-                  append-outer-icon="mdi-close"
-                  @click:append-outer="resetLocation()"
-                  outlined
-                  dense
-                  persistent-hint
-                  hint="jika tidak ada lokasi yang anda cari, silahkan hubungi pihak kami"
-                />
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="1"
+                    xl="1"
+                    md="1"
+                    sm="12"
+                    xs="12"
+                    class="d-flex align-center"
+                  >
+                    <p
+                      class="mb-0 font-weight-bold text-capitalize text-subtitle-1 black--text"
+                    >
+                      <span class="font-family"> kriteria </span>
+                    </p>
+                  </v-col>
+                  <v-col cols="12" lg="9" xl="9" md="9" sm="12" xs="12">
+                    <v-autocomplete
+                      v-model="search"
+                      :items="itemsLocation"
+                      :loading="isLoading"
+                      :search-input.sync="searchLocation"
+                      hide-no-data
+                      hide-selected
+                      item-text="name"
+                      item-value="name"
+                      label="Lokasi"
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="12" lg="2" xl="2" md="2" sm="12" xs="12">
+                    <v-btn color="primary" @click="searchSchool()">
+                      cari sekolah
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-form>
             </v-card-text>
-            <v-card-actions class="pt-0 px-4 pb-4">
-              <v-btn
-                class="text-capitalize"
-                block
-                color="primary"
-                @click="searchSchool()"
-              >
-                cari sekolah
-              </v-btn>
-            </v-card-actions>
           </v-card>
-        </v-col>
-        <v-col cols="12" xl="8" lg="8" md="12" sm="12" xs="12">
-          <v-card elevation="3">
-            <v-card-title class="pa-3 d-flex justify-space-between">
-              <p class="text-capitalize ma-0 text-subtitle-1 font-weight-bold">
-                data sekolah ungulan
-              </p>
-              <p
-                class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
-                v-if="!skeleton"
-              >
-                {{ min }} - {{ max }} dari {{ lengthData }} sekolah
-              </p>
-            </v-card-title>
-          </v-card>
-          <div v-if="!skeleton">
-            <div v-for="item in school" :key="item.id">
-              <transition name="fade" appear>
-                <v-card elevation="3" class="mt-4 pa-3">
-                  <v-card-text class="pa-2">
-                    <div class="d-flex">
-                      <v-img
-                        width="150"
-                        max-width="150"
-                        height="120"
-                        max-height="120"
-                        :src="item.image"
-                        contain
-                        class="mr-2"
-                      ></v-img>
-                      <div>
-                        <p class="text-capitalize ma-0 text-h6">
-                          {{ item.name }}
+          <div v-if="!skeleton" class="mt-4">
+            <div v-if="school.length > 0">
+              <div v-for="item in school" :key="item.id">
+                <v-card elevation="3" class="rounded-xl mt-4" width="100vw" @click="href(item.id)">
+                  <v-card-text class="pa-4">
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        xl="2"
+                        lg="2"
+                        md="2"
+                        sm="12"
+                        xs="12"
+                        class="d-flex justify-center align-center"
+                      >
+                        <img
+                          :src="item.image"
+                          class="preview-img"
+                          aspect-ratio="1.7"
+                        />
+                      </v-col>
+                      <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12">
+                        <p class="font-weight-bold text-h6 black--text mb-0">
+                          <span class="font-family">
+                            {{ item.name }}
+                          </span>
                         </p>
-                        <p
-                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                        >
-                          {{ item.location }}
+                        <p class="black--text">
+                          <v-icon size="15" class="mr-3">$location</v-icon>
+                          <span class="font-family">
+                            {{ item.location }}
+                          </span>
                         </p>
-                      </div>
-                    </div>
-                    <div class="mt-2 text-subtitle-2 font-weight-regular">
-                      {{ item.description }}
-                    </div>
+                        <p class="black--text">
+                          <span class="font-family">
+                            {{ item.description }}
+                          </span>
+                        </p>
+                      </v-col>
+                    </v-row>
                   </v-card-text>
-                  <v-card-actions class="d-flex justify-end pa-1">
-                    <v-btn
-                      text
-                      color="primary"
-                      class="text-capitalize"
-                      :to="`/school-detail/${item.id}`"
-                    >
-                      selengkapnya
-                    </v-btn>
-                  </v-card-actions>
                 </v-card>
-              </transition>
+              </div>
+              <div class="text-canter mt-2">
+                <v-pagination
+                  v-model="page"
+                  total-visible="10"
+                  :length="pageCount"
+                  @input="pagination()"
+                ></v-pagination>
+              </div>
+            </div>
+            <div v-if="school.length === 0" class="mt-4">
+              <p class="font-weight-bold text-subtitle-1 text-center text-capitalize">
+                <span class="font-family">
+                  data belum ada di sistem kami. untuk lebih lanjut silahkan hubungi pihak kami
+                </span>
+              </p>
             </div>
           </div>
-          <div v-if="skeleton">
-            <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-            <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-            <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-          </div>
-          <div class="text-canter mt-2">
-            <v-pagination
-              v-model="page"
-              total-visible="10"
-              :length="pageCount"
-              @input="pagination()"
-            ></v-pagination>
+          <div v-if="skeleton" class="mt-4">
+            <div v-for="i in 4" :key="i">
+              <v-skeleton-loader
+                class="mx-auto"
+                max-width="1044"
+                type="card"
+              ></v-skeleton-loader>
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -161,16 +161,18 @@ export default {
       this.isLoading = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}school/location`, {
+      fetch(`${this.$store.state.domain}city`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
       })
         .then((res) => res.json())
         .then((res) => {
-          res.data.location.forEach((i) => {
+          res.data.city.forEach((i) => {
             this.entries.push({
-              name: i.name,
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+              provinceId: i.provinceId,
             });
           });
         })
@@ -208,6 +210,15 @@ export default {
       this.skeleton = true;
       this.school.splice(0, this.school.length);
       this.methodGetSchool(this.page);
+    },
+    capitalizeEachWord(str) {
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
+    },
+    href(id) {
+      this.$router.push(`/school-detail/${id}`);
     },
     // method universal
     methodGetSchool(page) {
@@ -345,7 +356,7 @@ export default {
             }
             let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
             if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              shortDesc = `${shortDesc.substr(0, 300)}.....`;
             }
             this.school.push({
               id: i.id,
@@ -387,17 +398,14 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  width: 90vw;
+  max-width: 1044px;
 }
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 100vw;
-  }
+.preview-img {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
 }
 </style>
