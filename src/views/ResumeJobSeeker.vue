@@ -275,6 +275,12 @@
               </v-row>
             </v-card-text>
           </v-card>
+          <v-skeleton-loader
+            ref="skeleton"
+            type="card"
+            v-if="skeleton"
+            class="mt-3"
+          ></v-skeleton-loader>
           <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
              <p class="text-capitalize font-weight-bold text-h6 mb-8">
@@ -307,6 +313,12 @@
               </v-row>
             </v-card-text>
           </v-card>
+          <v-skeleton-loader
+            ref="skeleton"
+            type="card"
+            v-if="skeleton"
+            class="mt-3"
+          ></v-skeleton-loader>
           <v-row class="mt-4">
             <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
               <v-card class="rounded-xl" elevation="3" v-if="!skeleton">
@@ -374,6 +386,12 @@
                   </v-row>
                 </v-card-text>
               </v-card>
+              <v-skeleton-loader
+                ref="skeleton"
+                type="card"
+                v-if="skeleton"
+                class="mt-3"
+              ></v-skeleton-loader>
             </v-col>
             <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
               <v-card class="rounded-xl" elevation="3" v-if="!skeleton">
@@ -386,6 +404,12 @@
                   />
                 </v-card-text>
               </v-card>
+              <v-skeleton-loader
+                ref="skeleton"
+                type="card"
+                v-if="skeleton"
+                class="mt-3"
+              ></v-skeleton-loader>
             </v-col>
           </v-row>
           <v-row class="mt-4">
@@ -487,12 +511,6 @@
             </v-btn>
           </div>
         </v-form>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="card"
-          v-if="skeleton"
-          class="mt-3"
-        ></v-skeleton-loader>
       </v-container>
       <v-snackbar
         v-model="hasSaved"
