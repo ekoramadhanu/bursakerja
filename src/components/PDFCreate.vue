@@ -165,7 +165,8 @@ export default {
                         margin: [0, 10, 0, 0],
                       },
                       {
-                        text: `${this.data.placeOfBirth}, ${date[2]} ${this.$store.state.month[date[1] - 1]} ${date[0]}`,
+                        text: `${this.data.placeOfBirth}, ${date[2]}
+                      ${this.$store.state.month[date[1] - 1]} ${date[0]}`,
                         style: 'subtitle3',
                       },
                       {
@@ -219,7 +220,7 @@ export default {
                         margin: [0, 10, 0, 0],
                       },
                       {
-                        text: `${this.data.address}, 
+                        text: `${this.data.address},
                         kec ${this.data.district}, kab/kota ${this.data.city},
                         provinsi ${this.data.province}`,
                         style: 'subtitle3',

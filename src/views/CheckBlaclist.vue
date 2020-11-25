@@ -71,7 +71,7 @@
           </p>
         </div>
       </v-snackbar>
-    ></v-main>
+    </v-main>
   </div>
 </template>
 
