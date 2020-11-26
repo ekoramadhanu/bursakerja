@@ -1,34 +1,63 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-4">
-      <div class="max-width px-4">
-        <h2 class="text-center mt-3 mb-2 text-uppercase black--text">
-          frequently asked questions
-        </h2>
-        <h5 class="text-capitalize text-center mb-12" v-if="!skeleton">
-          terakhir diperbaharui: {{ dateUpdated }}
-        </h5>
+  <div>
+    <div class="justify-center">
+      <v-container>
         <v-skeleton-loader
           ref="skeleton"
-          type="text"
+          type="image"
           v-if="skeleton"
+          max-height="400"
         ></v-skeleton-loader>
-        <div class="max-width-faq mx-auto" v-html="content" v-if="!skeleton"></div>
         <v-skeleton-loader
           ref="skeleton"
-          type="paragraph"
+          type="article"
           v-if="skeleton"
         ></v-skeleton-loader>
+      </v-container>
+      <div v-if="!skeleton">
+        <v-row class="mt-4">
+          <v-col cols="8" offset="2">
+            <v-row>
+              <v-container>
+                <v-btn text x-small color="dark grey" class="pa-0 font-family" to="/">
+                  kembali ke beranda
+                </v-btn>
+              </v-container>
+            </v-row>
+            <v-row class="mt-4">
+              <v-container>
+                <h3 class="text-h3 mb-2 font-weight-bold">
+                  <span class="font-family">
+                    Frequently Asked Questions
+                  </span>
+                </h3>
+                <p class="textsubtitle-1">
+                  <span class="font-family">
+                    Diperbarui: {{ dateUpdated }}
+                  </span>
+                </p>
+              </v-container>
+            </v-row>
+            <v-row>
+              <v-container>
+                <div
+                  class="text-justify mt-3 font-family"
+                  v-html="content"
+                  v-if="!skeleton"
+                ></div>
+              </v-container>
+            </v-row>
+          </v-col>
+        </v-row>
       </div>
+      <floating-button/>
     </div>
-    <footer-home />
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
+import floatingButton from '@/components/FloatingButton.vue';
 import axios from 'axios';
-import goTo from 'vuetify/es5/services/goto';
 
 export default {
   data: () => ({
@@ -38,7 +67,7 @@ export default {
     skeleton: true,
   }),
   components: {
-    'footer-home': footer,
+    'floating-button': floatingButton,
   },
   beforeCreate() {
     axios({
@@ -63,12 +92,6 @@ export default {
       .finally(() => {
         this.skeleton = false;
       });
-  },
-  created() {
-    goTo(0);
-  },
-  updated() {
-    goTo(0);
   },
   beforeDestroy() {
     this.content = null;
@@ -113,10 +136,10 @@ div >>> li > p {
 div >>> li {
   margin-bottom: 10px;
 }
-div >>> li > ol{
+div >>> li > ol {
   margin: 0px;
 }
-div >>> li > ul{
+div >>> li > ul {
   margin: 0px;
 }
 </style>

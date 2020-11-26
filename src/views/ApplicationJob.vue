@@ -1,8 +1,7 @@
 <template>
   <div>
-    <v-main class="grey d-flex flex-column justify-center">
+    <v-main class="d-flex flex-column justify-center">
       <v-container class="max-width">
-
         <v-card elevation="3">
           <v-card-title class="pa-3 d-flex justify-space-between">
             <p class="text-capitalize ma-0 text-subtitle-1 font-weight-bold">
@@ -18,8 +17,7 @@
         </v-card>
         <div v-if="jobSeeker.length > 0 && !skeleton">
           <div v-for="item in jobSeeker" :key="item.id">
-            <transition name="fade" appear>
-              <v-card elevation="3" class="mt-4 pa-3">
+            <!-- <v-card elevation="3" class="mt-4 pa-3">
                 <v-card-text class="pa-2">
                   <div class="d-flex">
                     <v-img
@@ -72,31 +70,77 @@
                     selengkapnya
                   </v-btn>
                 </v-card-actions>
-              </v-card>
-            </transition>
+              </v-card> -->
+            <v-card
+              elevation="3"
+              class="rounded-xl mt-4"
+              width="100vw"
+              @click="href(item.id)"
+            >
+              <v-card-text class="pa-4">
+                <v-row>
+                  <v-col
+                    cols="12"
+                    xl="2"
+                    lg="2"
+                    md="2"
+                    sm="12"
+                    xs="12"
+                    class="d-flex justify-center align-center"
+                  >
+                    <img
+                      :src="item.image"
+                      class="preview-img"
+                      aspect-ratio="1.7"
+                    />
+                  </v-col>
+                  <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12">
+                    <p class="font-weight-bold text-h6 black--text mb-0">
+                      <span class="font-family">
+                        {{ item.name }}
+                      </span>
+                    </p>
+                    <p class="text-subtitle-2 black--text mb-2">
+                      <span class="font-family">
+                        {{ item.position }}
+                      </span>
+                    </p>
+                    <p class="black--text mb-1 text-subtitle-2">
+                      <v-icon size="15" class="mr-3">$location</v-icon>
+                      <span class="font-family">
+                        {{ item.location }}
+                      </span>
+                    </p>
+                    <p class="black--text text-subtitle-2 mb-4">
+                      <v-icon size="15" class="mr-3">$school</v-icon>
+                      <span class="font-family">
+                        {{ item.school }}
+                      </span>
+                    </p>
+                    <p class="black--text">
+                      <span class="font-family">
+                        {{ item.desc }}
+                      </span>
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </div>
+          <div class="text-canter mt-2">
+            <v-pagination
+              v-model="page"
+              total-visible="10"
+              :length="pageCount"
+              v-if="!skeleton"
+              @input="pagination()"
+            ></v-pagination>
           </div>
         </div>
         <div v-if="!skeleton && jobSeeker.length === 0">
-          <v-card elevation="3" class="mt-4 pa-3">
-            <typical
-              class="text-center text-capitalize"
-              :steps="[
-                `data belum ada di dalam sistem kami. silahkan hubungi pihak kami
-                    untuk bertanya lebih lanjut`,
-                6000,
-              ]"
-              :wrapper="'p'"
-            />
-          </v-card>
-        </div>
-        <div class="text-canter mt-2">
-          <v-pagination
-            v-model="page"
-            total-visible="10"
-            :length="pageCount"
-            v-if="!skeleton"
-            @input="pagination()"
-          ></v-pagination>
+          <p class="text-capitalize text-center font-family mt-4">
+            belum ada karyawan yang melamar
+          </p>
         </div>
       </v-container>
     </v-main>
@@ -105,7 +149,6 @@
 
 <script>
 import axios from 'axios';
-import typical from 'vue-typical';
 
 export default {
   data: () => ({
@@ -134,8 +177,10 @@ export default {
       return (this.page - 1) * 20 + this.jobSeeker.length;
     },
   },
-  components: {
-    typical,
+  methods: {
+    href(id) {
+      this.$router.push(`/job-seeker-detail/${id}`);
+    },
   },
   beforeCreate() {
     axios({
@@ -212,22 +257,16 @@ export default {
 
 <style scoped>
 .max-width {
-  width: 90vw;
-  min-height: 100vh;
-}
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 90vw;
-  }
+  max-width: 1044px;
 }
 .cursor {
   cursor: pointer;
 }
-@media screen and (max-width: 600px) {
-  .max-width {
-    max-width: 600px;
-    width: 100vw;
-  }
+.preview-img {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  overflow: hidden;
+  border-radius: 50%;
 }
 </style>

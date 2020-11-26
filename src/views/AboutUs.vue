@@ -1,41 +1,46 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
-      <div class="max-width px-4">
+  <div class="mt-12">
+    <v-container class="max-width">
+      <v-skeleton-loader
+        class="mx-auto"
+        ref="skeleton"
+        type="image"
+        v-if="skeleton"
+        max-height="400"
+        max-width="1044"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        ref="skeleton"
+        type="article"
+        v-if="skeleton"
+      ></v-skeleton-loader>
+      <div v-if="!skeleton" class="d-flex justify-center">
         <v-img
           :src="image"
-          aspect-ratio="1.7"
-          width="100vw"
-          max-width="970"
-          max-height="220"
-          class="mb-6 mt-3"
-          contain
-          v-if="!skeleton"
-        ></v-img>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="image"
-          class="mb-6 mt-3"
-          v-if="skeleton"
-        ></v-skeleton-loader>
-        <div
-          class="max-width-about-us mx-auto text-justify"
-          v-html="content"
-          v-if="!skeleton"
-        ></div>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="paragraph"
-          v-if="skeleton"
-        ></v-skeleton-loader>
+          height="400"
+          max-width="1044"
+          aspect-ratio="1.7778"
+          class="image-cover"
+        />
       </div>
-    </div>
-    <footer-home />
+      <div v-if="!skeleton">
+        <div class="py-3 mt-3">
+          <v-btn text x-small color="dark grey" class="pa-0 font-family" to="/">
+            kembali ke beranda
+          </v-btn>
+        </div>
+        <h1 class="text-h3 mb-4 font-weight-bold">
+          <span class="font-family">
+            Tentang Kami
+          </span>
+        </h1>
+        <div class="text-justify font-family" v-html="content" v-if="!skeleton"></div>
+      </div>
+    </v-container>
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
 
@@ -45,13 +50,11 @@ export default {
     image: '',
     skeleton: true,
   }),
-  components: {
-    'footer-home': footer,
-  },
+  components: {},
   beforeCreate() {
     axios({
       baseURL: `${this.$store.state.domain}about-us`,
-      method: 'get',
+      method: 'GET',
       headers: {
         'x-api-key': this.$store.state.apiKey,
       },
@@ -97,20 +100,10 @@ div >>> ol {
 div >>> li > p {
   margin: 3px;
 }
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  width: 90vw;
+  max-width: 1044px;
 }
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 100vw;
-  }
-}
-.max-width-about-us {
-  max-width: 650px;
+.image-cover {
+  object-fit: cover;
 }
 </style>

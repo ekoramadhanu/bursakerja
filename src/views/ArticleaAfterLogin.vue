@@ -7,42 +7,40 @@
             <div v-if="!skeleton">
               <div v-for="item in article" :key="item.id">
                 <transition name="fade" appear>
-                  <v-card elevation="3" class="mt-4 pa-3">
-                    <v-card-text class="pa-2">
-                      <div class="d-flex">
-                        <div>
-                          <router-link
-                            :to="`/detail-article-login/${item.id}`"
-                            class="text-decoration-none"
-                          >
-                            <p
-                              class="text-capitalize ma-0 text-h6 primary--text"
-                            >
-                              {{ item.title }}
-                            </p>
-                          </router-link>
-                          <div class="d-flex">
-                            <p
-                              class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
-                            >
-                              <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
-                              admin
-                            </p>
-                            <p
-                              class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                            >
-                              <v-icon size="13" class="mr-1">$calendar</v-icon>
-                              {{ item.date }}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="mt-2 text-subtitle-2 font-weight-regular black--text"
+                  <v-card elevation="3" class="mt-4 pa-2">
+                    <v-card-title
+                      ><router-link
+                        :to="`/detail-article-login/${item.id}`"
+                        class="text-decoration-none"
+                        >{{ item.title }}
+                      </router-link></v-card-title
+                    >
+                    <v-card-subtitle
+                      ><span
+                        class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
                       >
-                        {{ item.description }}
-                      </div>
+                        <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                        admin
+                      </span>
+                      <span
+                        class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                      >
+                        <v-icon size="13" class="mr-1">$calendar</v-icon>
+                        {{ item.date }}
+                      </span></v-card-subtitle
+                    >
+                    <v-card-text>
+                      {{ item.description }}
                     </v-card-text>
+                    <v-card-actions class="d-flex">
+                      <v-btn
+                        :to="`/detail-article-login/${item.id}`"
+                        text
+                        color="primary font-family"
+                      >
+                        Baca Selengkapnya
+                      </v-btn>
+                    </v-card-actions>
                   </v-card>
                 </transition>
               </div>
@@ -55,11 +53,6 @@
                 @input="pagination()"
                 v-if="!skeleton"
               ></v-pagination>
-            </div>
-            <div v-if="skeleton">
-              <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
-              <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
-              <v-skeleton-loader ref="skeleton" type="card"></v-skeleton-loader>
             </div>
           </v-col>
         </v-row>
@@ -153,7 +146,7 @@ export default {
           }
         })
         .catch((error) => {
-        // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console
           console.log(error);
         })
         .finally(() => {
@@ -238,4 +231,7 @@ export default {
 </script>
 
 <style scoped>
+.size-max {
+  max-width: 1044px;
+}
 </style>

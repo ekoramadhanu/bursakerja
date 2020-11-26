@@ -2,37 +2,26 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-icon class="mr-2 white--text">$UMKM</v-icon>
-            <v-toolbar-title
-              class="font-weight-light text-capitalize white--text"
-              >tentang kami</v-toolbar-title
-            >
+            <v-toolbar-title class="font-weight-light white--text">
+              <span class="font-family"> Tentang Kami yang Ditampilkan </span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn color="white" fab small @click="isEditing = !isEditing">
-              <v-icon v-if="isEditing" class="primary--text">mdi-close</v-icon>
-              <v-icon v-else class="primary--text">mdi-pencil</v-icon>
+            <v-btn color="white" icon @click="isEditing = !isEditing">
+              <v-icon v-if="isEditing">mdi-close</v-icon>
+              <v-icon v-else>mdi-pencil</v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <v-form ref="form" lazy-validation>
+            <v-form ref="form" lazy-validation v-if="isEditing">
               <v-file-input
-                label="Unggah Gambar Bursa Kerja (Maks 1 MB) Dengan Ukuran 970x220"
+                label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 1044x400"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
                 :rules="previewImage !== null ? [] : imageRules"
-                :disabled="!isEditing"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -44,14 +33,34 @@
               />
               <tip-tap-vuetify
                 v-model="content"
+                class="font-family"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
                 :extensions="extensions"
-                :disabled="!isEditing"
               />
             </v-form>
+            <p
+              class="text-subtitle-1 mb-0 mt-4 text-uppercase font-weight-bold"
+              v-if="isEditing"
+            >
+              <span class="font-family"> pratinjau </span>
+            </p>
+            <v-divider v-if="isEditing" class="mb-4"></v-divider>
+            <div>
+              <v-img
+                :src="previewImage"
+                height="400"
+                max-width="1044"
+                aspect-ratio="1.7778"
+                class="mb-4"
+              />
+              <div
+                class="text-justify font-family black--text"
+                v-html="content"
+                v-if="!skeleton"
+              ></div>
+            </div>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
+          <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>
             <v-btn :disabled="!isEditing" color="primary" @click="save">
               <v-progress-circular
@@ -59,12 +68,7 @@
                 color="white"
                 v-if="loadingSave"
               ></v-progress-circular>
-              <p
-                class="text-capitalize white--text my-auto"
-                v-if="!loadingSave"
-              >
-                simpan
-              </p>
+              <p class="white--text my-auto" v-if="!loadingSave">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -173,7 +177,7 @@ export default {
           this.loadingSave = true;
           axios({
             baseURL: `${this.$store.state.domain}about-us/${this.idAboutUs}`,
-            method: 'patch',
+            method: 'PATCH',
             headers: {
               'x-api-key': this.$store.state.apiKey,
               authorization: `Bearer ${this.$cookies.get('token')}`,
@@ -282,21 +286,29 @@ export default {
 .size-max {
   max-width: 1366px;
 }
-.tip-tap-size {
-  overflow: auto;
-  max-height: 300px;
-}
 .preview-img {
-  max-width: 800px;
-  max-height: 600px;
+  max-width: 1044px;
+  max-height: 400px;
 }
-div >>> ul {
-  line-height: 18px !important;
+div >>> ul > li {
+  line-height: 25px !important;
 }
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
+}
+.image-cover {
+  object-fit: cover;
 }
 </style>

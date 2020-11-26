@@ -2,15 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-data-table
           :headers="headerMitra"
           :items="mitra"
@@ -24,13 +15,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$UMKM</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    Mitra
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Daftar Mitra Bursa Kerja</p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogAdd" max-width="500px" persistent>
                 <template v-slot:activator="{ on, attrs }">
@@ -42,11 +29,11 @@
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text text-capitalize">tambah</p>
+                    <p class="ma-0 white--text">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
-                  <v-card-title class="primary">
+                  <v-card-title class="primary mb-4">
                     <span class="headline white--text text-capitalize"
                       >menambah mitra perusahaan</span
                     >
@@ -58,7 +45,6 @@
                         label="Nama Mitra Perusahaan"
                         v-model="editedItemMitra.name"
                         :rules="nameRules"
-                        prepend-icon="$UMKM"
                       />
                       <v-file-input
                         label="Unggah Gambar Perusahaan Mitra (Maks 1 MB)"
@@ -121,7 +107,7 @@
               @click:append="searchMitra()"
             />
           </template>
-          <template v-slot:item.image="{ item }">
+          <template v-slot:[`item.image`]="{ item }">
             <v-img
               :src="item.image"
               aspect-ratio="1.7"
@@ -131,25 +117,38 @@
               class="ma-2"
             ></v-img>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn
+              @click="openDialogUpdate(item)"
+              color="orange"
+              elevation="0"
+              x-small
+              dark
+              class="mr-2"
+            >
+              ubah
             </v-btn>
             <v-btn
               @click="openDialogDeactivate(item)"
-              class="error--text"
-              icon
+              color="error"
+              elevation="0"
+              x-small
+              dark
+              class="ml-2"
               v-if="item.status === 'Ditampilkan'"
             >
-              <v-icon> $times </v-icon>
+              sembunyikan
             </v-btn>
             <v-btn
               @click="openDialogActivate(item)"
-              class="success--text"
-              icon
+              color="success"
+              elevation="0"
+              x-small
+              dark
+              class="ml-2"
               v-else
             >
-              <v-icon> $check </v-icon>
+              tampilkan
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -197,7 +196,7 @@
       </v-snackbar>
       <v-dialog v-model="dialogUpdate" persistent max-width="450">
         <v-card>
-          <v-card-title class="headline primary white--text text-capitalize">
+          <v-card-title class="headline primary white--text text-capitalize mb-4">
             mengubah data perusahaan mitra
           </v-card-title>
           <v-card-text>
@@ -206,7 +205,6 @@
                 label="Nama Mitra Perusahaan"
                 v-model="editedItemMitra.name"
                 :rules="nameRules"
-                prepend-icon="$UMKM"
               />
               <v-file-input
                 label="Unggah Gambar Perusahaan Mitra (Maks 1 MB)"
@@ -258,15 +256,19 @@
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin tidak menampilkan data perusahaan mitra ? Jika "iya"
-                silahkan pilih tombol iya
+                Apakah anda yakin tidak menampilkan data perusahaan mitra ? Jika
+                "iya" silahkan pilih tombol iya
               </p>
             </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogDeactivate = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogDeactivate = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveDeactivated()">
@@ -302,7 +304,11 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn elevation="3" class="text-capitalize" @click="dialogActivate = false">
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="dialogActivate = false"
+            >
               tidak
             </v-btn>
             <v-btn color="primary" @click="saveActivate()">
@@ -544,8 +550,7 @@ export default {
       })
         .then((response) => {
           if (
-            response.data.data.message
-              === 'Data Partner Is Successfully Hide'
+            response.data.data.message === 'Data Partner Is Successfully Hide'
           ) {
             this.hasSaved = true;
             this.status = true;
@@ -592,8 +597,7 @@ export default {
       })
         .then((response) => {
           if (
-            response.data.data.message
-              === 'Data Partner Is Successfully Show'
+            response.data.data.message === 'Data Partner Is Successfully Show'
           ) {
             this.hasSaved = true;
             this.status = true;
@@ -719,11 +723,13 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'UMKM'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({

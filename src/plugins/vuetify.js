@@ -14,12 +14,12 @@ export default new Vuetify({
       activate: 'mdi-account-reactivate',
       search: 'fas fa-search',
       arrowUp: 'fas fa-chevron-up',
-      whatsapp: 'fab fa-whatsapp-square',
-      facebook: 'fab fa-facebook-square',
-      email: 'fas fa-envelope',
-      twitter: 'fab fa-twitter-square',
-      instagram: 'fab fa-instagram-square',
-      phone: 'fas fa-phone-alt',
+      whatsapp: 'mdi-whatsapp',
+      facebook: 'fab fa-facebook-f',
+      email: 'mdi-email',
+      twitter: 'mdi-twitter',
+      instagram: 'mdi-instagram',
+      phone: 'mdi-phone',
       idCard: 'fas fa-id-card',
       padlock: 'fas fa-lock',
       eye: 'far fa-eye',
@@ -29,7 +29,7 @@ export default new Vuetify({
       UMKM: 'fas fa-building',
       blacklist: 'fas fa-user-times',
       admin: 'fas fa-user-shield',
-      school: 'fas fa-school',
+      school: 'mdi-school',
       article: 'fas fa-newspaper',
       contact: 'fas fa-comments',
       FAQ: 'fas fa-comment',
@@ -41,7 +41,7 @@ export default new Vuetify({
       job: 'fas fa-suitcase',
       success: 'fas fa-check-circle',
       times: 'fas fa-times',
-      check: 'fas fa-check',
+      check: 'mdi-check',
       warning: 'fas fa-exclamation-triangle',
       add: 'fas fa-plus',
       degree: 'fas fa-user-graduate',
@@ -61,6 +61,8 @@ export default new Vuetify({
       detail: 'fas fa-align-justify',
       dropdown: 'mdi-menu-down',
       pdf: 'far fa-file-pdf',
+      arrowLeft: 'mdi-arrow-left',
+      close: 'mdi-close',
     },
   },
   theme: {
@@ -69,12 +71,13 @@ export default new Vuetify({
         primary: '#2196F3', // blue
         primaryDark: '#0D47A1', // blue dark
         primaryLight: '#2196F3', // blue light
-        accent: '#448AFF', // blue accent
+        accent: '#0D47A1', // blue accent
         primaryText: '#212121', // text color primary
         secondaryText: '#757575', // text color secondary
         divider: '#BDBDBD', // divider color
         iconColor: '#FFFFFF', // white
         grey: '#ECEFF1', // gray background
+        greySecondary: '#78909C', // gray background
         error: '#f44336', // red
         success: '#4caf50', // green
         warning: '#ffeb3b', // yellow

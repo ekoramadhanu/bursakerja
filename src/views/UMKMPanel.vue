@@ -2,29 +2,28 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
-        <div class="d-flex justify-end">
-          <v-overflow-btn
-            v-model="search"
-            class="mt-3"
-            :items="filter"
-            label="Pilih Status"
-            filled
-            @change="searchCardUMKM()"
-          ></v-overflow-btn>
-        </div>
+        <v-row>
+          <v-spacer
+            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
+          ></v-spacer>
+          <v-col lg="4" md="4">
+            <div class="d-flex justify-end">
+              <v-select
+                v-model="search"
+                class="mt-3 font-family"
+                :items="filter"
+                label="Pilih Status yang Ditampilkan"
+                outlined
+                @change="searchCardUMKM()"
+              ></v-select>
+            </div>
+          </v-col>
+        </v-row>
+        <div class="d-flex justify-end"></div>
         <v-data-table
           :headers="headerUMKM"
           :items="UMKM"
-          class="elevation-3 mt-3"
+          class="elevation-3 mt-3 font-family"
           hide-default-footer
           :loading="loadingTable"
           v-if="!skeleton"
@@ -33,30 +32,28 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$UMKM</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    perusahaan
+                  <p class="ma-0 font-family">
+                    Daftar Perusahaan Pemegang Kartu Bursa Kerja
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogAdd" max-width="500px" persistent>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary"
                     dark
-                    class="mb-2"
+                    class="mb-2 mr-2"
                     v-bind="attrs"
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text text-capitalize">tambah</p>
+                    <p class="ma-0 white--text font-family font-weight-bold">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
-                  <v-card-title class="primary">
-                    <span class="headline white--text text-capitalize"
+                  <v-card-title class=" headline primary mb-4">
+                    <span class="white--text text-capitalize font-family"
                       >menambah kartu perusahaan</span
                     >
                   </v-card-title>
@@ -66,15 +63,13 @@
                       <v-text-field
                         v-model="editedItemUMKM.bursaCard"
                         :rules="bursaCardRules"
-                        prepend-icon="$idCard"
-                        label="Nomor kartu Bursa Kerja"
+                        label="Nomor Kartu Bursa Kerja"
                         required
                       />
                       <v-text-field
                         v-model="editedItemUMKM.pin"
                         :rules="pinRules"
-                        prepend-icon="$padlock"
-                        label="PIN kartu Bursa Kerja"
+                        label="PIN Kartu Bursa Kerja"
                         required
                       />
                     </v-form>
@@ -85,7 +80,7 @@
                     <v-spacer></v-spacer>
                     <v-btn
                       color="white"
-                      class="text-capitalize mr-2"
+                      class="mr-2"
                       elevation="3"
                       @click="closeAdd()"
                     >
@@ -98,7 +93,7 @@
                         v-if="loadingAdd"
                       />
                       <p
-                        class="my-auto white--text text-capitalize"
+                        class="my-auto white--text"
                         v-if="!loadingAdd"
                       >
                         simpan
@@ -107,11 +102,82 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogBatchAdd" max-width="500px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2 font-weight-bold"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon size="15" class="white--text mr-2">$add</v-icon>
+                    <p class="ma-0 white--text font-family">CSV</p>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="primary">
+                    <span class="headline white--text text-capitalize font-family">
+                      menambah kartu karyawan
+                    </span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-form ref="form" lazy-validation class="mt-4">
+                      <div class="d-flex">
+                        <v-file-input
+                          label="Unggah File CSV (Maks 1 MB)"
+                          accept=".csv"
+                          required
+                          hide-input
+                          ref="fileInput"
+                          enctype="multipart/form-data"
+                          class="mr-4 width-upload-form pa-0"
+                          :rules="CSVRules"
+                          @change="ChangeFile"
+                        />
+                        <p class="my-auto text-h6">
+                          <span class="font-family">
+                            {{nameFile}}
+                          </span>
+                        </p>
+                      </div>
+                    </v-form>
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary font-family font-weight-bold"
+                      class="mr-2"
+                      @click="closeBatchAdd()"
+                    >
+                      batal
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      class="white--text font-family font-weight-bold"
+                      @click="saveBatchAdd()"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="white"
+                        v-if="loadingBatch"
+                      />
+                      <p class="my-auto white--text" v-if="!loadingBatch">
+                        simpan
+                      </p>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn @click="openDialogUpdate(item)" color="orange" x-small dark elevation="0">
+              ubah data kartu
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -139,7 +205,7 @@
       </v-container>
       <v-dialog v-model="dialogUpdate" max-width="500px" persistent>
         <v-card>
-          <v-card-title class="primary">
+          <v-card-title class="primary mb-4">
             <span class="headline white--text text-capitalize"
               >mengubah kartu UMKM</span
             >
@@ -150,15 +216,13 @@
               <v-text-field
                 v-model="editedItemUMKM.bursaCard"
                 :rules="bursaCardRules"
-                prepend-icon="$idCard"
-                label="Nomor kartu Bursa Kerja"
+                label="Nomor Kartu Bursa Kerja"
                 required
               />
               <v-text-field
                 v-model="editedItemUMKM.pin"
                 :rules="pinRules"
-                prepend-icon="$padlock"
-                label="PIN kartu Bursa Kerja"
+                label="PIN Kartu Bursa Kerja"
                 required
               />
             </v-form>
@@ -181,7 +245,10 @@
                 color="white"
                 v-if="loadingUpdate"
               />
-              <p class="my-auto white--text text-capitalize" v-if="!loadingUpdate">
+              <p
+                class="my-auto white--text text-capitalize"
+                v-if="!loadingUpdate"
+              >
                 simpan
               </p>
             </v-btn>
@@ -213,6 +280,7 @@
 </template>
 
 <script>
+import csvToJson from 'csvtojson';
 import axios from 'axios';
 
 export default {
@@ -225,7 +293,9 @@ export default {
     ],
     dialogAdd: false,
     dialogUpdate: false,
+    dialogBatchAdd: false,
     loadingAdd: false,
+    loadingBatch: false,
     loadingUpdate: false,
     loadingTable: false,
     headerUMKM: [
@@ -255,7 +325,16 @@ export default {
     search: 'Semua',
     filter: ['Aktif', 'Tidak Aktif', 'Semua'],
     pinRules: [(v) => !!v || 'PIN Bursa Kerja 3x4 Tidak Boleh Kosong'],
-    bursaCardRules: [(v) => !!v || 'Nomor Bursa Kerja 3x4 Tidak Boleh Kosong'],
+    csv: null,
+    nameFile: 'Silahkan Pilih File CSV',
+    CSVRules: [
+      (v) => !!v || 'File CSV Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'File CSV Harus Kurang Dari 1MB',
+    ],
+    bursaCardRules: [
+      (v) => !!v || 'Nomor Bursa Kerja 3x4 Tidak Boleh Kosong',
+      (v) => /^BK02/.test(v) || 'Nomor Bursa Kerja Tidak Valid',
+    ],
     hasSaved: false,
     status: null,
     icon: '',
@@ -347,7 +426,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}umkm/card/${this.UMKM[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}umkm/card/${
+            this.UMKM[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -406,6 +487,79 @@ export default {
         this.editedIndex = -1;
         this.$refs.form.reset();
       });
+    },
+    ChangeFile(event) {
+      const reader = new FileReader();
+      if (event !== undefined) {
+        this.nameFile = event.name;
+        reader.onload = () => {
+          this.csv = `${reader.result}`;
+        };
+        reader.readAsText(event);
+      }
+    },
+    closeBatchAdd() {
+      this.dialogBatchAdd = false;
+      this.nameFile = 'Silahkan Pilih File CSV';
+      this.csv = undefined;
+      this.$refs.form.resetValidation();
+    },
+    async saveBatchAdd() {
+      if (this.$refs.form.validate()) {
+        const jsonObj = await csvToJson().fromString(this.csv);
+        this.loadingBatch = true;
+        axios({
+          baseURL: `${this.$store.state.domain}umkm/csv`,
+          method: 'post',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+          data: {
+            cardJson: JSON.stringify(jsonObj),
+          },
+        })
+          .then((response) => {
+            if (response.data.data.message === 'File CSV Not Valid') {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'format file CSV tidak sesuai';
+              this.icon = '$warning';
+            } else if (response.data.data.message === 'Bursa Card Is Already Exist') {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'nomor kartu sudah ada';
+              this.icon = '$warning';
+            } else if (response.data.data.message === 'Data Has Been Created') {
+              this.hasSaved = true;
+              this.status = true;
+              this.message = 'data berhasil ditambahkan';
+              this.icon = '$success';
+            } else {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'server mengalami error';
+              this.icon = '$warning';
+            }
+            this.loadingtable = true;
+            this.page = 1;
+            this.search = 'Tampilkan Semua';
+            if (this.UMKM.length > 0) {
+              this.UMKM.splice(0, this.UMKM.length);
+            }
+            this.methodGetCardUMKM(1);
+          })
+          .catch(() => {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'server mengalami error';
+            this.icon = '$warning';
+          })
+          .finally(() => {
+            this.loadingBatch = false;
+            this.closeBatchAdd();
+          });
+      }
     },
     // method universal
     methodGetCardUMKM(page) {
@@ -668,7 +822,7 @@ export default {
   max-width: 800px;
   max-height: 600px;
 }
-.size-max{
-  max-width: 1366px;
+.size-max {
+  max-width: 10446px;
 }
 </style>

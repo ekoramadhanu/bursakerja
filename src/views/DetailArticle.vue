@@ -1,62 +1,71 @@
 <template>
-  <div class="mt-12 pt-1">
-    <div class="d-flex justify-center mb-2">
-      <div class="max-width px-4">
+  <div class="mt-12">
+    <v-container class="max-width mx-auto">
+      <v-skeleton-loader
+        ref="skeleton"
+        type="image"
+        v-if="skeleton"
+        max-height="1044"
+      ></v-skeleton-loader>
+      <v-skeleton-loader
+        ref="skeleton"
+        type="article"
+        v-if="skeleton"
+      ></v-skeleton-loader>
+      <div v-if="!skeleton" class="d-flex justify-center">
         <v-img
           :src="image"
-          aspect-ratio="1.7"
-          width="100vw"
-          max-width="230"
-          height="100vh"
-          max-height="200"
-          class="mx-auto"
-          v-if="!skeleton"
-          contain
-        ></v-img>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="image"
-          v-if="skeleton"
-          class="mx-auto"
-        ></v-skeleton-loader>
-        <p
-          class="text-uppercase mb-0 mt-3 text-center text-h5"
-          v-if="!skeleton"
-        >
-          {{ title }}
-        </p>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="sentences"
-          v-if="skeleton"
-          class="mx-auto"
-        ></v-skeleton-loader>
-        <p class="text-capitalize mb-0 mt-3" v-if="!skeleton">
-          dibuat : {{ date }}
-        </p>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="sentences"
-          v-if="skeleton"
-          class="mx-auto"
-        ></v-skeleton-loader>
-        <div class="text-justify mt-3" v-html="content" v-if="!skeleton"></div>
-        <v-skeleton-loader
-          ref="skeleton"
-          type="paragraph"
-          v-if="skeleton"
-          class="mx-auto"
-        ></v-skeleton-loader>
+          height="400"
+          max-width="1044"
+          aspect-ratio="1.7778"
+          class="image-cover"
+        />
       </div>
-    </div>
-    <footer-home />
+      <div v-if="!skeleton">
+        <div class="py-3 mt-3">
+          <v-btn
+            text
+            x-small
+            color="dark grey"
+            class="pa-0 mb-6"
+            @click="$router.go(-1)"
+          >
+            <span class="font-family"> kembali ke daftar artikel </span>
+          </v-btn>
+        </div>
+        <h3 class="text-h3 font-weight-bold">
+          <span class="font-family">
+            {{ title }}
+          </span>
+        </h3>
+        <div class="mt-2 pa-0 mb-4 d-flex">
+          <p
+            class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+          >
+            <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+            <span class="font-family"> admin </span>
+          </p>
+          <p class="text-capitalize text-subtitle-2 font-weight-regular ma-0">
+            <v-icon size="13" class="mr-1">$calendar</v-icon>
+            <span class="font-family">
+              {{ formatDate(date) }}
+            </span>
+          </p>
+        </div>
+        <div
+          class="text-justify mt-3 font-family"
+          v-html="content"
+          v-if="!skeleton"
+        ></div>
+      </div>
+    </v-container>
   </div>
 </template>
 
 <script>
-import footer from '@/components/Footer.vue';
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
+import moment from 'moment';
 
 export default {
   data: () => ({
@@ -66,9 +75,7 @@ export default {
     date: '',
     skeleton: true,
   }),
-  components: {
-    'footer-home': footer,
-  },
+  components: {},
   beforeCreate() {
     axios({
       baseURL: `${this.$store.state.domain}article/${this.$route.params.id}`,
@@ -112,34 +119,37 @@ export default {
     delete this.locationSchool;
     delete this.skeleton;
   },
+  methods: {
+    formatDate(value) {
+      return moment(value, 'DD-MM-YYYY').locale('id').format('dddd, LL');
+    },
+  },
 };
 </script>
 
 <style scoped>
-.line {
-  width: 50px;
-  border: 1px solid #205faf;
-}
 .max-width {
-  max-width: 100vw;
-  width: 100vw;
+  max-width: 1044px;
 }
-@media screen and (min-width: 600px){
-  .max-width{
-    max-width: 600px;
-    width: 100vw;
-  }
+div >>> ul > li {
+  line-height: 25px !important;
 }
-.max-width-about-us {
-  max-width: 600px;
-}
-div >>> ul{
-  line-height: 18px !important;
-}
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
+}
+.image-cover {
+  object-fit: cover;
 }
 </style>

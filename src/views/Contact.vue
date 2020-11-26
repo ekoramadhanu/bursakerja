@@ -2,26 +2,19 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-card class="overflow-hidden mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
-            <v-icon class="mr-2 white--text">$contact</v-icon>
             <v-toolbar-title
-              class="font-weight-light text-capitalize white--text"
-              >hubungi kami</v-toolbar-title
+              class="font-weight-light white--text"
             >
+              <span class="font-family">
+                Kontak yang Ditampilkan
+              </span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn color="white" fab small @click="isEditing = !isEditing">
-              <v-icon v-if="isEditing" class="primary--text">mdi-close</v-icon>
-              <v-icon v-else class="primary--text">mdi-pencil</v-icon>
+            <v-btn color="white" icon @click="isEditing = !isEditing">
+              <v-icon v-if="isEditing" color="white">mdi-close</v-icon>
+              <v-icon v-else color="white">mdi-pencil</v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text>
@@ -68,16 +61,19 @@
               />
             </v-form>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
+          <v-card-actions v-if="isEditing">
             <v-spacer></v-spacer>
             <v-btn :disabled="!isEditing" color="primary" @click="save">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingSave"
               ></v-progress-circular>
-              <p v-if="!loadingSave" class="text-capitalize my-auto">simpan</p>
+              <p v-if="!loadingSave" class="my-auto font-weight-bold">
+                <span class="font-family">
+                  simpan
+                </span>
+              </p>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -117,7 +113,7 @@ export default {
   data: () => ({
     items: [
       {
-        text: 'hubungi kami',
+        text: 'Kontak',
         disabled: true,
       },
     ],

@@ -50,17 +50,11 @@ import jobSeekerInternshipAfterLogin from '../views/JobSeekerInternshipAfterLogi
 import applicationJob from '../views/ApplicationJob.vue';
 import detailAnnouncement from '../views/DetailAnnouncement.vue';
 import accessBlock from '../views/403.vue';
-import test from '../views/test.vue';
 import notFound from '../views/404.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/test',
-    name: 'test',
-    component: test,
-  },
   {
     path: '/',
     name: 'home',
@@ -183,7 +177,7 @@ const routes = [
   },
   {
     path: '/job-seeker-professional',
-    name: 'jobSeekerProfesional',
+    name: 'Profesional',
     component: jobSeekerProfesional,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -195,7 +189,7 @@ const routes = [
   },
   {
     path: '/article-detail/:id',
-    name: 'detailArticle',
+    name: 'Artikel',
     component: detailArticle,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -207,7 +201,7 @@ const routes = [
   },
   {
     path: '/job-seeker-detail/:id',
-    name: 'detailJobSeeker',
+    name: 'Detail Data Pencari Kerja',
     component: detailJobSeeker,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -315,7 +309,7 @@ const routes = [
   },
   {
     path: '/article-user',
-    name: 'ArtikelUser',
+    name: 'Artikel Umum',
     component: articleaAfterLogin,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -387,7 +381,7 @@ const routes = [
   },
   {
     path: '/contact',
-    name: 'contact',
+    name: 'Kontak',
     component: contact,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -483,7 +477,7 @@ const routes = [
   },
   {
     path: '/announcement-panel',
-    name: 'Pengumuman',
+    name: 'Pengumuman Admin',
     component: announcementPanel,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -627,7 +621,7 @@ const routes = [
   },
   {
     path: '/detail-announcement/:id',
-    name: 'detailAnnouncement',
+    name: 'Pengumuman',
     component: detailAnnouncement,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
@@ -639,7 +633,7 @@ const routes = [
   },
   {
     path: '/application-job/:id',
-    name: 'applicationJob',
+    name: 'Daftar Lamaran',
     component: applicationJob,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {

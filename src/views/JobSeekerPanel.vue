@@ -2,29 +2,28 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
-        <div class="d-flex justify-end">
-          <v-overflow-btn
-            v-model="search"
-            class="mt-3"
-            :items="filter"
-            label="Pilih Status"
-            filled
-            @change="searchCardJobSeeker()"
-          ></v-overflow-btn>
-        </div>
+        <v-row>
+          <v-spacer
+            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
+          ></v-spacer>
+          <v-col lg="4" md="4">
+            <div class="d-flex justify-end">
+              <v-select
+                :items="filter"
+                label="Pilih Status yang Ditampilkan"
+                class="font-family"
+                v-model="search"
+                @change="searchCardJobSeeker()"
+                outlined
+              >
+              </v-select>
+            </div>
+          </v-col>
+        </v-row>
         <v-data-table
           :headers="headerJobSeeker"
           :items="jobSeeker"
-          class="elevation-3 mt-3"
+          class="elevation-3 mt-3 font-family"
           hide-default-footer
           :loading="loadingTable"
           v-if="!skeleton"
@@ -33,32 +32,30 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$jobSeeker</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    karyawan
+                  <p class="ma-0 font-family">
+                    Daftar Karyawan
                   </p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogAdd" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary"
                     dark
-                    class="mb-2"
+                    class="mb-2 mr-3 font-weight-bold"
                     v-bind="attrs"
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text text-capitalize">tambah</p>
+                    <p class="ma-0 white--text font-family">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-title class="primary">
-                    <span class="headline white--text text-capitalize"
-                      >menambah kartu karyawan</span
-                    >
+                    <span class="headline white--text text-capitalize font-family">
+                      menambah kartu karyawan
+                    </span>
                   </v-card-title>
 
                   <v-card-text>
@@ -66,15 +63,13 @@
                       <v-text-field
                         v-model="editedItemJobSeeker.bursaCard"
                         :rules="bursaCardRules"
-                        prepend-icon="$idCard"
-                        label="Nomor kartu Bursa Kerja"
+                        label="Nomor Kartu Bursa Kerja"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.pin"
                         :rules="pinRules"
-                        prepend-icon="$padlock"
-                        label="PIN kartu Bursa Kerja"
+                        label="PIN Kartu Bursa Kerja"
                         required
                       />
                     </v-form>
@@ -84,16 +79,16 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                      color="white"
-                      class="text-capitalize mr-2"
-                      elevation="3"
+                      text
+                      color="primary font-family font-weight-bold"
+                      class="mr-2"
                       @click="closeAdd()"
                     >
                       batal
                     </v-btn>
                     <v-btn
                       color="primary"
-                      class="text-capitalize white--text"
+                      class="white--text font-family font-weight-bold"
                       @click="saveAdd()"
                     >
                       <v-progress-circular
@@ -101,10 +96,78 @@
                         color="white"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="my-auto white--text text-capitalize"
-                        v-if="!loadingAdd"
-                      >
+                      <p class="my-auto white--text" v-if="!loadingAdd">
+                        simpan
+                      </p>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog v-model="dialogBatchAdd" max-width="500px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2 font-weight-bold"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon size="15" class="white--text mr-2">$add</v-icon>
+                    <p class="ma-0 white--text font-family">CSV</p>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="primary">
+                    <span class="headline white--text text-capitalize font-family">
+                      menambah kartu karyawan
+                    </span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-form ref="form" lazy-validation class="mt-4">
+                      <div class="d-flex">
+                        <v-file-input
+                          label="Unggah File CSV (Maks 1 MB)"
+                          accept=".csv"
+                          required
+                          hide-input
+                          ref="fileInput"
+                          enctype="multipart/form-data"
+                          class="mr-4 width-upload-form pa-0"
+                          :rules="CSVRules"
+                          @change="ChangeFile"
+                        />
+                        <p class="my-auto text-h6">
+                          <span class="font-family">
+                            {{nameFile}}
+                          </span>
+                        </p>
+                      </div>
+                    </v-form>
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary font-family font-weight-bold"
+                      class="mr-2"
+                      @click="closeBatchAdd()"
+                    >
+                      batal
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      class="white--text font-family font-weight-bold"
+                      @click="saveBatchAdd()"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="white"
+                        v-if="loadingBatch"
+                      />
+                      <p class="my-auto white--text" v-if="!loadingBatch">
                         simpan
                       </p>
                     </v-btn>
@@ -113,9 +176,15 @@
               </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn
+              @click="openDialogUpdate(item)"
+              x-small
+              dark
+              elevation="0"
+              color="orange"
+            >
+              ubah data kartu
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -155,14 +224,14 @@
                 v-model="editedItemJobSeeker.bursaCard"
                 :rules="bursaCardRules"
                 prepend-icon="$idCard"
-                label="Nomor kartu Bursa Kerja"
+                label="Nomor Kartu Bursa Kerja"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.pin"
                 :rules="pinRules"
                 prepend-icon="$padlock"
-                label="PIN kartu Bursa Kerja"
+                label="PIN Kartu Bursa Kerja"
                 required
               />
             </v-form>
@@ -171,12 +240,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              color="white"
-              class="text-capitalize mr-2"
-              elevation="3"
-              @click="closeUpdate()"
-            >
+            <v-btn text color="primary" class="mr-2" @click="closeUpdate()">
               batal
             </v-btn>
             <v-btn color="primary" @click="saveUpdate()">
@@ -185,9 +249,7 @@
                 color="white"
                 v-if="loadingUpdate"
               />
-              <p class="my-auto white--text text-capitalize" v-if="!loadingUpdate">
-                simpan
-              </p>
+              <p class="my-auto white--text" v-if="!loadingUpdate">simpan</p>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -218,6 +280,7 @@
 
 <script>
 import axios from 'axios';
+import csvToJson from 'csvtojson';
 
 export default {
   data: () => ({
@@ -229,8 +292,10 @@ export default {
     ],
     dialogAdd: false,
     dialogUpdate: false,
+    dialogBatchAdd: false,
     loadingAdd: false,
     loadingUpdate: false,
+    loadingBatch: false,
     loadingTable: false,
     headerJobSeeker: [
       {
@@ -242,7 +307,7 @@ export default {
       { text: 'PIN', value: 'pin', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
       { text: 'Nama Pemegang', value: 'name', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     jobSeeker: [],
     editedIndex: -1,
@@ -256,10 +321,19 @@ export default {
     },
     page: 1,
     pageCount: 3,
-    search: 'Semua',
-    filter: ['Aktif', 'Tidak Aktif', 'Semua'],
+    search: 'Tampilkan Semua',
+    filter: ['Aktif', 'Tidak Aktif', 'Tampilkan Semua'],
     pinRules: [(v) => !!v || 'PIN Bursa Kerja Tidak Boleh Kosong'],
-    bursaCardRules: [(v) => !!v || 'Nomor Bursa Kerja Tidak Boleh Kosong'],
+    csv: null,
+    nameFile: 'Silahkan Pilih File CSV',
+    CSVRules: [
+      (v) => !!v || 'File CSV Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'File CSV Harus Kurang Dari 1MB',
+    ],
+    bursaCardRules: [
+      (v) => !!v || 'Nomor Bursa Kerja Tidak Boleh Kosong',
+      (v) => /^BK01/.test(v) || 'Nomor Bursa Kerja Tidak Valid',
+    ],
     skeleton: true,
     hasSaved: false,
     status: null,
@@ -283,7 +357,7 @@ export default {
       this.$nextTick(() => {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
-        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
       });
     },
     saveAdd() {
@@ -325,7 +399,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = 'Semua';
+            this.search = 'Tampilkan Semua';
             if (this.jobSeeker.length > 0) {
               this.jobSeeker.splice(0, this.jobSeeker.length);
             }
@@ -352,7 +426,9 @@ export default {
       if (this.$refs.form.validate()) {
         this.loadingUpdate = true;
         axios({
-          baseURL: `${this.$store.state.domain}job-seeker/card/${this.jobSeeker[this.editedIndex].id}`,
+          baseURL: `${this.$store.state.domain}job-seeker/card/${
+            this.jobSeeker[this.editedIndex].id
+          }`,
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
@@ -365,7 +441,8 @@ export default {
         })
           .then((response) => {
             if (
-              response.data.data.message === 'Data Job Seeker Is Successfully Updated'
+              response.data.data.message
+              === 'Data Job Seeker Is Successfully Updated'
             ) {
               this.hasSaved = true;
               this.status = true;
@@ -386,7 +463,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = 'Semua';
+            this.search = 'Tampilkan Semua';
             if (this.jobSeeker.length > 0) {
               this.jobSeeker.splice(0, this.jobSeeker.length);
             }
@@ -409,13 +486,86 @@ export default {
       this.$nextTick(() => {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
-        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
       });
+    },
+    ChangeFile(event) {
+      const reader = new FileReader();
+      if (event !== undefined) {
+        this.nameFile = event.name;
+        reader.onload = () => {
+          this.csv = `${reader.result}`;
+        };
+        reader.readAsText(event);
+      }
+    },
+    closeBatchAdd() {
+      this.dialogBatchAdd = false;
+      this.nameFile = 'Silahkan Pilih File CSV';
+      this.csv = undefined;
+      this.$refs.form.resetValidation();
+    },
+    async saveBatchAdd() {
+      if (this.$refs.form.validate()) {
+        const jsonObj = await csvToJson().fromString(this.csv);
+        this.loadingBatch = true;
+        axios({
+          baseURL: `${this.$store.state.domain}job-seeker/csv`,
+          method: 'post',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+          data: {
+            cardJson: JSON.stringify(jsonObj),
+          },
+        })
+          .then((response) => {
+            if (response.data.data.message === 'File CSV Not Valid') {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'format file CSV tidak sesuai';
+              this.icon = '$warning';
+            } else if (response.data.data.message === 'Bursa Card Is Already Exist') {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'nomor kartu sudah ada';
+              this.icon = '$warning';
+            } else if (response.data.data.message === 'Data Has Been Created') {
+              this.hasSaved = true;
+              this.status = true;
+              this.message = 'data berhasil ditambahkan';
+              this.icon = '$success';
+            } else {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'server mengalami error';
+              this.icon = '$warning';
+            }
+            this.loadingtable = true;
+            this.page = 1;
+            this.search = 'Tampilkan Semua';
+            if (this.jobSeeker.length > 0) {
+              this.jobSeeker.splice(0, this.jobSeeker.length);
+            }
+            this.methodGetCardjobSeeker(1);
+          })
+          .catch(() => {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'server mengalami error';
+            this.icon = '$warning';
+          })
+          .finally(() => {
+            this.loadingBatch = false;
+            this.closeBatchAdd();
+          });
+      }
     },
     // method universal
     methodGetCardjobSeeker(page) {
       let endpoint = '';
-      if (this.search === 'Semua') {
+      if (this.search === 'Tampilkan Semua') {
         endpoint = `${this.$store.state.domain}job-seeker/card/${page}`;
       } else if (this.search === 'Aktif') {
         endpoint = `${this.$store.state.domain}job-seeker/card-activate/${page}`;
@@ -478,12 +628,14 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'Admin 1'
-    || this.$store.state.role === 'UMKM'
-    || this.$store.state.role === 'Magang'
-    || this.$store.state.role === 'Umum'
-    || this.$store.state.role === 'Profesional'
-    || this.$store.state.role === 'Informal') {
+    if (
+      this.$store.state.role === 'Admin 1'
+      || this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
       this.$router.push('/access-block');
     } else {
       axios({
@@ -572,7 +724,7 @@ export default {
 </script>
 
 <style scoped>
-.size-max{
+.size-max {
   max-width: 1100px;
 }
 </style>

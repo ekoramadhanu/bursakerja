@@ -3,14 +3,6 @@
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
 
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-card elevation="3" class="mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
             <v-icon class="mr-2 white--text">$CV</v-icon>
@@ -431,7 +423,8 @@ export default {
     description: '',
     descriptionRules: [
       (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
-      (v) => v.length < 250 || 'Deskripsi Singat Anda Tidak Boleh Lebih Dari 250',
+      (v) => (v || '').length <= 250
+        || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
       // eslint-disable-next-line no-useless-escape
       (v) => /^[a-zA-z., ]*$/.test(v)
         || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',

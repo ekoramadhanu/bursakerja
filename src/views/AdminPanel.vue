@@ -5,7 +5,7 @@
         <v-data-table
           :headers="headerAdmin"
           :items="admin"
-          class="elevation-3 mt-3"
+          class="elevation-3 mt-3 font-family"
           hide-default-footer
           v-if="!skeleton"
           :loading="loadingTable"
@@ -14,7 +14,11 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <p class="ma-0 hidden-xs-only">Daftar Admin Bursa Kerja</p>
+                  <p class="ma-0">
+                    <span class="font-family">
+                      Daftar Admin Bursa Kerja
+                    </span>
+                  </p>
                 </div>
               </v-toolbar-title>
               <v-spacer></v-spacer>
@@ -28,12 +32,12 @@
                     v-on="on"
                   >
                     <v-icon size="15" class="white--text mr-2">$add</v-icon>
-                    <p class="ma-0 white--text">tambah</p>
+                    <p class="ma-0 white--text font-family">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
-                  <v-card-title class="primary">
-                    <span class="headline white--text text-capitalize"
+                  <v-card-title class="primary headline">
+                    <span class="font-family white--text text-capitalize"
                       >menambah admin bursa kerja</span
                     >
                   </v-card-title>

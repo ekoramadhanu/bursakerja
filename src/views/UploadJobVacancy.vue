@@ -2,15 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
-        <v-card elevation="3" class="pa-4">
-          <div class="d-flex">
-            <v-icon class="mr-2 warning--text" size="25">$warning</v-icon>
-            <p class="text-capitalize ma-0 text-subtitle-1">
-              hati hati data akan disimpan ke database
-            </p>
-          </div>
-        </v-card>
         <v-data-table
           :headers="headerJobVacancy"
           :items="jobVacancy"
@@ -23,13 +14,9 @@
             <v-toolbar flat color="white">
               <v-toolbar-title>
                 <div class="d-flex">
-                  <v-icon class="primary--text mr-2">$jobSeeker</v-icon>
-                  <p class="ma-0 text-uppercase primary--text hidden-xs-only">
-                    lowongan kerja
-                  </p>
+                  <p class="ma-0 hidden-xs-only">Lowongan Kerja</p>
                 </div>
               </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog
                 v-model="dialogAdd"
@@ -45,27 +32,27 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon class="mr-2 white--text" size="15">$add</v-icon>
-                    <p class="ma-0 text-capitalize white--text">tambah</p>
+                    <v-icon class="mr-2" size="15">$add</v-icon>
+                    <p class="ma-0">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-toolbar class="primary">
                     <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">$close</v-icon>
+                      <v-icon class="white--text">mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title class="text-capitalize white--text">
-                      silahkan isi data unggah lowongan
+                      Tambah Lowongan
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn text @click="saveAdd()">
+                    <v-btn elevation="0" @click="saveAdd()" color="white">
                       <v-progress-circular
                         indeterminate
-                        color="white"
+                        color="primary"
                         v-if="loadingAdd"
                       />
                       <p
-                        class="ma-0 text-capitalize white--text"
+                        class="ma-0 primary--text"
                         v-if="!loadingAdd"
                       >
                         simpan
@@ -78,7 +65,6 @@
                       <v-text-field
                         v-model="editedItemJobVacancy.name"
                         :rules="nameRules"
-                        prepend-icon="$jobSeeker"
                         label="Nama lowongan"
                         required
                       />
@@ -90,7 +76,6 @@
                             item-text="name"
                             item-value="name"
                             label="Tipe Pekerjaan"
-                            prepend-icon="$job"
                             :rules="educationRules"
                             single-line
                             required
@@ -103,7 +88,6 @@
                             item-text="name"
                             item-value="name"
                             label="Tipe Pekerjaan"
-                            prepend-icon="$school"
                             :rules="typeJobRules"
                             single-line
                             required
@@ -113,13 +97,19 @@
                       <tip-tap-vuetify
                         v-model="editedItemJobVacancy.description"
                         :extensions="extensions"
-                        :card-props="{ height: '300', style: 'overflow: auto;' }"
+                        :card-props="{
+                          height: '300',
+                          style: 'overflow: auto;',
+                        }"
                       />
-                      <br>
+                      <br />
                       <tip-tap-vuetify
                         v-model="editedItemJobVacancy.experience"
                         :extensions="extensions"
-                        :card-props="{ height: '300', style: 'overflow: auto;' }"
+                        :card-props="{
+                          height: '300',
+                          style: 'overflow: auto;',
+                        }"
                       />
                     </v-form>
                   </v-card-text>
@@ -136,12 +126,25 @@
               @click:append="searchjobVacancy()"
             />
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn @click="openDialogUpdate(item)" class="warning--text" icon>
-              <v-icon> mdi-pencil </v-icon>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-btn
+              elevation="0"
+              @click="openDialogUpdate(item)"
+              dark
+              x-small
+              color="orange"
+              class="mr-2"
+            >
+              ubah
             </v-btn>
-            <v-btn :to="`/application-job/${item.id}`" class="success--text" icon>
-              <v-icon> $detail </v-icon>
+            <v-btn
+              :to="`/application-job/${item.id}`"
+              dark
+              x-small
+              color="primary"
+              elevation="0"
+            >
+              detail lowongan
             </v-btn>
           </template>
           <template v-slot:no-data>
@@ -176,19 +179,19 @@
         <v-card>
           <v-toolbar class="primary">
             <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">$close</v-icon>
+              <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              silahkan ubah data unggah lowongan
+              Edit Data Lowongan
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text @click="saveUpdate()">
+            <v-btn elevation="0" @click="saveUpdate()" color="white">
               <v-progress-circular
                 indeterminate
-                color="white"
+                color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 text-capitalize white--text" v-if="!loadingUpdate">
+              <p class="ma-0 primary--text" v-if="!loadingUpdate">
                 simpan
               </p>
             </v-btn>
@@ -199,7 +202,6 @@
               <v-text-field
                 v-model="editedItemJobVacancy.name"
                 :rules="nameRules"
-                prepend-icon="$jobSeeker"
                 label="Nama lowongan"
                 required
               />
@@ -208,7 +210,7 @@
                 :extensions="extensions"
                 :card-props="{ height: '300', style: 'overflow: auto;' }"
               />
-              <br>
+              <br />
               <tip-tap-vuetify
                 v-model="editedItemJobVacancy.experience"
                 :extensions="extensions"
@@ -284,7 +286,7 @@ export default {
       },
       { text: 'Nama Lowongan', value: 'name', sortable: false },
       { text: 'Perusahaan', value: 'company', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     jobVacancy: [],
     editedIndex: -1,
@@ -685,7 +687,7 @@ export default {
   max-width: 800px;
   max-height: 600px;
 }
-.size-max{
+.size-max {
   max-width: 1100px;
 }
 div >>> ul {
