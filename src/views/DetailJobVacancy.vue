@@ -448,30 +448,28 @@ export default {
 
 <style scoped>
 .max-width {
-  width: 90vw;
+  width: 1044px;
 }
-@media screen and (min-width: 1366px) {
-  .max-width {
-    max-width: 1100px;
-    width: 90vw;
-  }
-}
+
 .cursor {
   cursor: pointer;
 }
-@media screen and (max-width: 600px) {
-  .max-width {
-    max-width: 600px;
-    width: 100vw;
-  }
+div >>> ul > li {
+  line-height: 25px !important;
 }
-div >>> ul {
-  line-height: 18px !important;
-}
-div >>> ol {
-  line-height: 18px !important;
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 5px !important;
+}
+div >>> li {
+  margin-bottom: 10px;
+}
+div >>> li > ol {
+  margin: 0px;
+}
+div >>> li > ul {
+  margin: 0px;
 }
 </style>

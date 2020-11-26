@@ -79,81 +79,88 @@
             </v-card>
             <div v-if="jobSeeker.length > 0 && !skeleton">
               <div v-for="item in jobSeeker" :key="item.id">
-                <transition name="fade" appear>
-                  <v-card class="mt-4 pa-2">
-                    <v-container>
+                <v-card
+                  elevation="3"
+                  class="rounded-xl mt-4"
+                  width="100vw"
+                  @click="href(item.id)"
+                >
+                  <v-card-text class="pa-4">
                     <v-row>
-                      <div class="mx-4">
-                        <v-avatar size="128" class="profile">
-                          <v-img :src="item.image" :alt="item.name"></v-img>
-                        </v-avatar>
-                      </div>
-                      <div>
-                        <h6 class="text-h6">{{ item.name }}</h6>
-                        <span class="subtitle-1">{{ item.position }}</span>
-                         <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon class="mr-3" size="12">$phone</v-icon>
-                            {{ item.phone }}
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon class="mr-2" size="12">$school</v-icon>
-                            {{ item.school }}
-                          </p>
-                          <p
-                            class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                          >
-                            <v-icon class="mr-3" size="12">$location</v-icon>
-                            {{ item.location }}
-                          </p>
-                      </div>
-                    </v-row>
-                    </v-container>
-                    <v-card-text>
-                      {{ item.desc }}
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-btn
-                        text
-                        color="primary"
-                        :to="`/job-seeker-detail/${item.id}`"
+                      <v-col
+                        cols="12"
+                        xl="2"
+                        lg="2"
+                        md="2"
+                        sm="12"
+                        xs="12"
+                        class="d-flex justify-center align-center"
                       >
-                        profil selengkapnya
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </transition>
+                        <img
+                          :src="item.image"
+                          class="preview-img"
+                          aspect-ratio="1.7"
+                        />
+                      </v-col>
+                      <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12">
+                        <p class="font-weight-bold text-h6 black--text mb-0">
+                          <span class="font-family">
+                            {{ item.name }}
+                          </span>
+                        </p>
+                        <p class="text-subtitle-2 black--text mb-2">
+                          <span class="font-family">
+                            {{ item.position }}
+                          </span>
+                        </p>
+                        <p class="black--text mb-1 text-subtitle-2">
+                          <v-icon size="15" class="mr-3">$phone</v-icon>
+                          <span class="font-family">
+                            {{ item.phone }}
+                          </span>
+                        </p>
+                        <p class="black--text mb-1 text-subtitle-2">
+                          <v-icon size="15" class="mr-3">$location</v-icon>
+                          <span class="font-family">
+                            {{ item.location }}
+                          </span>
+                        </p>
+                        <p class="black--text text-subtitle-2 mb-4">
+                          <v-icon size="15" class="mr-3">$school</v-icon>
+                          <span class="font-family">
+                            {{ item.school }}
+                          </span>
+                        </p>
+                        <p class="black--text">
+                          <span class="font-family">
+                            {{ item.desc }}
+                          </span>
+                        </p>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </div>
+              <div class="text-canter mt-2">
+                <v-pagination
+                  v-model="page"
+                  total-visible="10"
+                  :length="pageCount"
+                  v-if="!skeleton"
+                  @input="pagination()"
+                ></v-pagination>
               </div>
             </div>
             <div v-if="!skeleton && jobSeeker.length === 0">
-              <v-card elevation="3" class="mt-4 pa-3">
-                <typical
-                  class="text-center text-capitalize"
-                  :steps="[
-                    `data belum ada di dalam sistem kami. silahkan hubungi pihak kami
-                    untuk bertanya lebih lanjut`,
-                    6000,
-                  ]"
-                  :wrapper="'p'"
-                />
-              </v-card>
+              <p class="font-family text-center">
+                data belum ada di dalam sistem kami. silahkan hubungi pihak kami
+                untuk bertanya lebih lanjut
+              </p>
             </div>
             <div v-if="skeleton">
               <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
               <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
               <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-            </div>
-            <div class="text-canter mt-2">
-              <v-pagination
-                v-model="page"
-                total-visible="10"
-                :length="pageCount"
-                v-if="!skeleton"
-                @input="pagination()"
-              ></v-pagination>
             </div>
           </v-col>
         </v-row>
@@ -164,7 +171,6 @@
 
 <script>
 import axios from 'axios';
-import typical from 'vue-typical';
 
 export default {
   data: () => ({
@@ -222,9 +228,6 @@ export default {
       });
     },
   },
-  components: {
-    typical,
-  },
   watch: {
     searchLocation() {
       // Items have already been loaded
@@ -236,16 +239,18 @@ export default {
       this.isLoadingLocation = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/location`, {
+      fetch(`${this.$store.state.domain}city`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
       })
         .then((res) => res.json())
         .then((res) => {
-          res.data.location.forEach((i) => {
+          res.data.city.forEach((i) => {
             this.entriesLocation.push({
-              name: i.name,
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+              provinceId: i.provinceId,
             });
           });
         })
@@ -330,15 +335,6 @@ export default {
       const counterEnd = payload * 4;
       return this.jobSeeker.slice(counterStart, counterEnd);
     },
-    resetLocation() {
-      this.location = '';
-    },
-    resetJob() {
-      this.job = '';
-    },
-    resetSchool() {
-      this.school = '';
-    },
     searchJobSeeker() {
       this.skeleton = true;
       this.page = 1;
@@ -349,6 +345,15 @@ export default {
       this.skeleton = true;
       this.jobSeeker.splice(0, this.jobSeeker.length);
       this.methodGetJobSeeker(this.page);
+    },
+    capitalizeEachWord(str) {
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
+    },
+    href(id) {
+      this.$router.push(`/job-seeker-detail/${id}`);
     },
     // method universal
     methodGetJobSeeker(page) {
@@ -374,11 +379,11 @@ export default {
         .then((response) => {
           if (response.data.data.jobSeeker.length > 0) {
             this.lengthData = response.data.data.total;
-            const modulo = response.data.data.total % 10;
+            const modulo = response.data.data.total % 20;
             if (modulo === 0) {
-              this.pageCount = response.data.data.total / 10;
+              this.pageCount = response.data.data.total / 20;
             } else {
-              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
             }
             let counter = 0;
             response.data.data.jobSeeker.forEach((i) => {
@@ -420,11 +425,11 @@ export default {
       .then((response) => {
         if (response.data.data.jobSeeker.length > 0) {
           this.lengthData = response.data.data.total;
-          const modulo = response.data.data.total % 10;
+          const modulo = response.data.data.total % 20;
           if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
+            this.pageCount = response.data.data.total / 20;
           } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            this.pageCount = (response.data.data.total - modulo) / 20 + 1;
           }
           let counter = 0;
           response.data.data.jobSeeker.forEach((i) => {
@@ -499,5 +504,12 @@ export default {
 <style scoped>
 .size-max {
   max-width: 1100px;
+}
+.preview-img {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  overflow: hidden;
+  border-radius: 50%;
 }
 </style>

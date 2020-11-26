@@ -36,7 +36,7 @@
                       <v-btn
                         :to="`/detail-article-login/${item.id}`"
                         text
-                        color="primary"
+                        color="primary font-family"
                       >
                         Baca Selengkapnya
                       </v-btn>

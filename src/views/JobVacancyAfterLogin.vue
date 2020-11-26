@@ -312,11 +312,11 @@ export default {
         .then((response) => {
           if (response.data.data.jobVacancy.length > 0) {
             this.lengthData = response.data.data.total;
-            const modulo = response.data.data.total % 10;
+            const modulo = response.data.data.total % 20;
             if (modulo === 0) {
-              this.pageCount = response.data.data.total / 10;
+              this.pageCount = response.data.data.total / 20;
             } else {
-              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
             }
             let counter = 0;
             response.data.data.jobVacancy.forEach((i) => {
@@ -364,11 +364,11 @@ export default {
       .then((response) => {
         if (response.data.data.jobVacancy.length > 0) {
           this.lengthData = response.data.data.total;
-          const modulo = response.data.data.total % 10;
+          const modulo = response.data.data.total % 20;
           if (modulo === 0) {
-            this.pageCount = response.data.data.total / 10;
+            this.pageCount = response.data.data.total / 20;
           } else {
-            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            this.pageCount = (response.data.data.total - modulo) / 20 + 1;
           }
           let counter = 0;
           response.data.data.jobVacancy.forEach((i) => {
