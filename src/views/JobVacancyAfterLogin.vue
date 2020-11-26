@@ -3,18 +3,20 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col>
-            <v-card>
-              <v-card-title> Pilih Kriteria </v-card-title>
-              <v-card-subtitle>
+          <v-col xl="12" lg="12" md="12" sm="12" xs="12">
+            <v-card elevation="3" class="rounded-xl" width="100vw">
+              <v-card-title class="font-family font-weight-bold">
+                Pilih Kriteria
+              </v-card-title>
+              <v-card-subtitle class="font-family pb-0">
                 Silahkan masukkan kriteria untuk menampilkan lowongan
                 berdasarkan lokasi dan posisi. Jika Anda tidak menemukan
                 kriteria yang diinginkan, Anda dapat menghubungi kami.
               </v-card-subtitle>
-              <v-card-text>
+              <v-card-text class="pa-4">
                 <v-form lazy-validation>
-                  <v-row class="align-center">
-                    <v-col cols="12" xl="5" lg="5" md="5">
+                  <v-row>
+                    <v-col cols="12" xl="5" lg="5" md="5" sm="12" xs="12">
                       <v-autocomplete
                         v-model="location"
                         :items="itemsLocation"
@@ -24,13 +26,11 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Lokasi Lowongan"
-                        @click:append-outer="resetLocation()"
-                        persistent-hint
+                        label="Lokasi"
                         dense
                       />
                     </v-col>
-                    <v-col cols="12" xl="5" lg="5" md="5">
+                    <v-col cols="12" xl="5" lg="5" md="5" sm="12" xs="12">
                       <v-autocomplete
                         v-model="job"
                         :items="itemsJob"
@@ -40,14 +40,16 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Posisi Lowongan"
-                        @click:append-outer="resetJob()"
-                        persistent-hint
+                        label="Jabatan"
                         dense
                       />
                     </v-col>
-                    <v-col cols="12" xl="2" lg="2" md="2">
-                      <v-btn block color="primary" @click="searchJobSeeker()">
+                    <v-col cols="12" xl="2" lg="2" md="2" sm="12" xs="12">
+                      <v-btn
+                        block
+                        color="primary font-weight-bold font-family"
+                        @click="searchJobSeeker()"
+                      >
                         cari
                       </v-btn>
                     </v-col>
@@ -55,89 +57,100 @@
                 </v-form>
               </v-card-text>
             </v-card>
-          </v-col>
-          <v-col cols="12">
-            <v-card class="mb-4" elevation="0">
-              <v-card-text>
-                {{ max }} dari {{ lengthData }} lowongan ditemukan
-              </v-card-text>
-            </v-card>
-            <div v-if="jobSeeker.length > 0 && !skeleton">
-              <div v-for="item in jobSeeker" :key="item.id">
-                <transition name="fade" appear>
-                  <v-card class="my-2">
-                    <v-card-text>
+            <div v-if="!skeleton" class="mt-4">
+              <div v-if="jobSeeker.length > 0">
+                <div v-for="item in jobSeeker" :key="item.id">
+                  <v-card
+                    elevation="3"
+                    class="rounded-xl mt-4"
+                    width="100vw"
+                    @click="href(item.id)"
+                  >
+                    <v-card-text class="pa-4">
                       <v-row>
                         <v-col
-                          cols="2"
-                          lg="2"
+                          cols="12"
                           xl="2"
+                          lg="2"
                           md="2"
-                          class="hidden-sm-and-down"
-                          ><v-img
-                            aspect-ratio="1"
-                            :src="item.image"
-                            class="mr-2"
-                          ></v-img
-                        ></v-col>
-                        <v-col cols="12" lg="10" xl="10" md="10">
-                          <v-card-title>{{ item.position }}</v-card-title>
-                          <v-card-subtitle>{{ item.company }}</v-card-subtitle>
-                          <v-card-text>
-                            <p
-                              class="text-capitalize text-subtitle-2 font-weight-regular"
-                            >
-                              <v-icon class="mr-2" size="15">$location</v-icon>
-                              {{ item.location }}
-                            </p>
-                            <p
-                              class="text-capitalize text-subtitle-2 font-weight-regular"
-                            >
-                              <v-icon class="mr-2" size="15">$calendar</v-icon>
-                              {{ item.date }}
-                            </p></v-card-text
-                          ></v-col
+                          sm="12"
+                          xs="12"
+                          class="d-flex justify-center align-center"
                         >
-                      </v-row>
-                      <v-row>
-                        <v-card-text>
-                          {{ item.desc }}
-                        </v-card-text>
+                          <img
+                            :src="item.image"
+                            class="preview-img"
+                            aspect-ratio="1.7"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          xl="10"
+                          lg="10"
+                          md="10"
+                          sm="12"
+                          xs="12"
+                        >
+                          <p class="font-weight-bold text-h6 black--text mb-0">
+                            <span class="font-family">
+                              {{ item.position }}
+                            </span>
+                          </p>
+                          <p class="text-subtitle-2 black--text mb-2">
+                            <span class="font-family">
+                              {{ item.company }}
+                            </span>
+                          </p>
+                          <p class="black--text mb-1 text-subtitle-2">
+                            <v-icon size="15" class="mr-3">$location</v-icon>
+                            <span class="font-family">
+                              {{ item.location }}
+                            </span>
+                          </p>
+                          <p class="black--text text-subtitle-2 mb-4">
+                            <v-icon size="15" class="mr-3">$calendar</v-icon>
+                            <span class="font-family">
+                              {{ item.date }}
+                            </span>
+                          </p>
+                          <p class="black--text">
+                            <span class="font-family">
+                              {{ item.desc }}
+                            </span>
+                          </p>
+                        </v-col>
                       </v-row>
                     </v-card-text>
-                    <v-card-actions>
-                      <v-btn
-                        text
-                        color="primary"
-                        :to="`/detail-job-vacancy/${item.id}`"
-                      >
-                        detail lowongan
-                      </v-btn>
-                    </v-card-actions>
                   </v-card>
-                </transition>
+                </div>
+                <div class="text-canter mt-2">
+                  <v-pagination
+                    v-model="page"
+                    total-visible="10"
+                    :length="pageCount"
+                    @input="pagination()"
+                  ></v-pagination>
+                </div>
+              </div>
+              <div v-if="jobSeeker.length === 0" class="mt-4">
+                <p
+                  class="font-weight-bold text-subtitle-1 text-center text-capitalize"
+                >
+                  <span class="font-family">
+                    data belum ada di sistem kami. untuk lebih lanjut silahkan
+                    hubungi pihak kami
+                  </span>
+                </p>
               </div>
             </div>
-            <div v-if="!skeleton && jobSeeker.length === 0">
-              <v-card elevation="3" class="mt-4 pa-3">
-                <v-card-text class="text-center">
-                  Data yang Anda cari tidak ditemukan.
-                </v-card-text>
-              </v-card>
-            </div>
-            <div v-if="skeleton">
-              <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-              <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-              <v-skeleton-loader ref="skeleton" type="card" class="mt-2" />
-            </div>
-            <div class="text-canter mt-2">
-              <v-pagination
-                v-model="page"
-                total-visible="10"
-                :length="pageCount"
-                v-if="!skeleton"
-                @input="pagination()"
-              ></v-pagination>
+            <div v-if="skeleton" class="mt-4">
+              <div v-for="i in 4" :key="i">
+                <v-skeleton-loader
+                  class="mx-auto"
+                  max-width="1044"
+                  type="card"
+                ></v-skeleton-loader>
+              </div>
             </div>
           </v-col>
         </v-row>
@@ -151,12 +164,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'lowongan kerja',
-        disabled: true,
-      },
-    ],
     search: '',
     page: 1,
     jobSeeker: [],
@@ -175,12 +182,6 @@ export default {
     searchJob: null,
   }),
   computed: {
-    min() {
-      return (this.page - 1) * 20 + 1;
-    },
-    max() {
-      return (this.page - 1) * 20 + this.jobSeeker.length;
-    },
     itemsLocation() {
       return this.entriesLocation.map((entry) => {
         const { name } = entry;
@@ -205,16 +206,18 @@ export default {
       this.isLoadingLocation = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}umkm/location`, {
+      fetch(`${this.$store.state.domain}city`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
       })
         .then((res) => res.json())
         .then((res) => {
-          res.data.location.forEach((i) => {
+          res.data.city.forEach((i) => {
             this.entriesLocation.push({
-              name: i.name,
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+              provinceId: i.provinceId,
             });
           });
         })
@@ -269,12 +272,6 @@ export default {
       const counterEnd = payload * 4;
       return this.jobSeeker.slice(counterStart, counterEnd);
     },
-    resetLocation() {
-      this.location = '';
-    },
-    resetJob() {
-      this.job = '';
-    },
     searchJobSeeker() {
       this.skeleton = true;
       this.page = 1;
@@ -285,6 +282,15 @@ export default {
       this.skeleton = true;
       this.jobSeeker.splice(0, this.jobSeeker.length);
       this.methodGetJobSeeker(this.page);
+    },
+    capitalizeEachWord(str) {
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
+    },
+    href(id) {
+      this.$router.push(`/detail-job-vacancy/${id}`);
     },
     // method universal
     methodGetJobSeeker(page) {
@@ -433,4 +439,7 @@ export default {
 </script>
 
 <style scoped>
+.max-width {
+  width: 1044px;
+}
 </style>

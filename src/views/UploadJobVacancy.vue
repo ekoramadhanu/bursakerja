@@ -286,7 +286,7 @@ export default {
       },
       { text: 'Nama Lowongan', value: 'name', sortable: false },
       { text: 'Perusahaan', value: 'company', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     jobVacancy: [],
     editedIndex: -1,

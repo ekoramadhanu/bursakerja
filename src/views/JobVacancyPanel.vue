@@ -196,7 +196,7 @@ export default {
       { text: 'Nama Lowongan', value: 'name', sortable: false },
       { text: 'Perusahaan', value: 'company', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     jobVacancy: [],
     editedIndex: -1,
@@ -343,8 +343,10 @@ export default {
               response.data.data.jobVacancy.forEach((i) => {
                 if (i.status === '0') {
                   nameStatus = 'Menunggu Verifikasi';
-                } else {
+                } else if (i.status === '1') {
                   nameStatus = 'Sudah Disetujui';
+                } else {
+                  nameStatus = 'Ditolak';
                 }
                 counter += 1;
                 this.jobVacancy.push({
@@ -392,8 +394,10 @@ export default {
                 counter += 1;
                 if (i.status === '0') {
                   nameStatus = 'Menunggu Verifikasi';
-                } else {
+                } else if (i.status === '1') {
                   nameStatus = 'Sudah Disetujui';
+                } else {
+                  nameStatus = 'Ditolak';
                 }
                 this.jobVacancy.push({
                   id: i.id,
@@ -451,8 +455,10 @@ export default {
               counter += 1;
               if (i.status === '0') {
                 nameStatus = 'Menunggu Verifikasi';
-              } else {
+              } else if (i.status === '1') {
                 nameStatus = 'Sudah Disetujui';
+              } else {
+                nameStatus = 'Ditolak';
               }
               this.jobVacancy.push({
                 id: i.id,

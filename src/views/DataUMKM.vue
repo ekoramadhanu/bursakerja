@@ -423,7 +423,8 @@ export default {
     description: '',
     descriptionRules: [
       (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
-      (v) => v.length < 250 || 'Deskripsi Singat Anda Tidak Boleh Lebih Dari 250',
+      (v) => (v || '').length <= 250
+        || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
       // eslint-disable-next-line no-useless-escape
       (v) => /^[a-zA-z., ]*$/.test(v)
         || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',

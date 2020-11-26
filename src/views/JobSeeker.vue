@@ -2,7 +2,7 @@
   <div class="mt-12 pt-1">
     <div class="d-flex justify-center mb-2">
       <div class="max-width">
-        <v-row class="mt-6">
+        <v-row class="">
           <v-col xl="12" lg="12" md="12" sm="12" xs="12">
             <v-card elevation="3" class="rounded-xl" width="100vw">
               <v-card-text class="pa-4">
