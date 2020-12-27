@@ -51,10 +51,7 @@
                         color="primary"
                         v-if="loadingAdd"
                       />
-                      <p
-                        class="ma-0 primary--text"
-                        v-if="!loadingAdd"
-                      >
+                      <p class="ma-0 primary--text" v-if="!loadingAdd">
                         simpan
                       </p>
                     </v-btn>
@@ -75,7 +72,7 @@
                             :items="itemSchool"
                             item-text="name"
                             item-value="name"
-                            label="Tipe Pekerjaan"
+                            label="Sekolah"
                             :rules="educationRules"
                             single-line
                             required
@@ -102,15 +99,23 @@
                           style: 'overflow: auto;',
                         }"
                       />
-                      <br />
-                      <tip-tap-vuetify
-                        v-model="editedItemJobVacancy.experience"
-                        :extensions="extensions"
-                        :card-props="{
-                          height: '300',
-                          style: 'overflow: auto;',
-                        }"
+                      <v-file-input
+                        label="Unggah Gambar Lowongan Kerja (Maks 1 MB)"
+                        accept="image/png, image/jpeg, image/bmp"
+                        required
+                        ref="fileInput"
+                        enctype="multipart/form-data"
+                        :rules="editedItemJobVacancy.image !== null ? [] : imageRules"
+                        @change="ChangeImage"
+                      ></v-file-input>
+                      <img
+                        :src="editedItemJobVacancy.image"
+                        v-if="editedItemJobVacancy.image != null"
+                        class="preview-img"
+                        contain
+                        aspect-ratio="1.7"
                       />
+                      <br />
                     </v-form>
                   </v-card-text>
                 </v-card>
@@ -182,18 +187,16 @@
               <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              Edit Data Lowongan
+              ubah lowongan
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn elevation="0" @click="saveUpdate()" color="white">
               <v-progress-circular
                 indeterminate
                 color="primary"
-                v-if="loadingUpdate"
+                v-if="loadingAdd"
               />
-              <p class="ma-0 primary--text" v-if="!loadingUpdate">
-                simpan
-              </p>
+              <p class="ma-0 primary--text" v-if="!loadingAdd">simpan</p>
             </v-btn>
           </v-toolbar>
 
@@ -205,17 +208,57 @@
                 label="Nama lowongan"
                 required
               />
+              <v-row>
+                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                  <v-select
+                    v-model="editedItemJobVacancy.academic"
+                    :items="itemSchool"
+                    item-text="name"
+                    item-value="name"
+                    label="Sekolah"
+                    :rules="educationRules"
+                    single-line
+                    required
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                  <v-select
+                    v-model="editedItemJobVacancy.typeJob"
+                    :items="itemTypeJob"
+                    item-text="name"
+                    item-value="name"
+                    label="Tipe Pekerjaan"
+                    :rules="typeJobRules"
+                    single-line
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
               <tip-tap-vuetify
                 v-model="editedItemJobVacancy.description"
                 :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
+                :card-props="{
+                  height: '300',
+                  style: 'overflow: auto;',
+                }"
+              />
+              <v-file-input
+                label="Unggah Gambar Lowongan Kerja (Maks 1 MB)"
+                accept="image/png, image/jpeg, image/bmp"
+                required
+                ref="fileInput"
+                enctype="multipart/form-data"
+                :rules="editedItemJobVacancy.image !== null ? [] : imageRules"
+                @change="ChangeImage"
+              ></v-file-input>
+              <img
+                :src="editedItemJobVacancy.image"
+                v-if="editedItemJobVacancy.image != null"
+                class="preview-img"
+                contain
+                aspect-ratio="1.7"
               />
               <br />
-              <tip-tap-vuetify
-                v-model="editedItemJobVacancy.experience"
-                :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
-              />
             </v-form>
           </v-card-text>
         </v-card>
@@ -293,14 +336,16 @@ export default {
     editedItemJobVacancy: {
       name: '',
       description: '<p>Silahkan Isi Pejelasan</p>',
-      experience: '<p>Silahkan Isi Pengalaman</p>',
+      experience: null,
+      image: null,
       academic: '',
       typeJob: '',
     },
     defaultItem: {
       name: '',
       description: '<p>Silahkan Isi Pejelasan</p>',
-      experience: '<p>Silahkan Isi Pengalaman</p>',
+      experience: null,
+      image: null,
       academic: '',
       typeJob: '',
     },
@@ -348,6 +393,10 @@ export default {
       { name: 'Pekerja Lepas' },
       { name: 'Kontrak' },
     ],
+    imageRules: [
+      (v) => !!v || 'Gambar Lowongan Kerja Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'Gambar Lowongan Kerja Harus Kurang Dari 1MB',
+    ],
   }),
   components: {
     'tip-tap-vuetify': TiptapVuetify,
@@ -367,11 +416,11 @@ export default {
     ChangeImage(event) {
       // this.image = event;
       if (event == null) {
-        this.editedItemArticle.image = null;
+        this.editedItemJobVacancy.image = null;
       } else {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.editedItemArticle.image = e.target.result;
+          this.editedItemJobVacancy.image = e.target.result;
         };
         reader.readAsDataURL(event);
       }
@@ -398,6 +447,7 @@ export default {
             name: this.editedItemJobVacancy.name,
             description: this.editedItemJobVacancy.description,
             experience: this.editedItemJobVacancy.experience,
+            photo: this.editedItemJobVacancy.image,
             academic: this.editedItemJobVacancy.academic,
             typeJob: this.editedItemJobVacancy.typeJob,
           },
@@ -442,7 +492,9 @@ export default {
       this.editedIndex = this.jobVacancy.indexOf(item);
       this.editedItemJobVacancy.name = item.name;
       this.editedItemJobVacancy.description = item.description;
-      this.editedItemJobVacancy.experience = item.experience;
+      this.editedItemJobVacancy.academic = item.academic;
+      this.editedItemJobVacancy.image = item.image;
+      this.editedItemJobVacancy.typeJob = item.typeJob;
       this.dialogUpdate = true;
     },
     saveUpdate() {
@@ -460,7 +512,9 @@ export default {
           data: {
             name: this.editedItemJobVacancy.name,
             description: this.editedItemJobVacancy.description,
-            experience: this.editedItemJobVacancy.experience,
+            photo: this.editedItemJobVacancy.image,
+            typeJob: this.editedItemJobVacancy.typeJob,
+            academic: this.editedItemJobVacancy.academic,
           },
         })
           .then((response) => {
@@ -533,8 +587,10 @@ export default {
                   number: counter,
                   name: i.name,
                   company: i.nameCompany,
+                  academic: i.academic,
+                  image: i.jobVacancyImage,
+                  typeJob: i.typeJob,
                   description: i.description,
-                  experience: i.experience,
                 });
               });
             } else {
@@ -574,7 +630,9 @@ export default {
                   name: i.name,
                   company: i.nameCompany,
                   description: i.description,
-                  experience: i.experience,
+                  image: i.jobVacancyImage,
+                  academic: i.academic,
+                  typeJob: i.typeJob,
                 });
               });
             } else {
@@ -620,7 +678,9 @@ export default {
                 name: i.name,
                 company: i.nameCompany,
                 description: i.description,
-                experience: i.experience,
+                image: i.jobVacancyImage,
+                academic: i.academic,
+                typeJob: i.typeJob,
               });
             });
           } else {

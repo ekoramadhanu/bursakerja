@@ -130,6 +130,18 @@
                 <div v-html="exerience" class="font-family"></div>
               </v-card-text>
             </v-card>
+            <v-card elevation="3" class="mt-3">
+              <v-img
+                :src="brousure"
+                aspect-ratio="1.7"
+                width="672"
+                max-width="672"
+                height="672"
+                max-height="672"
+                contain
+                class="mx-auto"
+              />
+            </v-card>
           </v-col>
           <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
             <v-btn
@@ -327,6 +339,7 @@ export default {
       },
     ],
     skeleton: true,
+    brousure: null,
     image: null,
     description: '',
     descriptionCompany: '',
@@ -429,6 +442,7 @@ export default {
           this.employee = response.data.data.jobVacancy[0].company.employee;
           this.phone = response.data.data.jobVacancy[0].company.phone;
           this.descriptionCompany = response.data.data.jobVacancy[0].company.description;
+          this.brousure = response.data.data.jobVacancy[0].image;
           this.items.splice(1, 1, {
             text: response.data.data.jobVacancy[0].name,
             disabled: true,

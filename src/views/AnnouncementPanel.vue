@@ -369,6 +369,12 @@ export default {
     },
     closeAdd() {
       this.dialogAdd = false;
+      this.$nextTick(() => {
+        this.editedItemArticle = { ...this.defaultItem };
+        this.editedIndex = -1;
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+      });
     },
     saveAdd() {
       if (this.$refs.form.validate()) {
@@ -487,6 +493,7 @@ export default {
         this.editedItemArticle = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.reset();
+        this.$refs.form.resetValidation();
       });
     },
     // method universal

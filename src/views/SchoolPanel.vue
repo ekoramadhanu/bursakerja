@@ -622,8 +622,8 @@ export default {
       this.$nextTick(() => {
         this.editedItemSchool = { ...this.defaultItem };
         this.editedIndex = -1;
-        this.$refs.form.reset();
         this.$refs.form.resetValidation();
+        this.$refs.form.reset();
       });
     },
     saveAdd() {
@@ -742,8 +742,8 @@ export default {
       this.$nextTick(() => {
         this.editedItemSchool = { ...this.defaultItem };
         this.editedIndex = -1;
-        this.$refs.form.reset();
         this.$refs.form.resetValidation();
+        this.$refs.form.reset();
       });
     },
     openDialogDeactivate(item) {

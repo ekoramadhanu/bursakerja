@@ -144,7 +144,7 @@ export default {
               this.status = false;
               this.message = 'PIN kartu salah';
             } else if (
-              response.data.data.message === 'Data Has Been Activate'
+              response.data.data.message === 'Account Has ben Activate'
             ) {
               this.status = false;
               this.message = 'kartu bursa sudah diaktifkan';

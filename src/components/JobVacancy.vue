@@ -449,4 +449,17 @@ export default {
 .max-width {
   width: 1044px;
 }
+.preview-img {
+  max-width: 100%;
+  max-height: 100%;
+}
+div >>> ul {
+  line-height: 18px !important;
+}
+div >>> ol {
+  line-height: 18px !important;
+}
+div >>> li > p {
+  margin: 3px !important;
+}
 </style>

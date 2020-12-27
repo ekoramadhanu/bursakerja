@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-center mb-2 mt-3">
     <div class="max-width">
-      <p class=" text-h4 text-center mt-16 text-capitalize black--text font-weight-bold">
+      <p class=" text-h4 text-center mt-16 text-capitalize black--text font-weight-bold mx-auto">
         Mitra Kami
       </p>
       <v-carousel
@@ -26,8 +26,9 @@
                 width="128"
                 height="42"
                 aspect-ratio="1.7"
-                class="greyscale mr-12"
+                class="greyscale mr-12 cursor"
                 contain
+                @click="openLink(item.link)"
               ></v-img>
             </div>
           </v-sheet>
@@ -86,6 +87,9 @@ export default {
     rezise() {
       this.windowsWidth = window.innerWidth;
     },
+    openLink(link) {
+      window.open(link);
+    },
   },
   beforeCreate() {
     axios({
@@ -101,6 +105,7 @@ export default {
             id: i.id,
             name: i.name,
             image: i.image,
+            link: i.link,
           });
         });
       })
@@ -158,5 +163,7 @@ export default {
   -moz-filter:grayscale(0%);
   filter:grayscale(0%);
 }
-
+.cursor {
+  cursor: pointer;
+}
 </style>

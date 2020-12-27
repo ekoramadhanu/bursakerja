@@ -83,7 +83,6 @@
                   elevation="3"
                   class="rounded-xl mt-4"
                   width="100vw"
-                  @click="href(item.id)"
                 >
                   <v-card-text class="pa-4">
                     <v-row>
@@ -385,10 +384,7 @@ export default {
             let counter = 0;
             response.data.data.internship.forEach((i) => {
               counter += 1;
-              let shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
-              if (shortDesc.length > 100) {
-                shortDesc = `${shortDesc.substr(0, 250)}.....`;
-              }
+              const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
               this.jobSeeker.push({
                 id: i.id,
                 number: counter,
@@ -435,10 +431,7 @@ export default {
           let counter = 0;
           response.data.data.internship.forEach((i) => {
             counter += 1;
-            let shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
-            if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 250)}.....`;
-            }
+            const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
             this.jobSeeker.push({
               id: i.id,
               number: counter,

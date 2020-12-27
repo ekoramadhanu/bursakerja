@@ -397,6 +397,12 @@
                 item-text="name"
                 item-value="id"
                 label="Lokasi "
+                :hint="
+                  editedItemJobSeeker.location === ''
+                    ? ''
+                    : `data yang disimpan ${editedItemJobSeeker.location}`
+                "
+                persistent-hint
                 :rules="locationRules"
               />
               <v-select
@@ -409,7 +415,7 @@
                 required
               ></v-select>
               <v-menu
-                v-model="menu"
+                v-model="menu1"
                 :close-on-content-click="false"
                 :nudge-right="40"
                 transition="scale-transition"
@@ -428,7 +434,7 @@
                 </template>
                 <v-date-picker
                   v-model="editedItemJobSeeker.expired"
-                  @input="menu = false"
+                  @input="menu1 = false"
                 ></v-date-picker>
               </v-menu>
               <v-file-input
@@ -538,9 +544,7 @@
       <v-dialog v-model="dialogDeShow" persistent max-width="450">
         <v-card>
           <v-card-title class="headline primary white--text text-capitalize">
-            <span class="font-family">
-              menonaktifkan iklan profesional
-            </span>
+            <span class="font-family"> menonaktifkan iklan profesional </span>
           </v-card-title>
           <v-card-text>
             <div class="d-flex justify-start align-center pa-2">
@@ -580,9 +584,7 @@
       <v-dialog v-model="dialogShow" persistent max-width="450">
         <v-card>
           <v-card-title class="headline primary white--text text-capitalize">
-            <span class="font-family">
-              mengaktifkan iklan profesional
-            </span>
+            <span class="font-family"> mengaktifkan iklan profesional </span>
           </v-card-title>
           <v-card-text>
             <div class="d-flex justify-start align-center pa-2">
@@ -822,7 +824,7 @@ export default {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.resetValidation();
-        this.manually = false;
+        this.$refs.form.reset();
       });
     },
     ChangeImage(event) {
@@ -962,7 +964,7 @@ export default {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.resetValidation();
-        this.manually = false;
+        this.$refs.form.reset();
       });
     },
     openDialogShow(item) {

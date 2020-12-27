@@ -385,10 +385,7 @@ export default {
             let counter = 0;
             response.data.data.informal.forEach((i) => {
               counter += 1;
-              let shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
-              if (shortDesc.length > 100) {
-                shortDesc = `${shortDesc.substr(0, 250)}.....`;
-              }
+              const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
               this.jobSeeker.push({
                 id: i.id,
                 number: counter,
@@ -435,10 +432,7 @@ export default {
           let counter = 0;
           response.data.data.informal.forEach((i) => {
             counter += 1;
-            let shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
-            if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 250)}.....`;
-            }
+            const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
             this.jobSeeker.push({
               id: i.id,
               number: counter,

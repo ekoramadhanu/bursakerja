@@ -119,14 +119,14 @@ export default {
             console.log(response.data);
             if (response.data.data.message === 'Data Is Blacklist') {
               this.hasSaved = true;
-              this.status = true;
+              this.status = false;
               this.message = 'data masuk daftar hitam';
-              this.icon = '$success';
+              this.icon = '$warning';
             } else {
               this.hasSaved = true;
-              this.status = false;
+              this.status = true;
               this.message = 'data tidak masuk daftar hitam';
-              this.icon = '$warning';
+              this.icon = '$success';
             }
           })
           .catch(() => {

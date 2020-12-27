@@ -53,18 +53,18 @@
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
-                        @click="saveUpdate()"
+                        @click="saveAdd()"
                         color="white"
                         class="primary--text my-auto"
                       >
                         <v-progress-circular
                           indeterminate
                           color="primary"
-                          v-if="loadingUpdate"
+                          v-if="loadingAdd"
                         />
                         <p
                           class="ma-0 font-family font-weight-bold"
-                          v-if="!loadingUpdate"
+                          v-if="!loadingAdd"
                         >
                           simpan perubahan
                         </p>

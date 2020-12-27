@@ -109,7 +109,7 @@ export default {
     password: '',
     passwordRules: [
       (v) => !!v || 'Kata Sandi Tidak Boleh Kosong',
-      (v) => (v.length >= 8 && v.length <= 12) || 'Kata Sandi Harus (6-12)',
+      (v) => (v.length >= 8 && v.length <= 12) || 'Kata Sandi Harus (8-12)',
     ],
     showPassword: false,
     // loading

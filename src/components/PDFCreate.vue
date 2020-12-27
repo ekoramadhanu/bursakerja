@@ -40,59 +40,71 @@ export default {
       const listCertification = [];
       const modulo = skill.length % 2 === 0;
       // const language = this.data.language.split(/<p>/g);
-      for (let index = 0; index < languange.length; index += 1) {
-        languange[index] = languange[index].replace(/(<([^>]+)>)/ig, '');
-        listLanguange.push({
-          text: languange[index],
-          style: ['subtitle3'],
-        });
-      }
-      for (let index = 0; index < hobby.length; index += 1) {
-        hobby[index] = hobby[index].replace(/(<([^>]+)>)/ig, '');
-        listHobby.push({
-          text: hobby[index],
-          style: ['subtitle3'],
-        });
-      }
-      for (let index = 0; index < skill.length; index += 1) {
-        skill[index] = skill[index].replace(/(<([^>]+)>)/ig, '');
-        if (modulo && index <= index / 2) {
-          listSkill1.push({
-            text: skill[index],
-            style: ['subtitle3'],
-          });
-        } else if (!modulo && index <= Math.ceil(index / 2)) {
-          listSkill1.push({
-            text: skill[index],
-            style: ['subtitle3'],
-          });
-        } else {
-          listSkill2.push({
-            text: skill[index],
+      if (languange !== null) {
+        for (let index = 0; index < languange.length; index += 1) {
+          languange[index] = languange[index].replace(/(<([^>]+)>)/ig, '');
+          listLanguange.push({
+            text: languange[index],
             style: ['subtitle3'],
           });
         }
       }
-      for (let index = 0; index < experience.length; index += 1) {
-        experience[index] = experience[index].replace(/(<([^>]+)>)/ig, '');
-        listExperience.push({
-          text: experience[index],
-          style: ['subtitle3'],
-        });
+      if (hobby !== null) {
+        for (let index = 0; index < hobby.length; index += 1) {
+          hobby[index] = hobby[index].replace(/(<([^>]+)>)/ig, '');
+          listHobby.push({
+            text: hobby[index],
+            style: ['subtitle3'],
+          });
+        }
       }
-      for (let index = 0; index < expSchool.length; index += 1) {
-        expSchool[index] = expSchool[index].replace(/(<([^>]+)>)/ig, '');
-        listExpSchool.push({
-          text: expSchool[index],
-          style: ['subtitle3'],
-        });
+      if (skill !== null) {
+        for (let index = 0; index < skill.length; index += 1) {
+          skill[index] = skill[index].replace(/(<([^>]+)>)/ig, '');
+          if (modulo && index <= index / 2) {
+            listSkill1.push({
+              text: skill[index],
+              style: ['subtitle3'],
+            });
+          } else if (!modulo && index <= Math.ceil(index / 2)) {
+            listSkill1.push({
+              text: skill[index],
+              style: ['subtitle3'],
+            });
+          } else {
+            listSkill2.push({
+              text: skill[index],
+              style: ['subtitle3'],
+            });
+          }
+        }
       }
-      for (let index = 0; index < certification.length; index += 1) {
-        certification[index] = certification[index].replace(/(<([^>]+)>)/ig, '');
-        listCertification.push({
-          text: certification[index],
-          style: ['subtitle3'],
-        });
+      if (experience !== null) {
+        for (let index = 0; index < experience.length; index += 1) {
+          experience[index] = experience[index].replace(/(<([^>]+)>)/ig, '');
+          listExperience.push({
+            text: experience[index],
+            style: ['subtitle3'],
+          });
+        }
+      }
+      if (expSchool !== null) {
+        for (let index = 0; index < expSchool.length; index += 1) {
+          expSchool[index] = expSchool[index].replace(/(<([^>]+)>)/ig, '');
+          listExpSchool.push({
+            text: expSchool[index],
+            style: ['subtitle3'],
+          });
+        }
+      }
+      if (certification !== null) {
+        for (let index = 0; index < certification.length; index += 1) {
+          certification[index] = certification[index].replace(/(<([^>]+)>)/ig, '');
+          listCertification.push({
+            text: certification[index],
+            style: ['subtitle3'],
+          });
+        }
       }
       if (this.data.frontDegree === '-') {
         frontDegree = '';

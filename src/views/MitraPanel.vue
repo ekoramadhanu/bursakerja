@@ -46,6 +46,12 @@
                         v-model="editedItemMitra.name"
                         :rules="nameRules"
                       />
+                      <v-text-field
+                        label="Link website"
+                        v-model="editedItemMitra.link"
+                        :rules="linkRules"
+                        required
+                      />
                       <v-file-input
                         label="Unggah Gambar Perusahaan Mitra (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
@@ -206,6 +212,12 @@
                 v-model="editedItemMitra.name"
                 :rules="nameRules"
               />
+              <v-text-field
+                label="Link website"
+                v-model="editedItemMitra.link"
+                :rules="linkRules"
+                required
+              />
               <v-file-input
                 label="Unggah Gambar Perusahaan Mitra (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
@@ -359,6 +371,7 @@ export default {
       },
       { text: 'Nama Perusaahan', value: 'name', sortable: false },
       { text: 'Logo Perusaahan', value: 'image', sortable: false },
+      { text: 'Website', value: 'link', sortable: false },
       { text: 'status', value: 'status', sortable: false },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
@@ -367,10 +380,12 @@ export default {
     editedItemMitra: {
       image: '',
       name: '',
+      link: '',
     },
     defaultItem: {
       image: '',
       name: '',
+      link: '',
     },
     page: 1,
     pageCount: 0,
@@ -380,6 +395,11 @@ export default {
       (v) => !v
         || v.size < 1000000
         || 'Gambar Perusahaan Mitra Harus Kurang Dari 1MB',
+    ],
+    linkRules: [
+      (v) => !!v || 'Link Website Tidak Boleh Kosong',
+      (v) => /^http:|https:/.test(v)
+        || 'Link Website Harus Dimulai Dengan http:// atau https://',
     ],
     nameRules: [(v) => !!v || 'Nama Perusahaan Mitra Tidak Boleh Kosong'],
     hasSaved: false,
@@ -492,6 +512,7 @@ export default {
           data: {
             photo: this.editedItemMitra.image,
             name: this.editedItemMitra.name,
+            link: this.editedItemMitra.link,
           },
         })
           .then((response) => {
@@ -661,6 +682,7 @@ export default {
                   name: i.name,
                   image: i.image,
                   status: nameStatus,
+                  link: i.link,
                 });
               });
             } else {
@@ -706,6 +728,7 @@ export default {
                   name: i.name,
                   image: i.image,
                   status: nameStatus,
+                  link: i.link,
                 });
               });
             } else {
@@ -763,6 +786,7 @@ export default {
                 name: i.name,
                 image: i.image,
                 status: nameStatus,
+                link: i.link,
               });
             });
           } else {

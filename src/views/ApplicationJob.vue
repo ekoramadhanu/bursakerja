@@ -9,68 +9,20 @@
             </p>
             <p
               class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
-              v-if="!skeleton"
+              v-if="!skeleton && jobSeeker.length > 0"
             >
               {{ min }} - {{ max }} dari {{ lengthData }} pekerja
+            </p>
+            <p
+              class="text-capitalize ma-0 text-subtitle-2 font-weight-regular"
+              v-if="!skeleton && jobSeeker.length === 0"
+            >
+              0 - 0 dari 0 pekerja
             </p>
           </v-card-title>
         </v-card>
         <div v-if="jobSeeker.length > 0 && !skeleton">
           <div v-for="item in jobSeeker" :key="item.id">
-            <!-- <v-card elevation="3" class="mt-4 pa-3">
-                <v-card-text class="pa-2">
-                  <div class="d-flex">
-                    <v-img
-                      width="150"
-                      max-width="150"
-                      height="120"
-                      max-height="120"
-                      :src="item.image"
-                      contain
-                      class="mr-2"
-                    ></v-img>
-                    <div>
-                      <p class="text-capitalize ma-0 text-h6">
-                        {{ item.name }}
-                      </p>
-                      <p class="text-capitalize text-subtitle-2 ma-0">
-                        {{ item.position }}
-                      </p>
-                      <p
-                        class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                      >
-                        <v-icon class="mr-3" size="12">$phone</v-icon>
-                        {{ item.phone }}
-                      </p>
-                      <p
-                        class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                      >
-                        <v-icon class="mr-2" size="12">$school</v-icon>
-                        {{ item.school }}
-                      </p>
-                      <p
-                        class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                      >
-                        <v-icon class="mr-3" size="12">$location</v-icon>
-                        {{ item.location }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="mt-2 text-subtitle-2 font-weight-regular">
-                    {{ item.desc }}
-                  </div>
-                </v-card-text>
-                <v-card-actions class="d-flex justify-end pa-1">
-                  <v-btn
-                    text
-                    color="primary"
-                    class="text-capitalize"
-                    :to="`/job-seeker-detail/${item.id}`"
-                  >
-                    selengkapnya
-                  </v-btn>
-                </v-card-actions>
-              </v-card> -->
             <v-card
               elevation="3"
               class="rounded-xl mt-4"

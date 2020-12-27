@@ -1066,9 +1066,6 @@ export default {
         }
       }
     },
-    changeManuallyCity() {
-      this.manuallyCity = !this.manuallyCity;
-    },
     onButtonClick() {
       this.isSelecting = true;
       window.addEventListener(

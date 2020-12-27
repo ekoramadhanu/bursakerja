@@ -20,7 +20,9 @@
         </v-list-item>
         <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title class="white--text text-capitalize text-subtitle-1">
+            <v-list-item-title
+              class="white--text text-capitalize text-subtitle-1"
+            >
               <span class="font-family">
                 {{ fullname }}
               </span>
@@ -38,7 +40,9 @@
         <v-list-item-group active-class="sidebar-item-active">
           <v-list-item to="/home">
             <v-list-item-content>
-              <v-list-item-title class="text-capitalize white--text font-family">
+              <v-list-item-title
+                class="text-capitalize white--text font-family"
+              >
                 dashboard
               </v-list-item-title>
             </v-list-item-content>
@@ -49,23 +53,39 @@
             link
             :to="item.link"
           >
-            <v-list-item-content>
-              <v-list-item-title class="white--text text-capitalize font-family">
+            <v-list-item-content v-if="item.name !== 'pengumuman'">
+              <v-list-item-title
+                class="white--text text-capitalize font-family"
+              >
                 {{ item.name }}
               </v-list-item-title>
             </v-list-item-content>
+            <v-badge
+              :content="messages"
+              :value="messages"
+              color="white"
+              dot
+              v-if="item.name === 'pengumuman'"
+              class="white--text text-capitalize font-family"
+            >
+              {{ item.name }}
+            </v-badge>
           </v-list-item>
           <v-divider></v-divider>
           <v-list-item to="/change-password">
             <v-list-item-content>
-              <v-list-item-title class="text-capitalize white--text font-family">
+              <v-list-item-title
+                class="text-capitalize white--text font-family"
+              >
                 ganti kata sandi
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="logout()">
             <v-list-item-content>
-              <v-list-item-title class="text-capitalize white--text font-family">
+              <v-list-item-title
+                class="text-capitalize white--text font-family"
+              >
                 keluar
               </v-list-item-title>
             </v-list-item-content>

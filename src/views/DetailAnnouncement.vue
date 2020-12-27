@@ -46,17 +46,32 @@ export default {
     content: '',
   }),
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}broadcast/${this.$route.params.id}`,
-      method: 'patch',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    }).catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    });
+    if (this.$store.state.role === 'Pencaker') {
+      axios({
+        baseURL: `${this.$store.state.domain}broadcast/job-seekers/${this.$route.params.id}`,
+        method: 'patch',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      }).catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}broadcast/umkm/${this.$route.params.id}`,
+        method: 'patch',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .catch((error) => {
+        // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    }
     axios({
       baseURL: `${this.$store.state.domain}announcement/${this.$route.params.id}`,
       method: 'get',

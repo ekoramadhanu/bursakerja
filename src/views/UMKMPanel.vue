@@ -543,7 +543,7 @@ export default {
             }
             this.loadingtable = true;
             this.page = 1;
-            this.search = 'Tampilkan Semua';
+            this.search = 'Semua';
             if (this.UMKM.length > 0) {
               this.UMKM.splice(0, this.UMKM.length);
             }

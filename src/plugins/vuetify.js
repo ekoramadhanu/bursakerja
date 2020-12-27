@@ -80,7 +80,7 @@ export default new Vuetify({
         greySecondary: '#78909C', // gray background
         error: '#f44336', // red
         success: '#4caf50', // green
-        warning: '#ffeb3b', // yellow
+        warning: '#f2df13', // yellow
       },
     },
   },

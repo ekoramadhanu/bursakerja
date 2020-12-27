@@ -504,6 +504,7 @@ export default {
       this.nameFile = 'Silahkan Pilih File CSV';
       this.csv = undefined;
       this.$refs.form.resetValidation();
+      this.$refs.form.reset();
     },
     async saveBatchAdd() {
       if (this.$refs.form.validate()) {

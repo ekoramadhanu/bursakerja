@@ -2,7 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
         <v-card elevation="3" class="mt-3" v-if="!skeleton">
           <v-toolbar flat color="primary">
             <v-icon class="mr-2 white--text">$CV</v-icon>
@@ -22,7 +21,6 @@
           <v-card-text class="py-4 px-6">
             <v-form ref="form" lazy-validation>
               <v-text-field
-                prepend-icon="$UMKM"
                 :disabled="!isEditing"
                 v-model="nameCompany"
                 :rules="nameCompanyRules"
@@ -30,27 +28,17 @@
                 required
               />
               <v-text-field
-                prepend-icon="$UMKM"
                 :disabled="!isEditing"
                 v-model="owner"
                 :rules="ownerRules"
                 label="Pemilik Perusahaan"
                 required
               />
-              <!-- <v-text-field
-                prepend-icon="$UMKM"
-                :disabled="!isEditing"
-                v-model="legality"
-                :rules="legalityRules"
-                label="Bentuk Badan Hukum"
-                required
-              /> -->
               <v-select
                 v-model="legality"
                 :items="itemLegality"
                 item-text="name"
                 item-value="id"
-                prepend-icon="$UMKM"
                 label="Bentuk Badan Hukum"
                 :disabled="!isEditing"
                 :rules="legalityRules"
@@ -58,27 +46,17 @@
                 required
               ></v-select>
               <v-text-field
-                prepend-icon="$UMKM"
                 v-model="typeCompany"
                 :rules="typeCompanyRules"
                 :disabled="!isEditing"
                 label="Bidang Usaha"
                 required
               />
-              <!-- <v-text-field
-                prepend-icon="$UMKM"
-                label="Umur Perusahaan"
-                :disabled="!isEditing"
-                v-model="oldCompany"
-                :rules="oldCompanyRules"
-                required
-              /> -->
-               <v-select
+              <v-select
                 v-model="oldCompany"
                 :items="itemOldCompany"
                 item-text="name"
                 item-value="name"
-                prepend-icon="$UMKM"
                 label="Umur Perusahaan"
                 :rules="oldCompanyRules"
                 :disabled="!isEditing"
@@ -87,20 +65,11 @@
               ></v-select>
               <v-row>
                 <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
-                  <!-- <v-text-field
-                    prepend-icon="$UMKM"
-                    :disabled="!isEditing"
-                    v-model="branch"
-                    :rules="branchRules"
-                    label="Jumlah Cabang"
-                    required
-                  /> -->
                   <v-select
                     v-model="branch"
                     :items="itemBranch"
                     item-text="name"
                     item-value="name"
-                    prepend-icon="$UMKM"
                     label="Jumlah Cabang"
                     :rules="branchRules"
                     :disabled="!isEditing"
@@ -109,20 +78,11 @@
                   ></v-select>
                 </v-col>
                 <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
-                  <!-- <v-text-field
-                    prepend-icon="$UMKM"
-                    :disabled="!isEditing"
-                    v-model="employee"
-                    :rules="employeeRules"
-                    label="Jumlah Karyawan"
-                    required
-                  /> -->
                   <v-select
                     v-model="employee"
                     :items="itemEmployee"
                     item-text="name"
                     item-value="name"
-                    prepend-icon="$UMKM"
                     label="Jumlah Karyawan"
                     :rules="employeeRules"
                     :disabled="!isEditing"
@@ -132,7 +92,6 @@
                 </v-col>
               </v-row>
               <v-text-field
-                prepend-icon="$UMKM"
                 label="Alamat Kantor"
                 :disabled="!isEditing"
                 v-model="address"
@@ -142,46 +101,6 @@
               <v-row>
                 <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                   <v-autocomplete
-                    v-model="city"
-                    :items="itemsCity"
-                    :loading="isLoadingCity"
-                    :search-input.sync="searchCity"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Kota Perusahaan"
-                    prepend-icon="$location"
-                    :disabled="!isEditing"
-                    dense
-                    persistent-hint
-                    :hint="city === '' ? '' : `data yang disimpan : ${city}`"
-                    v-if="!manuallyCity"
-                    :rules="cityRules"
-                  />
-                  <v-text-field
-                    v-model="city"
-                    :rules="cityRules"
-                    prepend-icon="$location"
-                    label="Kota Perusahaan"
-                    required
-                    persistent-hint
-                    :hint="city === '' ? '' : `data yang disimpan : ${city}`"
-                    v-if="manuallyCity"
-                    :disabled="!isEditing"
-                  />
-                  <v-btn
-                    text
-                    class="text-capitalize ml-4"
-                    color="primary"
-                    @click="changeManuallyCity()"
-                    :disabled="!isEditing"
-                  >
-                    lain-lain
-                  </v-btn>
-                </v-col>
-                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
-                  <v-autocomplete
                     v-model="province"
                     :items="itemsProvince"
                     :loading="isLoadingProvince"
@@ -189,44 +108,44 @@
                     hide-no-data
                     hide-selected
                     item-text="name"
-                    item-value="name"
-                    label="Provinsi Perusahaan"
-                    prepend-icon="$location"
-                    :disabled="!isEditing"
-                    dense
+                    item-value="id"
+                    label="Provinsi"
                     persistent-hint
+                     :disabled="!isEditing"
                     :hint="
-                      province === '' ? '' : `data yang disimpan : ${province}`
+                      province.name === undefined
+                        ? ''
+                        : `data yang disimpan : ${province.name}`
                     "
-                    v-if="!manuallyProvince"
                     :rules="provinceRules"
+                    return-object
                   />
-                  <v-text-field
-                    v-model="province"
-                    :rules="provinceRules"
-                    prepend-icon="$location"
-                    label="Provinsi Perusahaan"
-                    required
+                </v-col>
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="city"
+                    :items="itemsCity"
+                    :loading="isLoadingCity"
+                    :search-input.sync="searchCity"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="id"
+                    label="Kota/Kabupaten"
+                    :disable-lookup="province === null ? true : false"
                     persistent-hint
+                    return-object
+                     :disabled="!isEditing"
                     :hint="
-                      province === '' ? '' : `data yang disimpan : ${province}`
+                      city === ''
+                        ? 'silahkan pilih provinsi terlebih dahulu'
+                        : `data yang disimpan : ${city.name}`
                     "
-                    v-if="manuallyProvince"
-                    :disabled="!isEditing"
+                    :rules="cityRules"
                   />
-                  <v-btn
-                    text
-                    class="text-capitalize ml-4"
-                    color="primary"
-                    @click="changeManuallyProvince()"
-                    :disabled="!isEditing"
-                  >
-                    lain-lain
-                  </v-btn>
                 </v-col>
               </v-row>
               <v-text-field
-                prepend-icon="$UMKM"
                 label="Link website"
                 :disabled="!isEditing"
                 v-model="link"
@@ -234,7 +153,6 @@
                 required
               />
               <v-text-field
-                prepend-icon="$UMKM"
                 label="Nomor Telepon"
                 :disabled="!isEditing"
                 v-model="phone"
@@ -433,12 +351,10 @@ export default {
     entriesCity: [],
     isLoadingCity: false,
     searchCity: null,
-    manuallyCity: false,
     province: '',
     entriesProvince: [],
     isLoadingProvince: false,
     searchProvince: null,
-    manuallyProvince: false,
   }),
   computed: {
     itemsCity() {
@@ -465,7 +381,7 @@ export default {
       this.isLoadingCity = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}city`, {
+      fetch(`${this.$store.state.domain}city/province/${this.province.id}`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
         },
@@ -474,7 +390,9 @@ export default {
         .then((res) => {
           res.data.city.forEach((i) => {
             this.entriesCity.push({
-              name: i.city_name,
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+              provinceId: i.provinceId,
             });
           });
         })
@@ -504,7 +422,8 @@ export default {
         .then((res) => {
           res.data.province.forEach((i) => {
             this.entriesProvince.push({
-              name: i.province,
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
             });
           });
         })
@@ -560,8 +479,8 @@ export default {
             branches: this.branch,
             employee: this.employee,
             address: this.address,
-            city: this.city,
-            province: this.province,
+            city: this.city.name,
+            province: this.province.name,
             linkWebsite: this.link,
             phone: this.phone,
             photoCard: this.priviewImageKTP,
@@ -596,11 +515,11 @@ export default {
           });
       }
     },
-    changeManuallyCity() {
-      this.manuallyCity = !this.manuallyCity;
-    },
-    changeManuallyProvince() {
-      this.manuallyProvince = !this.manuallyProvince;
+    capitalizeEachWord(str) {
+      return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+      );
     },
   },
   beforeCreate() {

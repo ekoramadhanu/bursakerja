@@ -305,6 +305,8 @@ export default {
             },
           })
             .then((response) => {
+              // eslint-disable-next-line no-console
+              console.log(response.data);
               if (response.data.data.message === 'Email Has Been Used') {
                 this.status = false;
                 this.message = 'alamat email has been used';
