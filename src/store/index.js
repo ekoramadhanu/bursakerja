@@ -5,10 +5,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    domain: 'https://api.test.bursakerja.net/',
-    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJOcldFUUhMQnpSeFhwdXQifQ.Ij6frBh8CqUHt9q1nMs75RJX3re-uQItyr2e-5G-riQ',
-    // eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJTY213Z0VaYVdQZXFK
-    // Z2oifQ.hlBB21-SfwpTDI1Vj5rtFNiMbaIrFbrOsRgQ9z44X4U
+    domain: 'http://localhost/api-bursa-kerja/',
+    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJTY213Z0VaYVdQZXFKZ2oifQ.hlBB21-SfwpTDI1Vj5rtFNiMbaIrFbrOsRgQ9z44X4U',
+    /* eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJOcldFUUhMQnpSe
+    FhwdXQifQ.Ij6frBh8CqUHt9q1nMs75RJX3re-uQItyr2e-5G-riQ */
     sidebar: [
       {
         name: 'dashboard', icon: '$dashboard', link: '/home',
@@ -102,6 +102,11 @@ export default new Vuex.Store({
       'Januari', 'Februari', 'Maret', 'April', 'Mei',
       'Juni', 'Juli', 'Agustus', 'September', 'Oktober',
       'November', 'Desember',
+    ],
+    categorySchool: [
+      { name: 'Perguruan Tinggi' },
+      { name: 'Bimbel' },
+      { name: 'Kursus' },
     ],
   },
   getters: {

@@ -63,6 +63,7 @@ export default new Vuetify({
       pdf: 'far fa-file-pdf',
       arrowLeft: 'mdi-arrow-left',
       close: 'mdi-close',
+      tag: 'mdi-tag',
     },
   },
   theme: {

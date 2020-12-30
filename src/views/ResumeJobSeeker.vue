@@ -989,7 +989,7 @@ export default {
             method: 'patch',
             headers: {
               'x-api-key': this.$store.state.apiKey,
-              authorization: `Bearer ${this.$cookies.get('token')}`,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
             },
             data: {
               idCard: this.idCard,
@@ -1092,7 +1092,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {

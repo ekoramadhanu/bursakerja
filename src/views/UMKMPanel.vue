@@ -369,7 +369,7 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             bursaCard: this.editedItemUMKM.bursaCard,
@@ -432,7 +432,7 @@ export default {
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             bursaCard: this.editedItemUMKM.bursaCard,
@@ -513,7 +513,7 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             cardJson: JSON.stringify(jsonObj),
@@ -569,7 +569,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -623,7 +623,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -677,7 +677,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -734,7 +734,7 @@ export default {
       method: 'get',
       headers: {
         'x-api-key': this.$store.state.apiKey,
-        authorization: `Bearer ${this.$cookies.get('token')}`,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
       },
     })
       .then((response) => {

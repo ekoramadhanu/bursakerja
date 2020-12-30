@@ -108,7 +108,7 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             idCard: this.idCard,

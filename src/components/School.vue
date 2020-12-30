@@ -9,11 +9,11 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    lg="1"
-                    xl="1"
-                    md="1"
-                    sm="12"
-                    xs="12"
+                    lg="2"
+                    xl="2"
+                    md="2"
+                    sm="2"
+                    xs="2"
                     class="d-flex align-center"
                   >
                     <p
@@ -22,7 +22,7 @@
                       <span class="font-family"> kriteria </span>
                     </p>
                   </v-col>
-                  <v-col cols="12" lg="9" xl="9" md="9" sm="12" xs="12">
+                  <v-col cols="12" lg="4" xl="4" md="4" sm="12" xs="12">
                     <v-autocomplete
                       v-model="search"
                       :items="itemsLocation"
@@ -35,6 +35,17 @@
                       label="Lokasi"
                       dense
                     />
+                  </v-col>
+                  <v-col cols="12" lg="4" xl="4" md="4" sm="12" xs="12">
+                    <v-select
+                      v-model="category"
+                      :items="itemCategory"
+                      item-text="name"
+                      item-value="name"
+                      label="Kategori Sekolah"
+                      class="mt-0 pt-0"
+                      single-line
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" lg="2" xl="2" md="2" sm="12" xs="12">
                     <v-btn color="primary" @click="searchSchool()">
@@ -72,10 +83,16 @@
                             {{ item.name }}
                           </span>
                         </p>
-                        <p class="black--text">
+                        <p class="black--text mb-0">
                           <v-icon size="15" class="mr-3">$location</v-icon>
                           <span class="font-family">
                             {{ item.location }}
+                          </span>
+                        </p>
+                        <p class="black--text">
+                          <v-icon size="15" class="mr-3">$tag</v-icon>
+                          <span class="font-family">
+                            {{ item.category }}
                           </span>
                         </p>
                         <p class="black--text">
@@ -130,6 +147,8 @@ export default {
     school: [],
     pageCount: 0,
     skeleton: true,
+    category: '',
+    itemCategory: [],
     // add atribute
     lengthData: 0,
     entries: [],
@@ -222,110 +241,121 @@ export default {
     },
     // method universal
     methodGetSchool(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}school/show-all/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.school.length > 0) {
-              this.lengthData = response.data.data.total;
-              const modulo = response.data.data.total % 20;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 20;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 20 + 1;
-              }
-              let counter = (page - 1) * 20;
-              let nameStatus = '';
-              response.data.data.school.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Ditampilkan';
-                } else {
-                  nameStatus = 'Ditampilkan';
-                }
-                let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-                if (shortDesc.length > 100) {
-                  shortDesc = `${shortDesc.substr(0, 250)}.....`;
-                }
-                this.school.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  image: i.image,
-                  status: nameStatus,
-                  location: i.location,
-                  description: shortDesc,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-              this.lengthData = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.skeleton = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}school/search-show-all/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.school.length > 0) {
-              this.lengthData = response.data.data.total;
-              const modulo = response.data.data.total % 20;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 20;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 20 + 1;
-              }
-              let counter = (page - 1) * 20;
-              let nameStatus = '';
-              response.data.data.school.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Ditampilkan';
-                } else {
-                  nameStatus = 'Ditampilkan';
-                }
-                let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-                if (shortDesc.length > 100) {
-                  shortDesc = `${shortDesc.substr(0, 250)}.....`;
-                }
-                this.school.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  image: i.image,
-                  status: nameStatus,
-                  location: i.location,
-                  description: shortDesc,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.skeleton = false;
-          });
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+      };
+      if (this.search !== '') {
+        header.Location = this.search;
       }
+
+      if (this.category !== '') {
+        header.Category = this.category;
+      }
+      axios({
+        baseURL: `${this.$store.state.domain}school/show-all/${page}`,
+        method: 'get',
+        headers: header,
+      })
+        .then((response) => {
+          if (response.data.data.school.length > 0) {
+            this.lengthData = response.data.data.total;
+            const modulo = response.data.data.total % 20;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 20;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
+            }
+            let counter = (page - 1) * 20;
+            let nameStatus = '';
+            response.data.data.school.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Ditampilkan';
+              } else {
+                nameStatus = 'Ditampilkan';
+              }
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 100) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              this.school.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                image: i.image,
+                status: nameStatus,
+                location: i.location,
+                description: shortDesc,
+                category: i.category,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+      // if (this.search === '') {
+      //   axios({
+      //     baseURL: `${this.$store.state.domain}school/show-all/${page}`,
+      //     method: 'get',
+      //     headers: {
+      //       'x-api-key': this.$store.state.apiKey,
+      //     },
+      //   })
+      //     .then((response) => {
+      //       if (response.data.data.school.length > 0) {
+      //         this.lengthData = response.data.data.total;
+      //         const modulo = response.data.data.total % 20;
+      //         if (modulo === 0) {
+      //           this.pageCount = response.data.data.total / 20;
+      //         } else {
+      //           this.pageCount = (response.data.data.total - modulo) / 20 + 1;
+      //         }
+      //         let counter = (page - 1) * 20;
+      //         let nameStatus = '';
+      //         response.data.data.school.forEach((i) => {
+      //           counter += 1;
+      //           if (i.status === '0') {
+      //             nameStatus = 'Tidak Ditampilkan';
+      //           } else {
+      //             nameStatus = 'Ditampilkan';
+      //           }
+      //           let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+      //           if (shortDesc.length > 100) {
+      //             shortDesc = `${shortDesc.substr(0, 250)}.....`;
+      //           }
+      //           this.school.push({
+      //             id: i.id,
+      //             number: counter,
+      //             name: i.name,
+      //             image: i.image,
+      //             status: nameStatus,
+      //             location: i.location,
+      //             description: shortDesc,
+      //             category: i.category,
+      //           });
+      //         });
+      //       } else {
+      //         this.pageCount = 0;
+      //         this.lengthData = 0;
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       // eslint-disable-next-line no-console
+      //       console.log(error);
+      //     })
+      //     .finally(() => {
+      //       this.skeleton = false;
+      //     });
+      // } else {
+
+      // }
     },
   },
   beforeCreate() {
@@ -366,6 +396,7 @@ export default {
               status: nameStatus,
               location: i.location,
               description: shortDesc,
+              category: i.category,
             });
           });
         } else {
@@ -380,6 +411,9 @@ export default {
       .finally(() => {
         this.skeleton = false;
       });
+  },
+  created() {
+    this.itemCategory = [...this.$store.state.categorySchool];
   },
   beforeDestroy() {
     this.search = null;

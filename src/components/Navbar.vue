@@ -57,7 +57,7 @@
                   text
                   class="no-focus font-family pa-0 mr-6"
                   height="100%"
-                  >artikel
+                  >profil
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
@@ -94,7 +94,7 @@
                   text
                   class="no-focus font-family pa-0 mr-6"
                   height="100%"
-                  >pencari kerja
+                  >pencaker
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
@@ -125,7 +125,7 @@
                   text
                   class="no-focus font-family pa-0 mr-6"
                   height="100%"
-                  >lowongan
+                  >lowker
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
@@ -211,7 +211,7 @@
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title class="font-family text-uppercase"
-                >pencari kerja</v-list-item-title
+                >pencaker</v-list-item-title
               >
             </v-list-item-content>
           </template>
@@ -237,7 +237,7 @@
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title class="font-family text-uppercase"
-                >lowongan kerja</v-list-item-title
+                >lowker</v-list-item-title
               >
             </v-list-item-content>
           </template>
@@ -289,7 +289,7 @@ export default {
     itemsArticle: [{ title: 'artikel', to: '/article' }],
     itemJob: [
       { title: 'informal', to: '/job-seeker-informal' },
-      { title: 'magang', to: '/job-seeker-internship' },
+      { title: 'tenaga magang', to: '/job-seeker-internship' },
       { title: 'profesional', to: '/job-seeker-professional' },
     ],
     jobVacancy: [

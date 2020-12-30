@@ -33,7 +33,7 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Lokasi"
+                        label="lokasi Pencaker"
                         dense
                       />
                     </v-col>
@@ -305,11 +305,11 @@ export default {
         'x-api-key': this.$store.state.apiKey,
       };
       if (this.job !== '') {
-        header.position = this.job;
+        header.Position = this.job;
       }
 
       if (this.location !== '') {
-        header.location = this.location;
+        header.Location = this.location;
       }
       axios({
         baseURL: `${this.$store.state.domain}job-vacancy/show-pagination/${page}`,

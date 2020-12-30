@@ -85,6 +85,16 @@
                         persistent-hint
                         :rules="locationRules"
                       />
+                      <v-select
+                        v-model="editedItemSchool.category"
+                        :items="itemCategory"
+                        item-text="name"
+                        item-value="name"
+                        label="Kategori Sekolah"
+                        :rules="categoryRules"
+                        single-line
+                        required
+                      ></v-select>
                       <v-file-input
                         label="Unggah Gambar Sekolah (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
@@ -127,18 +137,21 @@
                       v-if="!skeleton"
                       contain
                     ></v-img>
-                    <p
-                      class="mb-0 mt-6 text-h5 font-weight-bold"
-                      v-if="!skeleton"
-                    >
+                    <p class="mb-0 mt-6 text-h5 font-weight-bold">
                       <span class="font-family">
                         {{ editedItemSchool.name }}
                       </span>
                     </p>
-                    <p class="mt-4 text-subtitle-1" v-if="!skeleton">
+                    <p class="mt-4 mb-0 text-subtitle-1">
                       <v-icon size="15" class="mr-1">$location</v-icon>
                       <span class="font-family">
                         {{ editedItemSchool.location }}
+                      </span>
+                    </p>
+                    <p class="text-subtitle-1">
+                      <v-icon size="15" class="mr-1">$tag</v-icon>
+                      <span class="font-family">
+                        {{ editedItemSchool.category }}
                       </span>
                     </p>
                     <div
@@ -257,9 +270,7 @@
               <v-icon class="white--text">mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title class="text-capitalize white--text">
-              <span class="font-family">
-                Edit data sekolah
-              </span>
+              <span class="font-family"> Edit data sekolah </span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn @click="saveUpdate()" elevation="0" color="white">
@@ -268,10 +279,11 @@
                 color="primary"
                 v-if="loadingUpdate"
               />
-              <p class="ma-0 primary--text font-weight-bold" v-if="!loadingUpdate">
-                <span class="font-family">
-                  simpan
-                </span>
+              <p
+                class="ma-0 primary--text font-weight-bold"
+                v-if="!loadingUpdate"
+              >
+                <span class="font-family"> simpan </span>
               </p>
             </v-btn>
           </v-toolbar>
@@ -298,6 +310,16 @@
                 :hint="`data disimpan: ${editedItemSchool.location}`"
                 :rules="locationRules"
               />
+              <v-select
+                v-model="editedItemSchool.category"
+                :items="itemCategory"
+                item-text="name"
+                item-value="name"
+                label="Kategori Sekolah"
+                :rules="categoryRules"
+                single-line
+                required
+              ></v-select>
               <v-file-input
                 label="Unggah Gambar Sekolah (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
@@ -340,6 +362,12 @@
             <p class="mb-0 mt-6 text-h5 font-weight-bold" v-if="!skeleton">
               <span class="font-family">
                 {{ editedItemSchool.name }}
+              </span>
+            </p>
+            <p class="text-subtitle-1">
+              <v-icon size="15" class="mr-1">$tag</v-icon>
+              <span class="font-family">
+                {{ editedItemSchool.category }}
               </span>
             </p>
             <p class="mt-4 text-subtitle-1" v-if="!skeleton">
@@ -485,6 +513,7 @@ export default {
         value: 'number',
       },
       { text: 'Nama Sekolah', value: 'name', sortable: false },
+      { text: 'Kategori Sekolah', value: 'category', sortable: false },
       { text: 'Logo Sekolah', value: 'image', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
       { text: 'Lokasi', value: 'location', sortable: false },
@@ -497,18 +526,21 @@ export default {
       image: null,
       description: '<p>Silahkan Isi Pejelasan</p>',
       location: '',
+      category: '',
     },
     defaultItem: {
       name: '',
       image: null,
       description: '<p>Silahkan Isi Pejelasan</p>',
       location: '',
+      category: '',
     },
     page: 1,
     pageCount: 0,
     search: '',
     nameRules: [(v) => !!v || 'Nama Sekolah Tidak Boleh Kosong'],
     locationRules: [(v) => !!v || 'Lokasi Sekolah Tidak Boleh Kosong'],
+    categoryRules: [(v) => !!v || 'Kategori Sekolah Tidak Boleh Kosong'],
     imageRules: [
       (v) => !!v || 'Gambar Sekolah Tidak Boleh Kosong',
       (v) => !v || v.size < 1000000 || 'Gambar Sekolah Harus Kurang Dari 1MB',
@@ -547,6 +579,7 @@ export default {
     entries: [],
     isLoading: false,
     searchLocation: null,
+    itemCategory: [],
   }),
   computed: {
     itemsLocation() {
@@ -634,13 +667,14 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             name: this.editedItemSchool.name,
             photo: this.editedItemSchool.image,
             description: this.editedItemSchool.description,
             location: this.editedItemSchool.location,
+            category: this.editedItemSchool.category,
           },
         })
           .then((response) => {
@@ -693,13 +727,14 @@ export default {
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             name: this.editedItemSchool.name,
             photo: this.editedItemSchool.image,
             description: this.editedItemSchool.description,
             location: this.editedItemSchool.location,
+            category: this.editedItemSchool.category,
           },
         })
           .then((response) => {
@@ -759,7 +794,7 @@ export default {
         method: 'patch',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -806,7 +841,7 @@ export default {
         method: 'patch',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -855,7 +890,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -883,6 +918,7 @@ export default {
                   status: nameStatus,
                   location: i.location,
                   description: i.description,
+                  category: i.category,
                 });
               });
             } else {
@@ -904,7 +940,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -932,6 +968,7 @@ export default {
                   status: nameStatus,
                   location: i.location,
                   description: i.description,
+                  category: i.category,
                 });
               });
             } else {
@@ -964,7 +1001,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -992,6 +1029,7 @@ export default {
                 status: nameStatus,
                 location: i.location,
                 description: i.description,
+                category: i.category,
               });
             });
           } else {
@@ -1008,6 +1046,9 @@ export default {
           this.skeleton = false;
         });
     }
+  },
+  created() {
+    this.itemCategory = [...this.$store.state.categorySchool];
   },
   beforeDestroy() {
     this.items = null;

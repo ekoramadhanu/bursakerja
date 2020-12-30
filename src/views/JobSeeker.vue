@@ -360,15 +360,15 @@ export default {
         'x-api-key': this.$store.state.apiKey,
       };
       if (this.job !== '') {
-        header.position = this.job;
+        header.Position = this.job;
       }
 
       if (this.location !== '') {
-        header.location = this.location;
+        header.Location = this.location;
       }
 
       if (this.school !== '') {
-        header.school = this.school;
+        header.School = this.school;
       }
       axios({
         baseURL: `${this.$store.state.domain}job-seeker/pagination-show/${page}`,

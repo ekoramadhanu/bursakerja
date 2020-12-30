@@ -384,7 +384,7 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             title: this.editedItemArticle.title,
@@ -444,7 +444,7 @@ export default {
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             title: this.editedItemArticle.title,
@@ -506,7 +506,7 @@ export default {
             method: 'get',
             headers: {
               'x-api-key': this.$store.state.apiKey,
-              authorization: `Bearer ${this.$cookies.get('token')}`,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
             },
           })
             .then((response) => {
@@ -547,7 +547,7 @@ export default {
             method: 'get',
             headers: {
               'x-api-key': this.$store.state.apiKey,
-              authorization: `Bearer ${this.$cookies.get('token')}`,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
             },
           })
             .then((response) => {
@@ -589,7 +589,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -628,7 +628,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -676,7 +676,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -715,7 +715,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -740,7 +740,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -771,7 +771,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {

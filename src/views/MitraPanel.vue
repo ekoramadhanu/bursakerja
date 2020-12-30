@@ -448,7 +448,7 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             name: this.editedItemMitra.name,
@@ -507,7 +507,7 @@ export default {
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             photo: this.editedItemMitra.image,
@@ -566,7 +566,7 @@ export default {
         method: 'patch',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -613,7 +613,7 @@ export default {
         method: 'patch',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -656,7 +656,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -702,7 +702,7 @@ export default {
           method: 'get',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
         })
           .then((response) => {
@@ -760,7 +760,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {

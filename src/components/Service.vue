@@ -4,14 +4,7 @@
       <p
         class="text-center font-family my-2 text-capitalize black--text text-h4 font-weight-bold"
       >
-        <span class="font-family">
-          kategori sumber daya manusia
-        </span>
-      </p>
-      <p class="text-center my-2 greySecondary--text">
-        <span class="font-family">
-          Kami membagi kategori sumber daya manusia menjadi 4 macam
-        </span>
+        <span class="font-family"> kategori sumber daya manusia </span>
       </p>
       <v-row class="d-flex justify-center mt-12 max-width">
         <v-col
@@ -23,7 +16,12 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
+          <v-card
+            elevation="3"
+            class="rounded-lg pb-2"
+            height="480"
+            width="243"
+          >
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Resume-rafiki.svg"
@@ -35,17 +33,14 @@
                 contain
                 class="mx-auto"
               ></v-img>
-              <p
-                class="ma-0 text-h5 text-center black--text text-capitalize"
-              >
-                <span class="font-family font-weight-bold">
-                  karyawan
-                </span>
+              <p class="ma-0 text-h5 text-center black--text text-capitalize">
+                <span class="font-family font-weight-bold"> karyawan </span>
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Rekrut karyawan sesuai kota saat ini, posisi yang diinginkan,
-                  dan pendidikan terakhir
+                  Anda dapat memilih dan merekrut Karyawan sesuai kriteria yang
+                  anda inginkan berdasarkan kota, formasi maupun pendidikan
+                  terakhir
                 </span>
               </p>
             </v-card-text>
@@ -75,7 +70,12 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
+          <v-card
+            elevation="3"
+            class="rounded-lg pb-2"
+            height="480"
+            width="243"
+          >
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Electrician-rafiki.svg"
@@ -87,15 +87,16 @@
                 contain
                 class="mx-auto"
               ></v-img>
-              <p class="ma-0 text-h5 text-center text-capitalize black--text ">
+              <p class="ma-0 text-h5 text-center text-capitalize black--text">
                 <span class="font-family font-weight-bold">
                   tenaga profesional
                 </span>
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Anda dapat merekrut tenaga profesional yang memiliki kepandaian
-                  atau keahlian khusus
+                  Tenaga Profesional adalah SDM yang memiliki kepandaian atau keahlian
+                  khusus seperti dokter, pengacara, Master Ceremoni (MC), Ahli
+                  Sumur, Montir, Tukang AC
                 </span>
               </p>
             </v-card-text>
@@ -125,7 +126,12 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
+          <v-card
+            elevation="3"
+            class="rounded-lg pb-2"
+            height="480"
+            width="243"
+          >
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Gardening-rafiki.svg"
@@ -144,8 +150,9 @@
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Tenaga informal mencakup tenaga kerja seperti asisten rumah
-                  tangga, pengasuh bayi, dan sebagainya
+                  Tenaga informal adalah tenaga kerja seperti asisten rumah
+                  tangga, babby sitter, tukang rumput, tukang kebun, tukang
+                  ojek, dll
                 </span>
               </p>
             </v-card-text>
@@ -175,7 +182,12 @@
           xs="12"
           class="d-flex justify-center"
         >
-          <v-card elevation="3" class="rounded-lg pb-2" height="445" width="243">
+          <v-card
+            elevation="3"
+            class="rounded-lg pb-2"
+            height="480"
+            width="243"
+          >
             <v-card-text class="pa-2 size-card-text">
               <v-img
                 src="@/assets/Working-rafiki.svg"
@@ -194,8 +206,9 @@
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Tenaga magang dapat menerapkan disiplin ilmu atau keahliannya di
-                  perusahaan Anda
+                  Tenaga magang adalah para lulusan smk, sarjana aau umum yang
+                  membutuhkan perusahaan tempat untuk menerapkan
+                  keahlian/disiplin keilmuannya
                 </span>
               </p>
             </v-card-text>
@@ -259,7 +272,7 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (min-width: 1264px){
+@media screen and (min-width: 1264px) {
   .max-width {
     max-width: 1044px;
     width: 100vw;

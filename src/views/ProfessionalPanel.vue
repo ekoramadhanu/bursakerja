@@ -733,7 +733,7 @@ export default {
         || 'Nomor Telepon Pekerja Profesional Harus Dimulai Dengan 08...',
     ],
     locationRules: [
-      (v) => !!v || 'Lokasi Pekerja Profesional Tidak Boleh Kosong',
+      (v) => !!v || 'lokasi Pencaker Profesional Tidak Boleh Kosong',
     ],
     itemSchool: [],
     schoolRules: [
@@ -847,7 +847,7 @@ export default {
           method: 'post',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             name: this.editedItemJobSeeker.name,
@@ -910,7 +910,7 @@ export default {
           method: 'patch',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             name: this.editedItemJobSeeker.name,
@@ -984,7 +984,7 @@ export default {
         method: 'patch',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -1031,7 +1031,7 @@ export default {
         method: 'patch',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {
@@ -1087,19 +1087,19 @@ export default {
       if (this.statusProfesional === 'Aktif') {
         header = {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
           show: 1,
         };
       } else if (this.statusProfesional === 'Tidak Aktif') {
         header = {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
           show: 0,
         };
       } else {
         header = {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         };
       }
       axios({
@@ -1186,7 +1186,7 @@ export default {
         method: 'get',
         headers: {
           'x-api-key': this.$store.state.apiKey,
-          authorization: `Bearer ${this.$cookies.get('token')}`,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       })
         .then((response) => {

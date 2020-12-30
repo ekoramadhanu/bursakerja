@@ -152,7 +152,7 @@ export default {
           method: 'PATCH',
           headers: {
             'x-api-key': this.$store.state.apiKey,
-            authorization: `Bearer ${this.$cookies.get('token')}`,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
           },
           data: {
             whatsapp: this.whatssapp,

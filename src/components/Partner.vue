@@ -2,7 +2,7 @@
   <div class="d-flex justify-center mb-2 mt-3">
     <div class="max-width">
       <p class=" text-h4 text-center mt-16 text-capitalize black--text font-weight-bold mx-auto">
-        Mitra Kami
+        perusahaan mitra
       </p>
       <v-carousel
         cycle

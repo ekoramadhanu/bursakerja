@@ -34,12 +34,21 @@
           class="mx-auto"
         ></v-skeleton-loader>
         <p
-          class="mt-4 text-subtitle-1"
+          class="mt-4 mb-0 text-subtitle-1"
           v-if="!skeleton"
         >
           <v-icon size="15" class="mr-1">$location</v-icon>
           <span class="font-family">
             {{ locationSchool }}
+          </span>
+        </p>
+        <p
+          class="text-subtitle-1"
+          v-if="!skeleton"
+        >
+          <v-icon size="15" class="mr-1">$tag</v-icon>
+          <span class="font-family">
+            {{ categorySchool }}
           </span>
         </p>
         <v-skeleton-loader
@@ -76,6 +85,7 @@ export default {
     image: '',
     nameSchool: '',
     locationSchool: '',
+    categorySchool: '',
     skeleton: true,
   }),
   components: {
@@ -95,6 +105,7 @@ export default {
           this.nameSchool = response.data.data.school[0].name;
           this.locationSchool = response.data.data.school[0].location;
           this.content = response.data.data.school[0].description;
+          this.categorySchool = response.data.data.school[0].category;
         }
       })
       .catch((error) => {

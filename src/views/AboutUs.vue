@@ -20,7 +20,7 @@
           height="400"
           max-width="1044"
           aspect-ratio="1.7778"
-          class="image-cover"
+          contain
         />
       </div>
       <div v-if="!skeleton">
@@ -102,8 +102,5 @@ div >>> li > p {
 }
 .max-width {
   max-width: 1044px;
-}
-.image-cover {
-  object-fit: cover;
 }
 </style>
