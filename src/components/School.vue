@@ -32,7 +32,7 @@
                       hide-selected
                       item-text="name"
                       item-value="name"
-                      label="Lokasi"
+                      label="Kota"
                       dense
                     />
                   </v-col>
@@ -42,7 +42,7 @@
                       :items="itemCategory"
                       item-text="name"
                       item-value="name"
-                      label="Kategori Sekolah"
+                      label="Kategori"
                       class="mt-0 pt-0"
                       single-line
                     ></v-select>
