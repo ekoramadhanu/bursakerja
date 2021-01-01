@@ -14,6 +14,7 @@
                 class="font-family"
                 label="Pilih Status yang Ditampilkan"
                 dense
+                outlined
                 @change="searchCardJobSeeker()"
               ></v-select>
             </div>
@@ -88,19 +89,19 @@
                       <v-text-field
                         v-model="editedItemJobSeeker.name"
                         :rules="nameRules"
-                        label="Nama Pekerja Profesional"
+                        label="Nama Pekerja Informal"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.position"
                         :rules="positionRules"
-                        label="Posisi Pekerja Profesional"
+                        label="Posisi Pekerja Informal"
                         required
                       />
                       <v-text-field
                         v-model="editedItemJobSeeker.phone"
                         :rules="phoneRules"
-                        label="Telepon Pekerja Profesional"
+                        label="Telepon Pekerja Informal"
                         required
                       />
                       <v-autocomplete
@@ -363,32 +364,32 @@
               <v-progress-circular
                 indeterminate
                 color="primary"
-                v-if="loadingAdd"
+                v-if="loadingUpdate"
               />
-              <p class="ma-0 primary--text font-weight-bold" v-if="!loadingAdd">
+              <p class="ma-0 primary--text font-weight-bold" v-if="!loadingUpdate">
                 <span class="font-family"> simpan </span>
               </p>
             </v-btn>
           </v-toolbar>
 
-          <v-card-text class="size-max mx-auto my-4">
+          <v-card-text class="size-max mx-auto">
             <v-form ref="form" lazy-validation>
               <v-text-field
                 v-model="editedItemJobSeeker.name"
                 :rules="nameRules"
-                label="Nama Pekerja Profesional"
+                label="Nama Pekerja Informal"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.position"
                 :rules="positionRules"
-                label="Posisi Pekerja Profesional"
+                label="Posisi Pekerja Informal"
                 required
               />
               <v-text-field
                 v-model="editedItemJobSeeker.phone"
                 :rules="phoneRules"
-                label="Telepon Pekerja Profesional"
+                label="Telepon Pekerja Informal"
                 required
               />
               <v-autocomplete
@@ -447,7 +448,7 @@
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
-                :rules="imageRules"
+                :rules="editedItemJobSeeker.image != null? [] :imageRules"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -822,7 +823,6 @@ export default {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.resetValidation();
-        this.$refs.form.reset();
       });
     },
     ChangeImage(event) {
@@ -962,7 +962,6 @@ export default {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.resetValidation();
-        this.$refs.form.reset();
       });
     },
     openDialogShow(item) {
@@ -1074,6 +1073,7 @@ export default {
     },
     // method universal
     methodGetCardjobSeeker(page) {
+      this.statusProfesional = 'Tampilkan Semua';
       let endpoint = '';
       let header = {};
       if (this.search === '') {
@@ -1340,7 +1340,7 @@ export default {
 
 <style scoped>
 .size-max {
-  max-width: 1100px;
+  max-width: 1044px;
 }
 .preview-img {
   max-width: 300px;

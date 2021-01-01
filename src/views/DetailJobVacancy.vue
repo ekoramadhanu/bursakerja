@@ -420,8 +420,6 @@ export default {
     })
       .then((response) => {
         if (response.data.data.jobVacancy.length === 1) {
-          // eslint-disable-next-line no-console
-          console.log(response.data);
           this.image = response.data.data.jobVacancy[0].company.brand;
           this.description = response.data.data.jobVacancy[0].description;
           this.exerience = response.data.data.jobVacancy[0].experience;

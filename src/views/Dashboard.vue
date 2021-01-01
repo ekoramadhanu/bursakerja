@@ -10,7 +10,7 @@
       >
         <!-- <v-card class="pa-4"> -->
         <div class="d-flex">
-          <v-row align="center" justify="center">
+          <v-row class="d-flex justify-center align-center">
             <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="4">
               <v-img src="@/assets/Connected-rafiki.svg" contain></v-img>
             </v-col>
@@ -27,10 +27,10 @@
         </div>
         <!-- </v-card> -->
         <v-container>
-          <v-row v-if="!sekeletonUMKM">
-            <v-col cols="12" xl="4" lg="4"
-              ><v-card>
-                <v-card-title>Jumlah UMKM Tergabung</v-card-title>
+          <v-row v-if="role === 'Admin 3'">
+            <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
+              <v-card v-if="!sekeletonUMKM" elevation="3" min-height="280">
+                <v-card-title>Jumlah UMKM </v-card-title>
                 <v-card-text>
                   <h1 class="text-h3">{{ countUMKM }}</h1>
                   <h2 class="subtitle-1">UMKM</h2>
@@ -46,18 +46,31 @@
                     >
                   </v-chip-group>
                 </v-card-text>
-              </v-card></v-col
-            >
-            <v-col cols="12" xl="4" lg="4"
-              ><v-card>
-                <v-card-title>Jumlah Karyawan Tergabung</v-card-title>
+              </v-card>
+              <v-skeleton-loader
+                ref="skeleton"
+                type="card"
+                v-if="sekeletonUMKM"
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
+              <v-card v-if="!sekeletonJobSeeker" elevation="3" min-height="280">
+                <v-card-title>Jumlah Karyawan</v-card-title>
                 <v-card-text>
-                  <h1 class="text-h3">{{ countJobSeker }}</h1>
+                  <h1 class="text-h3">
+                    {{ totalJobSeeker }}
+                  </h1>
                   <h2 class="subtitle-1">Orang</h2>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text>
                   <v-chip-group column>
+                    <v-chip class="success"
+                      >{{ countJobSekerActivate }} Pencaker Aktif</v-chip
+                    >
+                    <v-chip class="error"
+                      >{{ countJobSekerNotActivate }} Pencaker Nonaktif</v-chip
+                    >
                     <v-chip class="orange white--text"
                       >{{ countInformal }} Pekerja Informal</v-chip
                     >
@@ -69,9 +82,14 @@
                     >
                   </v-chip-group>
                 </v-card-text>
-              </v-card></v-col
-            >
-            <v-col cols="12" xl="4" lg="4"
+              </v-card>
+              <v-skeleton-loader
+                ref="skeleton"
+                type="card"
+                v-if="sekeletonJobSeeker"
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12"
               ><v-card>
                 <v-card-title>Jumlah Admin</v-card-title>
                 <v-card-text>
@@ -100,6 +118,69 @@
                 </v-card-text>
               </v-card></v-col
             >
+          </v-row>
+          <v-row v-if="role === 'Admin 2'">
+            <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+              <v-card v-if="!sekeletonUMKM" elevation="3" min-height="280">
+                <v-card-title>Jumlah UMKM </v-card-title>
+                <v-card-text>
+                  <h1 class="text-h3">{{ countUMKM }}</h1>
+                  <h2 class="subtitle-1">UMKM</h2>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-text>
+                  <v-chip-group column>
+                    <v-chip class="success"
+                      >{{ countUMKMActivate }} UMKM Aktif</v-chip
+                    >
+                    <v-chip class="error"
+                      >{{ countUMKMNotActivate }} UMKM Nonaktif</v-chip
+                    >
+                  </v-chip-group>
+                </v-card-text>
+              </v-card>
+              <v-skeleton-loader
+                ref="skeleton"
+                type="card"
+                v-if="sekeletonUMKM"
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+              <v-card v-if="!sekeletonJobSeeker" elevation="3" min-height="280">
+                <v-card-title>Jumlah Karyawan</v-card-title>
+                <v-card-text>
+                  <h1 class="text-h3">
+                    {{ totalJobSeeker }}
+                  </h1>
+                  <h2 class="subtitle-1">Orang</h2>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-text>
+                  <v-chip-group column>
+                    <v-chip class="success"
+                      >{{ countJobSekerActivate }} Pencaker Aktif</v-chip
+                    >
+                    <v-chip class="error"
+                      >{{ countJobSekerNotActivate }} Pencaker Nonaktif</v-chip
+                    >
+                    <v-chip class="orange white--text"
+                      >{{ countInformal }} Pekerja Informal</v-chip
+                    >
+                    <v-chip class="blue white--text"
+                      >{{ countIntern }} Pekerja Magang</v-chip
+                    >
+                    <v-chip class="purple white--text"
+                      >{{ countPro }} Pekerja Profesional</v-chip
+                    >
+                  </v-chip-group>
+                </v-card-text>
+              </v-card>
+              <v-skeleton-loader
+                ref="skeleton"
+                type="card"
+                v-if="sekeletonJobSeeker"
+              ></v-skeleton-loader>
+            </v-col>
           </v-row>
         </v-container>
       </div>
@@ -160,6 +241,15 @@ export default {
     sekeletonAdmin: true,
     sekeletonBlacklist: true,
   }),
+  computed: {
+    totalJobSeeker() {
+      // eslint-disable-next-line radix
+      const total = parseInt(this.countJobSeker) + parseInt(this.countIntern)
+      // eslint-disable-next-line radix
+      + parseInt(this.countInformal) + parseInt(this.countPro);
+      return total;
+    },
+  },
   beforeCreate() {
     if (
       this.$store.state.role === 'Admin 1'

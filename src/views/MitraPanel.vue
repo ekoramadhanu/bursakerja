@@ -53,7 +53,7 @@
                         required
                       />
                       <v-file-input
-                        label="Unggah Gambar Perusahaan Mitra (Maks 1 MB)"
+                        label="Unggah Gambar Perusahaan Mitra (Maks 1 MB) 128px x 24px"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
@@ -219,7 +219,7 @@
                 required
               />
               <v-file-input
-                label="Unggah Gambar Perusahaan Mitra (Maks 1 MB)"
+                label="Unggah Gambar Perusahaan Mitra (Maks 1 MB) 128px x 24px"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
@@ -453,6 +453,7 @@ export default {
           data: {
             name: this.editedItemMitra.name,
             photo: this.editedItemMitra.image,
+            link: this.editedItemMitra.link,
           },
         })
           .then((response) => {

@@ -194,9 +194,9 @@
               <v-progress-circular
                 indeterminate
                 color="primary"
-                v-if="loadingAdd"
+                v-if="loadingUpdate"
               />
-              <p class="ma-0 primary--text" v-if="!loadingAdd">simpan</p>
+              <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
             </v-btn>
           </v-toolbar>
 
@@ -485,7 +485,6 @@ export default {
             this.loadingAdd = false;
             this.closeAdd();
           });
-        this.closeAdd();
       }
     },
     openDialogUpdate(item) {
@@ -650,7 +649,13 @@ export default {
     },
   },
   beforeCreate() {
-    if (this.$store.state.role === 'Perusahaan') {
+    if (this.$store.state.uploadData) {
+      if (this.$store.state.role === 'Pencaker') {
+        this.$router.push('/resume-job-seeker');
+      } else {
+        this.$router.push('/data-umkm');
+      }
+    } else if (this.$store.state.role === 'Perusahaan') {
       axios({
         baseURL: `${this.$store.state.domain}job-vacancy/company-pagination/1`,
         method: 'get',

@@ -4,7 +4,7 @@
       <v-list>
         <v-list-item>
           <v-list-item-title class="white--text title-brand">
-            bursakerja.biz
+            bursakerja.net
           </v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>

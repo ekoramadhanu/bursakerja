@@ -24,7 +24,7 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="lokasi Pencaker"
+                        label="Kota"
                         @click:append-outer="resetLocation()"
                         dense
                         persistent-hint
@@ -40,7 +40,7 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Jabatan Pekerja"
+                        label="Jabatan"
                         @click:append-outer="resetJob()"
                         dense
                         persistent-hint
@@ -56,7 +56,7 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Pendidikan Terakhir Pekerja"
+                        label="Pendidikan"
                         @click:append-outer="resetSchool()"
                         dense
                         persistent-hint
@@ -412,50 +412,58 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}internship/pagination-show/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.internship.length > 0) {
-          this.lengthData = response.data.data.total;
-          const modulo = response.data.data.total % 20;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 20;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 20 + 1;
-          }
-          let counter = 0;
-          response.data.data.internship.forEach((i) => {
-            counter += 1;
-            const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
-            this.jobSeeker.push({
-              id: i.id,
-              number: counter,
-              name: i.name,
-              position: i.position,
-              desc: shortDesc,
-              phone: i.phone,
-              school: i.school,
-              location: i.location,
-              image: i.image,
+    if (this.$store.state.uploadData) {
+      if (this.$store.state.role === 'Pencaker') {
+        this.$router.push('/resume-job-seeker');
+      } else {
+        this.$router.push('/data-umkm');
+      }
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}internship/pagination-show/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.internship.length > 0) {
+            this.lengthData = response.data.data.total;
+            const modulo = response.data.data.total % 20;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 20;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
+            }
+            let counter = 0;
+            response.data.data.internship.forEach((i) => {
+              counter += 1;
+              const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
+              this.jobSeeker.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                position: i.position,
+                desc: shortDesc,
+                phone: i.phone,
+                school: i.school,
+                location: i.location,
+                image: i.image,
+              });
             });
-          });
-        } else {
-          this.lengthData = 0;
-          this.pageCount = 0;
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.lengthData = 0;
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.search = null;

@@ -196,6 +196,7 @@ export default {
                 .then((response) => {
                   if (response.data.data.jobSeeker[0].fullname === null) {
                     this.$store.commit('changeNameUser', '');
+                    this.$store.commit('changeUploadData', true);
                   } else if (
                     response.data.data.jobSeeker[0].fullname.length > 21
                   ) {
@@ -206,11 +207,13 @@ export default {
                         21,
                       )}....`,
                     );
+                    this.$store.commit('changeUploadData', false);
                   } else {
                     this.$store.commit(
                       'changeNameUser',
                       response.data.data.jobSeeker[0].fullname,
                     );
+                    this.$store.commit('changeUploadData', false);
                   }
                   this.$store.commit('changeRole', 'Pencaker');
                   this.$router.push('/home');

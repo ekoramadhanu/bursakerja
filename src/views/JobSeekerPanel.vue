@@ -13,6 +13,7 @@
                 label="Pilih Status yang Ditampilkan"
                 class="font-family"
                 v-model="search"
+                dense
                 @change="searchCardJobSeeker()"
                 outlined
               >

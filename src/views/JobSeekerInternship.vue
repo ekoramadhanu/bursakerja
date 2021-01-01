@@ -43,8 +43,8 @@
                         :items="itemsJob"
                         :loading="isLoadingJob"
                         :search-input.sync="searchJob"
-                        hide-no-data
                         hide-selected
+                        hide-no-data
                         item-text="name"
                         item-value="name"
                         label="Jabatan"

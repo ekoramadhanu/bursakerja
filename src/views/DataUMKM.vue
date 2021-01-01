@@ -291,12 +291,12 @@ export default {
     branch: '',
     branchRules: [(v) => !!v || 'Cabang Perusahaan Tidak Boleh Kosong'],
     itemBranch: [
-      { name: '< 5' },
-      { name: '5 - 10' },
-      { name: '11 - 20' },
-      { name: '21 - 30' },
-      { name: '31 - 35' },
-      { name: ' > 35' },
+      { name: '< 5 Cabang' },
+      { name: '5 - 10 Cabang' },
+      { name: '11 - 20 Cabang' },
+      { name: '21 - 30 Cabang' },
+      { name: '31 - 35 Cabang' },
+      { name: ' > 35 Cabang' },
     ],
     employee: '',
     employeeRules: [(v) => !!v || 'Jumlah Karyawan Tidak Boleh Kosong'],
@@ -496,6 +496,7 @@ export default {
               this.status = true;
               this.message = 'data berhasil disimpan';
               this.icon = '$success';
+              this.$store.commit('changeUploadData', false);
             } else {
               this.hasSaved = true;
               this.status = false;

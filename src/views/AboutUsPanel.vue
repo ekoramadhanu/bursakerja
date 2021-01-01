@@ -16,7 +16,7 @@
           <v-card-text>
             <v-form ref="form" lazy-validation v-if="isEditing">
               <v-file-input
-                label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 1044x400"
+                label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 1044px x 400px"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
@@ -52,6 +52,7 @@
                 max-width="1044"
                 aspect-ratio="1.7778"
                 class="mb-4"
+                contain
               />
               <div
                 class="text-justify font-family black--text"

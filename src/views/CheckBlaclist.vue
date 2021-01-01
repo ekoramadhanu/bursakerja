@@ -144,6 +144,12 @@ export default {
   beforeCreate() {
     if (this.$store.state.role !== 'Perusahaan') {
       this.$router.push('/access-block');
+    } else if (this.$store.state.uploadData) {
+      if (this.$store.state.role === 'Pencaker') {
+        this.$router.push('/resume-job-seeker');
+      } else {
+        this.$router.push('/data-umkm');
+      }
     }
   },
 };

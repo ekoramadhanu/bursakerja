@@ -33,7 +33,7 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Lokasi"
+                        label="Kota"
                         dense
                       />
                     </v-col>

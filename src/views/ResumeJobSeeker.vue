@@ -223,6 +223,7 @@
                         :items="itemsCity"
                         :loading="isLoadingCity"
                         :search-input.sync="searchCity"
+                        :rules="cityRules"
                         hide-no-data
                         hide-selected
                         item-text="name"
@@ -236,7 +237,6 @@
                             ? 'silahkan pilih provinsi terlebih dahulu'
                             : `data yang disimpan : ${city.name}`
                         "
-                        :rules="cityRules"
                       />
                     </v-col>
                   </v-row>
@@ -570,15 +570,12 @@ import {
   Italic,
   Strike,
   Underline,
-  Code,
   Paragraph,
-  BulletList,
   OrderedList,
   ListItem,
   Link,
   Blockquote,
   HardBreak,
-  HorizontalRule,
   History,
 } from 'tiptap-vuetify';
 import goTo from 'vuetify/es5/services/goto';
@@ -654,9 +651,9 @@ export default {
     ],
     address: '',
     addressRules: [(v) => !!v || 'Alamat Tidak Boleh Kosong'],
-    districtRules: [(v) => !!v || 'Kecamatan Tidak Boleh Kosong'],
-    cityRules: [(v) => !!v || 'Kota Tidak Boleh Kosong'],
-    provinceRules: [(v) => !!v || 'Provinsi Tidak Boleh Kosong'],
+    districtRules: [(v) => !!v.name || 'Kecamatan Tidak Boleh Kosong'],
+    cityRules: [(v) => !!v.name || 'Kota Tidak Boleh Kosong'],
+    provinceRules: [(v) => !!v.name || 'Provinsi Tidak Boleh Kosong'],
     postalCode: '',
     postalCodeRules: [
       (v) => !!v || 'Kode Pos Tidak Boleh Kosong',
@@ -704,7 +701,6 @@ export default {
       Strike,
       Italic,
       ListItem,
-      BulletList,
       OrderedList,
       [
         Heading,
@@ -715,8 +711,6 @@ export default {
         },
       ],
       Bold,
-      Code,
-      HorizontalRule,
       Paragraph,
       HardBreak,
     ],
@@ -799,9 +793,6 @@ export default {
     },
     districtLookup() {
       return this.city === null && this.province === null;
-    },
-    buttonText() {
-      return this.selectedFile ? this.selectedFile : '';
     },
   },
   watch: {
@@ -946,7 +937,7 @@ export default {
       if (event.target.files[0].size <= 1000000) {
         this.fileMessage = '';
       } else {
-        this.fileMessage = 'file tidak boleh lebih dari 1MB';
+        this.fileMessage = 'foto tidak boleh lebih dari 1MB';
       }
       if (event == null) {
         this.priviewImage = null;
@@ -959,28 +950,72 @@ export default {
       }
     },
     save() {
+      let hobby = null;
+      let skillLanguange = null;
+      let sertification = null;
+      let expSchool = null;
+      let skill = null;
+      let experience = null;
+      let article = null;
+
+      if (this.hobby !== null) {
+        hobby = this.hobby.replace(/<[^>]*>/g, '');
+      }
+      if (this.skillLanguange !== null) {
+        skillLanguange = this.skillLanguange.replace(/<[^>]*>/g, '');
+      }
+      if (this.sertification !== null) {
+        sertification = this.sertification.replace(/<[^>]*>/g, '');
+      }
+      if (this.expSchool !== null) {
+        expSchool = this.expSchool.replace(/<[^>]*>/g, '');
+      }
+      if (this.skill !== null) {
+        skill = this.skill.replace(/<[^>]*>/g, '');
+      }
+      if (this.experience !== null) {
+        experience = this.experience.replace(/<[^>]*>/g, '');
+      }
+      if (this.article !== null) {
+        article = this.article.replace(/<[^>]*>/g, '');
+      }
       if (this.$refs.form.validate() && this.selectedFile !== null) {
         if (this.selectedFile[0].size > 1000000) {
           goTo(0);
-        } else if (this.skillLanguange === '<p></p>') {
+        } else if (hobby === '' || hobby === null) {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'hobi harus diisi jika tidak punya silahkan isi(-)';
+          this.icon = '$warning';
+        } else if (sertification === '' || sertification === null) {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'penghargaan/sertifikat harus diisi jika tidak punya silahkan isi(-)';
+          this.icon = '$warning';
+        } else if (expSchool === '' || expSchool === null) {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'riwayat pendidikan harus diisi jika tidak punya silahkan isi(-)';
+          this.icon = '$warning';
+        } else if (skillLanguange === '' || skillLanguange === null) {
           this.hasSaved = true;
           this.status = false;
           this.message = 'keahlian bahasa harus diisi jika tidak punya silahkan isi(-)';
           this.icon = '$warning';
-        } else if (this.skill === '<p></p>') {
+        } else if (skill === '' || skill === null) {
           this.hasSaved = true;
           this.status = false;
           this.message = 'keterampilan harus diisi jika tidak punya silahkan isi(-)';
           this.icon = '$warning';
-        } else if (this.experience === '<p></p>') {
+        } else if (experience === '' || experience === null) {
           this.hasSaved = true;
           this.status = false;
           this.message = 'pengalaman kerja harus diisi jika tidak punya silahkan isi(-)';
           this.icon = '$warning';
-        } else if (this.hobby === '<p></p>') {
+        } else if (article === '' || article === null) {
           this.hasSaved = true;
           this.status = false;
-          this.message = 'hobi harus diisi jika tidak punya silahkan isi(-)';
+          this.message = 'artikel ilmiah harus diisi jika tidak punya silahkan isi(-)';
           this.icon = '$warning';
         } else {
           this.loadingSave = true;
@@ -1040,6 +1075,7 @@ export default {
                 this.message = 'data berhasil disimpan';
                 this.icon = '$success';
                 this.isEditing = false;
+                this.$store.commit('changeUploadData', false);
               } else if (
                 response.data.data.message === 'Id Card Has Been Used'
               ) {
@@ -1064,6 +1100,9 @@ export default {
               this.loadingSave = false;
             });
         }
+      } else if (this.selectedFile === null) {
+        this.fileMessage = 'foto tidak boleh kosong';
+        goTo(0);
       }
     },
     onButtonClick() {
@@ -1097,7 +1136,6 @@ export default {
       })
         .then((response) => {
           if (response.data.data.jobSeeker.length > 0) {
-            this.selectedFile = [{ size: 900000 }];
             this.idCard = response.data.data.jobSeeker[0].idCard;
             this.fullname = response.data.data.jobSeeker[0].fullname;
             this.frontDegree = response.data.data.jobSeeker[0].frontDegree;
@@ -1129,6 +1167,9 @@ export default {
             this.skill = response.data.data.jobSeeker[0].skill;
             this.experience = response.data.data.jobSeeker[0].experience;
             this.priviewImage = response.data.data.jobSeeker[0].image;
+            if (this.priviewImage !== null) {
+              this.selectedFile = [{ size: 90000 }];
+            }
             this.deiredRegion = response.data.data.jobSeeker[0].desiredRegion;
             this.desiredPosition = response.data.data.jobSeeker[0].desiredPosition;
             this.location = response.data.data.jobSeeker[0].placement;

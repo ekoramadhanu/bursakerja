@@ -354,55 +354,63 @@ export default {
     },
   },
   beforeCreate() {
-    axios({
-      baseURL: `${this.$store.state.domain}job-vacancy/show-pagination/1`,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-      },
-    })
-      .then((response) => {
-        if (response.data.data.jobVacancy.length > 0) {
-          this.lengthData = response.data.data.total;
-          const modulo = response.data.data.total % 20;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 20;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 20 + 1;
-          }
-          let counter = 0;
-          response.data.data.jobVacancy.forEach((i) => {
-            counter += 1;
-            const date = i.date.split('-');
-            let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-            if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+    if (this.$store.state.uploadData) {
+      if (this.$store.state.role === 'Pencaker') {
+        this.$router.push('/resume-job-seeker');
+      } else {
+        this.$router.push('/data-umkm');
+      }
+    } else {
+      axios({
+        baseURL: `${this.$store.state.domain}job-vacancy/show-pagination/1`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.jobVacancy.length > 0) {
+            this.lengthData = response.data.data.total;
+            const modulo = response.data.data.total % 20;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 20;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
             }
-            this.jobSeeker.push({
-              id: i.id,
-              number: counter,
-              position: i.name,
-              desc: shortDesc,
-              company: i.company.name,
-              location: `${i.company.address}, ${i.company.city}, ${i.company.province}`,
-              image: i.company.image,
-              date: `${date[0]} ${
-                this.$store.state.month[parseInt(date[1], 10) - 1]
-              } ${date[2]}`,
+            let counter = 0;
+            response.data.data.jobVacancy.forEach((i) => {
+              counter += 1;
+              const date = i.date.split('-');
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 100) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              this.jobSeeker.push({
+                id: i.id,
+                number: counter,
+                position: i.name,
+                desc: shortDesc,
+                company: i.company.name,
+                location: `${i.company.address}, ${i.company.city}, ${i.company.province}`,
+                image: i.company.image,
+                date: `${date[0]} ${
+                  this.$store.state.month[parseInt(date[1], 10) - 1]
+                } ${date[2]}`,
+              });
             });
-          });
-        } else {
-          this.lengthData = 0;
-          this.pageCount = 0;
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.lengthData = 0;
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.search = null;

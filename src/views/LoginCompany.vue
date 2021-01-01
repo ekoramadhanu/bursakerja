@@ -198,16 +198,19 @@ export default {
                 .then((response) => {
                   if (response.data.data.umkm[0].name === null) {
                     this.$store.commit('changeNameUser', '');
+                    this.$store.commit('changeUploadData', true);
                   } else if (response.data.data.umkm[0].name.length > 21) {
                     this.$store.commit(
                       'changeNameUser',
                       `${response.data.data.umkm[0].name.substr(0, 21)}....`,
                     );
+                    this.$store.commit('changeUploadData', false);
                   } else {
                     this.$store.commit(
                       'changeNameUser',
                       response.data.data.umkm[0].name,
                     );
+                    this.$store.commit('changeUploadData', false);
                   }
                   this.$store.commit('changeRole', 'Perusahaan');
                   this.$router.push('/home');

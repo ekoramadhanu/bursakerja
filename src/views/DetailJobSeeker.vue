@@ -344,8 +344,6 @@ export default {
     })
       .then((response) => {
         this.jobSeeker = [...response.data.data.jobSeeker];
-        // eslint-disable-next-line no-console
-        console.log(this.jobSeeker);
         let frontDegree = null;
         let backkDegree = null;
         let sex = null;

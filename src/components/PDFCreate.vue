@@ -20,6 +20,8 @@ export default {
   },
   methods: {
     createPDF() {
+      // eslint-disable-next-line no-console
+      console.log(this.data);
       let frontDegree = null;
       let backwardDegree = null;
       let fullname = null;
@@ -38,8 +40,10 @@ export default {
       const listExperience = [];
       const listExpSchool = [];
       const listCertification = [];
-      const modulo = skill.length % 2 === 0;
-      // const language = this.data.language.split(/<p>/g);
+      let modulo = 0;
+      if (skill !== null) {
+        modulo = skill.length % 2 === 0;
+      }
       if (languange !== null) {
         for (let index = 0; index < languange.length; index += 1) {
           languange[index] = languange[index].replace(/(<([^>]+)>)/ig, '');

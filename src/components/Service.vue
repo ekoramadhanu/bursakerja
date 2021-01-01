@@ -6,6 +6,11 @@
       >
         <span class="font-family"> kategori sumber daya manusia </span>
       </p>
+      <p class="text-center my-2 greySecondary--text">
+        <span class="font-family">
+          Kami membagi kategori sumber daya manusia kedalam empat kategori
+        </span>
+      </p>
       <v-row class="d-flex justify-center mt-12 max-width">
         <v-col
           cols="12"
@@ -19,7 +24,7 @@
           <v-card
             elevation="3"
             class="rounded-lg pb-2"
-            height="480"
+            height="500"
             width="243"
           >
             <v-card-text class="pa-2 size-card-text">
@@ -38,9 +43,8 @@
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Anda dapat memilih dan merekrut Karyawan sesuai kriteria yang
-                  anda inginkan berdasarkan kota, formasi maupun pendidikan
-                  terakhir
+                  Rekrut kandidat anda berdasarkan kota, tingkat pendidikan
+                  serta posisi yang diinginkan
                 </span>
               </p>
             </v-card-text>
@@ -73,7 +77,7 @@
           <v-card
             elevation="3"
             class="rounded-lg pb-2"
-            height="480"
+            height="500"
             width="243"
           >
             <v-card-text class="pa-2 size-card-text">
@@ -94,9 +98,9 @@
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Tenaga Profesional adalah SDM yang memiliki kepandaian atau keahlian
-                  khusus seperti dokter, pengacara, Master Ceremoni (MC), Ahli
-                  Sumur, Montir, Tukang AC
+                  Anda dapat menggunakan jasa tenaga profesional yang memiliki
+                  keahlian khusus, seperti montir, Tukang Batu, Ahli Taman, Ahli
+                  AC, Ahli Sumur, Ahli Kelistrikan dan sebagainya di sini
                 </span>
               </p>
             </v-card-text>
@@ -129,7 +133,7 @@
           <v-card
             elevation="3"
             class="rounded-lg pb-2"
-            height="480"
+            height="500"
             width="243"
           >
             <v-card-text class="pa-2 size-card-text">
@@ -150,9 +154,8 @@
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Tenaga informal adalah tenaga kerja seperti asisten rumah
-                  tangga, babby sitter, tukang rumput, tukang kebun, tukang
-                  ojek, dll
+                  Tenaga Informal seperti asisten rumah tangga, pengasuh bayi,
+                  tukang kebun dapa anda temukan di sini
                 </span>
               </p>
             </v-card-text>
@@ -185,7 +188,7 @@
           <v-card
             elevation="3"
             class="rounded-lg pb-2"
-            height="480"
+            height="500"
             width="243"
           >
             <v-card-text class="pa-2 size-card-text">
@@ -206,9 +209,9 @@
               </p>
               <p class="mb-0 mt-2 text-subtitle-2 text-center">
                 <span class="font-family">
-                  Tenaga magang adalah para lulusan smk, sarjana aau umum yang
-                  membutuhkan perusahaan tempat untuk menerapkan
-                  keahlian/disiplin keilmuannya
+                  Program magang perusahaan merupakan salah satu metode efisien
+                  dan Low Risk untuk mendapatkan SDM yang tepat. Temukan mereka
+                  di sini
                 </span>
               </p>
             </v-card-text>

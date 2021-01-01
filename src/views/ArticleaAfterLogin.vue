@@ -54,6 +54,15 @@
                 v-if="!skeleton"
               ></v-pagination>
             </div>
+            <div v-if="skeleton">
+              <div v-for="i in 4" :key="i">
+                <v-skeleton-loader
+                  class="mx-auto"
+                  max-width="1044"
+                  type="card"
+                ></v-skeleton-loader>
+              </div>
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -155,64 +164,68 @@ export default {
     },
   },
   beforeCreate() {
-    let endpoint = '';
-    if (this.$store.state.role === 'Perusahaan') {
-      endpoint = `${this.$store.state.domain}article/umkm/1`;
-    } else if (this.$store.state.role === 'Pencaker') {
-      endpoint = `${this.$store.state.domain}article/job-seeker/1`;
+    if (this.$store.state.uploadData) {
+      if (this.$store.state.role === 'Pencaker') {
+        this.$router.push('/resume-job-seeker');
+      } else {
+        this.$router.push('/data-umkm');
+      }
     } else {
-      endpoint = `${this.$store.state.domain}article/admin/1`;
-    }
-    // eslint-disable-next-line no-console
-    console.log(endpoint);
-    axios({
-      baseURL: endpoint,
-      method: 'get',
-      headers: {
-        'x-api-key': this.$store.state.apiKey,
-        Authorization: `Bearer ${this.$cookies.get('token')}`,
-      },
-    })
-      .then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        if (response.data.data.article.length > 0) {
-          const modulo = response.data.data.total % 12;
-          if (modulo === 0) {
-            this.pageCount = response.data.data.total / 12;
-          } else {
-            this.pageCount = (response.data.data.total - modulo) / 12 + 1;
-          }
-          let counter = 0;
-          response.data.data.article.forEach((i) => {
-            const date = i.date.split('-');
-            let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-            if (shortDesc.length > 100) {
-              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+      let endpoint = '';
+      if (this.$store.state.role === 'Perusahaan') {
+        endpoint = `${this.$store.state.domain}article/umkm/1`;
+      } else if (this.$store.state.role === 'Pencaker') {
+        endpoint = `${this.$store.state.domain}article/job-seeker/1`;
+      } else {
+        endpoint = `${this.$store.state.domain}article/admin/1`;
+      }
+      axios({
+        baseURL: endpoint,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+      })
+        .then((response) => {
+          if (response.data.data.article.length > 0) {
+            const modulo = response.data.data.total % 12;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 12;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 12 + 1;
             }
-            counter += 1;
-            this.article.push({
-              id: i.id,
-              number: counter,
-              title: i.title,
-              image: i.image,
-              description: shortDesc,
-              date: `${date[0]} ${
-                this.$store.state.month[parseInt(date[1], 10) - 1]
-              } ${date[2]}`,
+            let counter = 0;
+            response.data.data.article.forEach((i) => {
+              const date = i.date.split('-');
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 100) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              counter += 1;
+              this.article.push({
+                id: i.id,
+                number: counter,
+                title: i.title,
+                image: i.image,
+                description: shortDesc,
+                date: `${date[0]} ${
+                  this.$store.state.month[parseInt(date[1], 10) - 1]
+                } ${date[2]}`,
+              });
             });
-          });
-        } else {
-          this.pageCount = 0;
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      })
-      .finally(() => {
-        this.skeleton = false;
-      });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
+        });
+    }
   },
   beforeDestroy() {
     this.search = null;

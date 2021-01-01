@@ -14,6 +14,7 @@
                 :items="filter"
                 label="Pilih Status yang Ditampilkan"
                 outlined
+                dense
                 @change="searchCardJobSeeker()"
               ></v-select>
             </div>
@@ -146,7 +147,7 @@
                         ></v-date-picker>
                       </v-menu>
                       <v-file-input
-                        label="Unggah Foto (Maks 1 MB)"
+                        label="Unggah Foto 3x4 (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
@@ -359,9 +360,9 @@
               <v-progress-circular
                 indeterminate
                 color="primary"
-                v-if="loadingAdd"
+                v-if="dialogUpdate"
               />
-              <p class="ma-0 primary--text font-weight-bold" v-if="!loadingAdd">
+              <p class="ma-0 primary--text font-weight-bold" v-if="!dialogUpdate">
                 <span class="font-family"> simpan </span>
               </p>
             </v-btn>
@@ -438,12 +439,12 @@
                 ></v-date-picker>
               </v-menu>
               <v-file-input
-                label="Unggah Foto (Maks 1 MB)"
+                label="Unggah Foto 3x4 (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
                 enctype="multipart/form-data"
-                :rules="imageRules"
+                :rules="editedItemJobSeeker.image != null? [] : imageRules"
                 @change="ChangeImage"
               ></v-file-input>
               <img
@@ -720,7 +721,7 @@ export default {
     page: 1,
     pageCount: 3,
     search: '',
-    filter: ['Aktif', 'Tidak Aktif', 'Semua'],
+    filter: ['Aktif', 'Tidak Aktif', 'Tampilkan Semua'],
     nameRules: [(v) => !!v || 'Nama Pekerja Profesional Tidak Boleh Kosong'],
     positionRules: [
       (v) => !!v || 'Posisi Pekerja Profesional Tidak Boleh Kosong',
@@ -749,7 +750,7 @@ export default {
     entries: [],
     isLoading: false,
     searchLocation: null,
-    statusProfesional: 'Semua',
+    statusProfesional: 'Tampilkan Semua',
   }),
   computed: {
     computedDateFormatted() {
@@ -824,7 +825,6 @@ export default {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.resetValidation();
-        this.$refs.form.reset();
       });
     },
     ChangeImage(event) {
@@ -964,7 +964,6 @@ export default {
         this.editedItemJobSeeker = { ...this.defaultItem };
         this.editedIndex = -1;
         this.$refs.form.resetValidation();
-        this.$refs.form.reset();
       });
     },
     openDialogShow(item) {
@@ -1079,6 +1078,7 @@ export default {
     methodGetCardjobSeeker(page) {
       let endpoint = '';
       let header = {};
+      this.statusProfesional = 'Tampilkan Semua';
       if (this.search === '') {
         endpoint = `${this.$store.state.domain}professional/pagination-all/${page}`;
       } else {

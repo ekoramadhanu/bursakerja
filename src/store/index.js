@@ -5,10 +5,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    domain: 'http://localhost/api-bursa-kerja/',
-    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJTY213Z0VaYVdQZXFKZ2oifQ.hlBB21-SfwpTDI1Vj5rtFNiMbaIrFbrOsRgQ9z44X4U',
-    /* eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJOcldFUUhMQnpSe
-    FhwdXQifQ.Ij6frBh8CqUHt9q1nMs75RJX3re-uQItyr2e-5G-riQ */
+    domain: 'https://api.test.bursakerja.net/',
+    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJOcldFUUhMQnpSeFhwdXQifQ.Ij6frBh8CqUHt9q1nMs75RJX3re-uQItyr2e-5G-riQ',
+    /*
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJOcldFUUhMQnpSeFhwdXQifQ.
+    Ij6frBh8CqUHt9q1nMs75RJX3re-uQItyr2e-5G-riQ
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJTY213Z0VaYVdQZXFKZ2oifQ.
+    hlBB21-SfwpTDI1Vj5rtFNiMbaIrFbrOsRgQ9z44X4U
+    */
     sidebar: [
       {
         name: 'dashboard', icon: '$dashboard', link: '/home',
@@ -90,6 +94,7 @@ export default new Vuex.Store({
     checkToken: false,
     nameUser: '',
     role: '',
+    uploadData: false,
     itemsSchool: [
       { name: 'S3' },
       { name: 'S2' },
@@ -262,6 +267,9 @@ export default new Vuex.Store({
     },
     changeRole(state, payload) {
       state.role = payload;
+    },
+    changeUploadData(state, payload) {
+      state.uploadData = payload;
     },
   },
   actions: {

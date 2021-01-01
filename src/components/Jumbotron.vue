@@ -27,13 +27,11 @@
           </p>
           <p class="text-subtitle-1 font-weight-regular">
             <span class="font-family line-height">
-              <span class="font-weight-bold">Bursakerja.net</span>
-              adalah portal bursa kerja yang dikelola untuk membantu para
-              pengguna, baik perusahaan atau perorangan, menemukan Sumber Daya
-              Manusia yang mumpuni dan berintegritas sesuai kualifikasi yang
-              diperlukan. Data pencaker dikelompokkan sedemikian rupa
-              berdasarkan kota, posisi yang diinginkan, serta pendidikan
-              terakhir untuk memudahkan pengguna menemukan SDM yang tepat
+              Ada puluhan ribu pilihan Talent, dari berbagai tingkat pendidikan,
+              yang dapat anda lamar untuk menjadi penghebat bisnis anda. Dengan
+              semangat kerja yang tinggi, softskill serta kompetensi yang baik,
+              mereka siap menjadi bagian tim sukses perusahaan anda dalam
+              memenangi kompetisi di era digital
             </span>
           </p>
           <v-btn
@@ -74,13 +72,11 @@
             temukan kandidat anda!
           </p>
           <p class="text-subtitle-2 font-weight-regular">
-            <span class="font-weight-bold">Bursakerja.net</span>
-            adalah portal bursa kerja yang dikelola untuk membantu para
-            pengguna, baik perusahaan atau perorangan, menemukan Sumber Daya
-            Manusia yang mumpuni dan berintegritas sesuai kualifikasi yang
-            diperlukan. Data pencaker dikelompokkan sedemikian rupa berdasarkan
-            kota, posisi yang diinginkan, serta pendidikan terakhir untuk
-            memudahkan pengguna menemukan SDM yang tepat
+            Ada puluhan ribu pilihan Talent, dari berbagai tingkat pendidikan,
+            yang dapat anda lamar untuk menjadi penghebat bisnis anda. Dengan
+            semangat kerja yang tinggi, softskill serta kompetensi yang baik,
+            mereka siap menjadi bagian tim sukses perusahaan anda dalam
+            memenangi kompetisi di era digital
           </p>
           <v-btn
             width="155"
@@ -149,7 +145,7 @@ export default {
     max-width: 100vw;
   }
 }
-.line-height{
+.line-height {
   line-height: normal;
 }
 </style>

@@ -17,7 +17,7 @@
                 src="@/assets/logo.svg"
                 width="100%"
                 height="100%"
-                max-width="153"
+                max-width="120"
                 max-height="30"
                 to="/"
                 contain
@@ -57,7 +57,7 @@
                   text
                   class="no-focus font-family pa-0 mr-6"
                   height="100%"
-                  >profil
+                  >artikel
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
@@ -94,7 +94,7 @@
                   text
                   class="no-focus font-family pa-0 mr-6"
                   height="100%"
-                  >pencaker
+                  >pencari kerja
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
@@ -125,7 +125,7 @@
                   text
                   class="no-focus font-family pa-0 mr-6"
                   height="100%"
-                  >lowker
+                  >lowongan kerja
                   <v-icon class="ml-2" size="14">$dropdown</v-icon>
                 </v-btn>
               </template>
@@ -181,7 +181,7 @@
           <template v-slot:activator>
             <v-list-item-content class="no-focus">
               <v-list-item-title class="font-family text-uppercase"
-                >profil</v-list-item-title
+                >artikel</v-list-item-title
               >
             </v-list-item-content>
           </template>
@@ -211,7 +211,7 @@
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title class="font-family text-uppercase"
-                >pencaker</v-list-item-title
+                >pencari kerja</v-list-item-title
               >
             </v-list-item-content>
           </template>
@@ -237,7 +237,7 @@
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title class="font-family text-uppercase"
-                >lowker</v-list-item-title
+                >lowongan kerja</v-list-item-title
               >
             </v-list-item-content>
           </template>

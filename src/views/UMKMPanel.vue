@@ -14,6 +14,7 @@
                 :items="filter"
                 label="Pilih Status yang Ditampilkan"
                 outlined
+                dense
                 @change="searchCardUMKM()"
               ></v-select>
             </div>
@@ -322,9 +323,9 @@ export default {
     },
     page: 1,
     pageCount: 3,
-    search: 'Semua',
-    filter: ['Aktif', 'Tidak Aktif', 'Semua'],
-    pinRules: [(v) => !!v || 'PIN Bursa Kerja 3x4 Tidak Boleh Kosong'],
+    search: 'Tampilkan Semua',
+    filter: ['Aktif', 'Tidak Aktif', 'Tampilkan Semua'],
+    pinRules: [(v) => !!v || 'PIN Bursa Kerja Tidak Boleh Kosong'],
     csv: null,
     nameFile: 'Silahkan Pilih File CSV',
     CSVRules: [
@@ -332,7 +333,7 @@ export default {
       (v) => !v || v.size < 1000000 || 'File CSV Harus Kurang Dari 1MB',
     ],
     bursaCardRules: [
-      (v) => !!v || 'Nomor Bursa Kerja 3x4 Tidak Boleh Kosong',
+      (v) => !!v || 'Nomor Bursa Kerja Tidak Boleh Kosong',
       (v) => /^BK02/.test(v) || 'Nomor Bursa Kerja Tidak Valid',
     ],
     hasSaved: false,
@@ -501,8 +502,9 @@ export default {
     closeBatchAdd() {
       this.dialogBatchAdd = false;
       this.nameFile = 'Silahkan Pilih File CSV';
-      this.csv = undefined;
+      this.csv = null;
       this.$refs.form.resetValidation();
+      this.$refs.form.reset();
     },
     async saveBatchAdd() {
       if (this.$refs.form.validate()) {
@@ -563,7 +565,8 @@ export default {
     },
     // method universal
     methodGetCardUMKM(page) {
-      if (this.search === 'Semua') {
+      this.search = 'Tampilkan Semua';
+      if (this.search === 'Tampilkan Semua') {
         axios({
           baseURL: `${this.$store.state.domain}umkm/pagination-card/${page}`,
           method: 'get',

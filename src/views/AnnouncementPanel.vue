@@ -735,36 +735,42 @@ export default {
           console.log(error);
         });
     } else if (this.$store.state.role === 'Perusahaan') {
-      axios({
-        baseURL: `${this.$store.state.domain}announcement/umkm/1`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
-        .then((response) => {
-          if (response.data.data.article.length > 0) {
-            response.data.data.article.forEach((i) => {
-              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-              if (shortDesc.length > 250) {
-                shortDesc = `${shortDesc.substr(0, 250)}.....`;
-              }
-              this.article.push({
-                id: i.id,
-                title: i.title,
-                desc: shortDesc,
+      if (this.$store.state.uploadData) {
+        this.$router.push('/data-umkm');
+      } else {
+        axios({
+          baseURL: `${this.$store.state.domain}announcement/umkm/1`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        })
+          .then((response) => {
+            if (response.data.data.article.length > 0) {
+              response.data.data.article.forEach((i) => {
+                let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+                if (shortDesc.length > 250) {
+                  shortDesc = `${shortDesc.substr(0, 250)}.....`;
+                }
+                this.article.push({
+                  id: i.id,
+                  title: i.title,
+                  desc: shortDesc,
+                });
               });
-            });
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        })
-        .finally(() => {
-          this.skeleton = false;
-        });
+            }
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          })
+          .finally(() => {
+            this.skeleton = false;
+          });
+      }
+    } else if (this.$store.state.uploadData && this.$store.state.role === 'Pencaker') {
+      this.$router.push('/resume-job-seeker');
     } else {
       axios({
         baseURL: `${this.$store.state.domain}announcement/job-seeker/1`,

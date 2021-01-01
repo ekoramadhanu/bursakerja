@@ -51,8 +51,21 @@ export default {
                 if (response1.data.data !== undefined) {
                   if (response1.data.data.jobSeeker[0].fullname === null) {
                     this.$store.commit('changeNameUser', '');
+                    this.$store.commit('changeUploadData', true);
+                  } else if (
+                    response1.data.data.jobSeeker[0].fullname.length > 21
+                  ) {
+                    this.$store.commit(
+                      'changeNameUser',
+                      `${response1.data.data.jobSeeker[0].fullname.substr(
+                        0,
+                        21,
+                      )}....`,
+                    );
+                    this.$store.commit('changeUploadData', false);
                   } else {
                     this.$store.commit('changeNameUser', response1.data.data.jobSeeker[0].fullname);
+                    this.$store.commit('changeUploadData', false);
                   }
                   this.$store.commit('changeRole', 'Pencaker');
                   this.loadData = false;
@@ -69,8 +82,16 @@ export default {
                       if (response2.data.data !== undefined) {
                         if (response2.data.data.umkm[0].name === null) {
                           this.$store.commit('changeNameUser', '');
+                          this.$store.commit('changeUploadData', true);
+                        } else if (response2.data.data.umkm[0].name.length > 21) {
+                          this.$store.commit(
+                            'changeNameUser',
+                            `${response2.data.data.umkm[0].name.substr(0, 21)}....`,
+                          );
+                          this.$store.commit('changeUploadData', false);
                         } else {
                           this.$store.commit('changeNameUser', response2.data.data.umkm[0].name);
+                          this.$store.commit('changeUploadData', false);
                         }
                         this.$store.commit('changeRole', 'Perusahaan');
                         this.loadData = false;
@@ -157,8 +178,6 @@ export default {
   },
   updated() {
     const url = window.location.pathname;
-    // eslint-disable-next-line no-console
-    console.log(this.$store.state.token);
     if (this.currentURL !== url) {
       goTo(0);
       if (
