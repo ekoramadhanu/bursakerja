@@ -343,19 +343,23 @@
                       <v-text-field
                         v-model="instantion"
                         :rules="instantionRules"
-                        label="Instansi Pendidikan"
+                        label="Sekolah"
                         required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
-                      <v-text-field
+                      <v-select
                         v-model="typeEducation"
-                        :rules="typeEducationRules"
+                        :items="itemTypeEducation"
+                        item-text="name"
+                        item-value="name"
                         label="Jenis Pendidikan"
+                        :rules="typeEducationRules"
+                        single-line
                         required
-                      />
+                      ></v-select>
                     </v-col>
                     <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
                       <v-text-field
@@ -479,30 +483,10 @@
             <v-card-text class="pa-4">
               <p class="text-capitalize font-weight-bold text-h6">
                 <span class="font-family">
-                  Data Pekerjaan yang Diinginkan
+                  Penempatan
                 </span>
               </p>
               <v-row>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
-                  <v-autocomplete
-                    v-model="deiredRegion"
-                    :items="itemsDeiredRegion"
-                    :loading="isLoadingDeiredRegion"
-                    :search-input.sync="searchDeiredRegion"
-                    hide-no-data
-                    hide-selected
-                    item-text="name"
-                    item-value="name"
-                    label="Wilayah yang Diinginkan"
-                    persistent-hint
-                    :hint="
-                      deiredRegion === ''
-                        ? ''
-                        : `data yang disimpan : ${deiredRegion}`
-                    "
-                    :rules="deiredRegionRules"
-                  />
-                </v-col>
                 <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
                   <v-select
                     v-model="location"
@@ -516,8 +500,28 @@
                   ></v-select>
                 </v-col>
                 <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
+                  <v-autocomplete
+                    v-model="deiredRegion"
+                    :items="itemsDeiredRegion"
+                    :loading="isLoadingDeiredRegion"
+                    :search-input.sync="searchDeiredRegion"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="name"
+                    label="Kota"
+                    persistent-hint
+                    :hint="
+                      deiredRegion === ''
+                        ? ''
+                        : `data yang disimpan : ${deiredRegion}`
+                    "
+                    :rules="deiredRegionRules"
+                  />
+                </v-col>
+                <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
                   <v-text-field
-                    label="Jabatan"
+                    label="Posisi Yang Diinginkan"
                     required
                     v-model="desiredPosition"
                     :rules="desiredPositionRules"
@@ -668,6 +672,10 @@ export default {
     ],
     typeEducation: '',
     typeEducationRules: [(v) => !!v || 'Jenis Pendidikan Tidak Boleh Kosong'],
+    itemTypeEducation: [
+      { name: 'Formal' },
+      { name: 'Informal' },
+    ],
     mayor: '',
     mayorRules: [(v) => !!v || 'Jurusan Tidak Boleh Kosong'],
     dateGraduate: '',
