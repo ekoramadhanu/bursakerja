@@ -72,7 +72,7 @@
                             :items="itemSchool"
                             item-text="name"
                             item-value="name"
-                            label="Sekolah"
+                            label="Minimal Pendidikan"
                             :rules="educationRules"
                             single-line
                             required
@@ -100,7 +100,7 @@
                         }"
                       />
                       <v-file-input
-                        label="Unggah Gambar Lowongan Kerja (Maks 1 MB)"
+                        label="Unggah Gambar Lowongan Kerja (Maks 1 MB) 672 x 672"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
@@ -215,7 +215,7 @@
                     :items="itemSchool"
                     item-text="name"
                     item-value="name"
-                    label="Sekolah"
+                    label="Minimal Pendidikan"
                     :rules="educationRules"
                     single-line
                     required
@@ -243,7 +243,7 @@
                 }"
               />
               <v-file-input
-                label="Unggah Gambar Lowongan Kerja (Maks 1 MB)"
+                label="Unggah Gambar Lowongan Kerja (Maks 1 MB) 672 x 672"
                 accept="image/png, image/jpeg, image/bmp"
                 required
                 ref="fileInput"
@@ -349,7 +349,7 @@ export default {
       academic: '',
       typeJob: '',
     },
-    nameRules: [(v) => !!v || 'Nama Perkerjaan Tidak Boleh Kosong'],
+    nameRules: [(v) => !!v || 'Nama Lowongan Tidak Boleh Kosong'],
     salaryRules: [(v) => !!v || 'Gaji  Tidak Boleh Kosong'],
     // tip tap
     extensions: [
@@ -384,9 +384,9 @@ export default {
     icon: '',
     message: '',
     skeleton: true,
-    educationRules: [(v) => !!v || 'Tingkat Pendidikan Tidak Boleh Kosong'],
+    educationRules: [(v) => !!v || 'Minimal Pendidikan Tidak Boleh Kosong'],
     itemSchool: '',
-    typeJobRules: [(v) => !!v || 'Tingkat Pendidikan Tidak Boleh Kosong'],
+    typeJobRules: [(v) => !!v || 'Tipe Pekerjaan Tidak Boleh Kosong'],
     itemTypeJob: [
       { name: 'Purna Waktu' },
       { name: 'Paruh Waktu' },
@@ -666,8 +666,6 @@ export default {
       })
         .then((response) => {
           if (response.data.data.jobVacancy.length > 0) {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             const modulo = response.data.data.total % 10;
             if (modulo === 0) {
               this.pageCount = response.data.data.total / 10;

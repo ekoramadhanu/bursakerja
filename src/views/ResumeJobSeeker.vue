@@ -2,6 +2,19 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max mb-8">
+        <div v-if="this.$store.state.uploadData && !skeleton">
+          <v-alert
+            text
+            color="error"
+          >
+            <div class="d-flex">
+              <v-icon class="error--text mr-2">$warning</v-icon>
+              <p class="text-subtitle-1 my-auto text-capitalize">
+                silahkan isi data diri pencaker terlebih dahulu
+              </p>
+            </div>
+          </v-alert>
+        </div>
         <v-form lazy-validation ref="form" class="mt-6">
           <v-card class="rounded-xl" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">

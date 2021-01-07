@@ -450,4 +450,8 @@ export default {
 .max-width {
   width: 1044px;
 }
+.preview-img {
+  max-width: 176.83px;
+  max-height: 176.83px;
+}
 </style>

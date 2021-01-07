@@ -450,8 +450,8 @@ export default {
   width: 1044px;
 }
 .preview-img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 176.83px;
+  max-height: 176.83px;
 }
 div >>> ul {
   line-height: 18px !important;
