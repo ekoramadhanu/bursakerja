@@ -20,8 +20,6 @@ export default {
   },
   methods: {
     createPDF() {
-      // eslint-disable-next-line no-console
-      console.log(this.data);
       let frontDegree = null;
       let backwardDegree = null;
       let fullname = null;

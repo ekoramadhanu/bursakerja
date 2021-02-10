@@ -17,13 +17,20 @@
           </v-toolbar>
           <v-card-text>
             <v-form lazy-validation ref="form">
+              <p class="mb-0 black--text">
+                <span class="font-family">NIK</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
-                prepend-icon="$idCard"
                 label="NIK"
                 required
                 v-model="idCard"
                 :rules="idCardRules"
                 :disabled="!isEditing"
+                outlined
+                single-line
+                dense
+                class="font-family"
               />
             </v-form>
           </v-card-text>

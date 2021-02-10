@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div class="mt-12">
     <v-container class="max-width">
@@ -90,15 +96,24 @@ export default {
 </script>
 
 <style scoped>
-div >>> ul {
-  line-height: 18px !important;
-}
-
-div >>> ol {
-  line-height: 18px !important;
+div >>> ul > li,
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+div >>> li {
+  margin-bottom: 0px;
+}
+div >>> li > ol,
+div >>> li > ul {
+  margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 .max-width {
   max-width: 1044px;

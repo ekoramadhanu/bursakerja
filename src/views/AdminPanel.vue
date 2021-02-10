@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 28 Januri 2020 -> add reset password generate by sistem
+                                  check data  after change image base 64 to link
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -31,31 +37,81 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon size="15" class="white--text mr-2">$add</v-icon>
+                    <v-icon size="18" class="white--text mr-2">$add</v-icon>
                     <p class="ma-0 white--text font-family">tambah</p>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-title class="primary headline">
-                    <span class="font-family white--text text-capitalize"
-                      >menambah admin bursa kerja</span
-                    >
+                    <span class="font-family white--text text-capitalize">
+                      menambah admin bursa kerja
+                    </span>
                   </v-card-title>
 
-                  <v-card-text>
+                  <v-card-text class="pa-2">
                     <v-form ref="form" lazy-validation>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          nama admin
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemAdmin.name"
                         :rules="nameRules"
-                        label="Nama"
+                        label="Nama Admin"
+                        class="font-family"
                         required
+                        outlined
+                        dense
+                        single-line
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          alamat email
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemAdmin.email"
                         :rules="emailRules"
                         label="Alamat Email"
+                        class="font-family"
                         required
+                        outlined
+                        dense
+                        single-line
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          NIP/NIK
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
+                      <v-text-field
+                        v-model="editedItemAdmin.idCard"
+                        :rules="idCardRules"
+                        label="NIP/NIK"
+                        class="font-family"
+                        required
+                        outlined
+                        dense
+                        single-line
+                      />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          member area
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-select
                         v-model="editedItemAdmin.role"
                         :rules="roleRules"
@@ -63,7 +119,11 @@
                         :items="role"
                         item-text="name"
                         item-value="id"
-                        label="Tugas Admin"
+                        label="Member Area"
+                        class="font-family"
+                        single-line
+                        outlined
+                        dense
                       />
                     </v-form>
                   </v-card-text>
@@ -102,41 +162,83 @@
               label="Pencarian Nama/Email Admin"
               class="px-5"
               single-line
+              outlined
+              dense
               hide-details
               @click:append="searchAdmin()"
             />
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn
-              @click="openDialogUpdate(item)"
-              color="orange"
-              x-small
-              class="mr-2"
-              elevation="0"
-              dark
-            >
-              Ubah Tugas
-            </v-btn>
-            <v-btn
-              @click="openDialogDeactivate(item)"
-              v-if="item.status === 'Aktif'"
-              elevation="0"
-              x-small
-              color="error"
-              class="ml-2"
-              dark
-              >Nonaktifkan
-            </v-btn>
-            <v-btn
-              @click="openDialogActivate(item)"
-              v-else
-              elevation="0"
-              color="green"
-              x-small
-              class="ml-2"
-              dark
-              >Aktifkan
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogUpdate(item)"
+                  color="orange"
+                  small
+                  icon
+                  class="mr-1"
+                  elevation="0"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountEdit</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">ubah admin</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogDeactivate(item)"
+                  v-if="item.status === 'Aktif'"
+                  elevation="0"
+                  small
+                  color="error"
+                  class="mr-1"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountDeactivate</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">akun admin dinonaktifkan</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogActivate(item)"
+                  v-if="item.status === 'Tidak Aktif'"
+                  elevation="0"
+                  color="green"
+                  small
+                  class="mr-1"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountActivate</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">akun admin diaktifkan</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogResetPassword(item)"
+                  elevation="0"
+                  color="primaryDark"
+                  small
+                  class="mr-1"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountResetPassword</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">reset kata sandi</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -164,13 +266,21 @@
       <v-dialog v-model="dialogUpdate" max-width="500px">
         <v-card>
           <v-card-title class="primary">
-            <span class="headline white--text text-capitalize"
-              >mengubah admin bursa kerja</span
-            >
+            <span class="headline white--text text-capitalize font-family">
+              mengubah admin bursa kerja
+            </span>
           </v-card-title>
 
-          <v-card-text class="mt-8">
+          <v-card-text class="pa-2">
             <v-form ref="form" lazy-validation>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  member area
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-select
                 v-model="editedItemAdmin.role"
                 :rules="roleRules"
@@ -178,11 +288,14 @@
                 :items="role"
                 item-text="name"
                 item-value="id"
-                label="Tugas Admin"
+                label="Member Area"
+                outlined
+                dense
+                single-line
               />
             </v-form>
           </v-card-text>
-
+          <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -290,6 +403,62 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="dialogResetPassword" persistent max-width="450">
+        <v-card>
+          <v-card-title class="headline primary white--text text-capitalize">
+            reset kata sandi akun admin
+          </v-card-title>
+          <v-card-text class="pa-2">
+            <v-form lazy-validation ref="form">
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  kata sandi
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
+              <v-text-field
+                v-model="resetPassword"
+                :rules="resetPaswordRules"
+                label="kata sandi"
+                class="font-family"
+                required
+                outlined
+                dense
+                single-line
+                readonly
+                append-outer-icon="$refresh"
+                @click:append-outer="methodRandomPassword()"
+              />
+            </v-form>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              elevation="3"
+              class="text-capitalize"
+              @click="closeResetPassword()"
+            >
+              tidak
+            </v-btn>
+            <v-btn color="primary" @click="saveResetPassword()">
+              <v-progress-circular
+                indeterminate
+                color="white"
+                v-if="loadingResetPassword"
+              />
+              <p
+                class="my-auto white--text text-capitalize"
+                v-if="!loadingResetPassword"
+              >
+                iya
+              </p>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-snackbar
         v-model="hasSaved"
         :timeout="4000"
@@ -319,32 +488,42 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'admin',
-        disabled: true,
-      },
-    ],
     dialogAdd: false,
     dialogUpdate: false,
     dialogDeactivate: false,
     dialogActivate: false,
+    dialogResetPassword: false,
     loadingAdd: false,
     loadingUpdate: false,
     loadingDeactivate: false,
     loadingActivate: false,
+    loadingResetPassword: false,
     loadingTable: false,
     headerAdmin: [
       {
         text: 'Nomor',
         sortable: false,
         value: 'number',
+        width: 90,
       },
-      { text: 'Nama', value: 'name', sortable: false },
-      { text: 'Email', value: 'email', sortable: false },
-      { text: 'Tugas', value: 'role', sortable: false },
-      { text: 'Status', value: 'status', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      {
+        text: 'Nama', value: 'name', sortable: false, width: 200,
+      },
+      {
+        text: 'NIP/NIK', value: 'idCard', sortable: false, width: 200,
+      },
+      {
+        text: 'Email', value: 'email', sortable: false, width: 200,
+      },
+      {
+        text: 'Tugas', value: 'role', sortable: false, width: 90,
+      },
+      {
+        text: 'Status', value: 'status', sortable: false, width: 90,
+      },
+      {
+        text: 'Actions', value: 'actions', sortable: false, width: 150,
+      },
     ],
     admin: [],
     editedIndex: -1,
@@ -352,11 +531,13 @@ export default {
       name: '',
       email: '',
       role: '',
+      idCard: '',
     },
     defaultItem: {
       name: '',
       email: '',
       role: '',
+      idCard: '',
     },
     page: 1,
     pageCount: 3,
@@ -367,13 +548,27 @@ export default {
       (v) => /^\S*$/.test(v) || 'Alamat Email Tidak Boleh Ada Spasi',
       (v) => /.+@.+\..+/.test(v) || 'Alamat Email Tidak Valid',
     ],
-    roleRules: [(v) => !!v || 'Tugas Admin Tidak Boleh Kosong'],
+    idCardRules: [
+      (v) => !!v || 'NIP/NIK Admin Tidak Boleh Kosong',
+      (v) => /^[0-9]+/.test(v) || 'NIP/NIK Admin Harus Angka',
+    ],
+    roleRules: [(v) => !!v || 'Member Area Tidak Boleh Kosong'],
     role: [],
     hasSaved: false,
     status: null,
     icon: '',
     message: '',
     skeleton: true,
+    resetPassword: '',
+    resetPaswordRules: [
+      (v) => !!v || 'Kata Sandi Tidak Boleh Kosong',
+      (v) => (v.length >= 8 && v.length <= 12) || 'Kata Sandi Harus (8-12)',
+    ],
+    settings: {
+      length: 12,
+      digits: 4,
+      symbols: 4,
+    },
   }),
   methods: {
     pagination() {
@@ -410,6 +605,7 @@ export default {
             name: this.editedItemAdmin.name,
             email: this.editedItemAdmin.email,
             role: this.editedItemAdmin.role,
+            idCard: this.editedItemAdmin.idCard,
           },
         })
           .then((response) => {
@@ -428,6 +624,13 @@ export default {
               this.status = false;
               this.message = 'alamat email sudah ada';
               this.icon = '$warning';
+            } else if (
+              response.data.data.message === 'Id Card Is Already Exist'
+            ) {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'NIP/NIK sudah ada';
+              this.icon = '$warning';
             } else {
               this.hasSaved = true;
               this.status = false;
@@ -440,7 +643,7 @@ export default {
             if (this.admin.length > 0) {
               this.admin.splice(0, this.admin.length);
             }
-            this.methodGetAdmin(1);
+            this.methodGetAdmin();
           })
           .catch(() => {
             this.hasSaved = true;
@@ -495,12 +698,10 @@ export default {
               this.icon = '$warning';
             }
             this.loadingtable = true;
-            this.page = 1;
-            this.search = '';
             if (this.admin.length > 0) {
               this.admin.splice(0, this.admin.length);
             }
-            this.methodGetAdmin(1);
+            this.methodGetAdmin();
           })
           .catch(() => {
             this.hasSaved = true;
@@ -522,6 +723,62 @@ export default {
     openDialogDeactivate(item) {
       this.editedIndex = this.admin.indexOf(item);
       this.dialogDeactivate = true;
+    },
+    openDialogResetPassword(item) {
+      this.editedIndex = this.admin.indexOf(item);
+      this.methodRandomPassword();
+      this.dialogResetPassword = true;
+    },
+    closeResetPassword() {
+      this.dialogResetPassword = false;
+      this.editedIndex = -1;
+    },
+    saveResetPassword() {
+      this.loadingResetPassword = true;
+      axios({
+        baseURL: `${this.$store.state.domain}admin/reset-password/${
+          this.admin[this.editedIndex].id
+        }`,
+        method: 'patch',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+        data: {
+          password: this.resetPassword,
+        },
+      })
+        .then((response) => {
+          if (
+            response.data.data.message
+            === 'Data Admin Is Successfully Update'
+          ) {
+            this.hasSaved = true;
+            this.status = true;
+            this.message = 'data berhasil diubah';
+            this.icon = '$success';
+          } else {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'data tidak berhasil diubah';
+            this.icon = '$warning';
+          }
+          this.loadingtable = true;
+          if (this.admin.length > 0) {
+            this.admin.splice(0, this.admin.length);
+          }
+          this.methodGetAdmin();
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.loadingResetPassword = false;
+          this.closeResetPassword();
+        });
     },
     saveDeactivated() {
       this.loadingDeactivate = true;
@@ -551,12 +808,10 @@ export default {
             this.icon = '$warning';
           }
           this.loadingtable = true;
-          this.page = 1;
-          this.search = '';
           if (this.admin.length > 0) {
             this.admin.splice(0, this.admin.length);
           }
-          this.methodGetAdmin(1);
+          this.methodGetAdmin();
         })
         .catch(() => {
           this.hasSaved = true;
@@ -600,12 +855,10 @@ export default {
             this.icon = '$warning';
           }
           this.loadingtable = true;
-          this.page = 1;
-          this.search = '';
           if (this.admin.length > 0) {
             this.admin.splice(0, this.admin.length);
           }
-          this.methodGetAdmin(1);
+          this.methodGetAdmin();
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
@@ -617,113 +870,18 @@ export default {
         });
     },
     // method universal
-    methodGetAdmin(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}admin/pagination-all/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.admin.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.admin.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Aktif';
-                } else {
-                  nameStatus = 'Aktif';
-                }
-                this.admin.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  email: i.email,
-                  role: i.role.name,
-                  idRole: i.role.id,
-                  status: nameStatus,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}admin/search-all/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.admin.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.admin.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Aktif';
-                } else {
-                  nameStatus = 'Aktif';
-                }
-                this.admin.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  email: i.email,
-                  role: i.role.name,
-                  idRole: i.role.id,
-                  status: nameStatus,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+    methodGetAdmin() {
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
-    },
-  },
-  beforeCreate() {
-    if (this.$store.state.role === 'Admin 3') {
       axios({
-        baseURL: `${this.$store.state.domain}admin/pagination-all/1`,
+        baseURL: `${this.$store.state.domain}admin/pagination-all/${this.page}`,
         method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
+        headers: header,
       })
         .then((response) => {
           if (response.data.data.admin.length > 0) {
@@ -733,7 +891,7 @@ export default {
             } else {
               this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            let counter = 0;
+            let counter = (this.page - 1) * 10;
             let nameStatus = '';
             response.data.data.admin.forEach((i) => {
               counter += 1;
@@ -747,6 +905,7 @@ export default {
                 number: counter,
                 name: i.name,
                 email: i.email,
+                idCard: i.idCard,
                 role: i.role.name,
                 idRole: i.role.id,
                 status: nameStatus,
@@ -761,19 +920,117 @@ export default {
           console.log(error);
         })
         .finally(() => {
-          this.skeleton = false;
+          this.loadingTable = false;
         });
-      axios({
-        baseURL: `${this.$store.state.domain}role-admin`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
+    },
+    methodRandomPassword() {
+      const lettersSetArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+      const symbolsSetArray = ['=', '+', '-', '^', '?', '!', '%', '&', '*', '$', '#', '^', '@', '|'];
+      const passwordArray = [];
+      // const digitsArray = [];
+      const digitsPositionArray = [];
+      let i = 0;
+
+      // first, fill the password array with letters, uppercase and lowecase
+      for (i = 0; i < this.settings.length; i += 1) {
+        // get an array for all indexes of the password array
+        digitsPositionArray.push(i);
+
+        const upperCase = Math.round(Math.random() * 1);
+        if (upperCase === 0) {
+          passwordArray[i] = lettersSetArray[Math.floor(Math.random()
+          * lettersSetArray.length)].toUpperCase();
+        } else {
+          passwordArray[i] = lettersSetArray[Math.floor(Math.random() * lettersSetArray.length)];
+        }
+      }
+
+      // Add digits to password
+      for (i = 0; i < this.settings.digits; i += 1) {
+        const digit = Math.round(Math.random() * 9);
+        const numberIndex = digitsPositionArray[Math.floor(Math.random()
+        * digitsPositionArray.length)];
+
+        passwordArray[numberIndex] = digit;
+
+        const j = digitsPositionArray.indexOf(numberIndex);
+        if (i !== -1) {
+          digitsPositionArray.splice(j, 1);
+        }
+      }
+
+      // add special charachters "symbols"
+      for (i = 0; i < this.settings.symbols; i += 1) {
+        const symbol = symbolsSetArray[Math.floor(Math.random() * symbolsSetArray.length)];
+        const symbolIndex = digitsPositionArray[Math.floor(Math.random()
+        * digitsPositionArray.length)];
+
+        passwordArray[symbolIndex] = symbol;
+
+        const j = digitsPositionArray.indexOf(symbolIndex);
+        if (i !== -1) {
+          digitsPositionArray.splice(j, 1);
+        }
+      }
+
+      this.resetPassword = passwordArray.join('');
+    },
+  },
+  beforeCreate() {
+    if (this.$store.state.role === 'Admin 3') {
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}admin/pagination-all/1`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}role-admin`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+        ],
+      )
         .then((response) => {
-          if (response.data.data.role.length > 0) {
-            response.data.data.role.forEach((i) => {
+          if (response[0].data.data.admin.length > 0) {
+            const modulo = response[0].data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response[0].data.data.total / 10;
+            } else {
+              this.pageCount = (response[0].data.data.total - modulo) / 10 + 1;
+            }
+            let counter = 0;
+            let nameStatus = '';
+            response[0].data.data.admin.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Aktif';
+              } else {
+                nameStatus = 'Aktif';
+              }
+              this.admin.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                idCard: i.idCard,
+                email: i.email,
+                role: i.role.name,
+                idRole: i.role.id,
+                status: nameStatus,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+          if (response[1].data.data.role.length > 0) {
+            response[1].data.data.role.forEach((i) => {
               this.role.push({
                 id: i.id,
                 name: i.name,
@@ -784,14 +1041,26 @@ export default {
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
         });
     } else {
       this.$router.push('/access-block');
     }
   },
   beforeDestroy() {
-    this.items = null;
     this.dialogAdd = null;
+    this.dialogUpdate = null;
+    this.dialogDeactivate = null;
+    this.dialogActivate = null;
+    this.dialogResetPassword = null;
+    this.loadingAdd = null;
+    this.loadingUpdate = null;
+    this.loadingDeactivate = null;
+    this.loadingActivate = null;
+    this.loadingResetPassword = null;
+    this.loadingTable = null;
     this.headerAdmin = null;
     this.admin = null;
     this.editedIndex = null;
@@ -802,11 +1071,29 @@ export default {
     this.search = null;
     this.nameRules = null;
     this.emailRules = null;
+    this.idCardRules = null;
     this.roleRules = null;
     this.role = null;
+    this.hasSaved = null;
+    this.status = null;
+    this.icon = null;
+    this.message = null;
+    this.skeleton = null;
+    this.resetPassword = null;
+    this.resetPaswordRules = null;
+    this.settings = null;
 
-    delete this.items;
     delete this.dialogAdd;
+    delete this.dialogUpdate;
+    delete this.dialogDeactivate;
+    delete this.dialogActivate;
+    delete this.dialogResetPassword;
+    delete this.loadingAdd;
+    delete this.loadingUpdate;
+    delete this.loadingDeactivate;
+    delete this.loadingActivate;
+    delete this.loadingResetPassword;
+    delete this.loadingTable;
     delete this.headerAdmin;
     delete this.admin;
     delete this.editedIndex;
@@ -817,14 +1104,23 @@ export default {
     delete this.search;
     delete this.nameRules;
     delete this.emailRules;
+    delete this.idCardRules;
     delete this.roleRules;
     delete this.role;
+    delete this.hasSaved;
+    delete this.status;
+    delete this.icon;
+    delete this.message;
+    delete this.skeleton;
+    delete this.resetPassword;
+    delete this.resetPaswordRules;
+    delete this.settings;
   },
 };
 </script>
 
 <style scoped>
 .size-max {
-  max-width: 1366px;
+  max-width: 1044px;
 }
 </style>

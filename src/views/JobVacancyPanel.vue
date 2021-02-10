@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -25,31 +31,49 @@
               v-model="search"
               append-icon="$search"
               label="Pencarian Judul lowongan kerja"
-              class="px-5"
-              single-line
+              class="px-5 font-family"
               hide-details
               @click:append="searchjobVacancy()"
+              single-line
+              outlined
+              dense
             />
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn
-              @click="openDialogDecline(item)"
-              dark
-              x-small
-              color="error"
-              class="mr-2"
-            >
-              batalkan
-            </v-btn>
-            <v-btn
-              @click="openDialogAcpprove(item)"
-              dark
-              x-small
-              color="success"
-              class="ml-2"
-            >
-              setujui
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogDecline(item)"
+                  dark
+                  small
+                  color="error"
+                  class="mr-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  icon
+                >
+                  <v-icon>$jobDecline</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">membatalkan</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                 <v-btn
+                  @click="openDialogAcpprove(item)"
+                  dark
+                  small
+                  color="success"
+                  class="ml-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  icon
+                >
+                  <v-icon>$jobAccept</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">menerima</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -175,12 +199,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'lowongan kerja',
-        disabled: true,
-      },
-    ],
     dialogAdd: false,
     dialogApprove: false,
     dialogDecline: false,
@@ -196,7 +214,9 @@ export default {
       { text: 'Nama Lowongan', value: 'name', sortable: false },
       { text: 'Perusahaan', value: 'company', sortable: false },
       { text: 'Status', value: 'status', sortable: false },
-      { text: 'Aksi', value: 'actions', sortable: false },
+      {
+        text: 'Aksi', value: 'actions', sortable: false, width: 150,
+      },
     ],
     jobVacancy: [],
     editedIndex: -1,
@@ -260,8 +280,6 @@ export default {
             this.icon = '$warning';
           }
           this.loadingTable = true;
-          this.page = 1;
-          this.search = '';
           if (this.jobVacancy.length > 0) {
             this.jobVacancy.splice(0, this.jobVacancy.length);
           }
@@ -303,8 +321,6 @@ export default {
             this.icon = '$warning';
           }
           this.loadingTable = true;
-          this.page = 1;
-          this.search = '';
           if (this.jobVacancy.length > 0) {
             this.jobVacancy.splice(0, this.jobVacancy.length);
           }
@@ -321,107 +337,57 @@ export default {
     },
     // method universal
     methodGetJobVacancy(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}job-vacancy/pagination/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobVacancy.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.jobVacancy.forEach((i) => {
-                if (i.status === '0') {
-                  nameStatus = 'Menunggu Verifikasi';
-                } else if (i.status === '1') {
-                  nameStatus = 'Sudah Disetujui';
-                } else {
-                  nameStatus = 'Ditolak';
-                }
-                counter += 1;
-                this.jobVacancy.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  salary: i.salary,
-                  company: i.nameCompany,
-                  description: i.description,
-                  status: nameStatus,
-                  experience: i.experience,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}job-vacancy/search/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobVacancy.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.jobVacancy.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Menunggu Verifikasi';
-                } else if (i.status === '1') {
-                  nameStatus = 'Sudah Disetujui';
-                } else {
-                  nameStatus = 'Ditolak';
-                }
-                this.jobVacancy.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  salary: i.salary,
-                  company: i.nameCompany,
-                  description: i.description,
-                  status: nameStatus,
-                  experience: i.experience,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
+
+      axios({
+        baseURL: `${this.$store.state.domain}job-vacancy/pagination/${page}`,
+        method: 'get',
+        headers: header,
+      })
+        .then((response) => {
+          if (response.data.data.jobVacancy.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = (page - 1) * 10;
+            let nameStatus = '';
+            response.data.data.jobVacancy.forEach((i) => {
+              if (i.status === '0') {
+                nameStatus = 'Menunggu Verifikasi';
+              } else if (i.status === '1') {
+                nameStatus = 'Sudah Disetujui';
+              } else {
+                nameStatus = 'Ditolak';
+              }
+              counter += 1;
+              this.jobVacancy.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                company: i.nameCompany,
+                status: nameStatus,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.loadingTable = false;
+        });
     },
   },
   beforeCreate() {
@@ -465,9 +431,7 @@ export default {
                 number: counter,
                 name: i.name,
                 company: i.nameCompany,
-                description: i.description,
                 status: nameStatus,
-                experience: i.experience,
               });
             });
           } else {
@@ -484,35 +448,41 @@ export default {
     }
   },
   beforeDestroy() {
-    this.items = null;
     this.dialogAdd = null;
-    this.headerArticle = null;
-    this.article = null;
+    this.dialogApprove = null;
+    this.dialogDecline = null;
+    this.loadingTable = null;
+    this.loadingApprove = null;
+    this.loadingDecline = null;
+    this.headerJobVacancy = null;
+    this.jobVacancy = null;
     this.editedIndex = null;
-    this.editedItemArticle = null;
-    this.defaultItem = null;
     this.page = null;
     this.pageCount = null;
     this.search = null;
-    this.userRead = null;
-    this.titleRules = null;
-    this.userRules = null;
-    this.imageRules = null;
+    this.hasSaved = null;
+    this.status = null;
+    this.icon = null;
+    this.message = null;
+    this.skeleton = null;
 
-    delete this.items;
     delete this.dialogAdd;
-    delete this.headerArticle;
-    delete this.article;
+    delete this.dialogApprove;
+    delete this.dialogDecline;
+    delete this.loadingTable;
+    delete this.loadingApprove;
+    delete this.loadingDecline;
+    delete this.headerJobVacancy;
+    delete this.jobVacancy;
     delete this.editedIndex;
-    delete this.editedItemArticle;
-    delete this.defaultItem;
     delete this.page;
     delete this.pageCount;
     delete this.search;
-    delete this.userRead;
-    delete this.titleRules;
-    delete this.userRules;
-    delete this.imageRules;
+    delete this.hasSaved;
+    delete this.status;
+    delete this.icon;
+    delete this.message;
+    delete this.skeleton;
   },
 };
 </script>
@@ -526,13 +496,23 @@ export default {
     max-width: 800px;
     max-height: 600px;
 }
-div >>> ul {
-  line-height: 18px !important;
-}
-div >>> ol {
-  line-height: 18px !important;
+div >>> ul > li,
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+div >>> li {
+  margin-bottom: 0px;
+}
+div >>> li > ol,
+div >>> li > ul {
+  margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 </style>

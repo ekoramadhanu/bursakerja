@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <navbar-home v-if="checkIndex && !loadData"/>
+    <navbar-home v-if="checkIndex && !loadData" />
     <sidebar-dashboard v-if="checkLogin && !loadData" />
     <router-view v-if="!loadData" />
-    <snackbar-reload/>
+    <snackbar-reload />
   </v-app>
 </template>
 
@@ -28,94 +28,172 @@ export default {
   },
   beforeCreate() {
     if (this.$cookies.isKey('token')) {
-      axios({
-        baseURL: `${this.$store.state.domain}admin/token`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
+      Promise.all([
+        axios({
+          baseURL: `${this.$store.state.domain}admin/token`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        }),
+        axios({
+          baseURL: `${this.$store.state.domain}job-seeker/token`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        }),
+        axios({
+          baseURL: `${this.$store.state.domain}umkm/token`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        }),
+      ])
         .then((response) => {
-          if (response.data.data !== undefined) {
-            this.$store.commit('changeNameUser', response.data.data.admin[0].name);
-            this.$store.commit('changeRole', response.data.data.admin[0].role);
+          if (response[0].data.data !== undefined) {
+            this.$store.commit(
+              'changeNameUser',
+              response[0].data.data.admin[0].name,
+            );
+            this.$store.commit('changeRole', response[0].data.data.admin[0].role);
             this.loadData = false;
-          } else {
-            axios({
-              baseURL: `${this.$store.state.domain}job-seeker/token`,
-              method: 'get',
-              headers: {
-                'x-api-key': this.$store.state.apiKey,
-                Authorization: `Bearer ${this.$cookies.get('token')}`,
-              },
-            })
-              .then((response1) => {
-                if (response1.data.data !== undefined) {
-                  if (response1.data.data.jobSeeker[0].fullname === null) {
-                    this.$store.commit('changeNameUser', '');
-                    this.$store.commit('changeUploadData', true);
-                  } else if (
-                    response1.data.data.jobSeeker[0].fullname.length > 21
-                  ) {
-                    this.$store.commit(
-                      'changeNameUser',
-                      `${response1.data.data.jobSeeker[0].fullname.substr(
-                        0,
-                        21,
-                      )}....`,
-                    );
-                    this.$store.commit('changeUploadData', false);
-                  } else {
-                    this.$store.commit('changeNameUser', response1.data.data.jobSeeker[0].fullname);
-                    this.$store.commit('changeUploadData', false);
-                  }
-                  this.$store.commit('changeRole', 'Pencaker');
-                  this.loadData = false;
-                } else {
-                  axios({
-                    baseURL: `${this.$store.state.domain}umkm/token`,
-                    method: 'get',
-                    headers: {
-                      'x-api-key': this.$store.state.apiKey,
-                      Authorization: `Bearer ${this.$cookies.get('token')}`,
-                    },
-                  })
-                    .then((response2) => {
-                      if (response2.data.data !== undefined) {
-                        if (response2.data.data.umkm[0].name === null) {
-                          this.$store.commit('changeNameUser', '');
-                          this.$store.commit('changeUploadData', true);
-                        } else if (response2.data.data.umkm[0].name.length > 21) {
-                          this.$store.commit(
-                            'changeNameUser',
-                            `${response2.data.data.umkm[0].name.substr(0, 21)}....`,
-                          );
-                          this.$store.commit('changeUploadData', false);
-                        } else {
-                          this.$store.commit('changeNameUser', response2.data.data.umkm[0].name);
-                          this.$store.commit('changeUploadData', false);
-                        }
-                        this.$store.commit('changeRole', 'Perusahaan');
-                        this.loadData = false;
-                      }
-                    })
-                    .catch((error) => {
-                      // eslint-disable-next-line no-console
-                      console.log(error);
-                    });
-                }
-              })
-              .catch((error) => {
-                // eslint-disable-next-line no-console
-                console.log(error);
-              });
           }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
+          if (response[1].data.data !== undefined) {
+            if (response[1].data.data.jobSeeker[0].fullname === null) {
+              this.$store.commit('changeNameUser', '');
+              this.$store.commit('changeUploadData', true);
+            } else if (response[1].data.data.jobSeeker[0].fullname.length > 21) {
+              this.$store.commit(
+                'changeNameUser',
+                `${response[1].data.data.jobSeeker[0].fullname.substr(0, 21)}....`,
+              );
+              this.$store.commit('changeUploadData', false);
+            } else {
+              this.$store.commit(
+                'changeNameUser',
+                response[1].data.data.jobSeeker[0].fullname,
+              );
+              this.$store.commit('changeUploadData', false);
+            }
+            this.$store.commit('changeRole', 'Pencaker');
+            this.loadData = false;
+          }
+          if (response[2].data.data !== undefined) {
+            if (response[2].data.data.umkm[0].name === null) {
+              this.$store.commit('changeNameUser', '');
+              this.$store.commit('changeUploadData', true);
+            } else if (response[2].data.data.umkm[0].name.length > 21) {
+              this.$store.commit(
+                'changeNameUser',
+                `${response[2].data.data.umkm[0].name.substr(0, 21)}....`,
+              );
+              this.$store.commit('changeUploadData', false);
+            } else {
+              this.$store.commit('changeNameUser', response[2].data.data.umkm[0].name);
+              this.$store.commit('changeUploadData', false);
+            }
+            this.$store.commit('changeRole', 'Perusahaan');
+            this.loadData = false;
+          }
         });
+      // .catch((err) => {
+      //   // eslint-disable-next-line no-console
+      //   console.log(err);
+      // });
+      // axios({
+      //   baseURL: `${this.$store.state.domain}admin/token`,
+      //   method: 'get',
+      //   headers: {
+      //     'x-api-key': this.$store.state.apiKey,
+      //     Authorization: `Bearer ${this.$cookies.get('token')}`,
+      //   },
+      // })
+      //   .then((response) => {
+      //     if (response.data.data !== undefined) {
+      //       this.$store.commit('changeNameUser', response.data.data.admin[0].name);
+      //       this.$store.commit('changeRole', response.data.data.admin[0].role);
+      //       this.loadData = false;
+      //     } else {
+      //       axios({
+      //         baseURL: `${this.$store.state.domain}job-seeker/token`,
+      //         method: 'get',
+      //         headers: {
+      //           'x-api-key': this.$store.state.apiKey,
+      //           Authorization: `Bearer ${this.$cookies.get('token')}`,
+      //         },
+      //       })
+      //         .then((response1) => {
+      //           if (response1.data.data !== undefined) {
+      //             if (response1.data.data.jobSeeker[0].fullname === null) {
+      //               this.$store.commit('changeNameUser', '');
+      //               this.$store.commit('changeUploadData', true);
+      //             } else if (
+      //               response1.data.data.jobSeeker[0].fullname.length > 21
+      //             ) {
+      //               this.$store.commit(
+      //                 'changeNameUser',
+      //                 `${response1.data.data.jobSeeker[0].fullname.substr(
+      //                   0,
+      //                   21,
+      //                 )}....`,
+      //               );
+      //               this.$store.commit('changeUploadData', false);
+      //             } else {
+      //               this.$store.commit('changeNameUser',
+      // response1.data.data.jobSeeker[0].fullname);
+      //               this.$store.commit('changeUploadData', false);
+      //             }
+      //             this.$store.commit('changeRole', 'Pencaker');
+      //             this.loadData = false;
+      //           } else {
+      //             axios({
+      //               baseURL: `${this.$store.state.domain}umkm/token`,
+      //               method: 'get',
+      //               headers: {
+      //                 'x-api-key': this.$store.state.apiKey,
+      //                 Authorization: `Bearer ${this.$cookies.get('token')}`,
+      //               },
+      //             })
+      //               .then((response2) => {
+      //                 if (response2.data.data !== undefined) {
+      //                   if (response2.data.data.umkm[0].name === null) {
+      //                     this.$store.commit('changeNameUser', '');
+      //                     this.$store.commit('changeUploadData', true);
+      //                   } else if (response2.data.data.umkm[0].name.length > 21) {
+      //                     this.$store.commit(
+      //                       'changeNameUser',
+      //                       `${response2.data.data.umkm[0].name.substr(0, 21)}....`,
+      //                     );
+      //                     this.$store.commit('changeUploadData', false);
+      //                   } else {
+      //                     this.$store.commit('changeNameUser', response2.data.data.umkm[0].name);
+      //                     this.$store.commit('changeUploadData', false);
+      //                   }
+      //                   this.$store.commit('changeRole', 'Perusahaan');
+      //                   this.loadData = false;
+      //                 }
+      //               })
+      //               .catch((error) => {
+      //                 // eslint-disable-next-line no-console
+      //                 console.log(error);
+      //               });
+      //           }
+      //         })
+      //         .catch((error) => {
+      //           // eslint-disable-next-line no-console
+      //           console.log(error);
+      //         });
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     // eslint-disable-next-line no-console
+      //     console.log(error);
+      //   });
     }
   },
   created() {
@@ -127,7 +205,6 @@ export default {
       this.loadData = false;
     }
     const url = window.location.pathname;
-    // eslint-disable-next-line no-console
     if (
       url.includes('/activate-account')
       || url.includes('/register-account')
@@ -171,6 +248,7 @@ export default {
       || url.includes('/detail-announcement/')
       || url.includes('/internship-login')
       || url.includes('/application-job/')
+      || url.includes('/tag-job')
     ) {
       this.checkIndex = false;
       this.checkLogin = true;
@@ -185,11 +263,11 @@ export default {
       goTo(0);
       if (
         url.includes('/activate-account')
-      || url.includes('/register-account')
-      || url.includes('/login-job-seeker')
-      || url.includes('/login-company')
-      || url.includes('/login-admin')
-      || url.includes('/test')
+        || url.includes('/register-account')
+        || url.includes('/login-job-seeker')
+        || url.includes('/login-company')
+        || url.includes('/login-admin')
+        || url.includes('/test')
       ) {
         this.checkIndex = false;
         this.checkLogin = false;
@@ -226,6 +304,7 @@ export default {
         || url.includes('/detail-announcement/')
         || url.includes('/internship-login')
         || url.includes('/application-job/')
+        || url.includes('/tag-job')
       ) {
         this.checkIndex = false;
         this.checkLogin = true;
@@ -252,7 +331,7 @@ export default {
 </script>
 
 <style>
-img{
+img {
   pointer-events: none;
 }
 </style>

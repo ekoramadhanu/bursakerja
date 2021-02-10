@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 29 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -15,6 +21,14 @@
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" lazy-validation v-if="isEditing">
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  Gambar (Maks 1 MB) Dengan Ukuran 1044px x 400px
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-file-input
                 label="Unggah Gambar (Maks 1 MB) Dengan Ukuran 1044px x 400px"
                 accept="image/png, image/jpeg, image/bmp"
@@ -31,6 +45,14 @@
                 contain
                 aspect-ratio="1.7"
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  penjelasan terkait perusahaan
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <tip-tap-vuetify
                 v-model="content"
                 class="font-family"
@@ -112,7 +134,6 @@ import {
   OrderedList,
   ListItem,
   Link,
-  Blockquote,
   HardBreak,
   HorizontalRule,
   History,
@@ -121,12 +142,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'tentang kami',
-        disabled: true,
-      },
-    ],
     hasSaved: false,
     isEditing: null,
     previewImage: null,
@@ -137,7 +152,6 @@ export default {
     // tip tap
     extensions: [
       History,
-      Blockquote,
       Link,
       Underline,
       Strike,
@@ -242,7 +256,27 @@ export default {
         .then((response) => {
           this.content = response.data.data.aboutUs[0].description;
           this.idAboutUs = response.data.data.aboutUs[0].id;
-          this.previewImage = response.data.data.aboutUs[0].image;
+          // this.previewImage = response.data.data.aboutUs[0].image;
+          axios({
+            baseURL: `${this.$store.state.domain}about-us/stream`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+            },
+            responseType: 'blob',
+          })
+            .then((blob) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                this.previewImage = e.target.result;
+              };
+              reader.readAsDataURL(blob.data);
+            })
+            .catch(() => {
+              this.status = false;
+              this.message = 'server mengalami error';
+              this.icon = '$warning';
+            });
         })
         .catch(() => {
           this.status = false;
@@ -255,7 +289,6 @@ export default {
     }
   },
   beforeDestroy() {
-    this.items = null;
     this.hasSaved = null;
     this.isEditing = null;
     this.previewImage = null;
@@ -267,8 +300,8 @@ export default {
     this.status = null;
     this.icon = null;
     this.message = null;
+    this.loadingSave = null;
 
-    delete this.items;
     delete this.hasSaved;
     delete this.isEditing;
     delete this.previewImage;
@@ -279,6 +312,7 @@ export default {
     delete this.skeleton;
     delete this.icon;
     delete this.message;
+    delete this.loadingSave;
   },
 };
 </script>
@@ -291,23 +325,24 @@ export default {
   max-width: 1044px;
   max-height: 400px;
 }
-div >>> ul > li {
-  line-height: 25px !important;
-}
+div >>> ul > li,
 div >>> ol > li {
   line-height: 25px !important;
 }
 div >>> li > p {
-  margin-bottom: 5px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
 }
 div >>> li {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
-div >>> li > ol {
-  margin: 0px;
-}
+div >>> li > ol,
 div >>> li > ul {
   margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 .image-cover {
   object-fit: cover;

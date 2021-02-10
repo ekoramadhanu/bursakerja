@@ -2,15 +2,15 @@
   <div>
     <v-container class="font-family">
       <v-row class="full-height d-flex align-center">
-        <v-col cols="12" lg="6" xl="6" md="6"
-          ><v-img
+        <v-col cols="12" lg="6" xl="6" md="6" sm="12" xs="12">
+          <v-img
             src="@/assets/Login-rafiki.svg"
             max-height="512"
             contain
             class="hidden-xs-only hidden-sm-only"
           ></v-img
         ></v-col>
-        <v-col cols="12" lg="6" xl="6" md="6">
+        <v-col cols="12" lg="6" xl="6" md="6" sm="12" xs="12">
           <v-container>
             <v-row>
               <div class="mb-8">
@@ -45,12 +45,31 @@
                     </v-alert>
                   </div>
                   <v-form ref="form" lazy-validation>
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        alamat email
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="email"
                       :rules="emailRules"
                       label="Alamat Email"
                       required
+                      outlined
+                      single-line
+                      dense
                     />
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        kata sandi
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="password"
                       :rules="passwordRules"
@@ -59,6 +78,9 @@
                       label="Kata Sandi"
                       @click:append="changeShowPassword()"
                       required
+                      outlined
+                      single-line
+                      dense
                     />
                     <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">

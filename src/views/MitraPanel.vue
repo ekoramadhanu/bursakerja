@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -41,25 +47,62 @@
 
                   <v-card-text>
                     <v-form ref="form" lazy-validation>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          nama mitra perusahaan
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         label="Nama Mitra Perusahaan"
                         v-model="editedItemMitra.name"
                         :rules="nameRules"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          link website
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         label="Link website"
                         v-model="editedItemMitra.link"
                         :rules="linkRules"
                         required
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          Gambar Perusahaan Mitra (Maks 1 MB) 128px x 24px
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-file-input
                         label="Unggah Gambar Perusahaan Mitra (Maks 1 MB) 128px x 24px"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
                         enctype="multipart/form-data"
+                        prepend-icon="$fileUpload"
                         :rules="imageRules"
                         @change="ChangeImage"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       ></v-file-input>
                       <img
                         :src="editedItemMitra.image"
@@ -106,10 +149,12 @@
             <v-text-field
               v-model="search"
               append-icon="$search"
-              label="Pencarian Nama Mitra Perusahaan"
-              class="px-5"
+              label="Pencarian Nama"
+              class="px-5 font-family"
               single-line
               hide-details
+              outlined
+              dense
               @click:append="searchMitra()"
             />
           </template>
@@ -124,38 +169,62 @@
             ></v-img>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn
-              @click="openDialogUpdate(item)"
-              color="orange"
-              elevation="0"
-              x-small
-              dark
-              class="mr-2"
-            >
-              ubah
-            </v-btn>
-            <v-btn
-              @click="openDialogDeactivate(item)"
-              color="error"
-              elevation="0"
-              x-small
-              dark
-              class="ml-2"
-              v-if="item.status === 'Ditampilkan'"
-            >
-              sembunyikan
-            </v-btn>
-            <v-btn
-              @click="openDialogActivate(item)"
-              color="success"
-              elevation="0"
-              x-small
-              dark
-              class="ml-2"
-              v-else
-            >
-              tampilkan
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogUpdate(item)"
+                  color="orange"
+                  elevation="0"
+                  small
+                  dark
+                  class="mr-1"
+                  v-bind="attrs"
+                  v-on="on"
+                  icon
+                >
+                  <v-icon>$contentEdit</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">ubah data</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogDeactivate(item)"
+                  color="error"
+                  elevation="0"
+                  small
+                  dark
+                  class="ml-2"
+                  v-if="item.status === 'Ditampilkan'"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$archive</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">mengarsipkan data</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogActivate(item)"
+                  color="success"
+                  elevation="0"
+                  small
+                  dark
+                  class="ml-2"
+                  icon
+                  v-if="item.status === 'Tidak Ditampilkan'"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$unArchive</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">menampilakn data</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -206,18 +275,50 @@
             mengubah data perusahaan mitra
           </v-card-title>
           <v-card-text>
-            <v-form lazy-validation ref="form">
+            <v-form lazy-validation ref="form" v-if="!loadingDialog">
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  nama mitra perusahaan
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 label="Nama Mitra Perusahaan"
                 v-model="editedItemMitra.name"
                 :rules="nameRules"
+                outlined
+                single-line
+                dense
+                class="font-family"
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  link website
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 label="Link website"
                 v-model="editedItemMitra.link"
                 :rules="linkRules"
                 required
+                outlined
+                single-line
+                dense
+                class="font-family"
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  Gambar Perusahaan Mitra (Maks 1 MB) 128px x 24px
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-file-input
                 label="Unggah Gambar Perusahaan Mitra (Maks 1 MB) 128px x 24px"
                 accept="image/png, image/jpeg, image/bmp"
@@ -227,6 +328,11 @@
                 show-size
                 :rules="editedItemMitra.image !== null ? [] : imageRules"
                 @change="ChangeImage"
+                outlined
+                single-line
+                prepend-icon="$fileUpload"
+                dense
+                class="font-family"
               ></v-file-input>
               <img
                 :src="editedItemMitra.image"
@@ -236,6 +342,13 @@
                 aspect-ratio="1.7"
               />
             </v-form>
+            <div v-if="loadingDialog" class="d-flex justify-center align-center">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="64"
+              />
+            </div>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -262,13 +375,13 @@
       <v-dialog v-model="dialogDeactivate" persistent max-width="450">
         <v-card>
           <v-card-title class="headline primary white--text text-capitalize">
-            ubah data perusahaan mitra
+            arsip perusahaan mitra
           </v-card-title>
           <v-card-text>
             <div class="d-flex justify-start align-center pa-2">
               <v-icon size="80" class="error--text mr-4">$warning</v-icon>
               <p class="ma-0 black--text">
-                Apakah anda yakin tidak menampilkan data perusahaan mitra ? Jika
+                Apakah anda yakin tidak mengarsipkan data perusahaan mitra ? Jika
                 "iya" silahkan pilih tombol iya
               </p>
             </div>
@@ -302,7 +415,7 @@
       <v-dialog v-model="dialogActivate" persistent max-width="450">
         <v-card>
           <v-card-title class="headline primary white--text text-capitalize">
-            ubah data perusahaan mitra
+            arsip perusahaan mitra
           </v-card-title>
           <v-card-text>
             <div class="d-flex justify-start align-center pa-2">
@@ -348,12 +461,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'mitra perusahaan',
-        disabled: true,
-      },
-    ],
     dialogAdd: false,
     dialogUpdate: false,
     dialogActivate: false,
@@ -363,17 +470,24 @@ export default {
     loadingDeactivate: false,
     loadingActivate: false,
     loadingtable: false,
+    loadingDialog: false,
     headerMitra: [
       {
         text: 'Nomor',
         sortable: false,
         value: 'number',
+        width: 80,
       },
       { text: 'Nama Perusaahan', value: 'name', sortable: false },
-      { text: 'Logo Perusaahan', value: 'image', sortable: false },
-      { text: 'Website', value: 'link', sortable: false },
-      { text: 'status', value: 'status', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      {
+        text: 'Website', value: 'link', sortable: false, width: 250,
+      },
+      {
+        text: 'status', value: 'status', sortable: false, width: 150,
+      },
+      {
+        text: 'Aksi', value: 'actions', sortable: false, width: 150,
+      },
     ],
     mitra: [],
     editedIndex: -1,
@@ -532,8 +646,6 @@ export default {
               this.icon = '$warning';
             }
             this.loadingtable = true;
-            this.page = 1;
-            this.search = '';
             if (this.mitra.length > 0) {
               this.mitra.splice(0, this.mitra.length);
             }
@@ -551,8 +663,33 @@ export default {
     },
     openDialogUpdate(item) {
       this.editedIndex = this.mitra.indexOf(item);
-      this.editedItemMitra = { ...item };
+      this.editedItemMitra.name = item.name;
+      this.editedItemMitra.link = item.link;
       this.dialogUpdate = true;
+      this.loadingDialog = true;
+      axios({
+        baseURL: `${this.$store.state.domain}partner/stream/${this.mitra[this.editedIndex].id}`,
+        method: 'get',
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          Authorization: `Bearer ${this.$cookies.get('token')}`,
+        },
+        responseType: 'blob',
+      })
+        .then((response) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.editedItemMitra.image = e.target.result;
+          };
+          reader.readAsDataURL(response.data);
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.loadingDialog = false;
+        });
     },
     openDialogDeactivate(item) {
       this.editedIndex = this.mitra.indexOf(item);
@@ -651,99 +788,54 @@ export default {
 
     // method use universal
     methodGetMitra(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}partner/pagination-all/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.partner.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.partner.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Ditampilkan';
-                } else {
-                  nameStatus = 'Ditampilkan';
-                }
-                this.mitra.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  image: i.image,
-                  status: nameStatus,
-                  link: i.link,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingtable = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}partner/search-all/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.partner.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.partner.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Ditampilkan';
-                } else {
-                  nameStatus = 'Ditampilkan';
-                }
-                this.mitra.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  image: i.image,
-                  status: nameStatus,
-                  link: i.link,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingtable = false;
-          });
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
+      axios({
+        baseURL: `${this.$store.state.domain}partner/pagination-all/${page}`,
+        method: 'get',
+        headers: header,
+      })
+        .then((response) => {
+          if (response.data.data.partner.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = (page - 1) * 10;
+            let nameStatus = '';
+            response.data.data.partner.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Ditampilkan';
+              } else {
+                nameStatus = 'Ditampilkan';
+              }
+              this.mitra.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                link: i.link,
+                status: nameStatus,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.loadingtable = false;
+        });
     },
   },
   beforeCreate() {
@@ -785,9 +877,8 @@ export default {
                 id: i.id,
                 number: counter,
                 name: i.name,
-                image: i.image,
-                status: nameStatus,
                 link: i.link,
+                status: nameStatus,
               });
             });
           } else {
@@ -867,5 +958,8 @@ export default {
 .preview-img {
   max-width: 200px;
   max-height: 150px;
+}
+.size-max{
+  max-width: 1044px;
 }
 </style>

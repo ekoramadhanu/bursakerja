@@ -33,20 +33,40 @@
           </v-toolbar>
           <v-card-text class="py-4 px-6">
             <v-form ref="form" lazy-validation>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">nama perusahaan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 :disabled="!isEditing"
                 v-model="nameCompany"
                 :rules="nameCompanyRules"
                 label="Nama Perusahaan"
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">pemilik perusahaan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 :disabled="!isEditing"
                 v-model="owner"
                 :rules="ownerRules"
                 label="Pemilik Perusahaan"
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">betuk badan hukum</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-select
                 v-model="legality"
                 :items="itemLegality"
@@ -55,16 +75,31 @@
                 label="Bentuk Badan Hukum"
                 :disabled="!isEditing"
                 :rules="legalityRules"
-                single-line
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               ></v-select>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">bidang usaha</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 v-model="typeCompany"
                 :rules="typeCompanyRules"
                 :disabled="!isEditing"
                 label="Bidang Usaha"
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">umur perusahaan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-select
                 v-model="oldCompany"
                 :items="itemOldCompany"
@@ -73,11 +108,18 @@
                 label="Umur Perusahaan"
                 :rules="oldCompanyRules"
                 :disabled="!isEditing"
-                single-line
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               ></v-select>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">umur perusahaan</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-select
                     v-model="branch"
                     :items="itemBranch"
@@ -86,11 +128,18 @@
                     label="Jumlah Cabang"
                     :rules="branchRules"
                     :disabled="!isEditing"
-                    single-line
                     required
+                    single-line
+                    dense
+                    class="font-family"
+                    outlined
                   ></v-select>
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">umur perusahaan</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-select
                     v-model="employee"
                     :items="itemEmployee"
@@ -99,20 +148,35 @@
                     label="Jumlah Karyawan"
                     :rules="employeeRules"
                     :disabled="!isEditing"
-                    single-line
                     required
+                    single-line
+                    dense
+                    class="font-family"
+                    outlined
                   ></v-select>
                 </v-col>
               </v-row>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">alamat perusahaan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
-                label="Alamat Kantor"
+                label="Alamat Peruhasaaan"
                 :disabled="!isEditing"
                 v-model="address"
                 :rules="addressRules"
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               />
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">perusahaan</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-autocomplete
                     v-model="province"
                     :items="itemsProvince"
@@ -124,17 +188,26 @@
                     item-value="id"
                     label="Provinsi"
                     persistent-hint
-                     :disabled="!isEditing"
+                    :disabled="!isEditing"
                     :hint="
-                      province.name === undefined
+                      province === ''
                         ? ''
-                        : `data yang disimpan : ${province.name}`
+                        : `Data Yang Disimpan : ${province}`
                     "
                     :rules="provinceRules"
                     return-object
+                    required
+                    single-line
+                    dense
+                    class="font-family"
+                    outlined
                   />
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">kota / kabupaten</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-autocomplete
                     v-model="city"
                     :items="itemsCity"
@@ -152,26 +225,51 @@
                     :hint="
                       city === ''
                         ? 'silahkan pilih provinsi terlebih dahulu'
-                        : `data yang disimpan : ${city.name}`
+                        : `Data Yang Disimpan : ${city}`
                     "
                     :rules="cityRules"
+                    required
+                    single-line
+                    dense
+                    class="font-family"
+                    outlined
                   />
                 </v-col>
               </v-row>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">link website</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 label="Link website"
                 :disabled="!isEditing"
                 v-model="link"
                 :rules="linkRules"
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">nomor telepon</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 label="Nomor Telepon"
                 :disabled="!isEditing"
                 v-model="phone"
                 :rules="phoneRules"
                 required
+                single-line
+                dense
+                class="font-family"
+                outlined
               />
+              <p class="mb-0 black--text">
+                <span class="font-family">Unggah Foto KTP JPG/ PNG (Maks 1 MB) </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-file-input
                 label="Unggah Foto KTP (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
@@ -180,7 +278,12 @@
                 enctype="multipart/form-data"
                 :rules="priviewImageKTP !== null ? [] : imageKTPRules"
                 :disabled="!isEditing"
+                prepend-icon="$fileUpload"
                 @change="ChangeImageKTP"
+                single-line
+                dense
+                class="font-family"
+                outlined
               ></v-file-input>
               <img
                 :src="priviewImageKTP"
@@ -189,6 +292,10 @@
                 contain
                 aspect-ratio="1.7"
               />
+              <p class="mb-0 black--text">
+                <span class="font-family">Unggah Logo Perusahaan (Maks 1 MB) </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-file-input
                 label="Unggah Logo Perusahaan (Maks 1 MB)"
                 accept="image/png, image/jpeg, image/bmp"
@@ -198,6 +305,11 @@
                 :rules="priviewImageBrand !== null ? [] : imageBrandRules"
                 :disabled="!isEditing"
                 @change="ChangeImageBrand"
+                prepend-icon="$fileUpload"
+                single-line
+                dense
+                class="font-family"
+                outlined
               ></v-file-input>
               <img
                 :src="priviewImageBrand"
@@ -206,13 +318,20 @@
                 contain
                 aspect-ratio="1.7"
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">deskripsi terkait perusahaan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-textarea
-                filled
                 label="Deskripsi Terkait Perusahaan"
                 v-model="description"
                 :disabled="!isEditing"
                 :rules="descriptionRules"
                 :counter="250"
+                single-line
+                dense
+                class="font-family"
+                outlined
               ></v-textarea>
             </v-form>
           </v-card-text>
@@ -558,8 +677,6 @@ export default {
             this.address = response.data.data.umkm[0].address;
             this.link = response.data.data.umkm[0].linkWebsite;
             this.phone = response.data.data.umkm[0].phone;
-            this.priviewImageKTP = response.data.data.umkm[0].imageCard;
-            this.priviewImageBrand = response.data.data.umkm[0].imageLogo;
             this.description = response.data.data.umkm[0].description;
             if (response.data.data.umkm[0].city === null) {
               this.city = '';
@@ -571,6 +688,50 @@ export default {
             } else {
               this.province = response.data.data.umkm[0].province;
             }
+            if (response.data.data.umkm[0].imageLogo !== null) {
+              axios({
+                baseURL: `${this.$store.state.domain}umkm/stream-brand`,
+                method: 'get',
+                headers: {
+                  'x-api-key': this.$store.state.apiKey,
+                  Authorization: `Bearer ${this.$cookies.get('token')}`,
+                },
+                responseType: 'blob',
+              })
+                .then((blob) => {
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    this.priviewImageBrand = e.target.result;
+                  };
+                  reader.readAsDataURL(blob.data);
+                })
+                .catch((err) => {
+                  // eslint-disable-next-line no-console
+                  console.log(err);
+                });
+            }
+            if (response.data.data.umkm[0].imageCard !== null) {
+              axios({
+                baseURL: `${this.$store.state.domain}umkm/stream-card`,
+                method: 'get',
+                headers: {
+                  'x-api-key': this.$store.state.apiKey,
+                  Authorization: `Bearer ${this.$cookies.get('token')}`,
+                },
+                responseType: 'blob',
+              })
+                .then((blob) => {
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    this.priviewImageKTP = e.target.result;
+                  };
+                  reader.readAsDataURL(blob.data);
+                })
+                .catch((err) => {
+                  // eslint-disable-next-line no-console
+                  console.log(err);
+                });
+            }
           }
         })
         .catch(() => {
@@ -580,6 +741,8 @@ export default {
           this.icon = '$warning';
         })
         .finally(() => {
+          // eslint-disable-next-line no-console
+          console.log(this.city);
           this.skeleton = false;
         });
     } else {

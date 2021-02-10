@@ -19,7 +19,7 @@
                       ><span
                         class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
                       >
-                        <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                        <v-icon size="13" class="mr-1">$user</v-icon>
                         admin
                       </span>
                       <span

@@ -38,35 +38,58 @@
                 </template>
                 <v-card>
                   <v-toolbar class="primary">
-                    <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title class="text-capitalize white--text">
-                      Tambah Lowongan
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn elevation="0" @click="saveAdd()" color="white">
-                      <v-progress-circular
-                        indeterminate
-                        color="primary"
-                        v-if="loadingAdd"
-                      />
-                      <p class="ma-0 primary--text" v-if="!loadingAdd">
-                        simpan
-                      </p>
-                    </v-btn>
+                    <div class="size-max mx-auto d-flex">
+                      <v-btn icon @click="closeAdd()">
+                        <v-icon class="white--text">mdi-close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title class="text-capitalize white--text my-auto ml-1">
+                        Tambah Lowongan
+                      </v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-btn elevation="0" @click="saveAdd()" color="white">
+                        <v-progress-circular
+                          indeterminate
+                          color="primary"
+                          v-if="loadingAdd"
+                        />
+                        <p class="ma-0 primary--text" v-if="!loadingAdd">
+                          simpan
+                        </p>
+                      </v-btn>
+
+                    </div>
                   </v-toolbar>
 
-                  <v-card-text>
+                  <v-card-text class="px-0 py-1 mx-auto size-max">
                     <v-form ref="form" lazy-validation>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">nama lowongan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemJobVacancy.name"
                         :rules="nameRules"
                         label="Nama lowongan"
                         required
+                        single-line
+                        dense
+                        outlined
+                        class="font-family"
                       />
                       <v-row>
-                        <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                        <v-col
+                          cols="12"
+                          xl="6"
+                          lg="6"
+                          md="6"
+                          sm="12"
+                          xs="12"
+                          class="py-0"
+                        >
+                          <p class="mb-0 black--text text-capitalize">
+                            <span class="font-family">minimal akademik</span>
+                            <span class="ml-1 error--text"> * </span>
+                          </p>
                           <v-select
                             v-model="editedItemJobVacancy.academic"
                             :items="itemSchool"
@@ -76,9 +99,24 @@
                             :rules="educationRules"
                             single-line
                             required
+                            dense
+                            outlined
+                            class="font-family"
                           ></v-select>
                         </v-col>
-                        <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                        <v-col
+                          cols="12"
+                          xl="6"
+                          lg="6"
+                          md="6"
+                          sm="12"
+                          xs="12"
+                          class="py-0"
+                        >
+                          <p class="mb-0 black--text text-capitalize">
+                            <span class="font-family">tipe pekerjaan</span>
+                            <span class="ml-1 error--text"> * </span>
+                          </p>
                           <v-select
                             v-model="editedItemJobVacancy.typeJob"
                             :items="itemTypeJob"
@@ -86,11 +124,18 @@
                             item-value="name"
                             label="Tipe Pekerjaan"
                             :rules="typeJobRules"
-                            single-line
                             required
+                            single-line
+                            dense
+                            outlined
+                            class="font-family"
                           ></v-select>
                         </v-col>
                       </v-row>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">silahkan isi pejelasan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <tip-tap-vuetify
                         v-model="editedItemJobVacancy.description"
                         :extensions="extensions"
@@ -99,14 +144,27 @@
                           style: 'overflow: auto;',
                         }"
                       />
+                      <p class="mb-0 black--text">
+                        <span class="font-family">
+                          Unggah Gambar Lowongan Kerja (Maks 1 MB) 672 x 672 JPG
+                          /PNG
+                        </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-file-input
                         label="Unggah Gambar Lowongan Kerja (Maks 1 MB) 672 x 672"
                         accept="image/png, image/jpeg, image/bmp"
-                        required
                         ref="fileInput"
                         enctype="multipart/form-data"
-                        :rules="editedItemJobVacancy.image !== null ? [] : imageRules"
+                        :rules="
+                          editedItemJobVacancy.image !== null ? [] : imageRules
+                        "
                         @change="ChangeImage"
+                        required
+                        single-line
+                        dense
+                        outlined
+                        class="font-family"
                       ></v-file-input>
                       <img
                         :src="editedItemJobVacancy.image"
@@ -125,32 +183,50 @@
               v-model="search"
               append-icon="$search"
               label="Pencarian Judul lowongan kerja"
-              class="px-5"
+              class="px-5 font-family"
               single-line
               hide-details
               @click:append="searchjobVacancy()"
+              outlined
+              dense
             />
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn
-              elevation="0"
-              @click="openDialogUpdate(item)"
-              dark
-              x-small
-              color="orange"
-              class="mr-2"
-            >
-              ubah
-            </v-btn>
-            <v-btn
-              :to="`/application-job/${item.id}`"
-              dark
-              x-small
-              color="primary"
-              elevation="0"
-            >
-              detail lowongan
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  elevation="0"
+                  @click="openDialogUpdate(item)"
+                  dark
+                  small
+                  color="orange"
+                  class="mr-2"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$contentEdit</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">ubah data lowongan</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  :to="`/application-job/${item.id}`"
+                  dark
+                  small
+                  color="primary"
+                  elevation="0"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$contentSetting</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">lihat lowongan</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -183,33 +259,55 @@
       >
         <v-card>
           <v-toolbar class="primary">
-            <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title class="text-capitalize white--text">
-              ubah lowongan
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn elevation="0" @click="saveUpdate()" color="white">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-                v-if="loadingUpdate"
-              />
-              <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
-            </v-btn>
+            <div class="size-max mx-auto d-flex">
+              <v-btn icon @click="closeUpdate()">
+                <v-icon class="white--text">mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title class="text-capitalize white--text my-auto ml-1">
+                ubah lowongan
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn elevation="0" @click="saveUpdate()" color="white">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  v-if="loadingUpdate"
+                />
+                <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
+              </v-btn>
+            </div>
           </v-toolbar>
 
-          <v-card-text>
-            <v-form ref="form" lazy-validation>
+          <v-card-text class="px-0 py-1 mx-auto size-max">
+            <v-form ref="form" lazy-validation v-if="!loadingDialog">
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">nama lowongan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 v-model="editedItemJobVacancy.name"
                 :rules="nameRules"
                 label="Nama lowongan"
                 required
+                single-line
+                dense
+                outlined
+                class="font-family"
               />
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                <v-col
+                  cols="12"
+                  xl="6"
+                  lg="6"
+                  md="6"
+                  sm="12"
+                  xs="12"
+                  class="py-0"
+                >
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">minimal akademik</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-select
                     v-model="editedItemJobVacancy.academic"
                     :items="itemSchool"
@@ -219,9 +317,24 @@
                     :rules="educationRules"
                     single-line
                     required
+                    dense
+                    outlined
+                    class="font-family"
                   ></v-select>
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                <v-col
+                  cols="12"
+                  xl="6"
+                  lg="6"
+                  md="6"
+                  sm="12"
+                  xs="12"
+                  class="py-0"
+                >
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">tipe pekerjaan</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-select
                     v-model="editedItemJobVacancy.typeJob"
                     :items="itemTypeJob"
@@ -229,11 +342,18 @@
                     item-value="name"
                     label="Tipe Pekerjaan"
                     :rules="typeJobRules"
-                    single-line
                     required
+                    single-line
+                    dense
+                    outlined
+                    class="font-family"
                   ></v-select>
                 </v-col>
               </v-row>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">silahkan isi pejelasan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <tip-tap-vuetify
                 v-model="editedItemJobVacancy.description"
                 :extensions="extensions"
@@ -242,14 +362,24 @@
                   style: 'overflow: auto;',
                 }"
               />
+              <p class="mb-0 black--text">
+                <span class="font-family">
+                  Unggah Gambar Lowongan Kerja (Maks 1 MB) 672 x 672 JPG /PNG
+                </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-file-input
                 label="Unggah Gambar Lowongan Kerja (Maks 1 MB) 672 x 672"
                 accept="image/png, image/jpeg, image/bmp"
-                required
                 ref="fileInput"
                 enctype="multipart/form-data"
                 :rules="editedItemJobVacancy.image !== null ? [] : imageRules"
                 @change="ChangeImage"
+                required
+                single-line
+                dense
+                outlined
+                class="font-family"
               ></v-file-input>
               <img
                 :src="editedItemJobVacancy.image"
@@ -260,6 +390,13 @@
               />
               <br />
             </v-form>
+            <div v-if="loadingDialog" class="d-flex justify-center align-center full-height">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="64"
+              />
+            </div>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -321,6 +458,7 @@ export default {
     loadingAdd: false,
     loadingUpdate: false,
     loadingTable: false,
+    loadingDialog: false,
     headerJobVacancy: [
       {
         text: 'Nomor',
@@ -489,12 +627,47 @@ export default {
     },
     openDialogUpdate(item) {
       this.editedIndex = this.jobVacancy.indexOf(item);
-      this.editedItemJobVacancy.name = item.name;
-      this.editedItemJobVacancy.description = item.description;
-      this.editedItemJobVacancy.academic = item.academic;
-      this.editedItemJobVacancy.image = item.image;
-      this.editedItemJobVacancy.typeJob = item.typeJob;
       this.dialogUpdate = true;
+      this.loadingDialog = true;
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}job-vacancy/${item.id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}job-vacancy/stream/${item.id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            responseType: 'blob',
+          }),
+        ],
+      )
+        .then((response) => {
+          this.editedItemJobVacancy.name = item.name;
+          this.editedItemJobVacancy.description = response[0].data.data.jobVacancy[0].description;
+          this.editedItemJobVacancy.academic = response[0].data.data.jobVacancy[0].academic;
+          this.editedItemJobVacancy.typeJob = response[0].data.data.jobVacancy[0].typeJob;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.editedItemJobVacancy.image = e.target.result;
+          };
+          reader.readAsDataURL(response[1].data);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        .finally(() => {
+          this.loadingDialog = false;
+        });
     },
     saveUpdate() {
       if (this.$refs.form.validate()) {
@@ -561,91 +734,52 @@ export default {
     },
     // method universal
     methodGetJobVacancy(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}job-vacancy/company-pagination/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobVacancy.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              response.data.data.jobVacancy.forEach((i) => {
-                counter += 1;
-                this.jobVacancy.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  company: i.nameCompany,
-                  academic: i.academic,
-                  image: i.jobVacancyImage,
-                  typeJob: i.typeJob,
-                  description: i.description,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}job-vacancy/company-search/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.jobVacancy.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              response.data.data.jobVacancy.forEach((i) => {
-                counter += 1;
-                this.jobVacancy.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  company: i.nameCompany,
-                  description: i.description,
-                  image: i.jobVacancyImage,
-                  academic: i.academic,
-                  typeJob: i.typeJob,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
+
+      axios({
+        baseURL: `${this.$store.state.domain}job-vacancy/company-pagination/${page}`,
+        method: 'get',
+        headers: header,
+      })
+        .then((response) => {
+          if (response.data.data.jobVacancy.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = (page - 1) * 10;
+            response.data.data.jobVacancy.forEach((i) => {
+              counter += 1;
+              this.jobVacancy.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                company: i.nameCompany,
+                academic: i.academic,
+                image: i.jobVacancyImage,
+                typeJob: i.typeJob,
+                description: i.description,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          this.loadingTable = false;
+        });
     },
   },
   beforeCreate() {
@@ -751,7 +885,8 @@ export default {
   max-height: 600px;
 }
 .size-max {
-  max-width: 1100px;
+  width: 100vw;
+  max-width: 1044px;
 }
 div >>> ul {
   line-height: 18px !important;

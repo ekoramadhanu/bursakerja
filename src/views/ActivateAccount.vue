@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-container>
@@ -47,12 +53,32 @@
                     </v-alert>
                   </div>
                   <v-form ref="form" lazy-validation>
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        nomor kartu bursa kerja
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="bursaCard"
                       :rules="bursaCardRules"
                       label="Nomor Kartu Bursa Kerja"
                       required
+                      outlined
+                      single-line
+                      dense
+                      class="font-family"
                     />
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        PIN kartu bursa kerja
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="pin"
                       :rules="pinRules"
@@ -61,6 +87,10 @@
                       label="PIN Kartu Bursa Kerja"
                       @click:append="changeShowPin()"
                       required
+                      outlined
+                      single-line
+                      dense
+                      class="font-family"
                     />
                     <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">

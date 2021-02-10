@@ -12,9 +12,25 @@
                 kriteria yang diinginkan, Anda dapat menghubungi kami.
               </v-card-subtitle>
               <v-card-text>
+                <p
+                  class="my-1 font-weight-bold text-capitalize text-subtitle-1 black--text"
+                >
+                  <span class="font-family"> kriteria </span>
+                </p>
                 <v-form lazy-validation>
-                  <v-row class="align-center">
-                    <v-col cols="12" xl="4" lg="4">
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      xl="6"
+                      lg="6"
+                      md="6"
+                      sm="12"
+                      xs="12"
+                      class="pa-1"
+                    >
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> kota</span>
+                      </p>
                       <v-autocomplete
                         v-model="location"
                         :items="itemsLocation"
@@ -25,12 +41,49 @@
                         item-text="name"
                         item-value="name"
                         label="Kota"
-                        @click:append-outer="resetLocation()"
                         dense
-                        persistent-hint
+                        outlined
+                        single-line
                       />
                     </v-col>
-                    <v-col cols="12" xl="4" lg="4">
+                    <v-col
+                      cols="12"
+                      xl="6"
+                      lg="6"
+                      md="6"
+                      sm="12"
+                      xs="12"
+                      class="pa-1"
+                    >
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> pendidikan terakhir</span>
+                      </p>
+                      <v-autocomplete
+                        v-model="school"
+                        :items="itemsSchool"
+                        dense
+                        hide-no-data
+                        label="Pendidikan Terakhir"
+                        item-text="name"
+                        item-value="name"
+                        outlined
+                        single-line
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      xl="11"
+                      lg="11"
+                      md="11"
+                      sm="12"
+                      xs="12"
+                      class="pa-1"
+                    >
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> Posisi/ Jabatan </span>
+                      </p>
                       <v-autocomplete
                         v-model="job"
                         :items="itemsJob"
@@ -40,32 +93,58 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Jabatan"
-                        @click:append-outer="resetJob()"
-                        dense
+                        label="Posisi/ Jabatan"
                         persistent-hint
-                      />
+                        hint="Bisa Pilih Lebih Dari Satu"
+                        dense
+                        outlined
+                        single-line
+                        multiple
+                      >
+                        <template v-slot:selection="data">
+                          <v-chip
+                            v-bind="data.attrs"
+                            :input-value="data.selected"
+                            text-color="white"
+                            color="primary"
+                            class="font-family my-1"
+                          >
+                            {{ data.item.name }}
+                          </v-chip>
+                        </template>
+                        <template v-slot:item="data">
+                          <template v-if="typeof data.item !== 'object'">
+                            <v-list-item-content
+                              v-text="data.item"
+                            ></v-list-item-content>
+                          </template>
+                          <template v-else>
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-html="data.item.name"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </template>
+                        </template>
+                      </v-autocomplete>
                     </v-col>
-                    <v-col cols="12" xl="3" lg="3">
-                      <v-autocomplete
-                        v-model="school"
-                        :items="itemsSchool"
-                        :loading="isLoadingSchool"
-                        :search-input.sync="searchSchool"
-                        hide-no-data
-                        hide-selected
-                        item-text="name"
-                        item-value="name"
-                        label="Pendidikan"
-                        @click:append-outer="resetSchool()"
-                        dense
-                        persistent-hint
-                    /></v-col>
-                    <v-col cols="12" xl="1" lg="1"
-                      ><v-btn block color="primary" @click="searchJobSeeker()">
-                        cari
-                      </v-btn></v-col
+                    <v-col
+                      cols="12"
+                      xl="1"
+                      lg="1"
+                      md="1"
+                      sm="12"
+                      xs="12"
+                      class="pa-1 d-flex align-center"
                     >
+                      <v-btn
+                        block
+                        color="primary font-weight-bold font-family"
+                        @click="searchJobSeeker()"
+                      >
+                        cari
+                      </v-btn>
+                    </v-col>
                   </v-row>
                 </v-form>
               </v-card-text>
@@ -270,14 +349,15 @@ export default {
       this.isLoadingJob = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}internship/position`, {
+      fetch(`${this.$store.state.domain}tag-job/type`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
+          type: 'Internship',
         },
       })
         .then((res) => res.json())
         .then((res) => {
-          res.data.position.forEach((i) => {
+          res.data.tagJob.forEach((i) => {
             this.entriesJob.push({
               name: i.name,
             });
@@ -357,15 +437,15 @@ export default {
         'x-api-key': this.$store.state.apiKey,
       };
       if (this.job !== '') {
-        header.Position = this.job;
+        header.position = this.job;
       }
 
       if (this.location !== '') {
-        header.Location = this.location;
+        header.location = this.location;
       }
 
       if (this.school !== '') {
-        header.School = this.school;
+        header.school = this.school;
       }
       axios({
         baseURL: `${this.$store.state.domain}internship/pagination-show/${page}`,

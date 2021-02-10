@@ -13,8 +13,19 @@
               </v-card-subtitle>
               <v-card-text>
                 <v-form lazy-validation>
-                  <v-row class="align-center">
-                    <v-col cols="12" xl="4" lg="4">
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      xl="6"
+                      lg="6"
+                      md="6"
+                      sm="12"
+                      xs="12"
+                      class="pa-1"
+                    >
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> kota</span>
+                      </p>
                       <v-autocomplete
                         v-model="location"
                         :items="itemsLocation"
@@ -25,12 +36,49 @@
                         item-text="name"
                         item-value="name"
                         label="Kota"
-                        @click:append-outer="resetLocation()"
                         dense
-                        persistent-hint
+                        outlined
+                        single-line
                       />
                     </v-col>
-                    <v-col cols="12" xl="4" lg="4">
+                    <v-col
+                      cols="12"
+                      xl="6"
+                      lg="6"
+                      md="6"
+                      sm="12"
+                      xs="12"
+                      class="pa-1"
+                    >
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> pendidikan terakhir</span>
+                      </p>
+                      <v-autocomplete
+                        v-model="school"
+                        :items="itemsSchool"
+                        dense
+                        hide-no-data
+                        label="Pendidikan Terakhir"
+                        item-text="name"
+                        item-value="name"
+                        outlined
+                        single-line
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      xl="11"
+                      lg="11"
+                      md="11"
+                      sm="12"
+                      xs="12"
+                      class="pa-1"
+                    >
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> Posisi/ Jabatan </span>
+                      </p>
                       <v-autocomplete
                         v-model="job"
                         :items="itemsJob"
@@ -40,32 +88,58 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Jabatan"
-                        @click:append-outer="resetJob()"
-                        dense
+                        label="Posisi/ Jabatan"
                         persistent-hint
-                      />
+                        hint="Bisa Pilih Lebih Dari Satu"
+                        dense
+                        outlined
+                        multiple
+                        single-line
+                      >
+                        <template v-slot:selection="data">
+                          <v-chip
+                            v-bind="data.attrs"
+                            :input-value="data.selected"
+                            text-color="white"
+                            color="primary"
+                            class="font-family my-1"
+                          >
+                            {{ data.item.name }}
+                          </v-chip>
+                        </template>
+                        <template v-slot:item="data">
+                          <template v-if="typeof data.item !== 'object'">
+                            <v-list-item-content
+                              v-text="data.item"
+                            ></v-list-item-content>
+                          </template>
+                          <template v-else>
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-html="data.item.name"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </template>
+                        </template>
+                      </v-autocomplete>
                     </v-col>
-                    <v-col cols="12" xl="3" lg="3">
-                      <v-autocomplete
-                        v-model="school"
-                        :items="itemsSchool"
-                        :loading="isLoadingSchool"
-                        :search-input.sync="searchSchool"
-                        hide-no-data
-                        hide-selected
-                        item-text="name"
-                        item-value="name"
-                        label="Pendidikan"
-                        @click:append-outer="resetSchool()"
-                        dense
-                        persistent-hint
-                    /></v-col>
-                    <v-col cols="12" xl="1" lg="1"
-                      ><v-btn block color="primary" @click="searchJobSeeker()">
-                        cari
-                      </v-btn></v-col
+                    <v-col
+                      cols="12"
+                      xl="1"
+                      lg="1"
+                      md="1"
+                      sm="12"
+                      xs="12"
+                      class="pa-1 d-flex align-center"
                     >
+                      <v-btn
+                        block
+                        color="primary font-weight-bold font-family"
+                        @click="searchJobSeeker()"
+                      >
+                        cari
+                      </v-btn>
+                    </v-col>
                   </v-row>
                 </v-form>
               </v-card-text>
@@ -174,12 +248,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'karyawan',
-        disabled: true,
-      },
-    ],
     search: '',
     page: 1,
     jobSeeker: [],
@@ -197,17 +265,15 @@ export default {
     searchJob: null,
     // autocomplete School
     school: '',
-    entriesSchool: [],
-    isLoadingSchool: false,
-    searchSchool: null,
+    itemsSchool: [],
     skeleton: true,
   }),
   computed: {
     min() {
-      return (this.page - 1) * 20 + 1;
+      return (this.page - 1) * 10 + 1;
     },
     max() {
-      return (this.page - 1) * 20 + this.jobSeeker.length;
+      return (this.page - 1) * 10 + this.jobSeeker.length;
     },
     itemsLocation() {
       return this.entriesLocation.map((entry) => {
@@ -217,12 +283,6 @@ export default {
     },
     itemsJob() {
       return this.entriesJob.map((entry) => {
-        const { name } = entry;
-        return { ...entry, name };
-      });
-    },
-    itemsSchool() {
-      return this.entriesSchool.map((entry) => {
         const { name } = entry;
         return { ...entry, name };
       });
@@ -271,18 +331,21 @@ export default {
       this.isLoadingJob = true;
 
       // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/position`, {
+      fetch(`${this.$store.state.domain}tag-job/type`, {
         headers: {
           'x-api-key': this.$store.state.apiKey,
+          type: 'job seeker',
         },
       })
         .then((res) => res.json())
         .then((res) => {
-          res.data.position.forEach((i) => {
+          res.data.tagJob.forEach((i) => {
             this.entriesJob.push({
               name: i.name,
             });
           });
+          // eslint-disable-next-line no-console
+          console.log(this.entriesJob);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
@@ -291,50 +354,8 @@ export default {
         // eslint-disable-next-line no-return-assign
         .finally(() => (this.isLoadingJob = false));
     },
-    searchSchool() {
-      // Items have already been loaded
-      if (this.itemsSchool.length > 0) return;
-
-      // Items have already been requested
-      if (this.isLoadingSchool) return;
-
-      this.isLoadingSchool = true;
-
-      // Lazily load input items
-      fetch(`${this.$store.state.domain}job-seeker/school`, {
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          res.data.school.forEach((i) => {
-            this.entriesSchool.push({
-              name: i.name,
-            });
-          });
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        })
-        // eslint-disable-next-line no-return-assign
-        .finally(() => (this.isLoadingSchool = false));
-    },
   },
   methods: {
-    returnModuleByFour() {
-      const payload = this.jobSeeker.length;
-      if (payload % 4 === 0) {
-        return payload / 4;
-      }
-      return Math.floor(payload / 4) + 1;
-    },
-    returnlist(payload) {
-      const counterStart = (payload - 1) * 4;
-      const counterEnd = payload * 4;
-      return this.jobSeeker.slice(counterStart, counterEnd);
-    },
     searchJobSeeker() {
       this.skeleton = true;
       this.page = 1;
@@ -361,15 +382,15 @@ export default {
         'x-api-key': this.$store.state.apiKey,
       };
       if (this.job !== '') {
-        header.Position = this.job;
+        header.position = JSON.stringify(this.job);
       }
 
       if (this.location !== '') {
-        header.Location = this.location;
+        header.location = this.location;
       }
 
       if (this.school !== '') {
-        header.School = this.school;
+        header.school = this.school;
       }
       axios({
         baseURL: `${this.$store.state.domain}job-seeker/pagination-show/${page}`,
@@ -392,7 +413,7 @@ export default {
                 id: i.id,
                 number: counter,
                 name: i.fullname,
-                position: i.position,
+                position: JSON.parse(i.position).join(', '),
                 desc: i.description,
                 phone: i.phone,
                 school: i.school,
@@ -432,11 +453,11 @@ export default {
         .then((response) => {
           if (response.data.data.jobSeeker.length > 0) {
             this.lengthData = response.data.data.total;
-            const modulo = response.data.data.total % 20;
+            const modulo = response.data.data.total % 10;
             if (modulo === 0) {
-              this.pageCount = response.data.data.total / 20;
+              this.pageCount = response.data.data.total / 10;
             } else {
-              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
             let counter = 0;
             response.data.data.jobSeeker.forEach((i) => {
@@ -445,7 +466,7 @@ export default {
                 id: i.id,
                 number: counter,
                 name: i.fullname,
-                position: i.position,
+                position: JSON.parse(i.position).join(', '),
                 desc: i.description,
                 phone: i.phone,
                 school: i.school,
@@ -466,6 +487,9 @@ export default {
           this.skeleton = false;
         });
     }
+  },
+  created() {
+    this.itemsSchool = [...this.$store.state.itemsSchool];
   },
   beforeDestroy() {
     this.search = null;

@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 29 Januri 2020 -> check data  after change image base 64 to link
+                               -> add style for content
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -93,7 +99,6 @@ import {
   OrderedList,
   ListItem,
   Link,
-  Blockquote,
   HardBreak,
   HorizontalRule,
   History,
@@ -102,12 +107,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'FAQ',
-        disabled: true,
-      },
-    ],
     hasSaved: false,
     isEditing: null,
     message: '',
@@ -116,7 +115,6 @@ export default {
     // tip tap
     extensions: [
       History,
-      Blockquote,
       Link,
       Underline,
       Strike,
@@ -244,24 +242,25 @@ export default {
 
 <style scoped>
 .size-max {
-  max-width: 1366px;
+  max-width: 1044px;
 }
-div >>> ul > li {
-  line-height: 25px !important;
-}
+div >>> ul > li,
 div >>> ol > li {
   line-height: 25px !important;
 }
 div >>> li > p {
-  margin-bottom: 5px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
 }
 div >>> li {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
-div >>> li > ol {
-  margin: 0px;
-}
+div >>> li > ol,
 div >>> li > ul {
   margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 </style>

@@ -1,15 +1,19 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 29 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
         <v-row>
-          <v-spacer
-            class="d-none d-md-flex d-lg-none d-lg-flex d-xl-none d-xl-flex"
-          ></v-spacer>
-          <v-col lg="4" md="4">
+          <v-col xl="8" lg="8" md="8" sm="12" xs="12" class="hidden-sm-and-down"></v-col>
+          <v-col xl="4" lg="4" md="4" sm="12" xs="12">
             <div class="d-flex justify-end">
               <v-select
-                v-model="statusProfesional"
+                v-model="type"
                 :items="filter"
                 class="font-family"
                 label="Pilih Status yang Ditampilkan"
@@ -60,50 +64,104 @@
                 </template>
                 <v-card>
                   <v-toolbar class="primary">
-                    <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title class="text-capitalize white--text">
-                      <span class="font-family">
-                        Tambah Data Pekerja Infomal
-                      </span>
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn @click="saveAdd()" color="white" elevation="0">
-                      <v-progress-circular
-                        indeterminate
-                        color="primary"
-                        v-if="loadingAdd"
-                      />
-                      <p
-                        class="ma-0 primary--text font-weight-bold"
-                        v-if="!loadingAdd"
-                      >
-                        <span class="font-family"> simpan </span>
-                      </p>
-                    </v-btn>
+                    <div class="size-max mx-auto d-flex justify-end">
+                      <v-btn icon @click="closeAdd()">
+                        <v-icon class="white--text">mdi-close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title class="text-capitalize white--text my-auto ml-1">
+                        <span class="font-family">
+                          Tambah Data Pekerja Infomal
+                        </span>
+                      </v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-btn @click="saveAdd()" color="white" elevation="0">
+                        <v-progress-circular
+                          indeterminate
+                          color="primary"
+                          v-if="loadingAdd"
+                        />
+                        <p
+                          class="ma-0 primary--text font-weight-bold"
+                          v-if="!loadingAdd"
+                        >
+                          <span class="font-family"> simpan </span>
+                        </p>
+                      </v-btn>
+                    </div>
                   </v-toolbar>
 
                   <v-card-text class="size-max mx-auto my-4">
                     <v-form ref="form" lazy-validation>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          nama pekerja informal
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemJobSeeker.name"
                         :rules="nameRules"
                         label="Nama Pekerja Informal"
                         required
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       />
-                      <v-text-field
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          posisi pekerja informal
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
+                      <v-autocomplete
                         v-model="editedItemJobSeeker.position"
-                        :rules="positionRules"
+                        :items="itemsPosition"
+                        :loading="isLoadingPosition"
+                        :search-input.sync="searchPosition"
+                        hide-no-data
+                        hide-selected
+                        item-text="name"
+                        item-value="id"
                         label="Posisi Pekerja Informal"
-                        required
+                        persistent-hint
+                        :rules="positionRules"
+                        return-object
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          telepon pekerja informal
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemJobSeeker.phone"
                         :rules="phoneRules"
                         label="Telepon Pekerja Informal"
                         required
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          lokasi yang dinginkan
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-autocomplete
                         v-model="editedItemJobSeeker.location"
                         :items="itemsLocation"
@@ -113,9 +171,21 @@
                         hide-selected
                         item-text="name"
                         item-value="name"
-                        label="Lokasi "
+                        label="Lokasi Yang Dinginkan"
                         :rules="locationRules"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          pendidikan terakhir
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-select
                         v-model="editedItemJobSeeker.school"
                         :items="itemSchool"
@@ -124,7 +194,19 @@
                         label="Pendidikan Terakhir"
                         :rules="schoolRules"
                         required
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       ></v-select>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          tanggal berakhir
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-menu
                         v-model="menu"
                         :close-on-content-click="false"
@@ -141,6 +223,10 @@
                             readonly
                             v-bind="attrs"
                             v-on="on"
+                            outlined
+                            single-line
+                            dense
+                            class="font-family"
                           ></v-text-field>
                         </template>
                         <v-date-picker
@@ -148,14 +234,27 @@
                           @input="menu = false"
                         ></v-date-picker>
                       </v-menu>
+                      <p class="mb-0 black--text">
+                        <span class="font-family">
+                          Foto 3x4 png/jpg (Maks 1MB)
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-file-input
-                        label="Unggah Foto (Maks 1 MB)"
+                        label="Unggah Foto 3x4 png/jpg (Maks 1MB)"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
                         enctype="multipart/form-data"
                         :rules="imageRules"
                         @change="ChangeImage"
+                        prepend-icon="$fileUpload"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       ></v-file-input>
                       <img
                         :src="editedItemJobSeeker.image"
@@ -164,12 +263,23 @@
                         contain
                         aspect-ratio="1.7"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          deskirpsi terkait anda
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-textarea
-                        filled
                         label="Deskripsi Terkait Anda"
                         v-model="editedItemJobSeeker.description"
                         :rules="descriptionRules"
                         :counter="250"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                       ></v-textarea>
                     </v-form>
                     <p
@@ -206,10 +316,10 @@
                         </p>
                         <p
                           class="text-subtitle-2 black--text mb-2"
-                          v-if="editedItemJobSeeker.position !== ''"
+                          v-if="editedItemJobSeeker.positionn !== null"
                         >
                           <span class="font-family">
-                            {{ editedItemJobSeeker.position }}
+                            {{ editedItemJobSeeker.position.name }}
                           </span>
                         </p>
                         <p
@@ -256,10 +366,11 @@
             <v-text-field
               v-model="search"
               append-icon="$search"
-              label="Cari Tenaga Informal"
-              class="px-5"
+              label="Pencarian Nama/Jabatan/Sekolah/Lokasi"
+              class="px-5 font-family"
               single-line
-              hide-details
+              outlined
+              dense
               @click:append="searchProfesional()"
             />
           </template>
@@ -288,39 +399,57 @@
             <p :class="`ma-0 ${item.color}`">{{ item.expired }}</p>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-row class="mr-2 my-2">
-              <v-btn
-                @click="openDialogUpdate(item)"
-                dark
-                color="orange"
-                x-small
-                v-if="item.status === 'Tidak Aktif'"
-              >
-                ubah data
-              </v-btn>
-            </v-row>
-            <v-row class="mr-2 my-2">
-              <v-btn
-                @click="openDialogDeShow(item)"
-                dark
-                color="error"
-                x-small
-                v-if="item.status === 'Aktif'"
-              >
-                nonaktifkan
-              </v-btn>
-            </v-row>
-            <v-row class="mr-2 my-2">
-              <v-btn
-                @click="openDialogShow(item)"
-                dark
-                color="success"
-                x-small
-                v-if="item.status === 'Tidak Aktif'"
-              >
-                aktifkan
-              </v-btn>
-            </v-row>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogUpdate(item)"
+                  dark
+                  color="orange"
+                  small
+                  v-if="item.status === 'Tidak Aktif'"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountEdit</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">ubah data</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogDeShow(item)"
+                  dark
+                  color="error"
+                  small
+                  icon
+                  v-if="item.status === 'Aktif'"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountDeactivate</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">nonaktifkan akun</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogShow(item)"
+                  dark
+                  color="success"
+                  small
+                  icon
+                  v-if="item.status === 'Tidak Aktif'"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$accountActivate</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">aktifkan akun</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -353,196 +482,320 @@
       >
         <v-card>
           <v-toolbar class="primary">
-            <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title class="text-capitalize white--text">
-              <span class="font-family"> Edit Data Pekerja Informal </span>
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn @click="saveUpdate()" elevation="0" color="white">
+            <div class="size-max mx-auto d-flex justify-end">
+              <v-btn icon @click="closeUpdate()">
+                <v-icon class="white--text">mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title class="text-capitalize white--text my-auto ml-1">
+                <span class="font-family"> Edit Data Pekerja Informal </span>
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn @click="saveUpdate()" elevation="0" color="white">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  v-if="loadingUpdate"
+                />
+                <p class="ma-0 primary--text font-weight-bold" v-if="!loadingUpdate">
+                  <span class="font-family"> simpan </span>
+                </p>
+              </v-btn>
+            </div>
+          </v-toolbar>
+
+          <v-card-text class="size-max mx-auto my-4">
+            <div v-if="!loadingDialog">
+              <v-form ref="form" lazy-validation>
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    nama pekerja informal
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-text-field
+                  v-model="editedItemJobSeeker.name"
+                  :rules="nameRules"
+                  label="Nama Pekerja Informal"
+                  required
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    posisi pekerja informal
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-autocomplete
+                  v-model="editedItemJobSeeker.position"
+                  :items="itemsPosition"
+                  :loading="isLoadingPosition"
+                  :search-input.sync="searchPosition"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="id"
+                  label="Posisi Pekerja Informal"
+                  persistent-hint
+                  :rules="positionRules"
+                  :hint="`Data Yang Disimpan ${editedItemJobSeeker.position}`"
+                  return-object
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    telepon pekerja informal
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-text-field
+                  v-model="editedItemJobSeeker.phone"
+                  :rules="phoneRules"
+                  label="Telepon Pekerja Informal"
+                  required
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    lokasi
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-autocomplete
+                  v-model="editedItemJobSeeker.location"
+                  :items="itemsLocation"
+                  :loading="isLoading"
+                  :search-input.sync="searchLocation"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="name"
+                  label="Lokasi "
+                  persistent-hint
+                  :hint="
+                    editedItemJobSeeker.location === ''
+                      ? ''
+                      : ` data disimpan : ${editedItemJobSeeker.location}`
+                  "
+                  :rules="locationRules"
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    pendidikan terakhir
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-select
+                  v-model="editedItemJobSeeker.school"
+                  :items="itemSchool"
+                  item-text="name"
+                  item-value="name"
+                  label="Pendidikan Terakhir"
+                  :rules="schoolRules"
+                  required
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                ></v-select>
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    tanggal berakhir
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-menu
+                  v-model="menu1"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="computedDateFormatted"
+                      label="Tanggal Berakhir "
+                      :rules="expiredRules"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      outlined
+                      dense
+                      single-line
+                      class="font-family"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="editedItemJobSeeker.expired"
+                    @input="menu1 = false"
+                  ></v-date-picker>
+                </v-menu>
+                <p class="mb-0 black--text">
+                  <span class="font-family">
+                    Foto 3x4 png/jpg (Maks 1MB)
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-file-input
+                  label="Unggah Foto 3x4 png/jpg (Maks 1MB)"
+                  accept="image/png, image/jpeg, image/bmp"
+                  required
+                  ref="fileInput"
+                  enctype="multipart/form-data"
+                  :rules="editedItemJobSeeker.image != null? [] :imageRules"
+                  @change="ChangeImage"
+                  prepend-icon="$fileUpload"
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                ></v-file-input>
+                <img
+                  :src="editedItemJobSeeker.image"
+                  v-if="editedItemJobSeeker.image != null"
+                  class="preview-img"
+                  contain
+                  aspect-ratio="1.7"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    deskripsi terkait anda
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-textarea
+                  label="Deskripsi Terkait Anda"
+                  v-model="editedItemJobSeeker.description"
+                  :rules="descriptionRules"
+                  :counter="250"
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                ></v-textarea>
+              </v-form>
+              <p
+                class="mt-4 mb-0 text-uppercase font-weight-bold text-subtitle-1"
+              >
+                <span class="font-family"> pratinjau </span>
+              </p>
+              <v-divider class="m-4"></v-divider>
+              <v-row>
+                <v-col
+                  cols="12"
+                  xl="2"
+                  lg="2"
+                  md="2"
+                  sm="12"
+                  xs="12"
+                  class="d-flex justify-center align-center"
+                >
+                  <img
+                    v-if="editedItemJobSeeker.image !== ''"
+                    :src="editedItemJobSeeker.image"
+                    class="preview-img-2"
+                    aspect-ratio="1.7"
+                  />
+                </v-col>
+                <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12">
+                  <p
+                    class="font-weight-bold text-h6 black--text mb-0"
+                    v-if="editedItemJobSeeker.name !== ''"
+                  >
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.name }}
+                    </span>
+                  </p>
+                  <p
+                    class="text-subtitle-2 black--text mb-2"
+                    v-if="editedItemJobSeeker.position.name !== undefined"
+                  >
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.position.name }}
+                    </span>
+                  </p>
+                  <p
+                    class="text-subtitle-2 black--text mb-2"
+                    v-if="editedItemJobSeeker.position.name === undefined"
+                  >
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.position }}
+                    </span>
+                  </p>
+                  <p
+                    class="text-subtitle-2 black--text mb-1"
+                    v-if="editedItemJobSeeker.phone !== ''"
+                  >
+                    <v-icon size="15" class="mr-3">$phone</v-icon>
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.phone }}
+                    </span>
+                  </p>
+                  <p
+                    class="black--text mb-2 text-subtitle-2"
+                    v-if="editedItemJobSeeker.location !== ''"
+                  >
+                    <v-icon size="15" class="mr-3">$location</v-icon>
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.location }}
+                    </span>
+                  </p>
+                  <p
+                    class="black--text text-subtitle-2 mb-4"
+                    v-if="editedItemJobSeeker.school !== ''"
+                  >
+                    <v-icon size="15" class="mr-3">$school</v-icon>
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.school }}
+                    </span>
+                  </p>
+                  <p
+                    class="black--text"
+                    v-if="editedItemJobSeeker.description !== ''"
+                  >
+                    <span class="font-family">
+                      {{ editedItemJobSeeker.description }}
+                    </span>
+                  </p>
+                </v-col>
+              </v-row>
+            </div>
+            <div v-if="loadingDialog" class="d-flex justify-center align-center full-height">
               <v-progress-circular
                 indeterminate
                 color="primary"
-                v-if="loadingUpdate"
+                size="64"
               />
-              <p class="ma-0 primary--text font-weight-bold" v-if="!loadingUpdate">
-                <span class="font-family"> simpan </span>
-              </p>
-            </v-btn>
-          </v-toolbar>
-
-          <v-card-text class="size-max mx-auto">
-            <v-form ref="form" lazy-validation>
-              <v-text-field
-                v-model="editedItemJobSeeker.name"
-                :rules="nameRules"
-                label="Nama Pekerja Informal"
-                required
-              />
-              <v-text-field
-                v-model="editedItemJobSeeker.position"
-                :rules="positionRules"
-                label="Posisi Pekerja Informal"
-                required
-              />
-              <v-text-field
-                v-model="editedItemJobSeeker.phone"
-                :rules="phoneRules"
-                label="Telepon Pekerja Informal"
-                required
-              />
-              <v-autocomplete
-                v-model="editedItemJobSeeker.location"
-                :items="itemsLocation"
-                :loading="isLoading"
-                :search-input.sync="searchLocation"
-                hide-no-data
-                hide-selected
-                item-text="name"
-                item-value="name"
-                label="Lokasi "
-                persistent-hint
-                :hint="
-                  editedItemJobSeeker.location === ''
-                    ? ''
-                    : ` data disimpan : ${editedItemJobSeeker.location}`
-                "
-                :rules="locationRules"
-              />
-              <v-select
-                v-model="editedItemJobSeeker.school"
-                :items="itemSchool"
-                item-text="name"
-                item-value="name"
-                label="Pendidikan Terakhir"
-                :rules="schoolRules"
-                required
-              ></v-select>
-              <v-menu
-                v-model="menu1"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="computedDateFormatted"
-                    label="Tanggal Berakhir "
-                    :rules="expiredRules"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="editedItemJobSeeker.expired"
-                  @input="menu1 = false"
-                ></v-date-picker>
-              </v-menu>
-              <v-file-input
-                label="Unggah Foto (Maks 1 MB)"
-                accept="image/png, image/jpeg, image/bmp"
-                required
-                ref="fileInput"
-                enctype="multipart/form-data"
-                :rules="editedItemJobSeeker.image != null? [] :imageRules"
-                @change="ChangeImage"
-              ></v-file-input>
-              <img
-                :src="editedItemJobSeeker.image"
-                v-if="editedItemJobSeeker.image != null"
-                class="preview-img"
-                contain
-                aspect-ratio="1.7"
-              />
-              <v-textarea
-                filled
-                label="Deskripsi Terkait Anda"
-                v-model="editedItemJobSeeker.description"
-                :rules="descriptionRules"
-                :counter="250"
-              ></v-textarea>
-            </v-form>
-            <p
-              class="mt-4 mb-0 text-uppercase font-weight-bold text-subtitle-1"
-            >
-              <span class="font-family"> pratinjau </span>
-            </p>
-            <v-divider class="m-4"></v-divider>
-            <v-row>
-              <v-col
-                cols="12"
-                xl="2"
-                lg="2"
-                md="2"
-                sm="12"
-                xs="12"
-                class="d-flex justify-center align-center"
-              >
-                <img
-                  v-if="editedItemJobSeeker.image !== ''"
-                  :src="editedItemJobSeeker.image"
-                  class="preview-img-2"
-                  aspect-ratio="1.7"
-                />
-              </v-col>
-              <v-col cols="12" xl="10" lg="10" md="10" sm="12" xs="12">
-                <p
-                  class="font-weight-bold text-h6 black--text mb-0"
-                  v-if="editedItemJobSeeker.name !== ''"
-                >
-                  <span class="font-family">
-                    {{ editedItemJobSeeker.name }}
-                  </span>
-                </p>
-                <p
-                  class="text-subtitle-2 black--text mb-2"
-                  v-if="editedItemJobSeeker.position !== ''"
-                >
-                  <span class="font-family">
-                    {{ editedItemJobSeeker.position }}
-                  </span>
-                </p>
-                <p
-                  class="text-subtitle-2 black--text mb-1"
-                  v-if="editedItemJobSeeker.phone !== ''"
-                >
-                  <v-icon size="15" class="mr-3">$phone</v-icon>
-                  <span class="font-family">
-                    {{ editedItemJobSeeker.phone }}
-                  </span>
-                </p>
-                <p
-                  class="black--text mb-2 text-subtitle-2"
-                  v-if="editedItemJobSeeker.location !== ''"
-                >
-                  <v-icon size="15" class="mr-3">$location</v-icon>
-                  <span class="font-family">
-                    {{ editedItemJobSeeker.location }}
-                  </span>
-                </p>
-                <p
-                  class="black--text text-subtitle-2 mb-4"
-                  v-if="editedItemJobSeeker.school !== ''"
-                >
-                  <v-icon size="15" class="mr-3">$school</v-icon>
-                  <span class="font-family">
-                    {{ editedItemJobSeeker.school }}
-                  </span>
-                </p>
-                <p
-                  class="black--text"
-                  v-if="editedItemJobSeeker.description !== ''"
-                >
-                  <span class="font-family">
-                    {{ editedItemJobSeeker.description }}
-                  </span>
-                </p>
-              </v-col>
-            </v-row>
+            </div>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -655,12 +908,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'informal',
-        disabled: true,
-      },
-    ],
     dialogAdd: false,
     dialogUpdate: false,
     dialogDeShow: false,
@@ -670,6 +917,7 @@ export default {
     loadingShow: false,
     loadingDeShow: false,
     loadingTable: false,
+    loadingDialog: false,
     menu: false,
     menu1: false,
     headerJobSeeker: [
@@ -677,14 +925,22 @@ export default {
         text: 'Nomor',
         sortable: false,
         value: 'number',
+        width: 70,
       },
       { text: 'Nama', value: 'name', sortable: false },
-      { text: 'Posisi', value: 'position', sortable: false },
-      { text: 'Telepon', value: 'phone', sortable: false },
+      {
+        text: 'Posisi', value: 'position', sortable: false, width: 150,
+      },
       { text: 'Lokasi', value: 'location', sortable: false },
-      { text: 'Sekolah', value: 'school', sortable: false },
-      { text: 'Status', value: 'status', sortable: false },
-      { text: 'Tanggal Berakhir', value: 'expired', sortable: false },
+      {
+        text: 'Sekolah', value: 'school', sortable: false, width: 80,
+      },
+      {
+        text: 'Status', value: 'status', sortable: false, width: 100,
+      },
+      {
+        text: 'Tanggal Berakhir', value: 'expired', sortable: false, width: 100,
+      },
       { text: 'Actions', value: 'actions', sortable: false },
     ],
     jobSeeker: [],
@@ -697,7 +953,7 @@ export default {
       school: '',
       expired: '',
       image: '',
-      description: 'Silahkan Isi Deskripsi Singkat',
+      description: '',
     },
     defaultItem: {
       name: '',
@@ -707,7 +963,7 @@ export default {
       school: '',
       expired: '',
       image: '',
-      description: 'Silahkan Isi Deskripsi Singkat',
+      description: '',
     },
     imageRules: [
       (v) => !!v || 'Foto Perkerja Informal Tidak Boleh Kosong',
@@ -748,7 +1004,10 @@ export default {
     isLoading: false,
     searchLocation: null,
     manually: false,
-    statusProfesional: 'Tampilkan Semua',
+    type: '',
+    entriesPosition: [],
+    isLoadingPosition: false,
+    searchPosition: null,
   }),
   computed: {
     computedDateFormatted() {
@@ -760,6 +1019,12 @@ export default {
     },
     itemsLocation() {
       return this.entries.map((entry) => {
+        const { name } = entry;
+        return { ...entry, name };
+      });
+    },
+    itemsPosition() {
+      return this.entriesPosition.map((entry) => {
         const { name } = entry;
         return { ...entry, name };
       });
@@ -797,6 +1062,38 @@ export default {
         })
         // eslint-disable-next-line no-return-assign
         .finally(() => (this.isLoading = false));
+    },
+    searchPosition() {
+      // Items have already been loaded
+      if (this.itemsPosition.length > 0) return;
+
+      // Items have already been requested
+      if (this.isLoadingPosition) return;
+
+      this.isLoadingPosition = true;
+
+      // Lazily load input items
+      fetch(`${this.$store.state.domain}tag-job/type`, {
+        headers: {
+          'x-api-key': this.$store.state.apiKey,
+          type: 'informal',
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          res.data.tagJob.forEach((i) => {
+            this.entriesPosition.push({
+              id: i.id,
+              name: this.capitalizeEachWord(i.name),
+            });
+          });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        // eslint-disable-next-line no-return-assign
+        .finally(() => (this.isLoadingPosition = false));
     },
   },
   methods: {
@@ -849,7 +1146,7 @@ export default {
           },
           data: {
             name: this.editedItemJobSeeker.name,
-            position: this.editedItemJobSeeker.position,
+            position: this.editedItemJobSeeker.position.name,
             description: this.editedItemJobSeeker.description,
             phone: this.editedItemJobSeeker.phone,
             expired: this.editedItemJobSeeker.expired,
@@ -895,8 +1192,51 @@ export default {
     },
     openDialogUpdate(item) {
       this.editedIndex = this.jobSeeker.indexOf(item);
-      this.editedItemJobSeeker = { ...item };
+      // this.editedItemJobSeeker = { ...item };
       this.dialogUpdate = true;
+      this.loadingDialog = true;
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}informal/${this.jobSeeker[this.editedIndex].id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}informal/stream/${this.jobSeeker[this.editedIndex].id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            responseType: 'blob',
+          }),
+        ],
+      )
+        .then((response) => {
+          this.editedItemJobSeeker.name = item.name;
+          this.editedItemJobSeeker.position = item.position;
+          this.editedItemJobSeeker.phone = response[0].data.data.informal[0].phone;
+          this.editedItemJobSeeker.location = item.location;
+          this.editedItemJobSeeker.school = item.school;
+          this.editedItemJobSeeker.expired = response[0].data.data.informal[0].expired;
+          this.editedItemJobSeeker.description = response[0].data.data.informal[0].description;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.editedItemJobSeeker.image = e.target.result;
+          };
+          reader.readAsDataURL(response[1].data);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        .finally(() => {
+          this.loadingDialog = false;
+        });
     },
     saveUpdate() {
       if (this.$refs.form.validate()) {
@@ -1073,34 +1413,23 @@ export default {
     },
     // method universal
     methodGetCardjobSeeker(page) {
-      this.statusProfesional = 'Tampilkan Semua';
-      let endpoint = '';
-      let header = {};
-      if (this.search === '') {
-        endpoint = `${this.$store.state.domain}informal/pagination-all/${page}`;
-      } else {
-        endpoint = `${this.$store.state.domain}informal/search-all/${this.search}/${page}`;
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+
+      if (this.type === 'Aktif') {
+        header.show = 1;
+      } else if (this.type === 'Tidak Aktif') {
+        header.show = 0;
       }
-      if (this.statusProfesional === 'Aktif') {
-        header = {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-          show: 1,
-        };
-      } else if (this.statusProfesional === 'Tidak Aktif') {
-        header = {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-          show: 0,
-        };
-      } else {
-        header = {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        };
+
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
+
       axios({
-        baseURL: endpoint,
+        baseURL: `${this.$store.state.domain}informal/pagination-all/${page}`,
         method: 'get',
         headers: header,
       })
@@ -1143,11 +1472,10 @@ export default {
                 name: i.name,
                 position: i.position,
                 description: i.desc,
-                phone: i.phone,
                 status: nameStatus,
                 school: i.school,
                 location: i.location,
-                expired: i.expired,
+                expired: `${date[2]}-${date[1]}-${date[0]}`,
                 color,
                 image: i.image,
               });
@@ -1224,12 +1552,10 @@ export default {
                 number: counter,
                 name: i.name,
                 position: i.position,
-                description: i.desc,
-                phone: i.phone,
                 status: nameStatus,
                 school: i.school,
                 location: i.location,
-                expired: i.expired,
+                expired: `${date[2]}-${date[1]}-${date[0]}`,
                 color,
                 image: i.image,
               });
@@ -1251,9 +1577,9 @@ export default {
   },
   created() {
     this.itemSchool = [...this.$store.state.itemsSchool];
+    this.type = 'Tampilkan Semua';
   },
   beforeDestroy() {
-    this.items = null;
     this.dialogAdd = null;
     this.dialogUpdate = null;
     this.dialogDeShow = null;
@@ -1263,6 +1589,7 @@ export default {
     this.loadingShow = null;
     this.loadingDeShow = null;
     this.loadingTable = null;
+    this.loadingDialog = null;
     this.menu = null;
     this.menu1 = null;
     this.headerJobSeeker = null;
@@ -1270,7 +1597,6 @@ export default {
     this.editedIndex = null;
     this.editedItemJobSeeker = null;
     this.defaultItem = null;
-    this.extensions = null;
     this.imageRules = null;
     this.page = null;
     this.pageCount = null;
@@ -1283,6 +1609,7 @@ export default {
     this.itemSchool = null;
     this.schoolRules = null;
     this.expiredRules = null;
+    this.descriptionRules = null;
     this.skeleton = null;
     this.hasSaved = null;
     this.status = null;
@@ -1292,9 +1619,11 @@ export default {
     this.isLoading = null;
     this.searchLocation = null;
     this.manually = null;
-    this.statusProfesional = null;
+    this.type = null;
+    this.entriesPosition = null;
+    this.isLoadingPosition = null;
+    this.searchPosition = null;
 
-    delete this.items;
     delete this.dialogAdd;
     delete this.dialogUpdate;
     delete this.dialogDeShow;
@@ -1304,6 +1633,7 @@ export default {
     delete this.loadingShow;
     delete this.loadingDeShow;
     delete this.loadingTable;
+    delete this.loadingDialog;
     delete this.menu;
     delete this.menu1;
     delete this.headerJobSeeker;
@@ -1311,7 +1641,6 @@ export default {
     delete this.editedIndex;
     delete this.editedItemJobSeeker;
     delete this.defaultItem;
-    delete this.extensions;
     delete this.imageRules;
     delete this.page;
     delete this.pageCount;
@@ -1324,6 +1653,7 @@ export default {
     delete this.itemSchool;
     delete this.schoolRules;
     delete this.expiredRules;
+    delete this.descriptionRules;
     delete this.skeleton;
     delete this.hasSaved;
     delete this.status;
@@ -1333,13 +1663,17 @@ export default {
     delete this.isLoading;
     delete this.searchLocation;
     delete this.manually;
-    delete this.statusProfesional;
+    delete this.type;
+    delete this.entriesPosition;
+    delete this.isLoadingPosition;
+    delete this.searchPosition;
   },
 };
 </script>
 
 <style scoped>
 .size-max {
+  width: 100vw;
   max-width: 1044px;
 }
 .preview-img {

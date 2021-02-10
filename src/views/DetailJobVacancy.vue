@@ -152,7 +152,7 @@
             >
               kirim lamaran /CV
             </v-btn>
-            <v-card elevation="3" class="mt-3 rounded-xl">
+            <!-- <v-card elevation="3" class="mt-3 rounded-xl">
               <v-card-title
                 class="text-capitalize text-h6 font-weight-bold py-2"
               >
@@ -254,7 +254,7 @@
                   </span>
                 </p>
               </v-card-text>
-            </v-card>
+            </v-card> -->
           </v-col>
         </v-row>
         <v-dialog v-model="dialogApplication" persistent max-width="550">

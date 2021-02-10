@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <div class="justify-center">
@@ -124,22 +130,23 @@ export default {
 .max-width-faq {
   max-width: 750px;
 }
-div >>> ul > li {
-  line-height: 25px !important;
-}
+div >>> ul > li,
 div >>> ol > li {
   line-height: 25px !important;
 }
 div >>> li > p {
-  margin-bottom: 5px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
 }
 div >>> li {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
-div >>> li > ol {
-  margin: 0px;
-}
+div >>> li > ol,
 div >>> li > ul {
   margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 </style>

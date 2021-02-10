@@ -50,7 +50,9 @@ import jobSeekerInternshipAfterLogin from '../views/JobSeekerInternshipAfterLogi
 import applicationJob from '../views/ApplicationJob.vue';
 import detailAnnouncement from '../views/DetailAnnouncement.vue';
 import accessBlock from '../views/403.vue';
+import tagJob from '../views/TagJob.vue';
 import notFound from '../views/404.vue';
+// import maintenance from '../views/Maintenance.vue';
 
 Vue.use(VueRouter);
 
@@ -635,6 +637,18 @@ const routes = [
     path: '/application-job/:id',
     name: 'Daftar Lamaran',
     component: applicationJob,
+    beforeEnter: (to, from, next) => {
+      if (window.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/');
+      }
+    },
+  },
+  {
+    path: '/tag-job',
+    name: 'Jenis Pekerjaan',
+    component: tagJob,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
         next();

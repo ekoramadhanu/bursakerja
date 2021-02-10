@@ -13,10 +13,13 @@
                 berdasarkan lokasi dan posisi. Jika Anda tidak menemukan
                 kriteria yang diinginkan, Anda dapat menghubungi kami.
               </v-card-subtitle>
-              <v-card-text class="pa-4">
+              <v-card-text class="py-2 px-4">
                 <v-form lazy-validation>
                   <v-row>
                     <v-col cols="12" xl="5" lg="5" md="5" sm="12" xs="12">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">lokasi</span>
+                      </p>
                       <v-autocomplete
                         v-model="location"
                         :items="itemsLocation"
@@ -28,9 +31,15 @@
                         item-value="name"
                         label="Lokasi"
                         dense
+                        outlined
+                        single-line
+                        class="font-family"
                       />
                     </v-col>
                     <v-col cols="12" xl="5" lg="5" md="5" sm="12" xs="12">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">jabatan</span>
+                      </p>
                       <v-autocomplete
                         v-model="job"
                         :items="itemsJob"
@@ -42,9 +51,20 @@
                         item-value="name"
                         label="Jabatan"
                         dense
+                        outlined
+                        single-line
+                        class="font-family"
                       />
                     </v-col>
-                    <v-col cols="12" xl="2" lg="2" md="2" sm="12" xs="12">
+                    <v-col
+                      cols="12"
+                      xl="2"
+                      lg="2"
+                      md="2"
+                      sm="12"
+                      xs="12"
+                      class="d-flex align-center"
+                    >
                       <v-btn
                         block
                         color="primary font-weight-bold font-family"
@@ -68,7 +88,7 @@
                   >
                     <v-card-text class="pa-4">
                       <v-row>
-                        <v-col
+                        <!-- <v-col
                           cols="12"
                           xl="2"
                           lg="2"
@@ -82,12 +102,12 @@
                             class="preview-img"
                             aspect-ratio="1.7"
                           />
-                        </v-col>
+                        </v-col> -->
                         <v-col
                           cols="12"
-                          xl="10"
-                          lg="10"
-                          md="10"
+                          xl="12"
+                          lg="12"
+                          md="12"
                           sm="12"
                           xs="12"
                         >
@@ -260,18 +280,6 @@ export default {
     },
   },
   methods: {
-    returnModuleByFour() {
-      const payload = this.jobSeeker.length;
-      if (payload % 4 === 0) {
-        return payload / 4;
-      }
-      return Math.floor(payload / 4) + 1;
-    },
-    returnlist(payload) {
-      const counterStart = (payload - 1) * 4;
-      const counterEnd = payload * 4;
-      return this.jobSeeker.slice(counterStart, counterEnd);
-    },
     searchJobSeeker() {
       this.skeleton = true;
       this.page = 1;
@@ -312,20 +320,17 @@ export default {
         .then((response) => {
           if (response.data.data.jobVacancy.length > 0) {
             this.lengthData = response.data.data.total;
-            const modulo = response.data.data.total % 20;
+            const modulo = response.data.data.total % 10;
             if (modulo === 0) {
-              this.pageCount = response.data.data.total / 20;
+              this.pageCount = response.data.data.total / 10;
             } else {
-              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
             let counter = 0;
             response.data.data.jobVacancy.forEach((i) => {
               counter += 1;
               const date = i.date.split('-');
-              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-              if (shortDesc.length > 100) {
-                shortDesc = `${shortDesc.substr(0, 250)}.....`;
-              }
+              const shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
               this.jobSeeker.push({
                 id: i.id,
                 number: counter,
@@ -333,7 +338,6 @@ export default {
                 desc: shortDesc,
                 company: i.company.name,
                 location: `${i.company.address}, ${i.company.city}, ${i.company.province}`,
-                image: i.company.image,
                 date: `${date[0]} ${
                   this.$store.state.month[parseInt(date[1], 10) - 1]
                 } ${date[2]}`,
@@ -371,20 +375,17 @@ export default {
         .then((response) => {
           if (response.data.data.jobVacancy.length > 0) {
             this.lengthData = response.data.data.total;
-            const modulo = response.data.data.total % 20;
+            const modulo = response.data.data.total % 10;
             if (modulo === 0) {
-              this.pageCount = response.data.data.total / 20;
+              this.pageCount = response.data.data.total / 10;
             } else {
-              this.pageCount = (response.data.data.total - modulo) / 20 + 1;
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
             let counter = 0;
             response.data.data.jobVacancy.forEach((i) => {
               counter += 1;
               const date = i.date.split('-');
-              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
-              if (shortDesc.length > 100) {
-                shortDesc = `${shortDesc.substr(0, 250)}.....`;
-              }
+              const shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
               this.jobSeeker.push({
                 id: i.id,
                 number: counter,
@@ -392,7 +393,6 @@ export default {
                 desc: shortDesc,
                 company: i.company.name,
                 location: `${i.company.address}, ${i.company.city}, ${i.company.province}`,
-                image: i.company.image,
                 date: `${date[0]} ${
                   this.$store.state.month[parseInt(date[1], 10) - 1]
                 } ${date[2]}`,

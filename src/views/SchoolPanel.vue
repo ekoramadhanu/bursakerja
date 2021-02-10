@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -42,36 +48,52 @@
                 </template>
                 <v-card>
                   <v-toolbar class="primary mb-4">
-                    <v-btn icon @click="closeAdd()">
-                      <v-icon class="white--text">mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title class="text-capitalize white--text">
-                      <span class="font-family"> tambah data sekolah </span>
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn @click="saveAdd()" elevation="0" color="white">
-                      <v-progress-circular
-                        indeterminate
-                        color="primary"
-                        v-if="loadingAdd"
-                      />
-                      <p
-                        class="ma-0 primary--text font-weight-bold"
-                        v-if="!loadingAdd"
+                    <div class="size-max mx-auto d-flex justify-end">
+                      <v-btn icon @click="closeAdd()">
+                        <v-icon class="white--text">mdi-close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title
+                        class="text-capitalize white--text my-auto ml-1"
                       >
-                        <span class="font-family"> simpan </span>
-                      </p>
-                    </v-btn>
+                        <span class="font-family"> tambah data sekolah </span>
+                      </v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-btn @click="saveAdd()" elevation="0" color="white">
+                        <v-progress-circular
+                          indeterminate
+                          color="primary"
+                          v-if="loadingAdd"
+                        />
+                        <p
+                          class="ma-0 primary--text font-weight-bold"
+                          v-if="!loadingAdd"
+                        >
+                          <span class="font-family"> simpan </span>
+                        </p>
+                      </v-btn>
+                    </div>
                   </v-toolbar>
 
                   <v-card-text class="size-max mx-auto">
                     <v-form ref="form" lazy-validation>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> nama sekolah </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemSchool.name"
                         :rules="nameRules"
                         label="Nama Sekolah"
                         required
+                        single-line
+                        outlined
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> lokasi sekolah </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-autocomplete
                         v-model="editedItemSchool.location"
                         :items="itemsLocation"
@@ -84,7 +106,15 @@
                         label="Lokasi Sekolah"
                         persistent-hint
                         :rules="locationRules"
+                        single-line
+                        outlined
+                        dense
+                        class="font-family"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> kategori sekolah </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="editedItemSchool.category"
                         :items="itemCategory"
@@ -94,7 +124,16 @@
                         :rules="categoryRules"
                         single-line
                         required
+                        outlined
+                        dense
+                        class="font-family"
                       ></v-select>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          Gambar Sekolah (Maks 1 MB)
+                        </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-file-input
                         label="Unggah Gambar Sekolah (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
@@ -103,6 +142,11 @@
                         enctype="multipart/form-data"
                         :rules="imageRules"
                         @change="ChangeImage"
+                        prepend-icon="$fileUpload"
+                        outlined
+                        dense
+                        class="font-family"
+                        single-line
                       ></v-file-input>
                       <img
                         :src="editedItemSchool.image"
@@ -111,11 +155,15 @@
                         contain
                         aspect-ratio="1.7"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> deskripsi sekolah </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <tip-tap-vuetify
                         v-model="editedItemSchool.description"
                         :extensions="extensions"
                         :card-props="{
-                          height: '300',
+                          height: '500',
                           style: 'overflow: auto;',
                         }"
                       />
@@ -166,54 +214,67 @@
             <v-text-field
               v-model="search"
               append-icon="$search"
-              label="Pencarian Sekolah"
-              class="px-5"
+              label="Pencarian Nama"
+              class="px-5 font-family"
               single-line
               hide-details
               @click:append="searchSchool()"
+              outlined
+              dense
             />
           </template>
-          <template v-slot:[`item.image`]="{ item }">
-            <v-img
-              :src="item.image"
-              aspect-ratio="1.7"
-              contain
-              max-height="100"
-              max-width="100"
-              class="ma-2"
-            ></v-img>
-          </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn
-              @click="openDialogUpdate(item)"
-              class="mr-4"
-              dark
-              color="orange"
-              x-small
-              elevation="0"
-            >
-              ubah data
-            </v-btn>
-            <v-btn
-              @click="openDialogDeactivate(item)"
-              dark
-              color="error"
-              x-small
-              elevation="0"
-              v-if="item.status === 'Ditampilkan'"
-            >
-              nonaktifkan
-            </v-btn>
-            <v-btn
-              @click="openDialogActivate(item)"
-              dark
-              color="success"
-              x-small
-              elevation="0"
-              v-else
-            >
-              aktifkan
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogUpdate(item)"
+                  class="mr-1"
+                  icon
+                  color="orange"
+                  small
+                  elevation="0"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$contentEdit</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">ubah data</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogDeactivate(item)"
+                  color="error"
+                  small
+                  elevation="0"
+                  v-if="item.status === 'Ditampilkan'"
+                  v-bind="attrs"
+                  v-on="on"
+                  icon
+                >
+                  <v-icon>$archive</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">arsip data</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogActivate(item)"
+                  icon
+                  color="success"
+                  small
+                  elevation="0"
+                  v-bind="attrs"
+                  v-on="on"
+                  v-if="item.status === 'Tidak Ditampilkan'"
+                >
+                  <v-icon>$unArchive</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">aktifkan data</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -266,121 +327,171 @@
       >
         <v-card>
           <v-toolbar class="primary mb-4">
-            <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title class="text-capitalize white--text">
-              <span class="font-family"> Edit data sekolah </span>
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn @click="saveUpdate()" elevation="0" color="white">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-                v-if="loadingUpdate"
-              />
-              <p
-                class="ma-0 primary--text font-weight-bold"
-                v-if="!loadingUpdate"
-              >
-                <span class="font-family"> simpan </span>
-              </p>
-            </v-btn>
+            <div class="size-max mx-auto d-flex justify-end">
+              <v-btn icon @click="closeUpdate()">
+                <v-icon class="white--text">mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title class="text-capitalize white--text my-auto ml-1">
+                <span class="font-family"> Edit data sekolah </span>
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn @click="saveUpdate()" elevation="0" color="white">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  v-if="loadingUpdate"
+                />
+                <p
+                  class="ma-0 primary--text font-weight-bold"
+                  v-if="!loadingUpdate"
+                >
+                  <span class="font-family"> simpan </span>
+                </p>
+              </v-btn>
+            </div>
           </v-toolbar>
 
           <v-card-text class="size-max mx-auto">
-            <v-form ref="form" lazy-validation>
-              <v-text-field
-                v-model="editedItemSchool.name"
-                :rules="nameRules"
-                label="Nama Sekolah"
-                required
-              />
-              <v-autocomplete
-                v-model="editedItemSchool.location"
-                :items="itemsLocation"
-                :loading="isLoading"
-                :search-input.sync="searchLocation"
-                hide-no-data
-                hide-selected
-                item-text="name"
-                item-value="name"
-                label="Lokasi Sekolah"
-                persistent-hint
-                :hint="`data disimpan: ${editedItemSchool.location}`"
-                :rules="locationRules"
-              />
-              <v-select
-                v-model="editedItemSchool.category"
-                :items="itemCategory"
-                item-text="name"
-                item-value="name"
-                label="Kategori Sekolah"
-                :rules="categoryRules"
-                single-line
-                required
-              ></v-select>
-              <v-file-input
-                label="Unggah Gambar Sekolah (Maks 1 MB)"
-                accept="image/png, image/jpeg, image/bmp"
-                required
-                ref="fileInput"
-                enctype="multipart/form-data"
-                :rules="editedItemSchool.image !== null ? [] : imageRules"
-                @change="ChangeImage"
-              ></v-file-input>
-              <img
+            <div v-if="!loadingDialog">
+              <v-form ref="form" lazy-validation>
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family"> nama sekolah </span>
+                  <span class="ml-1 error--text"> * </span>
+                </p>
+                <v-text-field
+                  v-model="editedItemSchool.name"
+                  :rules="nameRules"
+                  label="Nama Sekolah"
+                  required
+                  single-line
+                  outlined
+                  dense
+                  class="font-family"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family"> lokasi sekolah </span>
+                  <span class="ml-1 error--text"> * </span>
+                </p>
+                <v-autocomplete
+                  v-model="editedItemSchool.location"
+                  :items="itemsLocation"
+                  :loading="isLoading"
+                  :search-input.sync="searchLocation"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="name"
+                  label="Lokasi Sekolah"
+                  persistent-hint
+                  :rules="locationRules"
+                  single-line
+                  outlined
+                  dense
+                  class="font-family"
+                  :hint="`Data Yang Disimpan ${editedItemSchool.location}`"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family"> kategori sekolah </span>
+                  <span class="ml-1 error--text"> * </span>
+                </p>
+                <v-select
+                  v-model="editedItemSchool.category"
+                  :items="itemCategory"
+                  item-text="name"
+                  item-value="name"
+                  label="Kategori Sekolah"
+                  :rules="categoryRules"
+                  single-line
+                  required
+                  outlined
+                  dense
+                  class="font-family"
+                ></v-select>
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family"> Gambar Sekolah (Maks 1 MB) </span>
+                  <span class="ml-1 error--text"> * </span>
+                </p>
+                <v-file-input
+                  label="Unggah Gambar Sekolah (Maks 1 MB)"
+                  accept="image/png, image/jpeg, image/bmp"
+                  required
+                  ref="fileInput"
+                  enctype="multipart/form-data"
+                  :rules="editedItemSchool.image != null? [] : imageRules"
+                  @change="ChangeImage"
+                  prepend-icon="$fileUpload"
+                  outlined
+                  dense
+                  class="font-family"
+                  single-line
+                ></v-file-input>
+                <img
+                  :src="editedItemSchool.image"
+                  v-if="editedItemSchool.image != null"
+                  class="preview-img"
+                  contain
+                  aspect-ratio="1.7"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family"> deskripsi sekolah </span>
+                  <span class="ml-1 error--text"> * </span>
+                </p>
+                <tip-tap-vuetify
+                  v-model="editedItemSchool.description"
+                  :extensions="extensions"
+                  :card-props="{
+                    height: '500',
+                    style: 'overflow: auto;',
+                  }"
+                />
+              </v-form>
+              <p
+                class="mt-4 mb-0 text-uppercase font-weight-bold text-subtitle-1"
+              >
+                <span class="font-family"> pratinjau </span>
+              </p>
+              <v-divider class="m-4"></v-divider>
+              <v-img
                 :src="editedItemSchool.image"
-                v-if="editedItemSchool.image != null"
-                class="preview-img"
-                contain
                 aspect-ratio="1.7"
+                width="100vw"
+                max-width="230"
+                height="100vh"
+                max-height="200"
+                class="mx-auto"
+                v-if="!skeleton"
+                contain
+              ></v-img>
+              <p class="mb-0 mt-6 text-h5 font-weight-bold" v-if="!skeleton">
+                <span class="font-family">
+                  {{ editedItemSchool.name }}
+                </span>
+              </p>
+              <p class="text-subtitle-1">
+                <v-icon size="15" class="mr-1">$tag</v-icon>
+                <span class="font-family">
+                  {{ editedItemSchool.category }}
+                </span>
+              </p>
+              <p class="mt-4 text-subtitle-1" v-if="!skeleton">
+                <v-icon size="15" class="mr-1">$location</v-icon>
+                <span class="font-family">
+                  {{ editedItemSchool.location }}
+                </span>
+              </p>
+              <div
+                class="text-justify mt-6 font-family"
+                v-html="editedItemSchool.description"
+                v-if="!skeleton"
+              ></div>
+            </div>
+            <div v-if="loadingDialog" class="d-flex justify-center align-center full-height">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="64"
               />
-              <tip-tap-vuetify
-                v-model="editedItemSchool.description"
-                :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
-              />
-            </v-form>
-            <p
-              class="mt-4 mb-0 text-uppercase font-weight-bold text-subtitle-1"
-            >
-              <span class="font-family"> pratinjau </span>
-            </p>
-            <v-divider class="m-4"></v-divider>
-            <v-img
-              :src="editedItemSchool.image"
-              aspect-ratio="1.7"
-              width="100vw"
-              max-width="230"
-              height="100vh"
-              max-height="200"
-              class="mx-auto"
-              v-if="!skeleton"
-              contain
-            ></v-img>
-            <p class="mb-0 mt-6 text-h5 font-weight-bold" v-if="!skeleton">
-              <span class="font-family">
-                {{ editedItemSchool.name }}
-              </span>
-            </p>
-            <p class="text-subtitle-1">
-              <v-icon size="15" class="mr-1">$tag</v-icon>
-              <span class="font-family">
-                {{ editedItemSchool.category }}
-              </span>
-            </p>
-            <p class="mt-4 text-subtitle-1" v-if="!skeleton">
-              <v-icon size="15" class="mr-1">$location</v-icon>
-              <span class="font-family">
-                {{ editedItemSchool.location }}
-              </span>
-            </p>
-            <div
-              class="text-justify mt-6 font-family"
-              v-html="editedItemSchool.description"
-              v-if="!skeleton"
-            ></div>
+            </div>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -482,7 +593,6 @@ import {
   OrderedList,
   ListItem,
   Link,
-  Blockquote,
   HardBreak,
   HorizontalRule,
   History,
@@ -491,12 +601,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'sekolah unggulan',
-        disabled: true,
-      },
-    ],
     dialogAdd: false,
     dialogUpdate: false,
     dialogDeactive: false,
@@ -506,32 +610,41 @@ export default {
     loadingDeactive: false,
     loadingActivate: false,
     loadingtable: false,
+    loadingDialog: false,
     headerSchool: [
       {
         text: 'Nomor',
         sortable: false,
         value: 'number',
+        width: 80,
       },
       { text: 'Nama Sekolah', value: 'name', sortable: false },
-      { text: 'Kategori Sekolah', value: 'category', sortable: false },
-      { text: 'Logo Sekolah', value: 'image', sortable: false },
-      { text: 'Status', value: 'status', sortable: false },
-      { text: 'Lokasi', value: 'location', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      {
+        text: 'Lokasi', value: 'location', sortable: false, width: 200,
+      },
+      {
+        text: 'Kategori Sekolah', value: 'category', sortable: false, width: 150,
+      },
+      {
+        text: 'Status', value: 'status', sortable: false, width: 120,
+      },
+      {
+        text: 'Aksi', value: 'actions', sortable: false, width: 150,
+      },
     ],
     school: [],
     editedIndex: -1,
     editedItemSchool: {
       name: '',
       image: null,
-      description: '<p>Silahkan Isi Pejelasan</p>',
+      description: '',
       location: '',
       category: '',
     },
     defaultItem: {
       name: '',
       image: null,
-      description: '<p>Silahkan Isi Pejelasan</p>',
+      description: '',
       location: '',
       category: '',
     },
@@ -548,7 +661,6 @@ export default {
     // tip tap
     extensions: [
       History,
-      Blockquote,
       Link,
       Underline,
       Strike,
@@ -686,19 +798,20 @@ export default {
               this.status = true;
               this.message = 'data berhasil disimpan';
               this.icon = '$success';
+              this.loadingtable = true;
+              this.page = 1;
+              this.search = '';
+              if (this.school.length > 0) {
+                this.school.splice(0, this.school.length);
+              }
+              this.methodGetSchool(1);
+              this.closeAdd();
             } else {
               this.hasSaved = true;
               this.status = false;
               this.message = 'data tidak berhasil disimpan';
               this.icon = '$warning';
             }
-            this.loadingtable = true;
-            this.page = 1;
-            this.search = '';
-            if (this.school.length > 0) {
-              this.school.splice(0, this.school.length);
-            }
-            this.methodGetSchool(1);
           })
           .catch(() => {
             this.hasSaved = true;
@@ -708,14 +821,53 @@ export default {
           })
           .finally(() => {
             this.loadingAdd = false;
-            this.closeAdd();
           });
       }
     },
     openDialogUpdate(item) {
       this.editedIndex = this.school.indexOf(item);
-      this.editedItemSchool = { ...item };
+      // this.editedItemSchool = { ...item };
       this.dialogUpdate = true;
+      this.loadingDialog = true;
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}school/${this.school[this.editedIndex].id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}school/stream/${this.school[this.editedIndex].id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            responseType: 'blob',
+          }),
+        ],
+      )
+        .then((response) => {
+          this.editedItemSchool.name = item.name;
+          this.editedItemSchool.description = response[0].data.data.school[0].description;
+          this.editedItemSchool.location = response[0].data.data.school[0].location;
+          this.editedItemSchool.category = item.category;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.editedItemSchool.image = e.target.result;
+          };
+          reader.readAsDataURL(response[1].data);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        .finally(() => {
+          this.loadingDialog = false;
+        });
     },
     saveUpdate() {
       if (this.$refs.form.validate()) {
@@ -884,105 +1036,59 @@ export default {
 
     // method universal
     methodGetSchool(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}school/pagination-all/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.school.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.school.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Ditampilkan';
-                } else {
-                  nameStatus = 'Ditampilkan';
-                }
-                this.school.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  image: i.image,
-                  status: nameStatus,
-                  location: i.location,
-                  description: i.description,
-                  category: i.category,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch(() => {
-            this.hasSaved = true;
-            this.status = false;
-            this.message = 'server mengalami error';
-            this.icon = '$warning';
-          })
-          .finally(() => {
-            this.loadingtable = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}school/search-all/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.school.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              let nameStatus = '';
-              response.data.data.school.forEach((i) => {
-                counter += 1;
-                if (i.status === '0') {
-                  nameStatus = 'Tidak Ditampilkan';
-                } else {
-                  nameStatus = 'Ditampilkan';
-                }
-                this.school.push({
-                  id: i.id,
-                  number: counter,
-                  name: i.name,
-                  image: i.image,
-                  status: nameStatus,
-                  location: i.location,
-                  description: i.description,
-                  category: i.category,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingtable = false;
-          });
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
+      axios({
+        baseURL: `${this.$store.state.domain}school/pagination-all/${page}`,
+        method: 'get',
+        headers: header,
+      })
+        .then((response) => {
+          if (response.data.data.school.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = (page - 1) * 10;
+            let nameStatus = '';
+            response.data.data.school.forEach((i) => {
+              counter += 1;
+              if (i.status === '0') {
+                nameStatus = 'Tidak Ditampilkan';
+              } else {
+                nameStatus = 'Ditampilkan';
+              }
+              this.school.push({
+                id: i.id,
+                number: counter,
+                name: i.name,
+                image: i.image,
+                status: nameStatus,
+                location: i.location,
+                description: i.description,
+                category: i.category,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+        })
+        .catch(() => {
+          this.hasSaved = true;
+          this.status = false;
+          this.message = 'server mengalami error';
+          this.icon = '$warning';
+        })
+        .finally(() => {
+          this.loadingtable = false;
+        });
     },
   },
   beforeCreate() {
@@ -1025,10 +1131,8 @@ export default {
                 id: i.id,
                 number: counter,
                 name: i.name,
-                image: i.image,
                 status: nameStatus,
                 location: i.location,
-                description: i.description,
                 category: i.category,
               });
             });
@@ -1088,6 +1192,29 @@ export default {
   max-height: 200px;
 }
 .size-max {
-  max-width: 1200px;
+  width: 100vw;
+  max-width: 1044px;
+}
+div >>> ul > li,
+div >>> ol > li {
+  line-height: 25px !important;
+}
+div >>> li > p {
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+div >>> li {
+  margin-bottom: 0px;
+}
+div >>> li > ol,
+div >>> li > ul {
+  margin: 0px;
+}
+div >>> p,
+div >>> h1,
+div >>> h2,
+div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 </style>

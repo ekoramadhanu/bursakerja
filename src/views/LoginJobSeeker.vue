@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-container>
@@ -54,12 +60,32 @@
                     </v-alert>
                   </div>
                   <v-form ref="form" lazy-validation>
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        alamat email
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="email"
                       :rules="emailRules"
                       label="Alamat Email"
                       required
+                      outlined
+                      single-line
+                      dense
+                      class="font-family"
                     />
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        kata sandi
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="password"
                       :rules="passwordRules"
@@ -68,6 +94,10 @@
                       label="Kata Sandi"
                       @click:append="changeShowPassword()"
                       required
+                      outlined
+                      single-line
+                      dense
+                      class="font-family"
                     />
                     <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">
@@ -118,7 +148,6 @@
 </template>
 
 <script>
-import backgroundUrl from '@/assets/background.svg';
 import axios from 'axios';
 
 export default {
@@ -136,7 +165,6 @@ export default {
     ],
     showPassword: false,
     loadingActivated: false,
-    backgroundUrl,
     status: null,
     message: '',
   }),
@@ -229,6 +257,25 @@ export default {
     changeShowPassword() {
       this.showPassword = !this.showPassword;
     },
+  },
+  beforeDestroy() {
+    this.email = null;
+    this.emailRules = null;
+    this.password = null;
+    this.passwordRules = null;
+    this.showPassword = null;
+    this.loadingActivated = null;
+    this.status = null;
+    this.message = null;
+
+    delete this.email;
+    delete this.emailRules;
+    delete this.password;
+    delete this.passwordRules;
+    delete this.showPassword;
+    delete this.loadingActivated;
+    delete this.status;
+    delete this.message;
   },
 };
 </script>

@@ -14,10 +14,32 @@
               >
                 <v-icon size="15" class="mr-2">$arrowLeft</v-icon>
                 kembali
-              </v-btn
-              >
-              <h1 class="display-2 mb-2">{{ title }}</h1>
-              <div v-html="content"></div>
+              </v-btn>
+              <h3 class="text-h3 font-weight-bold black--text">
+                <span class="font-family">
+                  {{ title }}
+                </span>
+              </h3>
+              <div class="mt-2 pa-0 mb-4 d-flex">
+                <p
+                  class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+                >
+                  <v-icon size="13" class="mr-1">$user</v-icon>
+                  <span class="font-family"> admin </span>
+                </p>
+                <p
+                  class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                >
+                  <v-icon size="13" class="mr-1">$calendar</v-icon>
+                  <span class="font-family">
+                    {{ dateNow }}
+                  </span>
+                </p>
+              </div>
+              <div
+                class="text-justify font-family black--text"
+                v-html="content"
+              ></div>
             </v-container>
           </v-col>
         </v-row>
@@ -31,19 +53,9 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'pengumuman',
-        disabled: false,
-        to: '/announcement-panel',
-      },
-      {
-        text: 'pengumuman',
-        disabled: false,
-      },
-    ],
     title: '',
     content: '',
+    date: '',
   }),
   beforeCreate() {
     if (this.$store.state.role === 'Pencaker') {
@@ -66,11 +78,10 @@ export default {
           'x-api-key': this.$store.state.apiKey,
           Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
-      })
-        .catch((error) => {
+      }).catch((error) => {
         // eslint-disable-next-line no-console
-          console.log(error);
-        });
+        console.log(error);
+      });
     }
     axios({
       baseURL: `${this.$store.state.domain}announcement/${this.$route.params.id}`,
@@ -81,10 +92,9 @@ export default {
       },
     })
       .then((response) => {
-        // // eslint-disable-next-line no-console
-        // console.log(response.data);
         this.title = response.data.data.announcement[0].title;
         this.content = response.data.data.announcement[0].description;
+        this.date = response.data.data.announcement[0].create;
         this.items.splice(1, 1, {
           text: response.data.data.announcement[0].title,
           disabled: false,
@@ -105,13 +115,23 @@ export default {
 .size-max {
   max-width: 1044px;
 }
-div >>> ul {
-  line-height: 18px !important;
-}
-div >>> ol {
-  line-height: 18px !important;
+div >>> ul > li,
+div >>> ol > li {
+  line-height: 25px !important;
 }
 div >>> li > p {
-  margin: 3px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+div >>> li {
+  margin-bottom: 0px;
+}
+div >>> li > ol,
+div >>> li > ul {
+  margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 </style>

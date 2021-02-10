@@ -1,3 +1,8 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 29 Januri 2020 -> check data  after change image base 64 to link
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -19,45 +24,100 @@
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" lazy-validation>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  nomor whatsapp
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
-                prepend-icon="$whatsapp"
                 label="Nomor Whatsapp"
                 v-model="whatssapp"
                 :rules="whatsappRules"
                 :disabled="!isEditing"
                 required
+                class="font-family"
+                single-line
+                dense
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  alamat email
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 v-model="email"
                 :rules="emailRules"
-                prepend-icon="$email"
                 label="Alamat Email"
                 :disabled="!isEditing"
                 required
+                class="font-family"
+                single-line
+                dense
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  instagram
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 v-model="instagram"
                 :rules="instagramRules"
-                prepend-icon="$instagram"
                 label="Instagram"
                 :disabled="!isEditing"
                 required
+                class="font-family"
+                single-line
+                dense
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  facebook
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 v-model="facebook"
                 :rules="facebookRules"
-                prepend-icon="$facebook"
                 label="Facebook"
                 :disabled="!isEditing"
                 required
+                class="font-family"
+                single-line
+                dense
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  twitter
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 v-model="twitter"
                 :rules="twitterpRules"
-                prepend-icon="$twitter"
                 label="Twitter"
                 :disabled="!isEditing"
                 required
+                class="font-family"
+                single-line
+                dense
+                outlined
               />
             </v-form>
           </v-card-text>
@@ -111,19 +171,13 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'Kontak',
-        disabled: true,
-      },
-    ],
     hasSaved: false,
     isEditing: null,
     idContact: '',
     whatssapp: '',
     whatsappRules: [
       (v) => !!v || 'Nomor Whatsapp Tidak Boleh Kosong',
-      (v) => /[0-9]/.test(v) || 'Nomor Whatsapp Harus Angka (0-9)',
+      (v) => /^[0-9]+/.test(v) || 'Nomor Whatsapp Harus Angka (0-9)',
       (v) => /^08/.test(v) || 'Nomor Telepon Harus Dimulai Dengan 08...',
     ],
     email: '',
@@ -222,7 +276,6 @@ export default {
     }
   },
   beforeDestroy() {
-    this.items = null;
     this.hasSaved = null;
     this.isEditing = null;
     this.whatssapp = null;
@@ -242,7 +295,6 @@ export default {
     this.message = null;
     this.loadingSave = null;
 
-    delete this.items;
     delete this.hasSaved;
     delete this.isEditing;
     delete this.whatssapp;
@@ -267,6 +319,6 @@ export default {
 
 <style scoped>
 .size-max {
-  max-width: 1366px;
+  max-width: 1044px;
 }
 </style>

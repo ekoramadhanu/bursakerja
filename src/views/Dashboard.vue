@@ -1,14 +1,9 @@
 <template>
   <v-main class="fourth">
     <v-container fluid>
-      <!-- <v-breadcrumbs
-        :items="items"
-        class="text-capitalize pa-2"
-      ></v-breadcrumbs> -->
       <div
         v-if="role === 'Admin 1' || role === 'Admin 2' || role === 'Admin 3'"
       >
-        <!-- <v-card class="pa-4"> -->
         <div class="d-flex">
           <v-row class="d-flex justify-center align-center">
             <v-col class="d-none d-sm-none d-sm-flex" md="4" lg="4">
@@ -25,15 +20,14 @@
             </v-col>
           </v-row>
         </div>
-        <!-- </v-card> -->
         <v-container>
           <v-row v-if="role === 'Admin 3'">
             <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
-              <v-card v-if="!sekeletonUMKM" elevation="3" min-height="280">
-                <v-card-title>Jumlah UMKM </v-card-title>
+              <v-card v-if="!skeleton" elevation="3" min-height="280">
+                <v-card-title>Jumlah Kartu Perusahaan </v-card-title>
                 <v-card-text>
                   <h1 class="text-h3">{{ countUMKM }}</h1>
-                  <h2 class="subtitle-1">UMKM</h2>
+                  <h2 class="subtitle-1">Kartu</h2>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text>
@@ -50,26 +44,26 @@
               <v-skeleton-loader
                 ref="skeleton"
                 type="card"
-                v-if="sekeletonUMKM"
+                v-if="skeleton"
               ></v-skeleton-loader>
             </v-col>
             <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12">
-              <v-card v-if="!sekeletonJobSeeker" elevation="3" min-height="280">
-                <v-card-title>Jumlah Karyawan</v-card-title>
+              <v-card v-if="!skeleton" elevation="3" min-height="280">
+                <v-card-title>Jumlah Kartu Pencaker</v-card-title>
                 <v-card-text>
                   <h1 class="text-h3">
                     {{ totalJobSeeker }}
                   </h1>
-                  <h2 class="subtitle-1">Orang</h2>
+                  <h2 class="subtitle-1">Kartu</h2>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text>
                   <v-chip-group column>
                     <v-chip class="success"
-                      >{{ countJobSekerActivate }} Pencaker Aktif</v-chip
+                      >{{ countJobSekerActivate }} Kartu Pencaker Aktif</v-chip
                     >
                     <v-chip class="error"
-                      >{{ countJobSekerNotActivate }} Pencaker Nonaktif</v-chip
+                      >{{ countJobSekerNotActivate }} Kartu Pencaker Nonaktif</v-chip
                     >
                     <v-chip class="orange white--text"
                       >{{ countInformal }} Pekerja Informal</v-chip
@@ -86,7 +80,7 @@
               <v-skeleton-loader
                 ref="skeleton"
                 type="card"
-                v-if="sekeletonJobSeeker"
+                v-if="skeleton"
               ></v-skeleton-loader>
             </v-col>
             <v-col cols="12" xl="4" lg="4" md="12" sm="12" xs="12"
@@ -121,11 +115,11 @@
           </v-row>
           <v-row v-if="role === 'Admin 2'">
             <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
-              <v-card v-if="!sekeletonUMKM" elevation="3" min-height="280">
-                <v-card-title>Jumlah UMKM </v-card-title>
+              <v-card v-if="!skeleton" elevation="3" min-height="280">
+                <v-card-title>Jumlah Kartu Perusahaan </v-card-title>
                 <v-card-text>
                   <h1 class="text-h3">{{ countUMKM }}</h1>
-                  <h2 class="subtitle-1">UMKM</h2>
+                  <h2 class="subtitle-1">Kartu</h2>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text>
@@ -142,26 +136,26 @@
               <v-skeleton-loader
                 ref="skeleton"
                 type="card"
-                v-if="sekeletonUMKM"
+                v-if="skeleton"
               ></v-skeleton-loader>
             </v-col>
             <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
-              <v-card v-if="!sekeletonJobSeeker" elevation="3" min-height="280">
-                <v-card-title>Jumlah Karyawan</v-card-title>
+              <v-card v-if="!skeleton" elevation="3" min-height="280">
+                <v-card-title>Jumlah Kartu Pencaker</v-card-title>
                 <v-card-text>
                   <h1 class="text-h3">
                     {{ totalJobSeeker }}
                   </h1>
-                  <h2 class="subtitle-1">Orang</h2>
+                  <h2 class="subtitle-1">Kartu</h2>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text>
                   <v-chip-group column>
                     <v-chip class="success"
-                      >{{ countJobSekerActivate }} Pencaker Aktif</v-chip
+                      >{{ countJobSekerActivate }} Kartu Pencaker Aktif</v-chip
                     >
                     <v-chip class="error"
-                      >{{ countJobSekerNotActivate }} Pencaker Nonaktif</v-chip
+                      >{{ countJobSekerNotActivate }} Kartu Pencaker Nonaktif</v-chip
                     >
                     <v-chip class="orange white--text"
                       >{{ countInformal }} Pekerja Informal</v-chip
@@ -178,7 +172,7 @@
               <v-skeleton-loader
                 ref="skeleton"
                 type="card"
-                v-if="sekeletonJobSeeker"
+                v-if="skeleton"
               ></v-skeleton-loader>
             </v-col>
           </v-row>
@@ -216,14 +210,7 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'Dashboard',
-        disabled: true,
-      },
-    ],
     role: '',
-    countUMKM: 0,
     countUMKMActivate: 0,
     countUMKMNotActivate: 0,
     countJobSeker: 0,
@@ -236,113 +223,121 @@ export default {
     countAdmin2: 0,
     countAdmin3: 0,
     countblacklist: 0,
-    sekeletonUMKM: true,
-    sekeletonJobSeeker: true,
-    sekeletonAdmin: true,
-    sekeletonBlacklist: true,
+    skeleton: true,
   }),
   computed: {
     totalJobSeeker() {
-      // eslint-disable-next-line radix
-      const total = parseInt(this.countJobSeker) + parseInt(this.countIntern)
-      // eslint-disable-next-line radix
-      + parseInt(this.countInformal) + parseInt(this.countPro);
+      const total = parseInt(this.countJobSekerActivate, 10) + parseInt(this.countIntern, 10)
+      + parseInt(this.countInformal, 10) + parseInt(this.countPro, 10)
+      + parseInt(this.countJobSekerNotActivate, 10);
       return total;
+    },
+    countUMKM() {
+      return parseInt(this.countUMKMActivate, 10) + parseInt(this.countUMKMNotActivate, 10);
     },
   },
   beforeCreate() {
+    const array = [];
+    if (this.$store.state.role === 'Admin 3') {
+      array.push(
+        axios({
+          baseURL: `${this.$store.state.domain}admin/count-data`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        }),
+      );
+    }
     if (
       this.$store.state.role === 'Admin 1'
       || this.$store.state.role === 'Admin 2'
       || this.$store.state.role === 'Admin 3'
     ) {
-      axios({
-        baseURL: `${this.$store.state.domain}umkm/count-data`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
+      array.push(
+        axios({
+          baseURL: `${this.$store.state.domain}umkm/count-data`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        }),
+        axios({
+          baseURL: `${this.$store.state.domain}job-seeker/count-data`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        }),
+      );
+      Promise.all(array)
         .then((response) => {
-          this.countUMKM = response.data.data.total;
-          this.countUMKMActivate = response.data.data.totalActivate;
-          this.countUMKMNotActivate = response.data.data.totalNotActivate;
+          if (this.$store.state.role === 'Admin 3') {
+            this.countAdmin1 = response[0].data.data.totalAdmin1;
+            this.countAdmin2 = response[0].data.data.totalAdmin2;
+            this.countAdmin3 = response[0].data.data.totalAdmin3;
+            this.countUMKMActivate = response[1].data.data.totalActivate;
+            this.countUMKMNotActivate = response[1].data.data.totalNotActivate;
+            this.countJobSekerActivate = response[2].data.data.totalActivate;
+            this.countJobSekerNotActivate = response[2].data.data.totalNotActivate;
+            this.countIntern = response[2].data.data.totalIntern;
+            this.countInformal = response[2].data.data.totalInformal;
+            this.countPro = response[2].data.data.totalPro;
+          } else {
+            this.countUMKMActivate = response[0].data.data.totalActivate;
+            this.countUMKMNotActivate = response[0].data.data.totalNotActivate;
+            this.countJobSekerActivate = response[1].data.data.totalActivate;
+            this.countJobSekerNotActivate = response[1].data.data.totalNotActivate;
+            this.countIntern = response[1].data.data.totalIntern;
+            this.countInformal = response[1].data.data.totalInformal;
+            this.countPro = response[1].data.data.totalPro;
+          }
         })
-        .catch((error) => {
+        .catch((err) => {
           // eslint-disable-next-line no-console
-          console.log(error);
+          console.log(err);
         })
         .finally(() => {
-          this.sekeletonUMKM = false;
-        });
-      axios({
-        baseURL: `${this.$store.state.domain}job-seeker/count-data`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
-        .then((response) => {
-          this.countJobSeker = response.data.data.total;
-          this.countJobSekerActivate = response.data.data.totalActivate;
-          this.countJobSekerNotActivate = response.data.data.totalNotActivate;
-          this.countIntern = response.data.data.totalIntern;
-          this.countInformal = response.data.data.totalInformal;
-          this.countPro = response.data.data.totalPro;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        })
-        .finally(() => {
-          this.sekeletonJobSeeker = false;
-        });
-    }
-    if (this.$store.state.role === 'Admin 3') {
-      axios({
-        baseURL: `${this.$store.state.domain}admin/count-data`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
-        .then((response) => {
-          this.countAdmin1 = response.data.data.totalAdmin1;
-          this.countAdmin2 = response.data.data.totalAdmin2;
-          this.countAdmin3 = response.data.data.totalAdmin3;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        })
-        .finally(() => {
-          this.sekeletonAdmin = false;
-        });
-      axios({
-        baseURL: `${this.$store.state.domain}blacklist/count-data`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
-        .then((response) => {
-          this.countblacklist = response.data.data.total;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        })
-        .finally(() => {
-          this.sekeletonBlacklist = false;
+          this.skeleton = false;
         });
     }
   },
   created() {
     this.role = this.$store.state.role;
+  },
+  beforeDestroy() {
+    this.role = null;
+    this.countUMKMActivate = null;
+    this.countUMKMNotActivate = null;
+    this.countJobSeker = null;
+    this.countJobSekerActivate = null;
+    this.countJobSekerNotActivate = null;
+    this.countIntern = null;
+    this.countInformal = null;
+    this.countPro = null;
+    this.countAdmin1 = null;
+    this.countAdmin2 = null;
+    this.countAdmin3 = null;
+    this.countblacklist = null;
+    this.skeleton = null;
+
+    delete this.role;
+    delete this.countUMKMActivate;
+    delete this.countUMKMNotActivate;
+    delete this.countJobSeker;
+    delete this.countJobSekerActivate;
+    delete this.countJobSekerNotActivate;
+    delete this.countIntern;
+    delete this.countInformal;
+    delete this.countPro;
+    delete this.countAdmin1;
+    delete this.countAdmin2;
+    delete this.countAdmin3;
+    delete this.countblacklist;
+    delete this.skeleton;
   },
 };
 </script>

@@ -2,7 +2,6 @@
   <div>
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max">
-
         <v-card class="overflow-hidden mt-3">
           <v-toolbar flat color="primary">
             <v-icon class="mr-2 white--text">$warning</v-icon>
@@ -17,29 +16,50 @@
           </v-toolbar>
           <v-card-text>
             <v-form lazy-validation ref="form">
+              <p class="mb-0 black--text">
+                <span class="font-family">NIK</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
-                prepend-icon="$idCard"
                 label="NIK"
                 required
                 v-model="idCard"
                 :rules="idCardRules"
                 :disabled="!isEditing"
+                outlined
+                single-line
+                dense
+                class="font-family"
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">nama yang akan dilapor</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
-                prepend-icon="$jobSeeker"
                 label="Nama Yang Akan Dilapor"
                 required
                 v-model="name"
                 :rules="nameRules"
                 :disabled="!isEditing"
+                outlined
+                single-line
+                dense
+                class="font-family"
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">nomor telepon orang yang dilaporkan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
-                prepend-icon="$phone"
                 label="Nomor Telepon Orang Yang Dilaporkan"
                 required
                 v-model="phone"
                 :rules="phoneRules"
                 :disabled="!isEditing"
+                outlined
+                single-line
+                dense
+                class="font-family"
               />
             </v-form>
           </v-card-text>

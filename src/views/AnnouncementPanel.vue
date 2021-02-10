@@ -39,26 +39,42 @@
                   </template>
                   <v-card>
                     <v-toolbar class="primary mb-4">
-                      <v-btn icon @click="closeAdd()">
-                        <v-icon class="white--text">mdi-close</v-icon>
-                      </v-btn>
-                      <v-toolbar-title class="text-capitalize white--text">
-                        Tambah Pengumuman
-                      </v-toolbar-title>
-                      <v-spacer></v-spacer>
-                      <v-btn @click="saveAdd()" color="white" elevation="0">
-                        <p class="ma-0 primary--text">simpan</p>
-                      </v-btn>
+                      <div class="size-max mx-auto d-flex">
+                        <v-btn icon @click="closeAdd()">
+                          <v-icon class="white--text">mdi-close</v-icon>
+                        </v-btn>
+                        <v-toolbar-title
+                          class="text-capitalize white--text ml-1 my-auto"
+                        >
+                          Tambah Pengumuman
+                        </v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn @click="saveAdd()" color="white" elevation="0">
+                          <p class="ma-0 primary--text">simpan</p>
+                        </v-btn>
+                      </div>
                     </v-toolbar>
 
-                    <v-card-text>
+                    <v-card-text class="px-0 py-1 mx-auto size-max">
                       <v-form ref="form" lazy-validation>
+                        <p class="mb-0 black--text text-capitalize">
+                          <span class="font-family"> judul pengumuman </span>
+                          <span class="ml-1 error--text"> * </span>
+                        </p>
                         <v-text-field
                           v-model="editedItemArticle.title"
                           :rules="titleRules"
                           label="Judul Pengumuman"
+                          outlined
+                          single-line
+                          dense
+                          class="font-family"
                           required
                         />
+                        <p class="mb-0 black--text text-capitalize">
+                          <span class="font-family"> pembaca pengumuman </span>
+                          <span class="ml-1 error--text"> * </span>
+                        </p>
                         <v-select
                           v-model="editedItemArticle.user"
                           :rules="userRules"
@@ -66,16 +82,58 @@
                           item-text="name"
                           item-value="id"
                           label="Pilih Pembaca Pengumuman"
+                          outlined
+                          single-line
+                          dense
+                          class="font-family"
+                          required
                         />
+                        <p class="mb-0 black--text text-capitalize">
+                          <span class="font-family">
+                            Deskripsi Pengumuman
+                          </span>
+                          <span class="ml-1 error--text"> * </span>
+                        </p>
                         <tip-tap-vuetify
                           v-model="editedItemArticle.description"
                           :extensions="extensions"
                           :card-props="{
-                            height: '300',
+                            height: '500',
                             style: 'overflow: auto;',
                           }"
                         />
                       </v-form>
+                      <p
+                        class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+                      >
+                        pratinjau
+                      </p>
+                      <v-divider class="mb-4"></v-divider>
+                      <h3 class="text-h3 font-weight-bold black--text">
+                        <span class="font-family">
+                          {{ editedItemArticle.title }}
+                        </span>
+                      </h3>
+                      <div class="mt-2 pa-0 mb-4 d-flex">
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+                        >
+                          <v-icon size="13" class="mr-1">$user</v-icon>
+                          <span class="font-family"> admin </span>
+                        </p>
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                        >
+                          <v-icon size="13" class="mr-1">$calendar</v-icon>
+                          <span class="font-family">
+                            {{ dateNow }}
+                          </span>
+                        </p>
+                      </div>
+                      <div
+                        class="text-justify font-family black--text"
+                        v-html="editedItemArticle.description"
+                      ></div>
                     </v-card-text>
                   </v-card>
                 </v-dialog>
@@ -86,20 +144,30 @@
                 label="Pencarian Judul Pengumuman"
                 class="px-5"
                 single-line
+                outlined
+                dense
                 hide-details
                 @click:append="searchArticle()"
               />
             </template>
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn
-                @click="openDialogUpdate(item)"
-                x-small
-                elevation="0"
-                color="orange"
-                dark
-              >
-                ubah pengumuman
-              </v-btn>
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    @click="openDialogUpdate(item)"
+                    color="orange"
+                    small
+                    class="mr-l"
+                    elevation="0"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>$contentEdit</v-icon>
+                  </v-btn>
+                </template>
+                <span class="font-family text-capitalize">ubah pengumuman</span>
+              </v-tooltip>
             </template>
             <template v-slot:no-data>
               <p class="text-center text-capitalize">
@@ -130,11 +198,14 @@
               <div v-for="item in article" :key="item.id">
                 <v-card class="mt-4">
                   <v-card-title class="text-capitalize">
-                      {{ item.title }}
+                    {{ item.title }}
                   </v-card-title>
-                  <v-card-text v-html="item.desc" class="font-family"></v-card-text>
+                  <v-card-text
+                    v-html="item.desc"
+                    class="font-family"
+                  ></v-card-text>
                   <v-card-actions class="d-flex pl-4">
-                     <v-btn
+                    <v-btn
                       :to="`/detail-announcement/${item.id}`"
                       color="primary"
                       outlined
@@ -145,9 +216,7 @@
                       class="rounded-lg"
                     >
                       <p class="my-auto text-subtitle-2 font-weight-regular">
-                        <span class="font-family">
-                          Baca pengumuman
-                        </span>
+                        <span class="font-family"> Baca pengumuman </span>
                       </p>
                     </v-btn>
                   </v-card-actions>
@@ -200,31 +269,45 @@
       >
         <v-card>
           <v-toolbar class="primary mb-4">
-            <v-btn icon @click="closeUpdate()">
-              <v-icon class="white--text">mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title class="text-capitalize white--text">
-              ubah data pengumuman
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn @click="saveUpdate()" elevation="0" color="white">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-                v-if="loadingUpdate"
-              />
-              <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
-            </v-btn>
+            <div class="size-max mx-auto d-flex">
+              <v-btn icon @click="closeUpdate()">
+                <v-icon class="white--text">mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title class="text-capitalize white--text">
+                ubah data pengumuman
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn @click="saveUpdate()" elevation="0" color="white">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  v-if="loadingUpdate"
+                />
+                <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
+              </v-btn>
+            </div>
           </v-toolbar>
 
-          <v-card-text>
+          <v-card-text class="px-0 py-1 mx-auto size-max">
             <v-form ref="form" lazy-validation>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> judul pengumuman </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-text-field
                 v-model="editedItemArticle.title"
                 :rules="titleRules"
                 label="Judul Pengumuman"
+                outlined
+                single-line
+                dense
+                class="font-family"
                 required
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> pembaca pengumuman </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <v-select
                 v-model="editedItemArticle.user"
                 :rules="userRules"
@@ -232,13 +315,56 @@
                 item-text="name"
                 item-value="id"
                 label="Pilih Pembaca Pengumuman"
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> Deskripsi Pengumuman </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
               <tip-tap-vuetify
                 v-model="editedItemArticle.description"
                 :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
+                :card-props="{
+                  height: '500',
+                  style: 'overflow: auto;',
+                }"
               />
             </v-form>
+            <p
+              class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+            >
+              pratinjau
+            </p>
+            <v-divider class="mb-4"></v-divider>
+            <h3 class="text-h3 font-weight-bold black--text">
+              <span class="font-family">
+                {{ editedItemArticle.title }}
+              </span>
+            </h3>
+            <div class="mt-2 pa-0 mb-4 d-flex">
+              <p
+                class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+              >
+                <v-icon size="13" class="mr-1">$user</v-icon>
+                <span class="font-family"> admin </span>
+              </p>
+              <p
+                class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+              >
+                <v-icon size="13" class="mr-1">$calendar</v-icon>
+                <span class="font-family">
+                  {{ dateNow }}
+                </span>
+              </p>
+            </div>
+            <div
+              class="text-justify font-family black--text"
+              v-html="editedItemArticle.description"
+            ></div>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -342,6 +468,14 @@ export default {
   }),
   components: {
     'tip-tap-vuetify': TiptapVuetify,
+  },
+  computed: {
+    dateNow() {
+      const date = new Date();
+      return `${date.getDay()} ${
+        this.$store.state.month[date.getMonth()]
+      } ${date.getFullYear()}`;
+    },
   },
   methods: {
     pagination() {
@@ -498,8 +632,10 @@ export default {
     },
     // method universal
     methodGetArticle(page) {
-      if (this.$store.state.role === 'Admin 2'
-        || this.$store.state.role === 'Admin 3') {
+      if (
+        this.$store.state.role === 'Admin 2'
+        || this.$store.state.role === 'Admin 3'
+      ) {
         if (this.search === '') {
           axios({
             baseURL: `${this.$store.state.domain}announcement/pagination-all/${page}`,
@@ -616,7 +752,7 @@ export default {
             }
           })
           .catch((error) => {
-          // eslint-disable-next-line no-console
+            // eslint-disable-next-line no-console
             console.log(error);
           })
           .finally(() => {
@@ -655,7 +791,7 @@ export default {
             }
           })
           .catch((error) => {
-          // eslint-disable-next-line no-console
+            // eslint-disable-next-line no-console
             console.log(error);
           })
           .finally(() => {
@@ -769,7 +905,10 @@ export default {
             this.skeleton = false;
           });
       }
-    } else if (this.$store.state.uploadData && this.$store.state.role === 'Pencaker') {
+    } else if (
+      this.$store.state.uploadData
+      && this.$store.state.role === 'Pencaker'
+    ) {
       this.$router.push('/resume-job-seeker');
     } else {
       axios({
@@ -851,25 +990,30 @@ export default {
 </script>
 
 <style scoped>
-div >>> ul > li {
-  line-height: 25px !important;
-}
+div >>> ul > li,
 div >>> ol > li {
   line-height: 25px !important;
 }
 div >>> li > p {
-  margin-bottom: 5px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
 }
 div >>> li {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
-div >>> li > ol {
-  margin: 0px;
-}
+div >>> li > ol,
 div >>> li > ul {
   margin: 0px;
 }
+div >>> p,
+div >>> h1,
+div >>> h2,
+div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
+}
 .size-max {
+  width: 100vw;
   max-width: 1044px;
 }
 </style>

@@ -6,8 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     domain: 'https://api.bursakerja.net/',
-    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJxY1JrUm1wdWRMTGtvR1IifQ.yMNXU7Af6nPaolKWvCS0VNDzZU42c8XlclWqAzUkbcU',
+    // domain: 'http://localhost/api-bursa-kerja/',
+    // domain: 'https://demo.bursakerja.net/',
+    // apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJxY1JrUm1wdWRMTGtvR1IifQ.
+    // yMNXU7Af6nPaolKWvCS0VNDzZU42c8XlclWqAzUkbcU',
+    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJ4RkpPeklGZ0hXYUFWR20ifQ.8tdLiX2hL5ZheUlS9Y1Xa1AQ6XM2jzNDH-uWTEFij1g',
     /*
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJ4RkpPeklGZ0hXYUFWR20ifQ.
+    8tdLiX2hL5ZheUlS9Y1Xa1AQ6XM2jzNDH-uWTEFij1g (demo.bursakerja.net)
     eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJOcldFUUhMQnpSeFhwdXQifQ.
     Ij6frBh8CqUHt9q1nMs75RJX3re-uQItyr2e-5G-riQ (test.bursakerja.net)
     eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJTY213Z0VaYVdQZXFKZ2oifQ.
@@ -89,6 +95,9 @@ export default new Vuex.Store({
       {
         name: 'data UMKM', icon: '$UMKM', link: '/data-umkm',
       },
+      {
+        name: 'jenis pekerjaan', icon: '$job', link: '/tag-job',
+      },
     ],
     token: '',
     checkToken: false,
@@ -99,6 +108,7 @@ export default new Vuex.Store({
       { name: 'S3' },
       { name: 'S2' },
       { name: 'S1' },
+      { name: 'D3' },
       { name: 'SMA/K' },
       { name: 'SMP' },
       { name: 'SD' },
@@ -153,6 +163,7 @@ export default new Vuex.Store({
             || i.name === 'informal'
             || i.name === 'magang'
             || i.name === 'lowongan kerja'
+            || i.name === 'jenis pekerjaan'
           ) {
             navigation.push({
               name: i.name,
@@ -183,6 +194,7 @@ export default new Vuex.Store({
             || i.name === 'admin'
             || i.name === 'lowongan kerja'
             || i.name === 'daftar hitam'
+            || i.name === 'jenis pekerjaan'
           ) {
             navigation.push({
               name: i.name,

@@ -94,6 +94,8 @@
               single-line
               hide-details
               @click:append="searchBlacklist()"
+              outlined
+              dense
             />
           </template>
           <template v-slot:[`item.actions`]="{ item }">
@@ -210,12 +212,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'artikel',
-        disabled: true,
-      },
-    ],
     dialogDeleteAll: false,
     dialogDelete: false,
     headerBlacklist: [
@@ -228,7 +224,7 @@ export default {
       { text: 'NIK', value: 'idCard', sortable: false },
       { text: 'Nomor telepon', value: 'phone', sortable: false },
       { text: 'Nama Perusahaan', value: 'company', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
     ],
     loadingTable: false,
     loadingDeleteAll: false,

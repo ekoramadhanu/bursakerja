@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 30 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-container>
@@ -49,12 +55,32 @@
                     </v-alert>
                   </div>
                   <v-form ref="form" lazy-validation>
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        alamat email
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="email"
                       :rules="emailRules"
                       label="Alamat Email"
                       required
+                      single-line
+                      dense
+                      outlined
+                      class="font-family"
                     />
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        kata sandi
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="password"
                       :rules="passwordRules"
@@ -66,6 +92,10 @@
                       @blur="checkedFormatPassword()"
                       @focus="checkedFormatPassword()"
                       required
+                      single-line
+                      dense
+                      outlined
+                      class="font-family"
                     />
                     <div class="d-flex">
                       <p
@@ -175,14 +205,26 @@
                        $check
                       </v-icon>
                     </div>
+                    <p class="mb-0 black--text text-capitalize">
+                      <span class="font-family">
+                        ulangi kata sandi
+                      </span>
+                      <span class="ml-1 error--text">
+                        *
+                      </span>
+                    </p>
                     <v-text-field
                       v-model="repassword"
                       :rules="repasswordRules"
                       :type="showRePassword ? 'text' : 'password'"
                       :append-icon="showRePassword ? '$eye' : '$eyeSlash'"
-                      label="Kata Sandi"
+                      label="Ulangi Kata Sandi"
                       @click:append="changeShowRePassword()"
                       required
+                      single-line
+                      dense
+                      outlined
+                      class="font-family"
                     />
                     <div class="hidden-sm-and-down">
                       <div class="d-flex justify-end">

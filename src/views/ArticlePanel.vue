@@ -1,3 +1,9 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 29 Januri 2020 -> check data  after change image base 64 to link
+                               -> add request every get per item
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -47,7 +53,7 @@
                         <v-icon class="white--text">mdi-close</v-icon>
                       </v-btn>
                       <v-toolbar-title
-                        class="text-capitalize white--text my-auto"
+                        class="text-capitalize white--text my-auto ml-1"
                       >
                         <span class="font-family"> tambah artikel </span>
                       </v-toolbar-title>
@@ -72,48 +78,94 @@
                     </div>
                   </v-toolbar>
 
-                  <v-card-text class="mt-4 mx-auto max-width">
+                  <v-card-text class="px-0 py-1 mx-auto max-width">
                     <v-form ref="form" lazy-validation>
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          judul artikel
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-text-field
                         v-model="editedItemArticle.title"
                         :rules="titleRules"
                         label="Judul Artikel"
+                        class="font-family"
+                        single-line
+                        dense
+                        outlined
                         required
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">
+                          pembaca artikel
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-select
                         v-model="editedItemArticle.user"
                         :rules="userRules"
                         :items="userRead"
                         item-text="name"
                         item-value="id"
-                        label="Pilih Pembaca Artikel"
+                        class="font-family"
+                        single-line
+                        dense
+                        outlined
+                        label="Pembaca Artikel"
                       />
+                      <p class="mb-0 black--text">
+                        <span class="font-family">
+                          Gambar Artikel Ukuran 1044px * 400px png/jpeg (Maks 1MB)
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <v-file-input
-                        label="Unggah Gambar Artikel (Maks 1 MB)"
+                        label="Unggah Gambar Artikel Ukuran 1044px * 400px png/jpeg (Maks 1 MB)"
                         accept="image/png, image/jpeg, image/bmp"
                         required
                         ref="fileInput"
+                        class="font-family"
+                        single-line
+                        dense
+                        prepend-icon="$fileUpload"
+                        outlined
                         enctype="multipart/form-data"
                         :rules="
                           editedItemArticle.image !== null ? [] : imageRules
                         "
                         @change="ChangeImage"
                       ></v-file-input>
-                      <img
+                      <v-img
                         :src="editedItemArticle.image"
                         v-if="editedItemArticle.image != null"
-                        class="preview-img"
                         contain
+                        class="preview-img"
                         aspect-ratio="1.7"
                       />
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family ">
+                          penjelasan artikel
+                        </span>
+                        <span class="ml-1 error--text">
+                          *
+                        </span>
+                      </p>
                       <tip-tap-vuetify
                         v-model="editedItemArticle.description"
                         :extensions="extensions"
                         :card-props="{
-                          height: '300',
+                          height: '500',
                           style: 'overflow: auto;',
                         }"
-                        placeholder="Tulis Artikel"
+                        placeholder="Penjelasan Artikel"
+                        class="font-family"
                       />
                     </v-form>
                     <p
@@ -131,10 +183,9 @@
                     >
                       <v-img
                         :src="editedItemArticle.image"
-                        height="400"
-                        max-width="1044"
-                        aspect-ratio="1.7778"
-                        class="mb-4 mx-auto"
+                        class="preview-img mb-4"
+                        contain
+                        aspect-ratio="1.7"
                       />
                       <h3 class="text-h3 font-weight-bold black--text">
                         <span class="font-family">
@@ -145,7 +196,7 @@
                         <p
                           class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
                         >
-                          <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
+                          <v-icon size="13" class="mr-1">$user</v-icon>
                           <span class="font-family"> admin </span>
                         </p>
                         <p
@@ -174,6 +225,8 @@
               class="px-5"
               single-line
               hide-details
+              outlined
+              dense
               @click:append="searchArticle()"
             />
           </template>
@@ -188,15 +241,23 @@
             ></v-img>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn
-              @click="openDialogUpdate(item)"
-              color="orange"
-              x-small
-              class="mr-2 white--text"
-              elevation="0"
-            >
-              ubah artikel
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openDialogUpdate(item)"
+                  color="orange"
+                  small
+                  class="mr-l"
+                  elevation="0"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>$contentEdit</v-icon>
+                </v-btn>
+              </template>
+              <span class="font-family text-capitalize">ubah artikel</span>
+            </v-tooltip>
           </template>
           <template v-slot:no-data>
             <p class="text-center text-capitalize">
@@ -253,7 +314,7 @@
               <v-btn icon @click="closeUpdate()">
                 <v-icon class="white--text">mdi-close</v-icon>
               </v-btn>
-              <v-toolbar-title class="text-capitalize white--text my-auto">
+              <v-toolbar-title class="text-capitalize white--text my-auto ml-1">
                 <span class="font-family"> ubah data artikel </span>
               </v-toolbar-title>
               <v-spacer></v-spacer>
@@ -277,91 +338,139 @@
             </div>
           </v-toolbar>
 
-          <v-card-text class="mt-4 mx-auto max-width">
-            <v-form ref="form" lazy-validation>
-              <v-text-field
-                v-model="editedItemArticle.title"
-                :rules="titleRules"
-                label="Judul Artikel"
-                required
-              />
-              <v-select
-                v-model="editedItemArticle.user"
-                :rules="userRules"
-                :items="userRead"
-                item-text="name"
-                item-value="id"
-                label="Pilih Pembaca Artikel"
-              />
-              <v-file-input
-                label="Unggah Gambar Artikel (Maks 1 MB)"
-                accept="image/png, image/jpeg, image/bmp"
-                required
-                ref="fileInput"
-                enctype="multipart/form-data"
-                :rules="editedItemArticle.image !== null ? [] : imageRules"
-                @change="ChangeImage"
-              ></v-file-input>
-              <img
-                :src="editedItemArticle.image"
-                v-if="editedItemArticle.image != null"
-                class="preview-img"
-                contain
-                aspect-ratio="1.7"
-              />
-              <tip-tap-vuetify
-                v-model="editedItemArticle.description"
-                :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
-                placeholder="Tulis Artikel"
-              />
-            </v-form>
-            <p
-              class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
-            >
-              pratinjau
-            </p>
-            <v-divider class="mb-4"></v-divider>
-            <div
-              v-if="
-                editedItemArticle.image !== null ||
-                editedItemArticle.title !== '' ||
-                editedItemArticle.description.length > 0
-              "
-            >
-              <v-img
-                :src="editedItemArticle.image"
-                height="400"
-                max-width="1044"
-                aspect-ratio="1.7778"
-                class="mb-4 mx-auto"
-              />
-              <h3 class="text-h3 font-weight-bold black--text">
-                <span class="font-family">
-                  {{ editedItemArticle.title }}
-                </span>
-              </h3>
-              <div class="mt-2 pa-0 mb-4 d-flex">
-                <p
-                  class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
-                >
-                  <v-icon size="13" class="mr-1">$jobSeeker</v-icon>
-                  <span class="font-family"> admin </span>
-                </p>
-                <p
-                  class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
-                >
-                  <v-icon size="13" class="mr-1">$calendar</v-icon>
-                  <span class="font-family">
-                    {{ dateNow }}
+          <v-card-text class="px-0 py-1 mx-auto max-width">
+            <div v-if="!loadingDialog">
+              <v-form ref="form" lazy-validation>
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family ">
+                    judul artikel
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
                   </span>
                 </p>
-              </div>
+                <v-text-field
+                  v-model="editedItemArticle.title"
+                  :rules="titleRules"
+                  label="Judul Artikel"
+                  required
+                  outlined
+                  single-line
+                  dense
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family ">
+                    pembaca artikel
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-select
+                  v-model="editedItemArticle.user"
+                  :rules="userRules"
+                  :items="userRead"
+                  item-text="name"
+                  item-value="id"
+                  label="Pembaca Artikel"
+                  single-line
+                  dense
+                  outlined
+                />
+                <p class="mb-0 black--text">
+                  <span class="font-family ">
+                    Gambar Artikel Ukuran 1044px * 400px png/jpeg (Maks 1MB)
+                  </span>
+                </p>
+                <v-file-input
+                  label="Unggah Gambar Artikel Ukuran 1044px * 400px png/jpeg (Maks 1 MB)"
+                  accept="image/png, image/jpeg, image/bmp"
+                  required
+                  ref="fileInput"
+                  enctype="multipart/form-data"
+                  :rules="editedItemArticle.image !== null ? [] : imageRules"
+                  @change="ChangeImage"
+                  outlined
+                  dense
+                  prepend-icon="$fileUpload"
+                  single-line
+                ></v-file-input>
+                <v-img
+                  :src="editedItemArticle.image"
+                  v-if="editedItemArticle.image != null"
+                  class="preview-img"
+                  contain
+                  aspect-ratio="1.7"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family ">
+                    penjelasan artikel
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <tip-tap-vuetify
+                  v-model="editedItemArticle.description"
+                  :extensions="extensions"
+                  class="font-family"
+                  :card-props="{ height: '500', style: 'overflow: auto;' }"
+                  placeholder="Penjelasan Artikel"
+                />
+              </v-form>
+              <p
+                class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+              >
+                pratinjau
+              </p>
+              <v-divider class="mb-4"></v-divider>
               <div
-                class="text-justify font-family black--text"
-                v-html="editedItemArticle.description"
-                v-if="!skeleton"
-              ></div>
+                v-if="
+                  editedItemArticle.image !== null ||
+                  editedItemArticle.title !== '' ||
+                  editedItemArticle.description.length > 0
+                "
+              >
+                <v-img
+                  :src="editedItemArticle.image"
+                  class="preview-img"
+                  contain
+                  aspect-ratio="1.7"
+                />
+                <h3 class="text-h3 font-weight-bold black--text">
+                  <span class="font-family">
+                    {{ editedItemArticle.title }}
+                  </span>
+                </h3>
+                <div class="mt-2 pa-0 mb-4 d-flex">
+                  <p
+                    class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+                  >
+                    <v-icon size="13" class="mr-1">$user</v-icon>
+                    <span class="font-family"> admin </span>
+                  </p>
+                  <p
+                    class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                  >
+                    <v-icon size="13" class="mr-1">$calendar</v-icon>
+                    <span class="font-family">
+                      {{ dateNow }}
+                    </span>
+                  </p>
+                </div>
+                <div
+                  class="text-justify font-family black--text"
+                  v-html="editedItemArticle.description"
+                  v-if="!skeleton"
+                ></div>
+              </div>
+            </div>
+            <div class="d-flex justify-center align-center full-height" v-if="loadingDialog">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="64"
+              />
             </div>
           </v-card-text>
         </v-card>
@@ -384,7 +493,6 @@ import {
   OrderedList,
   ListItem,
   Link,
-  Blockquote,
   HardBreak,
   HorizontalRule,
   History,
@@ -393,28 +501,27 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'artikel',
-        disabled: true,
-      },
-    ],
     dialogAdd: false,
     dialogUpdate: false,
     loadingAdd: false,
     loadingUpdate: false,
     loadingTable: false,
+    loadingDialog: false,
     headerArticle: [
       {
         text: 'Nomor',
         sortable: false,
         value: 'number',
         class: ['font-weight-bold'],
+        width: 90,
       },
       { text: 'Judul', value: 'title', sortable: false },
-      { text: 'Gambar', value: 'image', sortable: false },
-      { text: 'Pembaca', value: 'user', sortable: false },
-      { text: 'Aksi', value: 'actions', sortable: false },
+      {
+        text: 'Pembaca', value: 'user', sortable: false, width: 100,
+      },
+      {
+        text: 'Aksi', value: 'actions', sortable: false, width: 150,
+      },
     ],
     article: [],
     editedIndex: -1,
@@ -443,7 +550,6 @@ export default {
     // tip tap
     extensions: [
       History,
-      Blockquote,
       Link,
       Underline,
       Strike,
@@ -478,7 +584,7 @@ export default {
     dateNow() {
       const date = new Date();
       return `${date.getDay()} ${
-        this.$store.state.month[date.getMonth() - 1]
+        this.$store.state.month[date.getMonth()]
       } ${date.getFullYear()}`;
     },
   },
@@ -540,19 +646,20 @@ export default {
               this.status = true;
               this.message = 'data berhasil disimpan';
               this.icon = '$success';
+              this.loadingTable = true;
+              this.page = 1;
+              this.search = '';
+              if (this.article.length > 0) {
+                this.article.splice(0, this.article.length);
+              }
+              this.closeAdd();
+              this.methodGetArticle();
             } else {
               this.hasSaved = true;
               this.status = false;
-              this.message = 'data tidak berhasil disimpan';
+              this.message = 'silahkan isi penjelasan artikel ';
               this.icon = '$warning';
             }
-            this.loadingTable = true;
-            this.page = 1;
-            this.search = '';
-            if (this.article.length > 0) {
-              this.article.splice(0, this.article.length);
-            }
-            this.methodGetArticle(1);
           })
           .catch(() => {
             this.hasSaved = true;
@@ -562,17 +669,51 @@ export default {
           })
           .finally(() => {
             this.loadingAdd = false;
-            this.closeAdd();
           });
       }
     },
     openDialogUpdate(item) {
       this.editedIndex = this.article.indexOf(item);
-      this.editedItemArticle.title = item.title;
-      this.editedItemArticle.image = item.image;
-      this.editedItemArticle.description = item.description;
-      this.editedItemArticle.user = item.userId;
       this.dialogUpdate = true;
+      this.loadingDialog = true;
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}article/${this.article[this.editedIndex].id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}article/stream/${this.article[this.editedIndex].id}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            responseType: 'blob',
+          }),
+        ],
+      )
+        .then((response) => {
+          this.editedItemArticle.title = response[0].data.data.article[0].title;
+          this.editedItemArticle.description = response[0].data.data.article[0].description;
+          this.editedItemArticle.user = item.userId;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.editedItemArticle.image = e.target.result;
+          };
+          reader.readAsDataURL(response[1].data);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+        .finally(() => {
+          this.loadingDialog = false;
+        });
     },
     saveUpdate() {
       if (this.$refs.form.validate()) {
@@ -602,19 +743,18 @@ export default {
               this.status = true;
               this.message = 'data berhasil disimpan';
               this.icon = '$success';
+              this.loadingTable = true;
+              if (this.article.length > 0) {
+                this.article.splice(0, this.article.length);
+              }
+              this.closeUpdate();
+              this.methodGetArticle();
             } else {
               this.hasSaved = true;
               this.status = false;
               this.message = 'data tidak berhasil disimpan';
               this.icon = '$warning';
             }
-            this.loadingTable = true;
-            this.page = 1;
-            this.search = '';
-            if (this.article.length > 0) {
-              this.article.splice(0, this.article.length);
-            }
-            this.methodGetArticle(1);
           })
           .catch(() => {
             this.hasSaved = true;
@@ -624,7 +764,6 @@ export default {
           })
           .finally(() => {
             this.loadingUpdate = false;
-            this.closeUpdate();
           });
       }
     },
@@ -637,128 +776,34 @@ export default {
       });
     },
     // method universal
-    methodGetArticle(page) {
-      if (this.search === '') {
-        axios({
-          baseURL: `${this.$store.state.domain}article/pagination-all/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.article.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              response.data.data.article.forEach((i) => {
-                counter += 1;
-                this.article.push({
-                  id: i.id,
-                  number: counter,
-                  title: i.title,
-                  image: i.image,
-                  user: i.userRead.name,
-                  userId: i.userRead.id,
-                  description: i.description,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
-      } else {
-        axios({
-          baseURL: `${this.$store.state.domain}article/search-all/${this.search}/${page}`,
-          method: 'get',
-          headers: {
-            'x-api-key': this.$store.state.apiKey,
-            Authorization: `Bearer ${this.$cookies.get('token')}`,
-          },
-        })
-          .then((response) => {
-            if (response.data.data.article.length > 0) {
-              const modulo = response.data.data.total % 10;
-              if (modulo === 0) {
-                this.pageCount = response.data.data.total / 10;
-              } else {
-                this.pageCount = (response.data.data.total - modulo) / 10 + 1;
-              }
-              let counter = (page - 1) * 10;
-              response.data.data.article.forEach((i) => {
-                counter += 1;
-                this.article.push({
-                  id: i.id,
-                  number: counter,
-                  title: i.title,
-                  image: i.image,
-                  user: i.userRead.name,
-                  userId: i.userRead.id,
-                  description: i.description,
-                });
-              });
-            } else {
-              this.pageCount = 0;
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          })
-          .finally(() => {
-            this.loadingTable = false;
-          });
+    methodGetArticle() {
+      const header = {
+        'x-api-key': this.$store.state.apiKey,
+        Authorization: `Bearer ${this.$cookies.get('token')}`,
+      };
+      if (this.search !== '') {
+        header.keyword = this.search;
       }
-    },
-  },
-  beforeCreate() {
-    if (
-      this.$store.state.role === 'UMKM'
-      || this.$store.state.role === 'Magang'
-      || this.$store.state.role === 'Umum'
-      || this.$store.state.role === 'Profesional'
-      || this.$store.state.role === 'Informal'
-    ) {
-      this.$router.push('/access-block');
-    } else {
       axios({
-        baseURL: `${this.$store.state.domain}article/pagination-all/1`,
+        baseURL: `${this.$store.state.domain}article/pagination-all/${this.page}`,
         method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
+        headers: header,
       })
         .then((response) => {
           if (response.data.data.article.length > 0) {
-            // eslint-disable-next-line no-console
-            console.log(response.data);
             const modulo = response.data.data.total % 10;
             if (modulo === 0) {
               this.pageCount = response.data.data.total / 10;
             } else {
               this.pageCount = (response.data.data.total - modulo) / 10 + 1;
             }
-            let counter = 0;
+            let counter = (this.page - 1) * 10;
             response.data.data.article.forEach((i) => {
               counter += 1;
               this.article.push({
                 id: i.id,
                 number: counter,
                 title: i.title,
-                image: i.image,
                 user: i.userRead.name,
                 userId: i.userRead.id,
                 description: i.description,
@@ -773,19 +818,65 @@ export default {
           console.log(error);
         })
         .finally(() => {
-          this.skeleton = false;
+          this.loadingTable = false;
         });
-      axios({
-        baseURL: `${this.$store.state.domain}user-read`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
+    },
+  },
+  beforeCreate() {
+    if (
+      this.$store.state.role === 'UMKM'
+      || this.$store.state.role === 'Magang'
+      || this.$store.state.role === 'Umum'
+      || this.$store.state.role === 'Profesional'
+      || this.$store.state.role === 'Informal'
+    ) {
+      this.$router.push('/access-block');
+    } else {
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}article/pagination-all/1`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}user-read`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+        ],
+      )
         .then((response) => {
-          if (response.data.data.read.length > 0) {
-            response.data.data.read.forEach((i) => {
+          if (response[0].data.data.article.length > 0) {
+            const modulo = response[0].data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response[0].data.data.total / 10;
+            } else {
+              this.pageCount = (response[0].data.data.total - modulo) / 10 + 1;
+            }
+            let counter = 0;
+            response[0].data.data.article.forEach((i) => {
+              counter += 1;
+              this.article.push({
+                id: i.id,
+                number: counter,
+                title: i.title,
+                user: i.userRead.name,
+                userId: i.userRead.id,
+                description: i.description,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+          if (response[1].data.data.read.length > 0) {
+            response[1].data.data.read.forEach((i) => {
               this.userRead.push({
                 id: i.id,
                 name: i.name,
@@ -796,12 +887,19 @@ export default {
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error);
+        })
+        .finally(() => {
+          this.skeleton = false;
         });
     }
   },
   beforeDestroy() {
-    this.items = null;
     this.dialogAdd = null;
+    this.dialogUpdate = null;
+    this.loadingAdd = null;
+    this.loadingUpdate = null;
+    this.loadingTable = null;
+    this.loadingDialog = null;
     this.headerArticle = null;
     this.article = null;
     this.editedIndex = null;
@@ -814,9 +912,19 @@ export default {
     this.titleRules = null;
     this.userRules = null;
     this.imageRules = null;
+    this.extensions = null;
+    this.hasSaved = null;
+    this.status = null;
+    this.icon = null;
+    this.message = null;
+    this.skeleton = null;
 
-    delete this.items;
     delete this.dialogAdd;
+    delete this.dialogUpdate;
+    delete this.loadingAdd;
+    delete this.loadingUpdate;
+    delete this.loadingTable;
+    delete this.loadingDialog;
     delete this.headerArticle;
     delete this.article;
     delete this.editedIndex;
@@ -829,6 +937,12 @@ export default {
     delete this.titleRules;
     delete this.userRules;
     delete this.imageRules;
+    delete this.extensions;
+    delete this.hasSaved;
+    delete this.status;
+    delete this.icon;
+    delete this.message;
+    delete this.skeleton;
   },
 };
 </script>
@@ -836,28 +950,32 @@ export default {
 <style scoped>
 .preview-img {
   max-width: 1044px;
+  width: 1044px;
   max-height: 400px;
+  height: 400px;
+  object-fit: cover !important;
 }
 .max-width {
   width: 100vw;
   max-width: 1044px;
 }
-div >>> ul > li {
-  line-height: 25px !important;
-}
+div >>> ul > li,
 div >>> ol > li {
   line-height: 25px !important;
 }
 div >>> li > p {
-  margin-bottom: 5px !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
 }
 div >>> li {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
-div >>> li > ol {
-  margin: 0px;
-}
+div >>> li > ol,
 div >>> li > ul {
   margin: 0px;
+}
+div >>> p, div >>> h1, div >>> h2, div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 </style>

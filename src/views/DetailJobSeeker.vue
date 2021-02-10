@@ -369,7 +369,7 @@ export default {
           married = 'Belum Menikah';
         }
         const date = response.data.data.jobSeeker[0].dateOfBirth.split('-');
-        this.position = response.data.data.jobSeeker[0].desiredPosition;
+        this.position = JSON.parse(response.data.data.jobSeeker[0].desiredPosition).join(', ');
         this.region = response.data.data.jobSeeker[0].desiredRegion;
         this.aboutMe = response.data.data.jobSeeker[0].aboutMe;
         this.photo = response.data.data.jobSeeker[0].image;

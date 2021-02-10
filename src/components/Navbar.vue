@@ -44,7 +44,7 @@
               text
               to="/"
               elevation="0"
-              class="pa-0 mr-6 no-focus"
+              class="pa-0 mr-6 no-focus "
               height="100%"
             >
               <span class="my-auto font-family font-weight-regular">beranda</span>
@@ -177,7 +177,11 @@
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-group :value="dropDown" append-icon="$dropdown" active-class="black--text">
+        <v-list-group
+          :value="dropDown"
+          append-icon="$dropdown"
+          active-class="black--text"
+        >
           <template v-slot:activator>
             <v-list-item-content class="no-focus">
               <v-list-item-title class="font-family text-uppercase"
@@ -207,7 +211,11 @@
             }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
-        <v-list-group :value="dropDown" append-icon="$dropdown" active-class="black--text">
+        <v-list-group
+          :value="dropDown"
+          append-icon="$dropdown"
+          active-class="black--text"
+        >
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title class="font-family text-uppercase"
@@ -233,7 +241,11 @@
             }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
-        <v-list-group :value="dropDown" append-icon="$dropdown" active-class="black--text">
+        <v-list-group
+          :value="dropDown"
+          append-icon="$dropdown"
+          active-class="black--text"
+        >
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title class="font-family text-uppercase"
@@ -376,8 +388,7 @@ export default {
 
     delete this.drawer;
   },
-  updated() {
-  },
+  updated() {},
 };
 </script>
 

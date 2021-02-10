@@ -1,3 +1,8 @@
+/*
+  Nama        : Eko Ramadhanu Aryputra
+  Log Date    : 29 Januri 2020 -> check data  after change image base 64 to link
+  Log Note    :-
+*/
 <template>
   <div>
     <v-main>
@@ -5,6 +10,14 @@
         <v-card class="overflow-hidden mt-6 px-2 py-2">
           <v-card-text>
             <v-form ref="form" lazy-validation>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  kata sandi saat ini
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 label="Kata Sandi Saat Ini"
                 :type="showPassword ? 'text' : 'password'"
@@ -13,7 +26,19 @@
                 :rules="passwordRules"
                 @click:append="changeShowPassword()"
                 required
+                dense
+                class="font-family"
+                single-line
+                outlined
               />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  kata sandi baru
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 label="Kata Sandi Baru"
                 :type="showNewPassword ? 'text' : 'password'"
@@ -25,6 +50,10 @@
                 @blur="checkedFormatPassword()"
                 @focus="checkedFormatPassword()"
                 required
+                class="font-family"
+                dense
+                single-line
+                outlined
               />
               <div class="d-flex">
                 <p
@@ -83,7 +112,7 @@
                   $check
                 </v-icon>
               </div>
-              <div class="d-flex">
+              <div class="d-flex mb-2">
                 <p
                   :class="
                     checkLowercase === false
@@ -106,14 +135,26 @@
                   $check
                 </v-icon>
               </div>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">
+                  ulangi kata sandi baru
+                </span>
+                <span class="ml-1 error--text">
+                  *
+                </span>
+              </p>
               <v-text-field
                 label="Ulangi Kata Sandi Baru"
                 :type="showRePassword ? 'text' : 'password'"
                 :append-icon="showRePassword ? '$eye' : '$eyeSlash'"
                 v-model="rePassword"
                 :rules="rePasswordRules"
+                class="font-family"
                 @click:append="changeShowRePassword()"
                 required
+                dense
+                single-line
+                outlined
               />
             </v-form>
           </v-card-text>
@@ -155,12 +196,6 @@ import axios from 'axios';
 
 export default {
   data: () => ({
-    items: [
-      {
-        text: 'ganti kata sandi',
-        disabled: true,
-      },
-    ],
     hasSaved: false,
     status: null,
     icon: '',
@@ -318,8 +353,10 @@ export default {
     this.role = this.$store.state.role;
   },
   beforeDestroy() {
-    this.items = null;
     this.hasSaved = null;
+    this.status = null;
+    this.icon = null;
+    this.message = null;
     this.isEditing = null;
     this.password = null;
     this.passwordRules = null;
@@ -330,9 +367,17 @@ export default {
     this.showPassword = null;
     this.showNewPassword = null;
     this.showRePassword = null;
+    this.role = null;
+    this.loading = null;
+    this.checkUppercase = null;
+    this.checkLowercase = null;
+    this.checkSymbol = null;
+    this.checkNumber = null;
 
-    delete this.items;
     delete this.hasSaved;
+    delete this.status;
+    delete this.icon;
+    delete this.message;
     delete this.isEditing;
     delete this.password;
     delete this.passwordRules;
@@ -343,6 +388,12 @@ export default {
     delete this.showPassword;
     delete this.showNewPassword;
     delete this.showRePassword;
+    delete this.role;
+    delete this.loading;
+    delete this.checkUppercase;
+    delete this.checkLowercase;
+    delete this.checkSymbol;
+    delete this.checkNumber;
   },
 };
 </script>

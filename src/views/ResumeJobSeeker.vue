@@ -3,10 +3,7 @@
     <v-main>
       <v-container class="d-flex flex-column justify-center size-max mb-8">
         <div v-if="this.$store.state.uploadData && !skeleton">
-          <v-alert
-            text
-            color="error"
-          >
+          <v-alert text color="error">
             <div class="d-flex">
               <v-icon class="error--text mr-2">$warning</v-icon>
               <p class="text-subtitle-1 my-auto text-capitalize">
@@ -65,50 +62,90 @@
                   </p>
                 </v-col>
                 <v-col cols="12" lg="8" xl="8" md="8" sm="12" xs="12">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> NIK</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-text-field
                     v-model="idCard"
                     :rules="idCardRules"
                     label="Nomor KTP / NIK"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
                     required
                   />
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> nama lengkap</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-text-field
                     v-model="fullname"
                     :rules="fullnameRules"
                     label="Nama Lengkap"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
                     required
                   />
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">gelar depan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="frontDegree"
                         :rules="frontDegreeRules"
                         label="Gelar Depan"
                         hint="Jika Tidak Ada Silahkan Isi '-'"
                         persistent-hint
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">gelar belakang</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="backwardDegree"
                         :rules="backwardDegreeRules"
                         label="Gelar Belakang"
                         hint="Jika Tidak Ada Silahkan Isi '-'"
                         persistent-hint
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> tempat lahir </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         label="Tempat Lahir"
-                        required
                         v-model="placeBirth"
                         :rules="placeBirthRules"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
                       <v-menu
                         v-model="menu"
                         :close-on-content-click="false"
@@ -118,11 +155,20 @@
                         min-width="290px"
                       >
                         <template v-slot:activator="{ on, attrs }">
+                          <p class="mb-0 black--text text-capitalize">
+                            <span class="font-family"> tanggal lahir</span>
+                            <span class="ml-1 error--text"> * </span>
+                          </p>
                           <v-text-field
                             v-model="computedDateFormatted"
                             label="Tanggal Lahir"
                             :rules="dateRules"
                             readonly
+                            outlined
+                            single-line
+                            dense
+                            class="font-family"
+                            required
                             v-bind="attrs"
                             v-on="on"
                           ></v-text-field>
@@ -135,7 +181,11 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> jenis kelamin</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="sex"
                         :rules="sexRules"
@@ -143,9 +193,18 @@
                         item-text="name"
                         item-value="id"
                         label="Pilih Jenis Kelamin"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> keagamaan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="religion"
                         :rules="religionRules"
@@ -153,11 +212,20 @@
                         item-text="name"
                         item-value="name"
                         label="Pilih Agama"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> status pernikahan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="married"
                         :rules="marriedRules"
@@ -165,9 +233,18 @@
                         item-text="name"
                         item-value="id"
                         label="Pilih Status Pernikahan"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> status kewarganegaraan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="nationality"
                         :rules="nationalityRules"
@@ -175,41 +252,82 @@
                         item-text="name"
                         item-value="id"
                         label="Pilih Status Kewarganegaraan"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> tinggi badan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="height"
                         :rules="heightRules"
                         label="Berat Badan"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> berat badan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="weight"
                         :rules="weightRules"
                         label="Tinggi Badan"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
                   </v-row>
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> nomor telepon</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-text-field
                     label="Telepon"
-                    required
                     v-model="phone"
                     :rules="phoneRules"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
+                    required
                   />
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> alamat</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-text-field
                     v-model="address"
                     :rules="addressRules"
                     label="Alamat"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
                     required
                   />
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">provinsi</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-autocomplete
                         v-model="province"
                         :items="itemsProvince"
@@ -222,15 +340,24 @@
                         label="Provinsi"
                         persistent-hint
                         :hint="
-                          province.name === undefined
+                          province.name === null
                             ? ''
-                            : `data yang disimpan : ${province.name}`
+                            : `Data Yang Disimpan : ${province.name}`
                         "
                         :rules="provinceRules"
                         return-object
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family">kota/kabupaten</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-autocomplete
                         v-model="city"
                         :items="itemsCity"
@@ -246,15 +373,24 @@
                         persistent-hint
                         return-object
                         :hint="
-                          city === null
+                          province.name === null
                             ? 'silahkan pilih provinsi terlebih dahulu'
-                            : `data yang disimpan : ${city.name}`
+                            : `Data Yang Disimpan : ${city.name}`
                         "
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> district</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-autocomplete
                         v-model="district"
                         :items="itemsDistrict"
@@ -268,18 +404,31 @@
                         persistent-hint
                         return-object
                         :hint="
-                          district === null
+                          city.name === null
                             ? 'silahkan pilih kota/kabupaten terlebih dahulu'
-                            : `data yang disimpan : ${district.name}`
+                            : `Data Yang Disimpan : ${district.name}`
                         "
                         :rules="districtRules"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> kode pos</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="postalCode"
                         :rules="postalCodeRules"
                         label="Kode Pos"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
@@ -296,32 +445,61 @@
           ></v-skeleton-loader>
           <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
-              <p class="text-capitalize font-weight-bold text-h6 mb-8">
-                <span class="font-family"> Deskripsi Diri </span>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> deskripsi terakit anda</span>
+                <span class="ml-1 error--text"> * </span>
               </p>
               <v-textarea
-                filled
                 label="Deskripsi Terkait Anda"
                 v-model="aboutMe"
                 :rules="aboutMeRules"
                 :counter="250"
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
               ></v-textarea>
               <v-row>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
-                  <tip-tap-vuetify
+                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> hobi anda</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
+                  <v-textarea
+                    label="Hobi Anda"
                     v-model="hobby"
-                    placeholder="Hobi"
-                    :extensions="extensions"
-                    :card-props="{ height: '300', style: 'overflow: auto;' }"
-                  />
+                    :rules="HobbyRules"
+                    :counter="1000"
+                    height="300"
+                    persistent-hint
+                    hint="Jika Tidak Ada Silahkan Isi '-'"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
+                    required
+                  ></v-textarea>
                 </v-col>
-                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
-                  <tip-tap-vuetify
+                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family">penghargaan / sertifikat</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
+                  <v-textarea
+                    label="Penghargaan/Sertifikat"
                     v-model="sertification"
-                    placeholder="Penghargaan/Sertifikat"
-                    :extensions="extensions"
-                    :card-props="{ height: '300', style: 'overflow: auto;' }"
-                  />
+                    :rules="SertificationRules"
+                    :counter="1000"
+                    height="300"
+                    persistent-hint
+                    hint="Jika Tidak Ada Silahkan Isi '-'"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
+                    required
+                  ></v-textarea>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -336,11 +514,12 @@
             <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
               <v-card class="rounded-xl" elevation="3" v-if="!skeleton">
                 <v-card-text class="pa-4">
-                  <p class="text-capitalize font-weight-bold text-h6">
-                    <span class="font-family"> Pendidikan </span>
-                  </p>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> tingkat pendidikan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="education"
                         :items="itemSchool"
@@ -348,21 +527,36 @@
                         item-value="name"
                         label="Tingkat Pendidikan"
                         :rules="educationRules"
+                        outlined
                         single-line
+                        dense
+                        class="font-family"
                         required
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> sekolah</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="instantion"
                         :rules="instantionRules"
                         label="Sekolah"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> jenis pendidikan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-select
                         v-model="typeEducation"
                         :items="itemTypeEducation"
@@ -371,32 +565,59 @@
                         label="Jenis Pendidikan"
                         :rules="typeEducationRules"
                         single-line
+                        outlined
+                        dense
+                        class="font-family"
                         required
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> jurusan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="mayor"
                         :rules="mayorRules"
                         label="Jurusan"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> tahun lulus</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="dateGraduate"
                         :rules="dategraduateRules"
                         label="Tahun Lulus"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
-                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+                    <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12" class="py-0">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> nilai akhir /IPK</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
                       <v-text-field
                         v-model="score"
                         :rules="scoreRules"
                         label="Nilai Akhir /IPK"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
                         required
                       />
                     </v-col>
@@ -413,12 +634,24 @@
             <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
               <v-card class="rounded-xl" elevation="3" v-if="!skeleton">
                 <v-card-text class="pa-4">
-                  <tip-tap-vuetify
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> riwayat pendidikan</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
+                  <v-textarea
+                    label="Riwayat Pendidikan"
                     v-model="expSchool"
-                    placeholder="Riwayat Pendidikan"
-                    :extensions="extensions"
-                    :card-props="{ height: '362', style: 'overflow: auto;' }"
-                  />
+                    :rules="expSchoolRules"
+                    :counter="1000"
+                    height="220"
+                    persistent-hint
+                    hint="Jika Tidak Ada Silahkan Isi '-'"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
+                    required
+                  ></v-textarea>
                 </v-card-text>
               </v-card>
               <v-skeleton-loader
@@ -429,78 +662,108 @@
               ></v-skeleton-loader>
             </v-col>
           </v-row>
-          <v-row class="mt-4">
+          <v-row class="mt-1">
             <v-col cols="12" xl="12" lg="12" md="12" sm="12" xs="12">
               <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
                 <v-card-text class="pa-4">
-                  <p class="text-capitalize font-weight-bold text-h6">
-                    <span class="font-family">
-                      Keahlian &amp; Keterampilan
-                    </span>
-                  </p>
                   <v-row>
                     <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
-                      <tip-tap-vuetify
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> keahlian bahasa</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
+                      <v-textarea
+                        label="Keahlian Bahasa"
                         v-model="skillLanguange"
-                        placeholder="Keahlian Bahasa"
-                        :extensions="extensions"
-                        :card-props="{
-                          height: '300',
-                          style: 'overflow: auto;',
-                        }"
-                      />
+                        :rules="skillLanguangeRules"
+                        :counter="1000"
+                        height="300"
+                        persistent-hint
+                        hint="Jika Tidak Ada Silahkan Isi '-'"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
+                      ></v-textarea>
                     </v-col>
                     <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12">
-                      <tip-tap-vuetify
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> keterampilan</span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
+                      <v-textarea
+                        label="Keterampilan"
                         v-model="skill"
-                        placeholder="Keterampilan"
-                        :extensions="extensions"
-                        :card-props="{
-                          height: '300',
-                          style: 'overflow: auto;',
-                        }"
-                      />
+                        :rules="skillRules"
+                        :counter="1000"
+                        height="300"
+                        persistent-hint
+                        hint="Jika Tidak Ada Silahkan Isi '-'"
+                        outlined
+                        single-line
+                        dense
+                        class="font-family"
+                        required
+                      ></v-textarea>
                     </v-col>
                   </v-row>
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
-          <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
+          <v-card class="rounded-xl mt-1" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
-              <p class="text-capitalize font-weight-bold text-h6">
-                <span class="font-family"> Pengalaman Kerja </span>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> pengalaman kerja</span>
+                <span class="ml-1 error--text"> * </span>
               </p>
-              <tip-tap-vuetify
+              <v-textarea
+                label="Pengalaman Kerja"
                 v-model="experience"
-                placeholder="Pengalaman Kerja"
-                :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
-              />
+                :rules="experienceRules"
+                :counter="1000"
+                height="300"
+                persistent-hint
+                hint="Jika Tidak Ada Silahkan Isi '-'"
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
+              ></v-textarea>
             </v-card-text>
           </v-card>
-          <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
+          <v-card class="rounded-xl mt-1" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
-              <p class="text-capitalize font-weight-bold text-h6">
-                <span class="font-family"> Artikel Ilmiah </span>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> artikel ilmiah</span>
+                <span class="ml-1 error--text"> * </span>
               </p>
-              <tip-tap-vuetify
+              <v-textarea
+                label="Artikel Ilmiah"
                 v-model="article"
-                placeholder="Artikel Ilmiah"
-                :extensions="extensions"
-                :card-props="{ height: '300', style: 'overflow: auto;' }"
-              />
+                :rules="articleRules"
+                :counter="1000"
+                height="300"
+                persistent-hint
+                hint="Jika Tidak Ada Silahkan Isi '-'"
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
+              ></v-textarea>
             </v-card-text>
           </v-card>
-          <v-card class="rounded-xl mt-4" elevation="3" v-if="!skeleton">
+          <v-card class="rounded-xl mt-1" elevation="3" v-if="!skeleton">
             <v-card-text class="pa-4">
-              <p class="text-capitalize font-weight-bold text-h6">
-                <span class="font-family">
-                  Penempatan
-                </span>
-              </p>
               <v-row>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> penempatan</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-select
                     v-model="location"
                     :items="locationList"
@@ -508,11 +771,18 @@
                     item-value="name"
                     label="Penempatan"
                     :rules="locationRules"
+                    outlined
                     single-line
+                    dense
+                    class="font-family"
                     required
                   ></v-select>
                 </v-col>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
+                <v-col cols="12" xl="6" lg="6" md="6" sm="12" xs="12" class="py-0">
+                  <p class="mb-0 black--text text-capitalize">
+                    <span class="font-family"> kota</span>
+                    <span class="ml-1 error--text"> * </span>
+                  </p>
                   <v-autocomplete
                     v-model="deiredRegion"
                     :items="itemsDeiredRegion"
@@ -527,20 +797,65 @@
                     :hint="
                       deiredRegion === ''
                         ? ''
-                        : `data yang disimpan : ${deiredRegion}`
+                        : `Data Yang Disimpan : ${deiredRegion}`
                     "
                     :rules="deiredRegionRules"
-                  />
-                </v-col>
-                <v-col cols="12" xl="4" lg="4" md="4" sm="12" xs="12">
-                  <v-text-field
-                    label="Posisi Yang Diinginkan"
+                    outlined
+                    single-line
+                    dense
+                    class="font-family"
                     required
-                    v-model="desiredPosition"
-                    :rules="desiredPositionRules"
                   />
                 </v-col>
               </v-row>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family">jabatan yang dinginkan</span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
+              <v-autocomplete
+                v-model="position"
+                :items="itemPosition"
+                item-text="name"
+                item-value="name"
+                label="Jabatan Yang Diinginkan"
+                :rules="PositionRules"
+                hide-no-data
+                persistent-hint
+                hint="Bisa Pilih Lebih Dari Satu Jika Tidak Ada Silahakn Hub Pihak Kami"
+                multiple
+                chips
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    text-color="white"
+                    color="primary"
+                    class="font-family"
+                  >
+                    {{ data.item.name }}
+                  </v-chip>
+                </template>
+                <template v-slot:item="data">
+                  <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content
+                      v-text="data.item"
+                    ></v-list-item-content>
+                  </template>
+                  <template v-else>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-html="data.item.name"
+                      ></v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </template>
+              </v-autocomplete>
             </v-card-text>
           </v-card>
           <div class="d-flex justify-end mt-4">
@@ -580,21 +895,6 @@
 </template>
 
 <script>
-import {
-  TiptapVuetify,
-  Heading,
-  Bold,
-  Italic,
-  Strike,
-  Underline,
-  Paragraph,
-  OrderedList,
-  ListItem,
-  Link,
-  Blockquote,
-  HardBreak,
-  History,
-} from 'tiptap-vuetify';
 import goTo from 'vuetify/es5/services/goto';
 import axios from 'axios';
 
@@ -685,10 +985,7 @@ export default {
     ],
     typeEducation: '',
     typeEducationRules: [(v) => !!v || 'Jenis Pendidikan Tidak Boleh Kosong'],
-    itemTypeEducation: [
-      { name: 'Formal' },
-      { name: 'Informal' },
-    ],
+    itemTypeEducation: [{ name: 'Formal' }, { name: 'Informal' }],
     mayor: '',
     mayorRules: [(v) => !!v || 'Jurusan Tidak Boleh Kosong'],
     dateGraduate: '',
@@ -709,31 +1006,9 @@ export default {
     deiredRegionRules: [
       (v) => !!v || 'Wilayah Yang Diinginkan Tidak Boleh Kosong',
     ],
-    desiredPosition: '',
-    desiredPositionRules: [
+    PositionRules: [
       (v) => !!v || 'Jabatan Yang Diinginkan Tidak Boleh Kosong',
-    ],
-    // tip tap
-    extensions: [
-      History,
-      Blockquote,
-      Link,
-      Underline,
-      Strike,
-      Italic,
-      ListItem,
-      OrderedList,
-      [
-        Heading,
-        {
-          options: {
-            levels: [1, 2, 3],
-          },
-        },
-      ],
-      Bold,
-      Paragraph,
-      HardBreak,
+      (v) => (v.length < 4 && v.length > 0) || 'Jabatan Yang Diinginkan Tidak Boleh Lebih Dari 3',
     ],
     // starting editor's content
     aboutMe: '',
@@ -745,12 +1020,47 @@ export default {
         || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
     ],
     skillLanguange: '',
+    skillLanguangeRules: [
+      (v) => !!v || 'Keahlian Bahasa Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Keahlian Bahasa Tidak Boleh Lebih Dari 1000',
+    ],
     skill: '',
+    skillRules: [
+      (v) => !!v || 'Keterampilan Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Keterampilan Tidak Boleh Lebih Dari 1000',
+    ],
     experience: '',
+    experienceRules: [
+      (v) => !!v || 'Riwayat Pekerjaan Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Riwayat Pekerjaan Tidak Boleh Lebih Dari 1000',
+    ],
     hobby: '',
+    HobbyRules: [
+      (v) => !!v || 'Hobi Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Hobi Tidak Boleh Lebih Dari 1000',
+    ],
     sertification: '',
+    SertificationRules: [
+      (v) => !!v || 'Penghargaan / Sertifikat Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Penghargaan / Sertifikat Tidak Boleh Lebih Dari 1000',
+    ],
     article: '',
+    articleRules: [
+      (v) => !!v || 'Artikel Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Artikel Tidak Boleh Lebih Dari 1000',
+    ],
     expSchool: '',
+    expSchoolRules: [
+      (v) => !!v || 'Riwayat Sekolah Tidak Boleh Kosong',
+      (v) => (v || '').length <= 1000
+        || 'Riwayat Sekolah Tidak Boleh Lebih Dari 1000',
+    ],
     priviewImage: null,
     isEditing: null,
     hasSaved: false,
@@ -764,7 +1074,6 @@ export default {
     entriesCity: [],
     isLoadingCity: false,
     searchCity: null,
-    manuallyCity: false,
     province: {},
     entriesProvince: [],
     isLoadingProvince: false,
@@ -779,6 +1088,9 @@ export default {
     searchDeiredRegion: null,
     selectedFile: null,
     isSelecting: false,
+    position: [],
+    itemPosition: [],
+    searchPosition: null,
   }),
   computed: {
     computedDateFormatted() {
@@ -949,9 +1261,6 @@ export default {
       }
     },
   },
-  components: {
-    'tip-tap-vuetify': TiptapVuetify,
-  },
   methods: {
     ChangeImage(event) {
       this.selectedFile = [...event.target.files];
@@ -971,73 +1280,9 @@ export default {
       }
     },
     save() {
-      let hobby = null;
-      let skillLanguange = null;
-      let sertification = null;
-      let expSchool = null;
-      let skill = null;
-      let experience = null;
-      let article = null;
-
-      if (this.hobby !== null) {
-        hobby = this.hobby.replace(/<[^>]*>/g, '');
-      }
-      if (this.skillLanguange !== null) {
-        skillLanguange = this.skillLanguange.replace(/<[^>]*>/g, '');
-      }
-      if (this.sertification !== null) {
-        sertification = this.sertification.replace(/<[^>]*>/g, '');
-      }
-      if (this.expSchool !== null) {
-        expSchool = this.expSchool.replace(/<[^>]*>/g, '');
-      }
-      if (this.skill !== null) {
-        skill = this.skill.replace(/<[^>]*>/g, '');
-      }
-      if (this.experience !== null) {
-        experience = this.experience.replace(/<[^>]*>/g, '');
-      }
-      if (this.article !== null) {
-        article = this.article.replace(/<[^>]*>/g, '');
-      }
       if (this.$refs.form.validate() && this.selectedFile !== null) {
         if (this.selectedFile[0].size > 1000000) {
           goTo(0);
-        } else if (hobby === '' || hobby === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'hobi harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
-        } else if (sertification === '' || sertification === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'penghargaan/sertifikat harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
-        } else if (expSchool === '' || expSchool === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'riwayat pendidikan harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
-        } else if (skillLanguange === '' || skillLanguange === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'keahlian bahasa harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
-        } else if (skill === '' || skill === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'keterampilan harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
-        } else if (experience === '' || experience === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'pengalaman kerja harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
-        } else if (article === '' || article === null) {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'artikel ilmiah harus diisi jika tidak punya silahkan isi(-)';
-          this.icon = '$warning';
         } else {
           this.loadingSave = true;
           axios({
@@ -1077,7 +1322,7 @@ export default {
               experience: this.experience,
               photo: this.priviewImage,
               desiredRegion: this.deiredRegion,
-              desiredPosition: this.desiredPosition,
+              desiredPosition: JSON.stringify(this.position),
               placement: this.location,
               hobby: this.hobby,
               article: this.article,
@@ -1144,69 +1389,135 @@ export default {
         (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
       );
     },
+    getBase64ImageFromURL(url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.setAttribute('crossOrigin', 'anonymous');
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          const dataURL = canvas.toDataURL('image/png');
+          resolve(dataURL);
+        };
+        img.onerror = (error) => {
+          reject(error);
+        };
+        img.src = url;
+      });
+    },
   },
   beforeCreate() {
     if (this.$store.state.role === 'Pencaker') {
-      axios({
-        baseURL: `${this.$store.state.domain}job-seeker/token`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-      })
+      Promise.all(
+        [
+          axios({
+            baseURL: `${this.$store.state.domain}job-seeker/token`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          }),
+          axios({
+            baseURL: `${this.$store.state.domain}tag-job/type`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+              type: 'job seeker',
+            },
+          }),
+        ],
+      )
         .then((response) => {
-          if (response.data.data.jobSeeker.length > 0) {
-            this.idCard = response.data.data.jobSeeker[0].idCard;
-            this.fullname = response.data.data.jobSeeker[0].fullname;
-            this.frontDegree = response.data.data.jobSeeker[0].frontDegree;
-            this.backwardDegree = response.data.data.jobSeeker[0].backwardDegree;
-            if (response.data.data.jobSeeker[0].dateOfBirth === null) {
+          if (response[0].data.data.jobSeeker.length > 0) {
+            this.idCard = response[0].data.data.jobSeeker[0].idCard;
+            this.fullname = response[0].data.data.jobSeeker[0].fullname;
+            this.frontDegree = response[0].data.data.jobSeeker[0].frontDegree;
+            this.backwardDegree = response[0].data.data.jobSeeker[0].backwardDegree;
+            if (response[0].data.data.jobSeeker[0].dateOfBirth === null) {
               this.date = '';
             } else {
-              this.date = response.data.data.jobSeeker[0].dateOfBirth;
+              this.date = response[0].data.data.jobSeeker[0].dateOfBirth;
             }
-            this.sex = response.data.data.jobSeeker[0].sex;
-            this.religion = response.data.data.jobSeeker[0].religion;
-            this.married = response.data.data.jobSeeker[0].married;
-            this.nationality = response.data.data.jobSeeker[0].nasionality;
-            this.weight = response.data.data.jobSeeker[0].weight;
-            this.height = response.data.data.jobSeeker[0].height;
-            this.phone = response.data.data.jobSeeker[0].phone;
-            this.address = response.data.data.jobSeeker[0].address;
-            this.district.name = response.data.data.jobSeeker[0].district;
-            this.city.name = response.data.data.jobSeeker[0].city;
-            this.province.name = response.data.data.jobSeeker[0].province;
-            this.postalCode = response.data.data.jobSeeker[0].postalCode;
-            this.education = response.data.data.jobSeeker[0].degreeSchool;
-            this.instantion = response.data.data.jobSeeker[0].nameSchool;
-            this.typeEducation = response.data.data.jobSeeker[0].typeSchool;
-            this.mayor = response.data.data.jobSeeker[0].majors;
-            this.dateGraduate = response.data.data.jobSeeker[0].yearsGraduate;
-            this.score = response.data.data.jobSeeker[0].score;
-            this.skillLanguange = response.data.data.jobSeeker[0].language;
-            this.skill = response.data.data.jobSeeker[0].skill;
-            this.experience = response.data.data.jobSeeker[0].experience;
-            this.priviewImage = response.data.data.jobSeeker[0].image;
-            if (this.priviewImage !== null) {
-              this.selectedFile = [{ size: 90000 }];
+            this.sex = response[0].data.data.jobSeeker[0].sex;
+            this.religion = response[0].data.data.jobSeeker[0].religion;
+            this.married = response[0].data.data.jobSeeker[0].married;
+            this.nationality = response[0].data.data.jobSeeker[0].nasionality;
+            this.weight = response[0].data.data.jobSeeker[0].weight;
+            this.height = response[0].data.data.jobSeeker[0].height;
+            this.phone = response[0].data.data.jobSeeker[0].phone;
+            this.address = response[0].data.data.jobSeeker[0].address;
+            this.district.name = response[0].data.data.jobSeeker[0].district;
+            this.city.name = response[0].data.data.jobSeeker[0].city;
+            this.province.name = response[0].data.data.jobSeeker[0].province;
+            this.postalCode = response[0].data.data.jobSeeker[0].postalCode;
+            this.education = response[0].data.data.jobSeeker[0].degreeSchool;
+            this.instantion = response[0].data.data.jobSeeker[0].nameSchool;
+            this.typeEducation = response[0].data.data.jobSeeker[0].typeSchool;
+            this.mayor = response[0].data.data.jobSeeker[0].majors;
+            this.dateGraduate = response[0].data.data.jobSeeker[0].yearsGraduate;
+            this.score = response[0].data.data.jobSeeker[0].score;
+            this.skillLanguange = response[0].data.data.jobSeeker[0].language;
+            this.skill = response[0].data.data.jobSeeker[0].skill;
+            this.experience = response[0].data.data.jobSeeker[0].experience;
+            this.deiredRegion = response[0].data.data.jobSeeker[0].desiredRegion;
+            this.location = response[0].data.data.jobSeeker[0].placement;
+            this.placeBirth = response[0].data.data.jobSeeker[0].placeOfBirth;
+            this.hobby = response[0].data.data.jobSeeker[0].hobby;
+            this.expSchool = response[0].data.data.jobSeeker[0].expSchool;
+            this.sertification = response[0].data.data.jobSeeker[0].certification;
+            this.article = response[0].data.data.jobSeeker[0].article;
+            this.aboutMe = response[0].data.data.jobSeeker[0].aboutMe;
+            // position
+            JSON.parse(response[0].data.data.jobSeeker[0].desiredPosition).forEach(
+              (i) => {
+                this.position.push({
+                  name: i,
+                });
+              },
+            );
+            // item  position
+            response[1].data.data.tagJob.forEach((i) => {
+              this.itemPosition.push({
+                name: this.capitalizeEachWord(i.name),
+              });
+            });
+
+            // base 64
+            if (response[0].data.data.jobSeeker[0].image !== null) {
+              axios({
+                baseURL: `${this.$store.state.domain}job-seeker/stream-photo`,
+                method: 'get',
+                headers: {
+                  'x-api-key': this.$store.state.apiKey,
+                  Authorization: `Bearer ${this.$cookies.get('token')}`,
+                },
+                responseType: 'blob',
+              })
+                .then((blob) => {
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    this.priviewImage = e.target.result;
+                  };
+                  reader.readAsDataURL(blob.data);
+                  this.selectedFile = [{ size: blob.data.size }];
+                })
+                .catch((err) => {
+                  // eslint-disable-next-line no-console
+                  console.log(err);
+                });
+            } else {
+              this.selectedFile = null;
             }
-            this.deiredRegion = response.data.data.jobSeeker[0].desiredRegion;
-            this.desiredPosition = response.data.data.jobSeeker[0].desiredPosition;
-            this.location = response.data.data.jobSeeker[0].placement;
-            this.placeBirth = response.data.data.jobSeeker[0].placeOfBirth;
-            this.hobby = response.data.data.jobSeeker[0].hobby;
-            this.expSchool = response.data.data.jobSeeker[0].expSchool;
-            this.sertification = response.data.data.jobSeeker[0].certification;
-            this.article = response.data.data.jobSeeker[0].article;
-            this.aboutMe = response.data.data.jobSeeker[0].aboutMe;
           }
         })
-        .catch(() => {
-          this.hasSaved = true;
-          this.status = false;
-          this.message = 'server mengalami error';
-          this.icon = '$warning';
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
         })
         .finally(() => {
           this.skeleton = false;
