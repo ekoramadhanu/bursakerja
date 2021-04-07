@@ -842,16 +842,12 @@
                   </v-chip>
                 </template>
                 <template v-slot:item="data">
-                  <template v-if="typeof data.item !== 'object'">
-                    <v-list-item-content
-                      v-text="data.item"
-                    ></v-list-item-content>
+                  <template v-if="data.item.constructor.name.toLowerCase() !== 'object'">
+                    <v-list-item-content v-text="data.item"></v-list-item-content>
                   </template>
                   <template v-else>
                     <v-list-item-content>
-                      <v-list-item-title
-                        v-html="data.item.name"
-                      ></v-list-item-title>
+                      <v-list-item-title v-html="data.item.name"></v-list-item-title>
                     </v-list-item-content>
                   </template>
                 </template>
@@ -1473,13 +1469,15 @@ export default {
             this.article = response[0].data.data.jobSeeker[0].article;
             this.aboutMe = response[0].data.data.jobSeeker[0].aboutMe;
             // position
-            JSON.parse(response[0].data.data.jobSeeker[0].desiredPosition).forEach(
-              (i) => {
-                this.position.push({
-                  name: i,
-                });
-              },
-            );
+            if (response[0].data.data.jobSeeker[0].desiredPosition !== null) {
+              JSON.parse(response[0].data.data.jobSeeker[0].desiredPosition).forEach(
+                (i) => {
+                  this.position.push({
+                    name: i,
+                  });
+                },
+              );
+            }
             // item  position
             response[1].data.data.tagJob.forEach((i) => {
               this.itemPosition.push({

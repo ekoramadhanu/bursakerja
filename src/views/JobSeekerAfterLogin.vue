@@ -108,10 +108,10 @@
                           </v-chip>
                         </template>
                         <template v-slot:item="data">
-                          <template v-if="typeof data.item !== 'object'">
-                            <v-list-item-content
-                              v-text="data.item"
-                            ></v-list-item-content>
+                          <template v-if="data.item.constructor.name.toLowerCase() !== 'object'">
+                            <v-list-item-content>
+                              {{data.item}}
+                            </v-list-item-content>
                           </template>
                           <template v-else>
                             <v-list-item-content>

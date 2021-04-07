@@ -43,12 +43,14 @@
         <div class="text-justify font-family" v-html="content" v-if="!skeleton"></div>
       </div>
     </v-container>
+    <footer-home />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
+import footer from '@/components/Footer.vue';
 
 export default {
   data: () => ({
@@ -56,7 +58,9 @@ export default {
     image: '',
     skeleton: true,
   }),
-  components: {},
+  components: {
+    'footer-home': footer,
+  },
   beforeCreate() {
     axios({
       baseURL: `${this.$store.state.domain}about-us`,

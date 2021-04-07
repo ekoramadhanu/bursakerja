@@ -56,25 +56,25 @@
           </v-col>
         </v-row>
       </div>
-      <floating-button/>
     </div>
+    <footer-home/>
   </div>
 </template>
 
 <script>
-import floatingButton from '@/components/FloatingButton.vue';
 import axios from 'axios';
+import footer from '@/components/Footer.vue';
 
 export default {
+  components: {
+    'footer-home': footer,
+  },
   data: () => ({
     content: '',
     lastupdate: '',
     dateUpdated: '',
     skeleton: true,
   }),
-  components: {
-    'floating-button': floatingButton,
-  },
   beforeCreate() {
     axios({
       baseURL: `${this.$store.state.domain}faq`,

@@ -107,7 +107,7 @@
                           </v-chip>
                         </template>
                         <template v-slot:item="data">
-                          <template v-if="typeof data.item !== 'object'">
+                          <template v-if="data.item.constructor.name.toLowerCase() !== 'object'">
                             <v-list-item-content
                               v-text="data.item"
                             ></v-list-item-content>
@@ -242,11 +242,13 @@
         </v-row>
       </div>
     </div>
+    <footer-home />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import footer from '@/components/Footer.vue';
 
 export default {
   data: () => ({
@@ -270,6 +272,9 @@ export default {
     itemsSchool: [],
     skeleton: true,
   }),
+  components: {
+    'footer-home': footer,
+  },
   computed: {
     itemsLocation() {
       return this.entriesLocation.map((entry) => {

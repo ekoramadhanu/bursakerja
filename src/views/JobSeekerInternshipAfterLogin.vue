@@ -113,7 +113,7 @@
                           </v-chip>
                         </template>
                         <template v-slot:item="data">
-                          <template v-if="typeof data.item !== 'object'">
+                          <template v-if="data.item.constructor.name.toLowerCase() !== 'object'">
                             <v-list-item-content
                               v-text="data.item"
                             ></v-list-item-content>

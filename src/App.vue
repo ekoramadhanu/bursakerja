@@ -1,15 +1,15 @@
 <template>
   <v-app>
-    <navbar-home v-if="checkIndex && !loadData" />
-    <sidebar-dashboard v-if="checkLogin && !loadData" />
+    <!-- <navbar-home v-if="checkIndex && !loadData" /> -->
+    <!-- <sidebar-dashboard v-if="checkLogin && !loadData" /> -->
     <router-view v-if="!loadData" />
     <snackbar-reload />
   </v-app>
 </template>
 
 <script>
-import navbar from '@/components/Navbar.vue';
-import sidebar from '@/components/Sidebar.vue';
+// import navbar from '@/components/Navbar.vue';
+// import sidebar from '@/components/Sidebar.vue';
 import snackbarReload from '@/components/SnackbarReload.vue';
 import axios from 'axios';
 import goTo from 'vuetify/es5/services/goto';
@@ -22,8 +22,8 @@ export default {
     loadData: true,
   }),
   components: {
-    'navbar-home': navbar,
-    'sidebar-dashboard': sidebar,
+    // 'navbar-home': navbar,
+    // 'sidebar-dashboard': sidebar,
     'snackbar-reload': snackbarReload,
   },
   beforeCreate() {

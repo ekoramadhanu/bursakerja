@@ -255,6 +255,19 @@
         </v-col>
       </v-row>
     </v-footer>
+    <v-fab-transition>
+      <v-btn
+        fixed
+        bottom
+        right
+        color="success"
+        elevation="3"
+        fab
+        @click="openWhastapp()"
+      >
+        <v-icon class="white--text" size="39">$whatsapp</v-icon>
+      </v-btn>
+    </v-fab-transition>
   </div>
 </template>
 
@@ -302,7 +315,7 @@ export default {
     })
       .then((response) => {
         const numberWhatsapp = response.data.data.contact[0].whatsapp.slice(1);
-        this.urlWhatsapp = `https://api.whatsapp.com/send?phone=+62${numberWhatsapp}`;
+        this.urlWhatsapp = `https://api.whatsapp.com/send?phone=+62${numberWhatsapp}&text=Halo%20Kak%2C%20saya%20ingin%20bertanya%20terkait%20burasakerja.net%20%0Asebelumnya%20perkenalkan%20saya%20.....%20.%20Saya%20tertarik%20untuk%20mendaftar%20atau%20bergabung%20dengan%20sistem%20ini.%20Mungkin%20saya%20bisa%20dibantu%20kak%20untuk%20melakukan%20pendaftaran%20ini.`;
         this.whatsapp = response.data.data.contact[0].whatsapp;
         this.urlEmail = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${response.data.data.contact[0].email}`;
         this.email = response.data.data.contact[0].email;
