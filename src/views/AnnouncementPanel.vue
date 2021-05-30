@@ -1,0 +1,991 @@
+<template>
+  <div>
+    <v-main>
+      <v-container class="d-flex flex-column justify-center size-max mb-8">
+        <div v-if="role === 'Admin 2' || role === 'Admin 3'">
+          <v-data-table
+            :headers="headerArticle"
+            :items="article"
+            class="elevation-3 mt-3"
+            hide-default-footer
+            v-if="!skeleton"
+            :loading="loadingTable"
+          >
+            <template v-slot:top>
+              <v-toolbar flat color="white">
+                <v-toolbar-title>
+                  <div class="d-flex">
+                    <p class="ma-0 hidden-xs-only">Daftar Pengumuman</p>
+                  </div>
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-dialog
+                  v-model="dialogAdd"
+                  fullscreen
+                  hide-overlay
+                  transition="dialog-bottom-transition"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      color="primary"
+                      dark
+                      class="mb-2"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon class="mr-2 white--text" size="15">$add</v-icon>
+                      <p class="ma-0 white--text">tambah</p>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-toolbar class="primary mb-4">
+                      <div class="size-max mx-auto d-flex">
+                        <v-btn icon @click="closeAdd()">
+                          <v-icon class="white--text">mdi-close</v-icon>
+                        </v-btn>
+                        <v-toolbar-title
+                          class="text-capitalize white--text ml-1 my-auto"
+                        >
+                          Tambah Pengumuman
+                        </v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn @click="saveAdd()" color="white" elevation="0" class="my-auto">
+                          <v-progress-circular
+                            indeterminate
+                            color="primary"
+                            v-if="loadingAdd"
+                          />
+                          <p class="ma-0 primary--text" v-if="!loadingAdd">simpan</p>
+                        </v-btn>
+                      </div>
+                    </v-toolbar>
+
+                    <v-card-text class="px-0 py-1 mx-auto size-max">
+                      <v-form ref="form" lazy-validation>
+                        <p class="mb-0 black--text text-capitalize">
+                          <span class="font-family"> judul pengumuman </span>
+                          <span class="ml-1 error--text"> * </span>
+                        </p>
+                        <v-text-field
+                          v-model="editedItemArticle.title"
+                          :rules="titleRules"
+                          label="Judul Pengumuman"
+                          outlined
+                          single-line
+                          dense
+                          class="font-family"
+                          required
+                        />
+                        <p class="mb-0 black--text text-capitalize">
+                          <span class="font-family"> pembaca pengumuman </span>
+                          <span class="ml-1 error--text"> * </span>
+                        </p>
+                        <v-select
+                          v-model="editedItemArticle.user"
+                          :rules="userRules"
+                          :items="userRead"
+                          item-text="name"
+                          item-value="id"
+                          label="Pilih Pembaca Pengumuman"
+                          outlined
+                          single-line
+                          dense
+                          class="font-family"
+                          required
+                        />
+                        <p class="mb-0 black--text text-capitalize">
+                          <span class="font-family">
+                            Deskripsi Pengumuman
+                          </span>
+                          <span class="ml-1 error--text"> * </span>
+                        </p>
+                        <tip-tap-vuetify
+                          v-model="editedItemArticle.description"
+                          :extensions="extensions"
+                          :card-props="{
+                            height: '500',
+                            style: 'overflow: auto;',
+                          }"
+                        />
+                      </v-form>
+                      <p
+                        class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+                      >
+                        pratinjau
+                      </p>
+                      <v-divider class="mb-4"></v-divider>
+                      <h3 class="text-h3 font-weight-bold black--text">
+                        <span class="font-family">
+                          {{ editedItemArticle.title }}
+                        </span>
+                      </h3>
+                      <div class="mt-2 pa-0 mb-4 d-flex">
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+                        >
+                          <v-icon size="13" class="mr-1">$user</v-icon>
+                          <span class="font-family"> admin </span>
+                        </p>
+                        <p
+                          class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                        >
+                          <v-icon size="13" class="mr-1">$calendar</v-icon>
+                          <span class="font-family">
+                            {{ dateNow }}
+                          </span>
+                        </p>
+                      </div>
+                      <div
+                        class="text-justify font-family black--text"
+                        v-html="editedItemArticle.description"
+                      ></div>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </v-toolbar>
+              <v-text-field
+                v-model="search"
+                append-icon="$search"
+                label="Pencarian Judul Pengumuman"
+                class="px-5"
+                single-line
+                outlined
+                dense
+                hide-details
+                @click:append="searchArticle()"
+              />
+            </template>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    @click="openDialogUpdate(item)"
+                    color="orange"
+                    small
+                    class="mr-l"
+                    elevation="0"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>$contentEdit</v-icon>
+                  </v-btn>
+                </template>
+                <span class="font-family text-capitalize">ubah pengumuman</span>
+              </v-tooltip>
+            </template>
+            <template v-slot:no-data>
+              <p class="text-center text-capitalize">
+                data tidak ditemukan / data belum ada
+              </p>
+            </template>
+          </v-data-table>
+          <div v-if="article.length > 0" class="text-center pt-2">
+            <v-pagination
+              v-model="page"
+              :length="pageCount"
+              total-visible="10"
+              @input="pagination()"
+              v-if="!skeleton"
+            >
+            </v-pagination>
+          </div>
+          <v-skeleton-loader
+            ref="skeleton"
+            type="table"
+            v-if="skeleton"
+            class="mt-3"
+          ></v-skeleton-loader>
+        </div>
+        <div v-else>
+          <div v-if="!skeleton">
+            <div v-if="article.length > 0">
+              <div v-for="item in article" :key="item.id">
+                <v-card elevation="3" class="mt-4 pa-2">
+                  <v-card-title>
+                    <router-link
+                      :to="`/detail-announcement/${item.id}`"
+                      class="text-decoration-none"
+                    >
+                      {{ item.title }}
+                    </router-link>
+                  </v-card-title>
+                  <v-card-subtitle>
+                    <span
+                      class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-2"
+                    >
+                      <v-icon size="13" class="mr-1">$user</v-icon>
+                      admin
+                    </span>
+                    <span
+                      class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+                    >
+                      <v-icon size="13" class="mr-1">$calendar</v-icon>
+                      {{ item.date }}
+                    </span>
+                  </v-card-subtitle>
+                  <v-card-text
+                    v-html="item.desc"
+                    class="font-family"
+                  ></v-card-text>
+                  <v-card-actions class="d-flex pl-4">
+                    <v-btn
+                      :to="`/detail-announcement/${item.id}`"
+                      color="primary"
+                      outlined
+                      width="100vw"
+                      height="100vh"
+                      max-width="146"
+                      max-height="44"
+                      class="rounded-lg"
+                    >
+                      <p class="my-auto text-subtitle-2 font-weight-regular">
+                        <span class="font-family"> Baca pengumuman </span>
+                      </p>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </div>
+              <div class="text-canter mt-2">
+                <v-pagination
+                  v-model="page"
+                  total-visible="10"
+                  :length="pageCount"
+                  @input="pagination()"
+                ></v-pagination>
+              </div>
+            </div>
+            <div v-if="article.length === 0">
+              <p class="font-family text-center text-capitalize mt-4">
+                belum ada pengumuman dari pihak bursa kerja
+              </p>
+            </div>
+          </div>
+          <div v-if="skeleton"></div>
+        </div>
+      </v-container>
+      <v-snackbar
+        v-model="hasSaved"
+        :timeout="2000"
+        top
+        right
+        color="white"
+        max-width="250px"
+      >
+        <div class="d-flex">
+          <v-icon
+            :class="
+              status === false ? 'mr-2 error--text' : 'mr-2 success--text'
+            "
+            >{{ icon }}</v-icon
+          >
+          <p class="text-capitalize black--text ma-0 text-subtitle-1">
+            {{ message }}
+          </p>
+        </div>
+      </v-snackbar>
+      <v-dialog
+        v-model="dialogUpdate"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+        v-if="role === 'Admin 2' || role === 'Admin 3'"
+      >
+        <v-card>
+          <v-toolbar class="primary mb-4">
+            <div class="size-max mx-auto d-flex">
+              <v-btn icon @click="closeUpdate()">
+                <v-icon class="white--text">mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title class="text-capitalize white--text my-auto">
+                ubah data pengumuman
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn @click="saveUpdate()" elevation="0" color="white" class="my-auto">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  v-if="loadingUpdate"
+                />
+                <p class="ma-0 primary--text" v-if="!loadingUpdate">simpan</p>
+              </v-btn>
+            </div>
+          </v-toolbar>
+
+          <v-card-text class="px-0 py-1 mx-auto size-max">
+            <v-form ref="form" lazy-validation>
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> judul pengumuman </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
+              <v-text-field
+                v-model="editedItemArticle.title"
+                :rules="titleRules"
+                label="Judul Pengumuman"
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
+              />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> pembaca pengumuman </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
+              <v-select
+                v-model="editedItemArticle.user"
+                :rules="userRules"
+                :items="userRead"
+                item-text="name"
+                item-value="id"
+                label="Pilih Pembaca Pengumuman"
+                outlined
+                single-line
+                dense
+                class="font-family"
+                required
+              />
+              <p class="mb-0 black--text text-capitalize">
+                <span class="font-family"> Deskripsi Pengumuman </span>
+                <span class="ml-1 error--text"> * </span>
+              </p>
+              <tip-tap-vuetify
+                v-model="editedItemArticle.description"
+                :extensions="extensions"
+                :card-props="{
+                  height: '500',
+                  style: 'overflow: auto;',
+                }"
+              />
+            </v-form>
+            <p
+              class="mb-0 mt-4 font-weight-bold text-uppercase text-subtitle-1"
+            >
+              pratinjau
+            </p>
+            <v-divider class="mb-4"></v-divider>
+            <h3 class="text-h3 font-weight-bold black--text">
+              <span class="font-family">
+                {{ editedItemArticle.title }}
+              </span>
+            </h3>
+            <div class="mt-2 pa-0 mb-4 d-flex">
+              <p
+                class="text-capitalize text-subtitle-2 font-weight-regular mb-0 mr-4"
+              >
+                <v-icon size="13" class="mr-1">$user</v-icon>
+                <span class="font-family"> admin </span>
+              </p>
+              <p
+                class="text-capitalize text-subtitle-2 font-weight-regular ma-0"
+              >
+                <v-icon size="13" class="mr-1">$calendar</v-icon>
+                <span class="font-family">
+                  {{ dateNow }}
+                </span>
+              </p>
+            </div>
+            <div
+              class="text-justify font-family black--text"
+              v-html="editedItemArticle.description"
+            ></div>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </v-main>
+  </div>
+</template>
+
+<script>
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  Paragraph,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Link,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify';
+import axios from 'axios';
+
+export default {
+  data: () => ({
+    items: [
+      {
+        text: 'pengumuman',
+        disabled: true,
+      },
+    ],
+    dialogAdd: false,
+    dialogUpdate: false,
+    loadingUpdate: false,
+    headerArticle: [
+      {
+        text: 'Nomor',
+        sortable: false,
+        value: 'number',
+      },
+      { text: 'Judul', value: 'title', sortable: false },
+      { text: 'Pembaca', value: 'user', sortable: false },
+      { text: 'Aksi', value: 'actions', sortable: false },
+    ],
+    article: [],
+    editedIndex: -1,
+    editedItemArticle: {
+      title: '',
+      description: '<p>Silahkan Isi Pejelasan</p>',
+      user: '',
+    },
+    defaultItem: {
+      title: '',
+      description: '<p>Silahkan Isi Pejelasan</p>',
+      user: '',
+    },
+    page: 1,
+    pageCount: 3,
+    search: '',
+    userRead: [],
+    titleRules: [(v) => !!v || 'Judul Artikel Tidak Boleh Kosong'],
+    userRules: [(v) => !!v || 'Pembaca Artikel Tidak Boleh Kosong'],
+    // tip tap
+    extensions: [
+      History,
+      Blockquote,
+      Link,
+      Underline,
+      Strike,
+      Italic,
+      ListItem,
+      BulletList,
+      OrderedList,
+      [
+        Heading,
+        {
+          options: {
+            levels: [1, 2, 3],
+          },
+        },
+      ],
+      Bold,
+      Code,
+      HorizontalRule,
+      Paragraph,
+      HardBreak,
+    ],
+    skeleton: true,
+    hasSaved: false,
+    status: null,
+    icon: '',
+    message: '',
+    loadingTable: false,
+    loadingAdd: false,
+    role: '',
+  }),
+  components: {
+    'tip-tap-vuetify': TiptapVuetify,
+  },
+  computed: {
+    dateNow() {
+      const date = new Date();
+      return `${date.getDay()} ${
+        this.$store.state.month[date.getMonth()]
+      } ${date.getFullYear()}`;
+    },
+  },
+  methods: {
+    pagination() {
+      this.loadingTable = true;
+      this.article.splice(0, this.article.length);
+      this.methodGetArticle();
+    },
+    searchArticle() {
+      this.loadingTable = true;
+      this.page = 1;
+      this.article.splice(0, this.article.length);
+      this.methodGetArticle();
+    },
+    ChangeImage(event) {
+      // this.image = event;
+      if (event == null) {
+        this.editedItemArticle.image = null;
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.editedItemArticle.image = e.target.result;
+        };
+        reader.readAsDataURL(event);
+      }
+    },
+    closeAdd() {
+      this.dialogAdd = false;
+      this.$nextTick(() => {
+        this.editedItemArticle = { ...this.defaultItem };
+        this.editedIndex = -1;
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+      });
+    },
+    async saveAdd() {
+      if (this.$refs.form.validate()) {
+        try {
+          this.loadingAdd = true;
+          const response = await axios({
+            baseURL: `${this.$store.state.domain}announcement`,
+            method: 'post',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            data: {
+              title: this.editedItemArticle.title,
+              description: this.editedItemArticle.description,
+              userRead: this.editedItemArticle.user,
+            },
+          });
+          if (
+            response.data.data.attributes.data
+              === 'Data Announcement Is Successfully Create'
+          ) {
+            this.hasSaved = true;
+            this.status = true;
+            this.message = 'data berhasil disimpan';
+            this.icon = '$success';
+          } else {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'data tidak berhasil disimpan';
+            this.icon = '$warning';
+          }
+          this.loadingTable = true;
+          this.page = 1;
+          this.search = '';
+          if (this.article.length > 0) {
+            this.article.splice(0, this.article.length);
+          }
+          this.methodGetArticle();
+          this.closeAdd();
+          this.loadingAdd = false;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      }
+    },
+    openDialogUpdate(item) {
+      this.editedIndex = this.article.indexOf(item);
+      this.editedItemArticle.title = item.title;
+      this.editedItemArticle.description = item.description;
+      this.editedItemArticle.user = item.userId;
+      this.dialogUpdate = true;
+    },
+    async saveUpdate() {
+      if (this.$refs.form.validate()) {
+        try {
+          this.loadingUpdate = true;
+          const response = await axios({
+            baseURL: `${this.$store.state.domain}announcement/${
+              this.article[this.editedIndex].id
+            }`,
+            method: 'patch',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+            data: {
+              title: this.editedItemArticle.title,
+              description: this.editedItemArticle.description,
+              userRead: this.editedItemArticle.user,
+            },
+          });
+          if (
+            response.data.data.attributes.data
+              === 'Data Announcement Is Successfully Updated'
+          ) {
+            this.hasSaved = true;
+            this.status = true;
+            this.message = 'data berhasil disimpan';
+            this.icon = '$success';
+          } else {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'data tidak berhasil disimpan';
+            this.icon = '$warning';
+          }
+          this.loadingTable = true;
+          this.page = 1;
+          this.search = '';
+          if (this.article.length > 0) {
+            this.article.splice(0, this.article.length);
+          }
+          this.methodGetArticle();
+          this.loadingUpdate = false;
+          this.closeUpdate();
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      }
+    },
+    closeUpdate() {
+      this.dialogUpdate = false;
+      this.$nextTick(() => {
+        this.editedItemArticle = { ...this.defaultItem };
+        this.editedIndex = -1;
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+      });
+    },
+    // method universal
+    async methodGetArticle(page) {
+      let date = null;
+      if (
+        this.$store.state.role === 'Admin 2'
+        || this.$store.state.role === 'Admin 3'
+      ) {
+        let endpoint = '';
+        if (this.search === '') {
+          endpoint = `${this.$store.state.domain}announcement/pagination-all/${this.page}`;
+        } else {
+          endpoint = `${this.$store.state.domain}announcement/search-all/${this.search}/${this.page}`;
+        }
+        try {
+          const response = await axios({
+            baseURL: endpoint,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          });
+          if (response.data.data.attributes.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            let counter = (this.page - 1) * 10;
+            response.data.data.attributes.forEach((i) => {
+              counter += 1;
+              this.article.push({
+                id: i.id,
+                number: counter,
+                title: i.title,
+                image: i.image,
+                user: i.userRead.name,
+                userId: i.userRead.id,
+                description: i.description,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+          this.loadingTable = false;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      } else if (this.$store.state.role === 'Perusahaan') {
+        try {
+          const response = await axios({
+            baseURL: `${this.$store.state.domain}announcement/umkm/${this.page}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          });
+          if (response.data.data.attributes.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            response.data.data.attributes.forEach((i) => {
+              date = i.date.split('-');
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 250) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              this.article.push({
+                id: i.id,
+                title: i.title,
+                desc: shortDesc,
+                date: `${date[0]} ${this.$store.state.month[parseInt(date[1], 10) - 1]} ${date[2]}`,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+          this.skeleton = false;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      } else {
+        try {
+          const response = await axios({
+            baseURL: `${this.$store.state.domain}announcement/job-seeker/${page}`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          });
+          if (response.data.data.attributes.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            response.data.data.attributes.forEach((i) => {
+              date = i.date.split('-');
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 250) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              this.article.push({
+                id: i.id,
+                title: i.title,
+                desc: shortDesc,
+                date: `${date[0]} ${this.$store.state.month[parseInt(date[1], 10) - 1]} ${date[2]}`,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+          this.skeleton = false;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      }
+    },
+  },
+  async beforeCreate() {
+    let date = null;
+
+    if (this.$store.state.role === 'Admin 1') {
+      this.$router.push('/access-block');
+    } else if (
+      this.$store.state.role === 'Admin 2'
+      || this.$store.state.role === 'Admin 3'
+    ) {
+      try {
+        const response = await axios({
+          baseURL: `${this.$store.state.domain}announcement/pagination-all/1`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        });
+        const response1 = await axios({
+          baseURL: `${this.$store.state.domain}user-read`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        });
+        if (response.data.data.attributes.length > 0) {
+          const modulo = response.data.data.total % 10;
+          if (modulo === 0) {
+            this.pageCount = response.data.data.total / 10;
+          } else {
+            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+          }
+          let counter = 0;
+          response.data.data.attributes.forEach((i) => {
+            counter += 1;
+            this.article.push({
+              id: i.id,
+              number: counter,
+              title: i.title,
+              user: i.userRead.name,
+              userId: i.userRead.id,
+              description: i.description,
+            });
+          });
+        } else {
+          this.pageCount = 0;
+        }
+        if (response1.data.data.attributes.length > 0) {
+          response1.data.data.attributes.forEach((i) => {
+            if (i.name !== 'Umum') {
+              this.userRead.push({
+                id: i.id,
+                name: i.name,
+              });
+            }
+          });
+        }
+        this.skeleton = false;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    } else if (this.$store.state.role === 'Perusahaan') {
+      if (this.$store.state.uploadData) {
+        this.$router.push('/data-umkm');
+      } else {
+        try {
+          const response = await axios({
+            baseURL: `${this.$store.state.domain}announcement/umkm/1`,
+            method: 'get',
+            headers: {
+              'x-api-key': this.$store.state.apiKey,
+              Authorization: `Bearer ${this.$cookies.get('token')}`,
+            },
+          });
+          if (response.data.data.attributes.length > 0) {
+            const modulo = response.data.data.total % 10;
+            if (modulo === 0) {
+              this.pageCount = response.data.data.total / 10;
+            } else {
+              this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+            }
+            response.data.data.attributes.forEach((i) => {
+              date = i.date.split('-');
+              let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+              if (shortDesc.length > 250) {
+                shortDesc = `${shortDesc.substr(0, 250)}.....`;
+              }
+              this.article.push({
+                id: i.id,
+                title: i.title,
+                desc: shortDesc,
+                date: `${date[0]} ${this.$store.state.month[parseInt(date[1], 10) - 1]} ${date[2]}`,
+              });
+            });
+          } else {
+            this.pageCount = 0;
+          }
+          this.skeleton = false;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+      }
+    } else if (
+      this.$store.state.uploadData
+      && this.$store.state.role === 'Pencaker'
+    ) {
+      this.$router.push('/resume-job-seeker');
+    } else {
+      try {
+        const response = await axios({
+          baseURL: `${this.$store.state.domain}announcement/job-seeker/1`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+        });
+        if (response.data.data.attributes.length > 0) {
+          const modulo = response.data.data.total % 10;
+          if (modulo === 0) {
+            this.pageCount = response.data.data.total / 10;
+          } else {
+            this.pageCount = (response.data.data.total - modulo) / 10 + 1;
+          }
+          response.data.data.attributes.forEach((i) => {
+            date = i.date.split('-');
+            let shortDesc = i.description.replace(/<\/?[^>]+>/gi, ' ');
+            if (shortDesc.length > 250) {
+              shortDesc = `${shortDesc.substr(0, 250)}.....`;
+            }
+            this.article.push({
+              id: i.id,
+              title: i.title,
+              desc: shortDesc,
+              date: `${date[0]} ${this.$store.state.month[parseInt(date[1], 10) - 1]} ${date[2]}`,
+            });
+          });
+        } else {
+          this.pageCount = 0;
+          this.page = 0;
+        }
+        this.skeleton = false;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    }
+  },
+  created() {
+    this.role = this.$store.state.role;
+  },
+  beforeDestroy() {
+    this.items = null;
+    this.dialogAdd = null;
+    this.headerArticle = null;
+    this.article = null;
+    this.editedIndex = null;
+    this.editedItemArticle = null;
+    this.defaultItem = null;
+    this.page = null;
+    this.pageCount = null;
+    this.search = null;
+    this.userRead = null;
+    this.titleRules = null;
+    this.userRules = null;
+    this.imageRules = null;
+
+    delete this.items;
+    delete this.dialogAdd;
+    delete this.headerArticle;
+    delete this.article;
+    delete this.editedIndex;
+    delete this.editedItemArticle;
+    delete this.defaultItem;
+    delete this.page;
+    delete this.pageCount;
+    delete this.search;
+    delete this.userRead;
+    delete this.titleRules;
+    delete this.userRules;
+    delete this.imageRules;
+  },
+};
+</script>
+
+<style scoped>
+div >>> ul > li,
+div >>> ol > li {
+  line-height: 25px !important;
+}
+div >>> li > p {
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+div >>> li {
+  margin-bottom: 0px;
+}
+div >>> li > ol,
+div >>> li > ul {
+  margin: 0px;
+}
+div >>> p,
+div >>> h1,
+div >>> h2,
+div >>> h3 {
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
+}
+.size-max {
+  width: 100vw;
+  max-width: 1044px;
+}
+</style>
