@@ -28,7 +28,7 @@ export default {
   },
   async beforeCreate() {
     try {
-      const dateExp = '2021-06-26';
+      const dateExp = '2021-09-17';
       const dateFormatStart = new Date();
       const maxDate = new Date(dateExp);
       if (this.$cookies.isKey('token') && maxDate > dateFormatStart) {

@@ -143,19 +143,19 @@ export default {
   methods: {
     async login() {
       if (this.$refs.form.validate()) {
+        this.loadingLogin = true;
+        const response = await axios({
+          baseURL: `${this.$store.state.domain}admin/login`,
+          method: 'post',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+          },
+          data: {
+            email: this.email,
+            password: this.password,
+          },
+        });
         try {
-          this.loadingLogin = true;
-          const response = await axios({
-            baseURL: `${this.$store.state.domain}admin/login`,
-            method: 'post',
-            headers: {
-              'x-api-key': this.$store.state.apiKey,
-            },
-            data: {
-              email: this.email,
-              password: this.password,
-            },
-          });
           if (response.data.data.attributes.data === 'Data Admin Not Found') {
             this.status = false;
             this.message = 'akun belum terdaftar, silahkan hubungi pihak bursa kerja';

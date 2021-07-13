@@ -1015,8 +1015,6 @@ export default {
     expiredRules: [(v) => !!v || 'Tanggal Berakhir Iklan Tidak Boleh Kosong'],
     descriptionRules: [
       (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
-      (v) => /^[a-zA-z., ]*$/.test(v)
-        || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',
       (v) => (v || '').length <= 250
         || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
     ],

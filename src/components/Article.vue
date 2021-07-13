@@ -37,7 +37,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex">
                       <v-btn
-                        :to="`/detail-article-login/${item.id}`"
+                        :to="`/article-detail/${item.id}`"
                         text
                         color="primary font-family"
                       >

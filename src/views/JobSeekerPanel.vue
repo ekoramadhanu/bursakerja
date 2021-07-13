@@ -1365,8 +1365,12 @@ export default {
         },
         responseType: 'blob',
       });
+      if (response.data.data.attributes[0].idCard !== null) {
+        this.idCard = response.data.data.attributes[0].idCard;
+      } else {
+        this.idCard = '';
+      }
       this.fullname = response.data.data.attributes[0].fullname;
-      this.idCard = response.data.data.attributes[0].idCard;
       this.frontDegree = response.data.data.attributes[0].frontDegree;
       this.backwardDegree = response.data.data.attributes[0].backwardDegree;
       this.placeBirth = response.data.data.attributes[0].placeOfBirth;

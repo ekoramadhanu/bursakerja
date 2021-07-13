@@ -1010,8 +1010,6 @@ export default {
     expiredRules: [(v) => !!v || 'Tanggal Berakhir Iklan Tidak Boleh Kosong'],
     descriptionRules: [
       (v) => !!v || 'Deskripsi Singkat Anda Tidak Boleh Kosong',
-      (v) => /^[a-zA-z., ]*$/.test(v)
-        || 'Deskripsi Singat Anda Hanya Boleh Huruf, Titik, Koma, dan Spasi',
       (v) => (v || '').length <= 250
         || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
     ],
@@ -1335,7 +1333,7 @@ export default {
           },
         });
         if (
-          response.data.data.attribute.data === 'Data Professional Is Successfully Show'
+          response.data.data.attributes.data === 'Data Professional Is Successfully Show'
         ) {
           this.hasSaved = true;
           this.status = true;

@@ -64,17 +64,16 @@
                 <v-col cols="12" lg="8" xl="8" md="8" sm="12" xs="12">
                   <p class="mb-0 black--text text-capitalize">
                     <span class="font-family"> NIK</span>
-                    <span class="ml-1 error--text"> * </span>
                   </p>
                   <v-text-field
                     v-model="idCard"
-                    :rules="idCardRules"
                     label="Nomor KTP / NIK"
                     outlined
                     single-line
                     dense
+                    hint="jika tidak mengisi dikosongi saja"
+                    persistent-hint
                     class="font-family"
-                    required
                   />
                   <p class="mb-0 black--text text-capitalize">
                     <span class="font-family"> nama lengkap</span>
@@ -1289,8 +1288,14 @@ export default {
           goTo(0);
         } else {
           try {
+            let idCard = null;
             const context = this;
             this.loadingSave = true;
+            if (this.idCard === '') {
+              idCard = null;
+            } else {
+              idCard = this.idCard;
+            }
             const response = await axios({
               baseURL: `${this.$store.state.domain}job-seeker/identity`,
               method: 'patch',
@@ -1299,7 +1304,7 @@ export default {
                 Authorization: `Bearer ${this.$cookies.get('token')}`,
               },
               data: {
-                idCard: this.idCard,
+                idCard,
                 fullname: this.fullname,
                 frontDegree: this.frontDegree,
                 backwardDegree: this.backwardDegree,
@@ -1435,7 +1440,11 @@ export default {
           },
         });
         if (response.data.data.attributes.length > 0) {
-          this.idCard = response.data.data.attributes[0].idCard;
+          if (response.data.data.attributes[0].idCard !== null) {
+            this.idCard = response.data.data.attributes[0].idCard;
+          } else {
+            this.idCard = '';
+          }
           this.fullname = response.data.data.attributes[0].fullname;
           this.frontDegree = response.data.data.attributes[0].frontDegree;
           this.backwardDegree = response.data.data.attributes[0].backwardDegree;
