@@ -42,7 +42,7 @@
                 </div>
               </v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-dialog
+              <!-- <v-dialog
                 v-model="dialogAdd"
                 fullscreen
                 hide-overlay
@@ -366,6 +366,82 @@
                     </v-row>
                   </v-card-text>
                 </v-card>
+              </v-dialog> -->
+              <v-dialog v-model="dialogBatchAdd" max-width="500px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2 font-weight-bold"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon size="15" class="white--text mr-2">$add</v-icon>
+                    <p class="ma-0 white--text font-family">CSV</p>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="primary d-flex justify-space-between">
+                    <p
+                      class="white--text text-capitalize font-family text-h6 mb-0"
+                    >
+                      menambah kartu karyawan
+                    </p>
+                    <v-btn @click="closeBatchAdd()" icon color="white">
+                      <v-icon>$close</v-icon>
+                    </v-btn>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-form ref="form" lazy-validation class="mt-4">
+                      <p class="mb-0 black--text text-capitalize">
+                        <span class="font-family"> file CSV </span>
+                        <span class="ml-1 error--text"> * </span>
+                      </p>
+                      <v-file-input
+                        label="Unggah File CSV (Maks 1 MB)"
+                        accept=".csv"
+                        required
+                        ref="fileInput"
+                        enctype="multipart/form-data"
+                        class="font-family"
+                        :rules="CSVRules"
+                        @change="ChangeFile"
+                        single-line
+                        outlined
+                        dense
+                        prepend-icon="$fileUpload"
+                      />
+                    </v-form>
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      class="mr-2"
+                      @click="closeBatchAdd()"
+                    >
+                      batal
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      @click="saveBatchAdd()"
+                      text
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="primary"
+                        v-if="loadingBatch"
+                      />
+                      <p class="my-auto" v-if="!loadingBatch">
+                        simpan
+                      </p>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
               </v-dialog>
             </v-toolbar>
             <v-text-field
@@ -378,6 +454,12 @@
               dense
               @click:append="searchProfesional()"
             />
+          </template>
+          <template v-slot:[`item.card`]="{ item }">
+            <p :class="`ma-0 ${item.color}`">{{ item.card }}</p>
+          </template>
+          <template v-slot:[`item.pin`]="{ item }">
+            <p :class="`ma-0 ${item.color}`">{{ item.pin }}</p>
           </template>
           <template v-slot:[`item.number`]="{ item }">
             <p :class="`ma-0 ${item.color}`">{{ item.number }}</p>
@@ -517,6 +599,41 @@
             </div>
             <div v-if="!loadingDialog">
               <v-form ref="form" lazy-validation>
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    nomor kartu
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-text-field
+                  v-model="editedItemJobSeeker.number"
+                  :rules="nameRules"
+                  label="nomor kartu"
+                  required
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                />
+                <p class="mb-0 black--text text-capitalize">
+                  <span class="font-family">
+                    pin kartu
+                  </span>
+                  <span class="ml-1 error--text">
+                    *
+                  </span>
+                </p>
+                <v-text-field
+                  v-model="editedItemJobSeeker.pin"
+                  label="Pin magang"
+                  required
+                  outlined
+                  dense
+                  single-line
+                  class="font-family"
+                />
                 <p class="mb-0 black--text text-capitalize">
                   <span class="font-family">
                     nama magang
@@ -926,10 +1043,12 @@
 
 <script>
 import axios from 'axios';
+import csvToJson from 'csvtojson';
 
 export default {
   data: () => ({
     dialogAdd: false,
+    dialogBatchAdd: false,
     dialogUpdate: false,
     dialogDeShow: false,
     dialogShow: false,
@@ -937,6 +1056,7 @@ export default {
     loadingUpdate: false,
     loadingShow: false,
     loadingDeShow: false,
+    loadingBatch: false,
     loadingTable: false,
     loadingDialog: false,
     menu: false,
@@ -948,14 +1068,9 @@ export default {
         value: 'number',
         width: 70,
       },
+      { text: 'kartu', value: 'card', sortable: false },
+      { text: 'pin', value: 'pin', sortable: false },
       { text: 'Nama', value: 'name', sortable: false },
-      {
-        text: 'Posisi', value: 'position', sortable: false, width: 150,
-      },
-      { text: 'Lokasi', value: 'location', sortable: false },
-      {
-        text: 'Sekolah', value: 'school', sortable: false, width: 80,
-      },
       {
         text: 'Status', value: 'status', sortable: false, width: 100,
       },
@@ -967,6 +1082,8 @@ export default {
     jobSeeker: [],
     editedIndex: -1,
     editedItemJobSeeker: {
+      number: '',
+      pin: '',
       name: '',
       position: '',
       phone: '',
@@ -977,6 +1094,8 @@ export default {
       description: '',
     },
     defaultItem: {
+      number: '',
+      pin: '',
       name: '',
       position: '',
       phone: '',
@@ -1014,6 +1133,12 @@ export default {
         || 'Deskripsi Singat Anda Tidak Boleh Angka',
       (v) => (v || '').length <= 250
         || 'Deskripsi Singkat Tidak Boleh Lebih Dari 250',
+    ],
+    csv: null,
+    nameFile: 'Silahkan Pilih File CSV',
+    CSVRules: [
+      (v) => !!v || 'File CSV Tidak Boleh Kosong',
+      (v) => !v || v.size < 1000000 || 'File CSV Harus Kurang Dari 1MB',
     ],
     skeleton: true,
     hasSaved: false,
@@ -1225,27 +1350,49 @@ export default {
           Authorization: `Bearer ${this.$cookies.get('token')}`,
         },
       });
-      const response1 = await axios({
-        baseURL: `${this.$store.state.domain}internship/stream/${this.jobSeeker[this.editedIndex].id}`,
-        method: 'get',
-        headers: {
-          'x-api-key': this.$store.state.apiKey,
-          Authorization: `Bearer ${this.$cookies.get('token')}`,
-        },
-        responseType: 'blob',
-      });
-      this.editedItemJobSeeker.name = item.name;
-      this.editedItemJobSeeker.position = { ...{ name: item.position } };
-      this.editedItemJobSeeker.phone = response.data.data.attributes[0].phone;
-      this.editedItemJobSeeker.location = item.location;
-      this.editedItemJobSeeker.school = item.school;
-      this.editedItemJobSeeker.expired = response.data.data.attributes[0].expired;
-      this.editedItemJobSeeker.description = response.data.data.attributes[0].description;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.editedItemJobSeeker.image = e.target.result;
-      };
-      reader.readAsDataURL(response1.data);
+      if (response.data.data.attributes[0].file) {
+        const response1 = await axios({
+          baseURL: `${this.$store.state.domain}internship/stream/${this.jobSeeker[this.editedIndex].id}`,
+          method: 'get',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+          responseType: 'blob',
+        });
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.editedItemJobSeeker.image = e.target.result;
+        };
+        reader.readAsDataURL(response1.data);
+      }
+      if (response.data.data.attributes[0].name != null) {
+        this.editedItemJobSeeker.name = item.name;
+      }
+      if (response.data.data.attributes[0].position != null) {
+        this.editedItemJobSeeker.position = { ...{ name: item.position } };
+      } else {
+        this.editedItemJobSeeker.position = { ...{ name: '' } };
+      }
+      if (response.data.data.attributes[0].phone != null) {
+        this.editedItemJobSeeker.phone = response.data.data.attributes[0].phone;
+      }
+      if (response.data.data.attributes[0].location != null) {
+        this.editedItemJobSeeker.location = item.location;
+      }
+      if (response.data.data.attributes[0].school != null) {
+        this.editedItemJobSeeker.school = item.school;
+      }
+      if (response.data.data.attributes[0].expired != null) {
+        this.editedItemJobSeeker.expired = response.data.data.attributes[0].expired;
+      }
+      if (response.data.data.attributes[0].description != null) {
+        this.editedItemJobSeeker.description = response.data.data.attributes[0].description;
+      }
+      this.editedItemJobSeeker.number = response.data.data.attributes[0].bursa_card;
+      this.editedItemJobSeeker.pin = response.data.data.attributes[0].pin;
+      // eslint-disable-next-line no-console
+      console.log(this.editedItemJobSeeker);
       this.loadingDialog = false;
     },
     async saveUpdate() {
@@ -1263,6 +1410,8 @@ export default {
               Authorization: `Bearer ${this.$cookies.get('token')}`,
             },
             data: {
+              number: this.editedItemJobSeeker.number,
+              pin: this.editedItemJobSeeker.pin,
               name: this.editedItemJobSeeker.name,
               position: this.editedItemJobSeeker.position.name,
               description: this.editedItemJobSeeker.description,
@@ -1406,6 +1555,81 @@ export default {
         console.log(error);
       }
     },
+    ChangeFile(event) {
+      const reader = new FileReader();
+      if (event !== undefined) {
+        this.nameFile = event.name;
+        reader.onload = () => {
+          this.csv = `${reader.result}`;
+        };
+        reader.readAsText(event);
+      }
+    },
+    closeBatchAdd() {
+      this.dialogBatchAdd = false;
+      this.nameFile = 'Silahkan Pilih File CSV';
+      this.csv = undefined;
+      this.$refs.form.resetValidation();
+      this.$refs.form.reset();
+    },
+    async saveBatchAdd() {
+      if (this.$refs.form.validate()) {
+        const jsonObj = await csvToJson().fromString(this.csv);
+        this.loadingBatch = true;
+        axios({
+          baseURL: `${this.$store.state.domain}internship/create/csv`,
+          method: 'post',
+          headers: {
+            'x-api-key': this.$store.state.apiKey,
+            Authorization: `Bearer ${this.$cookies.get('token')}`,
+          },
+          data: {
+            cardJson: JSON.stringify(jsonObj),
+          },
+        })
+          .then((response) => {
+            if (response.data.data.attributes.data === 'File CSV Not Valid') {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'format file CSV tidak sesuai';
+              this.icon = '$warning';
+            } else if (
+              response.data.data.attributes.data === 'Bursa Card Is Already Exist'
+            ) {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'nomor kartu sudah ada';
+              this.icon = '$warning';
+            } else if (response.data.data.attributes.data === 'Data Internship Is Successfully Created') {
+              this.hasSaved = true;
+              this.status = true;
+              this.message = 'data berhasil ditambahkan';
+              this.icon = '$success';
+            } else {
+              this.hasSaved = true;
+              this.status = false;
+              this.message = 'server mengalami error';
+              this.icon = '$warning';
+            }
+            this.loadingTable = true;
+            this.page = 1;
+            if (this.jobSeeker.length > 0) {
+              this.jobSeeker.splice(0, this.jobSeeker.length);
+            }
+            this.methodGetCardjobSeeker(1);
+          })
+          .catch(() => {
+            this.hasSaved = true;
+            this.status = false;
+            this.message = 'server mengalami error';
+            this.icon = '$warning';
+          })
+          .finally(() => {
+            this.loadingBatch = false;
+            this.closeBatchAdd();
+          });
+      }
+    },
     capitalizeEachWord(str) {
       return str.replace(
         /\w\S*/g,
@@ -1446,37 +1670,54 @@ export default {
           let nameStatus = '';
           const currentDate = new Date();
           let date = '';
+          let nameFinal = '';
+          let dateFinal = '';
           let color = '';
           response.data.data.attributes.forEach((i) => {
             counter += 1;
-            date = i.expired.split('-');
+            if (i.expired != null) {
+              date = i.expired.split('-');
+              dateFinal = `${date[2]}-${date[1]}-${date[0]}`;
+            } else {
+              dateFinal = '-';
+            }
             if (i.is_show === '0') {
               nameStatus = 'Tidak Aktif';
             } else {
               nameStatus = 'Aktif';
             }
-            if (
-              parseInt(date[0], 10) < currentDate.getFullYear()
-                || (parseInt(date[0], 10) === currentDate.getFullYear()
-                  && parseInt(date[1], 10) < currentDate.getMonth() + 1)
-                || (parseInt(date[0], 10) === currentDate.getFullYear()
-                  && parseInt(date[1], 10) === currentDate.getMonth() + 1
-                  && parseInt(date[2], 10) < currentDate.getDate())
-            ) {
-              color = 'red--text';
+            if (i.name == null) {
+              nameFinal = '-';
+            } else {
+              nameFinal = i.name;
+            }
+            if (i.name !== null) {
+              if (
+                parseInt(date[0], 10) < currentDate.getFullYear()
+                  || (parseInt(date[0], 10) === currentDate.getFullYear()
+                    && parseInt(date[1], 10) < currentDate.getMonth() + 1)
+                  || (parseInt(date[0], 10) === currentDate.getFullYear()
+                    && parseInt(date[1], 10) === currentDate.getMonth() + 1
+                    && parseInt(date[2], 10) < currentDate.getDate())
+              ) {
+                color = 'red--text';
+              } else {
+                color = 'black--text';
+              }
             } else {
               color = 'black--text';
             }
             this.jobSeeker.push({
               id: i.id,
               number: counter,
-              name: i.name,
+              card: i.bursa_card,
+              pin: i.pin,
+              name: nameFinal,
               position: i.position,
-              description: i.desc,
               status: nameStatus,
               school: i.school,
               location: i.location,
-              expired: `${date[2]}-${date[1]}-${date[0]}`,
+              expired: dateFinal,
               color,
               image: i.image,
             });
@@ -1522,36 +1763,54 @@ export default {
           let nameStatus = '';
           const currentDate = new Date();
           let date = '';
+          let dateFinal = '';
           let color = '';
+          let nameFinal = '';
           response.data.data.attributes.forEach((i) => {
             counter += 1;
-            date = i.expired.split('-');
+            if (i.expired != null) {
+              date = i.expired.split('-');
+              dateFinal = `${date[2]}-${date[1]}-${date[0]}`;
+            } else {
+              dateFinal = '-';
+            }
             if (i.is_show === '0') {
               nameStatus = 'Tidak Aktif';
             } else {
               nameStatus = 'Aktif';
             }
-            if (
-              parseInt(date[0], 10) < currentDate.getFullYear()
-                || (parseInt(date[0], 10) === currentDate.getFullYear()
-                  && parseInt(date[1], 10) < currentDate.getMonth() + 1)
-                || (parseInt(date[0], 10) === currentDate.getFullYear()
-                  && parseInt(date[1], 10) === currentDate.getMonth() + 1
-                  && parseInt(date[2], 10) < currentDate.getDate())
-            ) {
-              color = 'red--text';
+            if (i.name == null) {
+              nameFinal = '-';
+            } else {
+              nameFinal = i.name;
+            }
+            if (i.name !== null) {
+              if (
+                parseInt(date[0], 10) < currentDate.getFullYear()
+                  || (parseInt(date[0], 10) === currentDate.getFullYear()
+                    && parseInt(date[1], 10) < currentDate.getMonth() + 1)
+                  || (parseInt(date[0], 10) === currentDate.getFullYear()
+                    && parseInt(date[1], 10) === currentDate.getMonth() + 1
+                    && parseInt(date[2], 10) < currentDate.getDate())
+              ) {
+                color = 'red--text';
+              } else {
+                color = 'black--text';
+              }
             } else {
               color = 'black--text';
             }
             this.jobSeeker.push({
               id: i.id,
               number: counter,
-              name: i.name,
+              card: i.bursa_card,
+              pin: i.pin,
+              name: nameFinal,
               position: i.position,
               status: nameStatus,
               school: i.school,
               location: i.location,
-              expired: `${date[2]}-${date[1]}-${date[0]}`,
+              expired: dateFinal,
               color,
               image: i.image,
             });

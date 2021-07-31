@@ -121,7 +121,7 @@
               </v-list-item>
             </v-list-item-group>
             <v-list-item-group color="primary">
-              <v-list-item to="/job-vacancy" class="pa-0">
+              <v-list-item to="/login-job-seeker" class="pa-0">
                 <v-list-item-content>
                   <v-list-item-title
                     class="text-capitalize white--text text-subtitle-2"

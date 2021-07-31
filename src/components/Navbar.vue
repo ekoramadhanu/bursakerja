@@ -303,10 +303,11 @@ export default {
       { title: 'informal', to: '/job-seeker-informal' },
       { title: 'tenaga magang', to: '/job-seeker-internship' },
       { title: 'profesional', to: '/job-seeker-professional' },
+      { title: 'formulir', to: '/form-register' },
     ],
     jobVacancy: [
       { title: 'pasang lowongan', to: '/upload-job-vacancy' },
-      { title: 'cari lowongan', to: '/job-vacancy' },
+      { title: 'cari lowongan', to: '/login-job-seeker' },
     ],
     dropDown: false,
   }),

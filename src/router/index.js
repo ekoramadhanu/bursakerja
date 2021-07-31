@@ -4,7 +4,7 @@ import index from '../views/Index.vue';
 import school from '../views/School.vue';
 import schoolDetail from '../views/SchoolDetail.vue';
 import detailArticle from '../views/DetailArticle.vue';
-import jobVacancy from '../views/JobVacancy.vue';
+// import jobVacancy from '../views/JobVacancy.vue';
 import detailJobVacancy from '../views/DetailJobVacancy.vue';
 import jobSeeker from '../views/JobSeeker.vue';
 import jobSeekerInternship from '../views/JobSeekerInternship.vue';
@@ -52,6 +52,7 @@ import detailAnnouncement from '../views/DetailAnnouncement.vue';
 import accessBlock from '../views/403.vue';
 import tagJob from '../views/TagJob.vue';
 import notFound from '../views/404.vue';
+import formRegister from '../views/FormRegister.vue';
 // import countDown from '../views/CountDown.vue';
 import maintenance from '../views/Maintenance.vue';
 
@@ -130,10 +131,22 @@ const routes = [
       }
     },
   },
+  // {
+  //   path: '/job-vacancy',
+  //   name: 'jobVacancy',
+  //   component: jobVacancy,
+  //   beforeEnter: (to, from, next) => {
+  //     if (window.$cookies.isKey('token')) {
+  //       next('/home');
+  //     } else {
+  //       next();
+  //     }
+  //   },
+  // },
   {
-    path: '/job-vacancy',
-    name: 'jobVacancy',
-    component: jobVacancy,
+    path: '/form-register',
+    name: 'formRegister',
+    component: formRegister,
     beforeEnter: (to, from, next) => {
       if (window.$cookies.isKey('token')) {
         next('/home');

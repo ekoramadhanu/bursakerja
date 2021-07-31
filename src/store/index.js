@@ -5,12 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    domain: 'https://api.bursakerja.net/',
+    // domain: 'https://api.bursakerja.net/',
     // domain: 'http://localhost/api-bursa-kerja/',
-    // domain: 'https://demo.bursakerja.net/',
+    domain: 'https://demo.bursakerja.net/',
     // apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJxY1JrUm1wdWRMTGtvR1IifQ.
     // yMNXU7Af6nPaolKWvCS0VNDzZU42c8XlclWqAzUkbcU',
-    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJxY1JrUm1wdWRMTGtvR1IifQ.yMNXU7Af6nPaolKWvCS0VNDzZU42c8XlclWqAzUkbcU',
+    apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJ4RkpPeklGZ0hXYUFWR20ifQ.8tdLiX2hL5ZheUlS9Y1Xa1AQ6XM2jzNDH-uWTEFij1g',
     /*
     eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJ4RkpPeklGZ0hXYUFWR20ifQ.
     8tdLiX2hL5ZheUlS9Y1Xa1AQ6XM2jzNDH-uWTEFij1g(bursakerja.net)
