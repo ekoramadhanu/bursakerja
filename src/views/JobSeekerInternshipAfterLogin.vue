@@ -402,7 +402,7 @@ export default {
         'x-api-key': this.$store.state.apiKey,
       };
       if (this.job !== '') {
-        header.position = this.job;
+        header.position = JSON.stringify(this.job);
       }
 
       if (this.location !== '') {

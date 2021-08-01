@@ -446,7 +446,7 @@ export default {
         let counter = 0;
         response.data.data.attributes.forEach((i) => {
           counter += 1;
-          const shortDesc = i.desc;
+          const shortDesc = i.desc.replace(/<\/?[^>]+>/gi, ' ');
           this.jobSeeker.push({
             id: i.id,
             number: counter,

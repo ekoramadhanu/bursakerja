@@ -516,7 +516,7 @@ export default {
           res.data.attributes.forEach((i) => {
             this.entriesPosition.push({
               id: i.id,
-              name: this.capitalizeEachWord(i.name.replace('/', '')),
+              name: this.capitalizeEachWord(i.name),
             });
           });
         })
